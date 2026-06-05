@@ -1,0 +1,27 @@
+# Demo queries for the manufacturing chatbot MVP
+# Format: one query per line
+# These demonstrate the "definition of done" scenario from T12
+
+# Core demo scenario: "Why did line 3 slow down at 14:00?"
+Why did line 3 slow down at 14:00?
+
+# Overheating scenario
+Why is machine_1 running hot at 15:30?
+
+# Bearing failure scenario
+What caused the vibration alarm on machine_2 this morning?
+
+# Pressure loss scenario
+machine_1 has a low pressure warning — what should I do?
+
+# Motor overload scenario
+machine_3 tripped an overload at 10:00 — what happened?
+
+# Normal operation check
+Is machine_2 running normally right now?
+
+# Coolant failure scenario
+Why did the coolant alarm trigger on machine_1 around 04:00?
+
+# Generic anomaly query
+What anomalies occurred on machine_3 today?
