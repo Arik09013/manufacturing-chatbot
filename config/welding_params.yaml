@@ -1,0 +1,127 @@
+# Optimal welding parameter tables for MIG/MAG process
+# Source: AWS D1.1, ISO 15614-1, typical WPS guidelines
+#
+# efficiency_score: 1–10 rating for deposition rate vs distortion trade-off
+#   10 = maximum deposition, minimum passes, minimum heat distortion
+
+MIG_MAG:
+
+  mild_steel:
+    thin:                    # 1–3 mm
+      thickness_range: [1, 3]
+      welding_current:   [80,  130]   # A
+      arc_voltage:       [17,  21]    # V
+      welding_speed:     [400, 700]   # mm/min
+      wire_feed_rate:    [4.0, 7.0]   # m/min
+      shielding_gas_flow: [12,  16]   # L/min
+      wire_diameter:     1.0          # mm
+      gas_mix:           "Ar/CO2 (75/25)"
+      heat_input_range:  [0.15, 0.35] # kJ/mm
+      efficiency_score:  7
+      notes: "Short-circuit or pulsed transfer recommended to avoid burn-through."
+
+    medium:                  # 3–8 mm
+      thickness_range: [3, 8]
+      welding_current:   [130, 220]
+      arc_voltage:       [20,  26]
+      welding_speed:     [250, 500]
+      wire_feed_rate:    [6.0, 11.0]
+      shielding_gas_flow: [14,  18]
+      wire_diameter:     1.2
+      gas_mix:           "Ar/CO2 (80/20)"
+      heat_input_range:  [0.35, 0.70]
+      efficiency_score:  9
+      notes: "Spray or pulsed-spray transfer. Single or double pass. Optimal speed is 350 mm/min."
+
+    thick:                   # > 8 mm
+      thickness_range: [8, 50]
+      welding_current:   [220, 350]
+      arc_voltage:       [25,  32]
+      welding_speed:     [200, 380]
+      wire_feed_rate:    [10.0, 16.0]
+      shielding_gas_flow: [16,  22]
+      wire_diameter:     1.6
+      gas_mix:           "Ar/CO2 (80/20) or 100% CO2"
+      heat_input_range:  [0.60, 1.40]
+      efficiency_score:  8
+      notes: "Multiple passes. Pre-heat to 80–150 C for thicknesses > 20 mm. Use backstep sequence."
+
+  stainless_steel:
+    thin:
+      thickness_range: [1, 3]
+      welding_current:   [70,  120]
+      arc_voltage:       [17,  21]
+      welding_speed:     [350, 600]
+      wire_feed_rate:    [3.5, 6.5]
+      shielding_gas_flow: [12,  16]
+      wire_diameter:     1.0
+      gas_mix:           "Ar/He/CO2 (98/1/1 — Tri-mix)"
+      heat_input_range:  [0.12, 0.30]
+      efficiency_score:  6
+      notes: "Keep heat input low to prevent sensitization. Use stringer beads only."
+
+    medium:
+      thickness_range: [3, 8]
+      welding_current:   [120, 200]
+      arc_voltage:       [20,  25]
+      welding_speed:     [250, 450]
+      wire_feed_rate:    [5.5, 10.0]
+      shielding_gas_flow: [14,  18]
+      wire_diameter:     1.2
+      gas_mix:           "Ar/He/CO2 (98/1/1)"
+      heat_input_range:  [0.30, 0.65]
+      efficiency_score:  8
+      notes: "Pulse MIG preferred. Back purge with argon for root pass on pipe."
+
+    thick:
+      thickness_range: [8, 50]
+      welding_current:   [200, 320]
+      arc_voltage:       [24,  30]
+      welding_speed:     [180, 350]
+      wire_feed_rate:    [9.0, 15.0]
+      shielding_gas_flow: [16,  20]
+      wire_diameter:     1.6
+      gas_mix:           "Ar/He/CO2 (98/1/1)"
+      heat_input_range:  [0.55, 1.20]
+      efficiency_score:  7
+      notes: "Interpass temperature < 150 C. Multiple stringer beads preferred."
+
+  aluminum:
+    thin:
+      thickness_range: [1, 4]
+      welding_current:   [60,  130]
+      arc_voltage:       [16,  21]
+      welding_speed:     [500, 900]
+      wire_feed_rate:    [6.0, 12.0]
+      shielding_gas_flow: [15,  20]
+      wire_diameter:     1.0
+      gas_mix:           "100% Argon"
+      heat_input_range:  [0.08, 0.28]
+      efficiency_score:  6
+      notes: "Use push technique (15-20 deg). Clean base metal thoroughly. Spool-gun recommended."
+
+    medium:
+      thickness_range: [4, 12]
+      welding_current:   [130, 250]
+      arc_voltage:       [21,  27]
+      welding_speed:     [350, 700]
+      wire_feed_rate:    [10.0, 18.0]
+      shielding_gas_flow: [18,  25]
+      wire_diameter:     1.2
+      gas_mix:           "100% Argon or Ar/He (75/25)"
+      heat_input_range:  [0.25, 0.65]
+      efficiency_score:  9
+      notes: "Pulsed MIG greatly improves arc stability on aluminum. Optimal speed: 500 mm/min."
+
+    thick:
+      thickness_range: [12, 50]
+      welding_current:   [250, 400]
+      arc_voltage:       [26,  33]
+      welding_speed:     [250, 500]
+      wire_feed_rate:    [14.0, 20.0]
+      shielding_gas_flow: [20,  30]
+      wire_diameter:     1.6
+      gas_mix:           "Ar/He (50/50) for deep penetration"
+      heat_input_range:  [0.55, 1.40]
+      efficiency_score:  8
+      notes: "Pre-heat 60–120 C. Helium blend increases heat input and penetration depth."

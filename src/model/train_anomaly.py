@@ -27,7 +27,7 @@ from src.model.anomaly import AnomalyDetector, get_feature_matrix, get_labels
 logging.basicConfig(level=logging.INFO, format="%(levelname)s %(message)s")
 logger = logging.getLogger(__name__)
 
-MACHINES = ["machine_1", "machine_2", "machine_3"]
+MACHINES = ["station_1", "station_2", "station_3"]
 MODEL_PATH = Path(__file__).parent.parent.parent / "models" / "anomaly.joblib"
 
 

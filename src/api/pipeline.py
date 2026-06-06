@@ -20,7 +20,7 @@ import pandas as pd
 
 logger = logging.getLogger(__name__)
 
-MACHINES = ["machine_1", "machine_2", "machine_3"]
+MACHINES = ["station_1", "station_2", "station_3"]
 _MODEL_PATH = Path(__file__).parent.parent.parent / "models" / "anomaly.joblib"
 _WINDOW_MINUTES = 30
 
@@ -39,17 +39,17 @@ def _parse_intent(question: str) -> dict:
     """
     question_lower = question.lower()
 
-    # Machine detection
+    # Machine / station detection
     machine_id = None
     for m in MACHINES:
         if m.replace("_", " ") in question_lower or m in question_lower:
             machine_id = m
             break
-    # Shorthand "line 1/2/3" → "machine_1/2/3"
+    # Shorthand "station 1/2/3" or "line 1/2/3"
     if machine_id is None:
-        match = re.search(r"line\s*(\d)", question_lower)
+        match = re.search(r"(?:station|line)\s*(\d)", question_lower)
         if match:
-            machine_id = f"machine_{match.group(1)}"
+            machine_id = f"station_{match.group(1)}"
 
     # Time extraction — simple patterns: "at HH:MM", "around HH:MM"
     query_time = None
@@ -170,6 +170,27 @@ def run_pipeline(
         "shap_drivers":   shap_result["shap_drivers"],
         "shap_text":      explainer.explain_text(shap_result),
     }
+
+
+def run_param_pipeline(question: str) -> dict:
+    """
+    Route parameter-optimisation queries to the welding param advisor.
+    Returns a payload with pipeline_type='parameter_advice'.
+    """
+    from src.reasoning.param_advisor import parse_param_query, recommend_parameters
+
+    parsed = parse_param_query(question)
+    if parsed is None:
+        # Generic request — default to medium mild steel
+        parsed = {"material": "mild_steel", "thickness_mm": 5.0}
+
+    rec = recommend_parameters(
+        material=parsed["material"],
+        thickness_mm=parsed["thickness_mm"],
+    )
+    rec["question"] = question
+    rec["pipeline_type"] = "parameter_advice"
+    return rec
 
 
 def _window_at(fused: pd.DataFrame, query_time: datetime) -> pd.DataFrame:

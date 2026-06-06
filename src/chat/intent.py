@@ -22,49 +22,66 @@ from dataclasses import dataclass
 # Any single match from this set → in-scope.
 # Words are matched as whole tokens (word boundaries) after lowercasing.
 MANUFACTURING_KEYWORDS: frozenset[str] = frozenset({
-    # Machines & equipment
+    # ── Welding-specific ──
+    "weld", "welding", "welder", "weldment",
+    "arc", "arc voltage", "arc instability", "arc loss",
+    "wire feed", "wire feed rate", "wire feeder", "wire spool",
+    "contact tip", "liner", "drive roll", "torch",
+    "shielding gas", "gas flow", "gas cylinder", "solenoid",
+    "heat input", "penetration", "fusion", "burn-through", "porosity",
+    "spatter", "undercut", "distortion", "bead", "weld bead",
+    "mig", "mag", "tig", "gmaw", "gtaw", "fcaw",
+    "deposition", "deposition rate",
+    "welding speed", "travel speed", "welding current",
+    "mild steel", "stainless", "aluminum", "aluminium",
+    "weld quality", "weld procedure", "wps",
+    "station", "station_1", "station_2", "station_3",
+    # ── General manufacturing / equipment ──
     "machine", "motor", "pump", "valve", "bearing", "spindle",
-    "compressor", "actuator", "conveyor", "robot", "gearbox", "belt",
-    "coolant", "fan", "heater", "boiler", "turbine",
-    # Sensors & measurements
+    "compressor", "actuator", "conveyor", "robot", "gearbox",
     "sensor", "temperature", "vibration", "pressure", "rpm",
-    "torque", "flowrate", "flow rate", "current", "voltage",
-    "power consumption",
-    # Anomaly / fault vocabulary
+    "torque", "flow rate", "current", "voltage",
+    # ── Anomaly / fault vocabulary ──
     "anomaly", "anomalies", "fault", "failure", "alarm", "alert",
     "warning", "overload", "overheating", "overheat", "trip",
-    "diagnostic",
-    # Operations
+    "diagnostic", "underheat",
+    # ── Operations ──
     "production", "manufacturing", "factory", "plant",
     "maintenance", "downtime", "startup", "shutdown",
     "operator", "shift", "batch", "setpoint", "throughput",
-    # Condition descriptions
-    "slow down", "slowing down", "stopped", "noisy", "leaking",
-    "hot", "vibrating", "stalled",
-    # Pipeline concepts
-    "root cause", "root-cause", "recommendation", "log event",
+    # ── Parameter queries ──
+    "best setting", "optimal setting", "recommend setting",
+    "best speed", "best current", "best parameter", "optimal parameter",
+    "what speed", "what current", "what voltage", "how fast",
+    "efficiency",
+    # ── Pipeline concepts ──
+    "root cause", "root-cause", "recommendation",
 })
 
 # Regex patterns that strongly signal manufacturing context even if the exact
 # keyword isn't in the vocabulary (e.g. "line 3", "machine_2").
 _PATTERNS: list[re.Pattern] = [
-    re.compile(r"\bmachine[_\s]\d\b"),       # machine_1, machine 2
-    re.compile(r"\bline[_\s]\d\b"),          # line 1, line_3
-    re.compile(r"\b(m1|m2|m3)\b"),
-    re.compile(r"\bsensor\s+\w+\b"),         # sensor reading, sensor fault
-    re.compile(r"\balarm\s+on\b"),           # alarm on machine
+    re.compile(r"\bmachine[_\s]\d\b"),
+    re.compile(r"\bstation[_\s]\d\b"),       # station_1, station 2
+    re.compile(r"\bline[_\s]\d\b"),
+    re.compile(r"\b(m1|m2|m3|s1|s2|s3)\b"),
+    re.compile(r"\bsensor\s+\w+\b"),
+    re.compile(r"\balarm\s+on\b"),
     re.compile(r"\bwhy\s+did\s+.{0,40}(stop|slow|trip|fail|alarm)\b"),
+    re.compile(r"\d+\s*mm\b"),              # "5mm", "10 mm" → thickness query
+    re.compile(r"\bfor\s+\d+\s*mm\b"),      # "for 5mm steel"
 ]
 
 OUT_OF_SCOPE_MESSAGE = (
-    "I'm a manufacturing operations assistant. I can only answer questions about "
-    "machine anomalies, sensor readings, production logs, equipment faults, "
-    "maintenance actions, and root-cause analysis.\n\n"
+    "I'm a welding operations AI assistant. I can only answer questions about "
+    "welding anomalies, parameter optimisation, equipment faults, sensor readings, "
+    "and root-cause analysis.\n\n"
     "Examples of supported questions:\n"
-    "  • Why is machine_1 running hot?\n"
-    "  • What caused the vibration alarm on line 2?\n"
-    "  • Is the pump on machine_3 running normally?\n"
-    "  • What happened to line 1 at 15:30?"
+    "  • Why did station_1 stop welding at 14:00?\n"
+    "  • What caused the arc instability alarm on station_2?\n"
+    "  • Best settings for 5mm mild steel?\n"
+    "  • What is the optimal welding speed for 3mm aluminum?\n"
+    "  • Is station_3 running within normal parameters?"
 )
 
 

@@ -1,68 +1,66 @@
-# Root-cause to recommended action mapping
+# Welding fault root-cause to recommended action mapping
 # Format:
 #   <anomaly_type>:
 #     causes:
-#       - <pattern>: <cause_description>  (pattern matches feature name substrings)
+#       - <feature_pattern>: <cause_description>
 #     actions:
-#       primary:    <immediate action>
-#       secondary:  <follow-up action>
+#       primary:   <immediate action>
+#       secondary: <follow-up action>
 #     urgency: critical | high | medium
+
+arc_instability:
+  causes:
+    - welding_current_std:  "High current fluctuation — unstable arc condition"
+    - arc_voltage_std:      "Voltage oscillation indicating arc instability"
+    - heat_input_std:       "Erratic heat input caused by intermittent arc"
+  actions:
+    primary:   "Stop welding. Inspect and replace contact tip. Check wire for surface contamination or oxidation."
+    secondary: "Verify power supply output stability. Check earth clamp connection and cable condition."
+  urgency: high
+
+wire_feed_fault:
+  causes:
+    - wire_feed_rate_mean:  "Wire feed rate dropped below setpoint — interrupted arc"
+    - welding_current_mean: "Welding current dropped in line with reduced wire feed"
+    - heat_input_mean:      "Reduced heat input from insufficient wire deposition"
+  actions:
+    primary:   "Stop weld. Clear any wire jam or kink in the liner. Check spool brake tension and drive roll pressure."
+    secondary: "Inspect drive motor and replace worn drive rolls. Verify liner is clean and not kinked."
+  urgency: high
+
+gas_flow_failure:
+  causes:
+    - shielding_gas_flow_mean: "Shielding gas flow dropped — weld pool exposed to atmosphere"
+    - shielding_gas_flow_min:  "Gas flow reached critically low or zero — porosity risk"
+  actions:
+    primary:   "Stop welding immediately. Check gas cylinder level and replace if empty. Inspect solenoid valve."
+    secondary: "Check all gas hose connections for leaks. Test solenoid valve operation manually."
+  urgency: critical
 
 overheating:
   causes:
-    - temperature_mean: "Sustained elevated temperature in process zone"
-    - temperature_max: "Temperature spike exceeding safe operating limit"
-    - power_consumption_mean: "Elevated power draw causing excess heat generation"
+    - heat_input_mean:       "Heat input exceeded upper control limit — burn-through or distortion risk"
+    - welding_speed_mean:    "Travel speed too slow — excessive dwell time"
+    - welding_current_mean:  "Welding current above setpoint — contributing to excess heat"
   actions:
-    primary: "Immediately reduce machine throughput by 20% and inspect cooling system (fans, coolant lines)"
-    secondary: "Schedule maintenance check of heat exchanger and coolant pump within next 4 hours"
+    primary:   "Increase travel speed to reduce heat input. Verify speed setpoint and motion controller."
+    secondary: "Reduce welding current by 10-15 A. Allow workpiece to cool between passes if multi-pass."
   urgency: critical
 
-bearing_failure:
+underheat:
   causes:
-    - vibration_mean: "Elevated average vibration indicating bearing wear"
-    - vibration_max: "Vibration spike consistent with bearing race damage"
-    - rpm_std: "RPM instability caused by mechanical resistance in bearing"
+    - heat_input_mean:    "Heat input below lower control limit — incomplete fusion risk"
+    - welding_speed_mean: "Travel speed too high — insufficient time for proper fusion"
+    - arc_voltage_mean:   "Arc voltage too low for material thickness — shallow penetration"
   actions:
-    primary: "Reduce machine speed to 70% setpoint and flag bearing for inspection at next scheduled downtime"
-    secondary: "Apply emergency lubrication and schedule bearing replacement within 24 hours"
+    primary:   "Reduce travel speed to increase heat input. Verify speed controller setpoint."
+    secondary: "Increase arc voltage by 1-2 V. Perform weld procedure qualification check on sample piece."
   urgency: high
 
-pressure_loss:
-  causes:
-    - pressure_mean: "Average hydraulic pressure below minimum operating threshold"
-    - pressure_min: "Pressure dropped to critically low level"
-    - pressure_std: "Pressure fluctuations indicating intermittent seal leak"
-  actions:
-    primary: "Inspect hydraulic circuit for seal leaks and check relief valve settings"
-    secondary: "If pressure continues to drop, initiate controlled shutdown and replace hydraulic seals"
-  urgency: high
-
-motor_overload:
-  causes:
-    - power_consumption_mean: "Motor drawing excess current, risking thermal damage"
-    - power_consumption_max: "Power spike exceeded rated motor capacity"
-    - temperature_mean: "Motor overheating due to sustained high load"
-  actions:
-    primary: "Reduce mechanical load on drive shaft and check for jams or blockages"
-    secondary: "Inspect motor windings and thermal protection relay; reset overload and monitor closely"
-  urgency: critical
-
-coolant_failure:
-  causes:
-    - temperature_mean: "Rising process temperature caused by insufficient coolant flow"
-    - pressure_mean: "Low coolant pressure indicating pump failure or line obstruction"
-    - temperature_std: "Temperature fluctuations consistent with intermittent coolant flow"
-  actions:
-    primary: "Check coolant reservoir level, pump operation, and coolant line integrity"
-    secondary: "If coolant pump is faulty, initiate controlled shutdown to prevent heat damage"
-  urgency: critical
-
-# Default fallback for unknown anomaly types
 unknown:
   causes:
-    - "Unusual combination of sensor readings detected"
+    - "Unusual combination of welding parameters detected"
   actions:
-    primary: "Review sensor readings and recent log events with maintenance supervisor"
-    secondary: "Log incident and monitor machine closely for 2 hours"
+    primary:   "Review parameter logs and consult welding procedure specification (WPS)."
+    secondary: "Perform visual inspection and NDT check on affected welds. Escalate to welding engineer."
   urgency: medium

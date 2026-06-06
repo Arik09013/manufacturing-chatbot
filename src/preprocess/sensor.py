@@ -19,7 +19,14 @@ import numpy as np
 import pandas as pd
 from sklearn.preprocessing import StandardScaler
 
-SENSOR_COLS = ["temperature", "vibration", "pressure", "rpm", "power_consumption"]
+SENSOR_COLS = [
+    "welding_current",
+    "arc_voltage",
+    "welding_speed",
+    "wire_feed_rate",
+    "shielding_gas_flow",
+    "heat_input",
+]
 WINDOW_MINUTES = 30
 STEP_MINUTES = 15        # 50 % overlap
 DENOISE_WINDOW = 5       # rolling mean over 5 samples (= 5 minutes at 1-min freq)

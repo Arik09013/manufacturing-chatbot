@@ -1,14 +1,21 @@
 """
-Generate a synthetic tri-modal manufacturing dataset with injected anomalies.
+Generate a synthetic tri-modal welding dataset with injected anomalies.
 
 Outputs (to data/raw/):
-  sensors.csv      — 1-minute sensor readings for 3 machines over 7 days
+  sensors.csv      — 1-minute welding sensor readings for 3 stations over 7 days
   logs.csv         — Structured event log entries
-  notes.csv        — Free-text operator shift notes
+  notes.csv        — Free-text operator notes
   ground_truth.csv — Per-window anomaly labels with root causes
+
+Sensor channels (MIG/MAG welding):
+  welding_current   (A)      — arc current
+  arc_voltage       (V)      — arc voltage
+  welding_speed     (mm/min) — torch travel speed
+  wire_feed_rate    (m/min)  — wire spool feed rate
+  shielding_gas_flow (L/min) — protective gas flow
+  heat_input        (kJ/mm)  — derived quality index: (I*U*0.8)/(v*1000)
 """
 
-import json
 import random
 from datetime import datetime, timedelta
 from pathlib import Path
@@ -20,143 +27,148 @@ SEED = 42
 rng = np.random.default_rng(SEED)
 random.seed(SEED)
 
-# ── Constants ────────────────────────────────────────────────────────────────
+# ── Constants ─────────────────────────────────────────────────────────────────
 
-MACHINES = ["machine_1", "machine_2", "machine_3"]
-START = datetime(2026, 5, 1, 0, 0, 0)
-END = datetime(2026, 5, 7, 23, 59, 0)
-FREQ_MINUTES = 1
+MACHINES = ["station_1", "station_2", "station_3"]
+START = datetime(2026, 5, 1, 6, 0, 0)   # 06:00 shift start
+END   = datetime(2026, 5, 7, 22, 0, 0)  # 22:00 shift end
+FREQ_MINUTES        = 1
 ANOMALIES_PER_MACHINE = 10
 ANOMALY_DURATION_MINUTES = 30
 
 ANOMALY_TYPES = [
+    "arc_instability",
+    "wire_feed_fault",
+    "gas_flow_failure",
     "overheating",
-    "bearing_failure",
-    "pressure_loss",
-    "motor_overload",
-    "coolant_failure",
+    "underheat",
 ]
 
-# Normal operating ranges (mean, std)
+# Normal operating ranges for MIG/MAG on mild steel (mean, std)
 NORMAL_PARAMS = {
-    "temperature":        (70.0, 3.0),   # °C
-    "vibration":          (0.30, 0.05),  # mm/s
-    "pressure":           (4.0,  0.2),   # bar
-    "rpm":                (1500, 20.0),  # RPM
-    "power_consumption":  (55.0, 4.0),   # kW
+    "welding_current":    (160.0, 10.0),   # A
+    "arc_voltage":        (24.0,  1.0),    # V
+    "welding_speed":      (350.0, 20.0),   # mm/min
+    "wire_feed_rate":     (8.0,   0.3),    # m/min
+    "shielding_gas_flow": (15.0,  0.5),    # L/min
+    "heat_input":         (0.53,  0.04),   # kJ/mm (derived from I, U, v)
 }
 
-# Anomaly deltas applied to mean (additive)
+# Anomaly deltas — additive to mean value during anomaly windows
 ANOMALY_DELTAS = {
+    "arc_instability": {
+        "welding_current":  (0,   50.0),   # high fluctuation
+        "arc_voltage":      (0,   6.0),    # high fluctuation
+        "heat_input":       (0,   0.12),
+    },
+    "wire_feed_fault": {
+        "wire_feed_rate":   (-4.5, 0.5),   # significant drop
+        "welding_current":  (-35,  8.0),   # current follows wire
+        "heat_input":       (-0.15, 0.04),
+    },
+    "gas_flow_failure": {
+        "shielding_gas_flow": (-11.0, 1.0), # near-zero flow
+    },
     "overheating": {
-        "temperature":       (30, 15),
-        "power_consumption": (18, 5),
+        "welding_current":  (+60,  12.0),  # current too high
+        "welding_speed":    (-90,  15.0),  # moving too slow
+        "heat_input":       (+0.3, 0.06),  # heat input spikes
     },
-    "bearing_failure": {
-        "vibration":  (3.0, 0.5),
-        "rpm":        (-150, 30),
-    },
-    "pressure_loss": {
-        "pressure": (-2.5, 0.3),
-    },
-    "motor_overload": {
-        "power_consumption": (32, 5),
-        "temperature":       (20, 5),
-    },
-    "coolant_failure": {
-        "temperature": (25, 8),
-        "pressure":    (-1.5, 0.3),
+    "underheat": {
+        "welding_speed":    (+140, 20.0),  # moving too fast
+        "arc_voltage":      (-5,   1.0),   # voltage too low
+        "heat_input":       (-0.2, 0.04),  # insufficient heat input
     },
 }
 
 ROOT_CAUSES = {
-    "overheating":     "Cooling system blockage or fan failure",
-    "bearing_failure": "Worn bearing race or insufficient lubrication",
-    "pressure_loss":   "Hydraulic seal leak or valve malfunction",
-    "motor_overload":  "Mechanical jam or excessive load on drive shaft",
-    "coolant_failure": "Coolant pump failure or burst coolant line",
+    "arc_instability":  "Contaminated wire surface, worn contact tip, or unstable power supply",
+    "wire_feed_fault":  "Wire drive motor slip, blocked liner, or spool tangling",
+    "gas_flow_failure": "Empty shielding gas cylinder or solenoid valve fault",
+    "overheating":      "Travel speed too low — heat input exceeded threshold for material thickness",
+    "underheat":        "Travel speed too high — insufficient heat input, risk of incomplete fusion",
 }
 
 LOG_EVENT_MAP = {
+    "arc_instability": [
+        ("WARN_ARC_UNSTABLE", "warning",     "Arc current fluctuation detected"),
+        ("ALARM_ARC_LOSS",    "alarm",       "Arc loss — weld interrupted"),
+        ("ARC_FAULT_CODE",    "diagnostic",  "Arc fault code 0x21 logged"),
+    ],
+    "wire_feed_fault": [
+        ("WARN_WIRE_FEED",    "warning",     "Wire feed rate below setpoint"),
+        ("ALARM_WIRE_STOP",   "alarm",       "Wire feed stopped — arc broken"),
+        ("MOTOR_FAULT",       "diagnostic",  "Wire drive motor current fault"),
+    ],
+    "gas_flow_failure": [
+        ("WARN_GAS_LOW",      "warning",     "Shielding gas flow below minimum"),
+        ("ALARM_GAS_FAIL",    "alarm",       "Gas flow critical — weld quality at risk"),
+        ("SOLENOID_FAULT",    "diagnostic",  "Gas solenoid valve fault code 0x08"),
+    ],
     "overheating": [
-        ("WARN_TEMP_HIGH",   "warning",     "Temperature exceeded upper threshold"),
-        ("ALARM_OVERHEAT",   "alarm",       "Overtemperature alarm triggered"),
-        ("FAN_SPEED_DROP",   "diagnostic",  "Cooling fan speed below setpoint"),
+        ("WARN_HEAT_HIGH",    "warning",     "Heat input above upper control limit"),
+        ("ALARM_BURN_THROUGH","alarm",       "Burn-through risk — heat input critical"),
+        ("SPEED_ALERT",       "diagnostic",  "Travel speed below minimum setpoint"),
     ],
-    "bearing_failure": [
-        ("WARN_VIB_HIGH",    "warning",     "Vibration exceeded normal band"),
-        ("MAINT_BEARING",    "maintenance", "Bearing wear indicator active"),
-        ("RPM_FLUCTUATION",  "diagnostic",  "RPM instability detected"),
-    ],
-    "pressure_loss": [
-        ("WARN_PRES_LOW",    "warning",     "Hydraulic pressure below minimum"),
-        ("ALARM_PRES_LOSS",  "alarm",       "Pressure loss alarm triggered"),
-        ("VALVE_CHECK",      "diagnostic",  "Valve position sensor mismatch"),
-    ],
-    "motor_overload": [
-        ("ALARM_OVERLOAD",   "alarm",       "Motor current exceeded rated limit"),
-        ("WARN_POWER_HIGH",  "warning",     "Power consumption above setpoint"),
-        ("THERMAL_TRIP",     "alarm",       "Motor thermal protection activated"),
-    ],
-    "coolant_failure": [
-        ("WARN_COOLANT_TEMP","warning",     "Coolant temperature rising"),
-        ("ALARM_COOLANT",    "alarm",       "Coolant flow rate critically low"),
-        ("PUMP_FAULT",       "diagnostic",  "Coolant pump fault code 0x3F"),
+    "underheat": [
+        ("WARN_HEAT_LOW",     "warning",     "Heat input below lower control limit"),
+        ("QUALITY_ALERT",     "alarm",       "Quality hold — insufficient penetration risk"),
+        ("FUSION_CHECK",      "diagnostic",  "Incomplete fusion check triggered"),
     ],
 }
 
 OPERATOR_NOTE_TEMPLATES = {
+    "arc_instability": [
+        "{m} arc was flickering badly around {t}, checked tip",
+        "Unstable arc on {m} near {t}, may need new contact tip",
+        "{m} weld quality inconsistent — arc jumping at {t}",
+        "Lots of spatter from {m} around {t}, arc not stable",
+    ],
+    "wire_feed_fault": [
+        "Wire jammed on {m} at {t}, had to clear liner",
+        "{m} wire feed stopped at {t} — restarted manually",
+        "Wire drive slipping on {m}, replaced pressure roller",
+        "{m} ran out of wire mid-bead at {t}, restarted weld",
+    ],
+    "gas_flow_failure": [
+        "Gas bottle empty on {m} around {t}, swapped cylinder",
+        "{m} gas alarm at {t} — solenoid may be stuck",
+        "Porous welds from {m} near {t}, no gas flow",
+        "Checked {m} gas line at {t}, found kink in hose",
+    ],
     "overheating": [
-        "Machine {m} running hot, coolant check needed",
-        "Noticed {m} temperature climbing mid-shift, reported to maintenance",
-        "High temp warning on {m} around {t}, fan might be blocked",
-        "{m} overheating again — same issue as last week",
+        "Burn-through on thin section at {m} around {t}",
+        "{m} operator reduced speed at {t} — heat buildup",
+        "Distortion on part welded at {m} near {t}, heat too high",
+        "{m} weld discoloration noted at {t}, possible overheating",
     ],
-    "bearing_failure": [
-        "Unusual grinding noise from {m} bearing area",
-        "{m} vibration seems higher than normal, monitoring closely",
-        "Flagged {m} for bearing inspection at next PM window",
-        "Vibration on {m} spiked near {t}, rough feel through handguard",
-    ],
-    "pressure_loss": [
-        "Pressure drop on {m} hydraulic circuit, checked seals",
-        "{m} losing pressure intermittently around {t}",
-        "Low pressure alarm on {m}, opened maintenance ticket",
-        "Found minor leak on {m} hydraulic line, patched temporarily",
-    ],
-    "motor_overload": [
-        "{m} tripped overload protection at {t}, reset and resumed",
-        "Motor on {m} running hot, load may be too high",
-        "Thermal trip on {m} during peak run — load reduced for now",
-        "Overload fault on {m} at {t}, checked mechanical jam — cleared",
-    ],
-    "coolant_failure": [
-        "Coolant low on {m}, topped up but still alarming",
-        "{m} coolant pump making noise, flagged for inspection",
-        "Coolant flow alarm on {m} near {t}, possible pump issue",
-        "{m} coolant system acting up — temp rising despite refill",
+    "underheat": [
+        "Incomplete fusion on parts from {m} at {t}, quality hold",
+        "{m} running too fast at {t} — poor penetration noted",
+        "QC flagged {m} welds from {t} — lack of fusion",
+        "{m} voltage too low at {t}, increased setpoint",
     ],
 }
 
 NORMAL_LOG_EVENTS = [
-    ("PROD_START",      "production",  "Production run started"),
-    ("PROD_STOP",       "production",  "Production run stopped"),
+    ("WELD_START",      "production",  "Welding program started"),
+    ("WELD_STOP",       "production",  "Welding program stopped normally"),
     ("SHIFT_CHANGE",    "operational", "Operator shift changeover"),
-    ("MAINT_ROUTINE",   "maintenance", "Routine preventive maintenance performed"),
-    ("SETPOINT_CHANGE", "operational", "Process setpoint adjusted by operator"),
-    ("SENSOR_CALIB",    "diagnostic",  "Sensor calibration check completed"),
-    ("BATCH_COMPLETE",  "production",  "Batch production cycle completed"),
+    ("PARAM_CHECK",     "maintenance", "Welding parameters verified by supervisor"),
+    ("TIP_CHANGE",      "maintenance", "Contact tip replaced (scheduled)"),
+    ("WIRE_CHANGE",     "operational", "Wire spool changed"),
+    ("GAS_CHECK",       "operational", "Shielding gas level checked — OK"),
+    ("CALIB_DONE",      "diagnostic",  "Current and voltage sensor calibration completed"),
 ]
 
-OPERATORS = ["OP001", "OP002", "OP003", "OP004"]
-
+OPERATORS = ["WLD01", "WLD02", "WLD03", "WLD04"]
 OUT_DIR = Path(__file__).parent.parent.parent / "data" / "raw"
 
-# ── Helpers ──────────────────────────────────────────────────────────────────
+
+# ── Helpers ───────────────────────────────────────────────────────────────────
 
 def _time_range() -> list[datetime]:
-    times = []
-    t = START
+    times, t = [], START
     while t <= END:
         times.append(t)
         t += timedelta(minutes=FREQ_MINUTES)
@@ -164,31 +176,18 @@ def _time_range() -> list[datetime]:
 
 
 def _schedule_anomalies(times: list[datetime]) -> list[dict]:
-    """Pick non-overlapping anomaly windows across the week."""
-    n = len(times)
-    window = ANOMALY_DURATION_MINUTES
-    # Minimum gap between anomalies to avoid overlap
-    min_gap = window + 60
+    n, window, min_gap = len(times), ANOMALY_DURATION_MINUTES, ANOMALY_DURATION_MINUTES + 60
     anomalies = []
-    used_indices: set[int] = set()
-
     for _ in range(ANOMALIES_PER_MACHINE):
-        for attempt in range(1000):
-            start_idx = rng.integers(window, n - window)
-            # Check for overlap with existing anomalies
-            conflict = any(
-                abs(int(start_idx) - a["start_idx"]) < min_gap
-                for a in anomalies
-            )
-            if not conflict:
-                atype = random.choice(ANOMALY_TYPES)
+        for _ in range(1000):
+            start_idx = int(rng.integers(window, n - window))
+            if not any(abs(start_idx - a["start_idx"]) < min_gap for a in anomalies):
                 anomalies.append({
-                    "start_idx": int(start_idx),
-                    "end_idx":   int(start_idx) + window,
-                    "type":      atype,
+                    "start_idx": start_idx,
+                    "end_idx":   start_idx + window,
+                    "type":      random.choice(ANOMALY_TYPES),
                 })
                 break
-
     anomalies.sort(key=lambda x: x["start_idx"])
     return anomalies
 
@@ -197,31 +196,34 @@ def _build_sensor_series(times: list[datetime], anomalies: list[dict]) -> pd.Dat
     n = len(times)
     channels = list(NORMAL_PARAMS.keys())
     data = {}
-
     for ch in channels:
         mu, sigma = NORMAL_PARAMS[ch]
-        # Baseline: smooth walk + noise
         noise = rng.normal(0, sigma, n)
-        drift = np.cumsum(rng.normal(0, sigma * 0.02, n))
+        drift = np.cumsum(rng.normal(0, sigma * 0.015, n))
         drift -= drift.mean()
-        series = mu + noise + drift
-        data[ch] = series.copy()
+        data[ch] = (mu + noise + drift).copy()
 
-    # Inject anomalies
     for a in anomalies:
         deltas = ANOMALY_DELTAS[a["type"]]
         s, e = a["start_idx"], a["end_idx"]
         for ch, (delta_mu, delta_sigma) in deltas.items():
-            spike = rng.normal(delta_mu, delta_sigma, e - s)
-            data[ch][s:e] += spike
+            data[ch][s:e] += rng.normal(delta_mu, delta_sigma, e - s)
 
-    # Clip to physically plausible ranges
+    # Recompute heat_input from actual current/voltage/speed to keep physical consistency
+    speed_mm_s = np.clip(data["welding_speed"], 10, 800) / 60.0
+    data["heat_input"] = (
+        np.clip(data["welding_current"], 0, 400) *
+        np.clip(data["arc_voltage"], 0, 50) *
+        0.8
+    ) / (speed_mm_s * 1000)
+
     clips = {
-        "temperature":       (10.0, 200.0),
-        "vibration":         (0.0,  10.0),
-        "pressure":          (0.0,  10.0),
-        "rpm":               (0.0,  2000.0),
-        "power_consumption": (0.0,  150.0),
+        "welding_current":    (0.0,  400.0),
+        "arc_voltage":        (0.0,   50.0),
+        "welding_speed":      (10.0, 800.0),
+        "wire_feed_rate":     (0.0,   20.0),
+        "shielding_gas_flow": (0.0,   30.0),
+        "heat_input":         (0.0,    2.0),
     }
     for ch, (lo, hi) in clips.items():
         data[ch] = np.clip(data[ch], lo, hi)
@@ -229,81 +231,47 @@ def _build_sensor_series(times: list[datetime], anomalies: list[dict]) -> pd.Dat
     df = pd.DataFrame({"timestamp": times})
     for ch in channels:
         df[ch] = np.round(data[ch], 3)
-
     return df
 
 
-def _build_log_entries(
-    machine: str, times: list[datetime], anomalies: list[dict]
-) -> list[dict]:
+def _build_log_entries(machine, times, anomalies):
     entries = []
-
-    # Normal operational events (roughly every 2–4 hours)
-    for i in range(0, len(times), rng.integers(120, 240)):
-        event = random.choice(NORMAL_LOG_EVENTS)
-        entries.append({
-            "timestamp":   times[i].isoformat(),
-            "machine_id":  machine,
-            "event_code":  event[0],
-            "event_type":  event[1],
-            "description": event[2],
-        })
-
-    # Anomaly-correlated events
+    for i in range(0, len(times), int(rng.integers(90, 180))):
+        ev = random.choice(NORMAL_LOG_EVENTS)
+        entries.append({"timestamp": times[i].isoformat(), "machine_id": machine,
+                        "event_code": ev[0], "event_type": ev[1], "description": ev[2]})
     for a in anomalies:
         related = LOG_EVENT_MAP[a["type"]]
-        for offset_minutes in [0, 5, 15]:
-            idx = min(a["start_idx"] + offset_minutes, len(times) - 1)
-            event = related[min(offset_minutes // 5, len(related) - 1)]
-            entries.append({
-                "timestamp":   times[idx].isoformat(),
-                "machine_id":  machine,
-                "event_code":  event[0],
-                "event_type":  event[1],
-                "description": event[2],
-            })
-
+        for offset in [0, 5, 15]:
+            idx = min(a["start_idx"] + offset, len(times) - 1)
+            ev = related[min(offset // 5, len(related) - 1)]
+            entries.append({"timestamp": times[idx].isoformat(), "machine_id": machine,
+                            "event_code": ev[0], "event_type": ev[1], "description": ev[2]})
     entries.sort(key=lambda x: x["timestamp"])
     return entries
 
 
-def _build_notes(
-    machine: str, times: list[datetime], anomalies: list[dict]
-) -> list[dict]:
+def _build_notes(machine, times, anomalies):
     notes = []
-    # ~1 note per anomaly, offset 0–20 minutes after anomaly start
     for a in anomalies:
-        if rng.random() < 0.85:  # 85% chance an operator noticed
-            offset = int(rng.integers(0, 20))
-            idx = min(a["start_idx"] + offset, len(times) - 1)
+        if rng.random() < 0.85:
+            idx = min(a["start_idx"] + int(rng.integers(0, 20)), len(times) - 1)
             t_str = times[idx].strftime("%H:%M")
-            template = random.choice(OPERATOR_NOTE_TEMPLATES[a["type"]])
-            text = template.format(m=machine, t=t_str)
-            notes.append({
-                "timestamp":  times[idx].isoformat(),
-                "machine_id": machine,
-                "operator_id": random.choice(OPERATORS),
-                "note_text":  text,
-            })
-    # Add a few routine notes not tied to anomalies
+            text = random.choice(OPERATOR_NOTE_TEMPLATES[a["type"]]).format(m=machine, t=t_str)
+            notes.append({"timestamp": times[idx].isoformat(), "machine_id": machine,
+                          "operator_id": random.choice(OPERATORS), "note_text": text})
     for _ in range(3):
         idx = int(rng.integers(0, len(times)))
-        notes.append({
-            "timestamp":  times[idx].isoformat(),
-            "machine_id": machine,
-            "operator_id": random.choice(OPERATORS),
-            "note_text":  f"{machine} running normally, no issues to report.",
-        })
+        notes.append({"timestamp": times[idx].isoformat(), "machine_id": machine,
+                      "operator_id": random.choice(OPERATORS),
+                      "note_text": f"{machine} welding parameters within spec, no issues."})
     notes.sort(key=lambda x: x["timestamp"])
     return notes
 
 
-def _build_ground_truth(
-    machine: str, times: list[datetime], anomalies: list[dict]
-) -> list[dict]:
-    rows = []
-    for i, a in enumerate(anomalies):
-        rows.append({
+def _build_ground_truth(machine, times, anomalies):
+    return [
+        {
             "window_id":    f"{machine}_w{i:03d}",
             "window_start": times[a["start_idx"]].isoformat(),
             "window_end":   times[min(a["end_idx"], len(times) - 1)].isoformat(),
@@ -311,54 +279,45 @@ def _build_ground_truth(
             "is_anomaly":   True,
             "anomaly_type": a["type"],
             "root_cause":   ROOT_CAUSES[a["type"]],
-        })
-    return rows
+        }
+        for i, a in enumerate(anomalies)
+    ]
 
 
-# ── Main ─────────────────────────────────────────────────────────────────────
+# ── Main ──────────────────────────────────────────────────────────────────────
 
 def generate(out_dir: Path = OUT_DIR) -> None:
     out_dir.mkdir(parents=True, exist_ok=True)
     times = _time_range()
     print(f"Time range: {times[0]} to {times[-1]}  ({len(times):,} minutes)")
 
-    all_sensors: list[pd.DataFrame] = []
-    all_logs:    list[dict] = []
-    all_notes:   list[dict] = []
-    all_gt:      list[dict] = []
+    all_sensors, all_logs, all_notes, all_gt = [], [], [], []
 
     for machine in MACHINES:
-        print(f"  Generating {machine}…")
+        print(f"  Generating {machine}...")
         anomalies = _schedule_anomalies(times)
-
         sensor_df = _build_sensor_series(times, anomalies)
         sensor_df.insert(0, "machine_id", machine)
         all_sensors.append(sensor_df)
-
         all_logs.extend(_build_log_entries(machine, times, anomalies))
         all_notes.extend(_build_notes(machine, times, anomalies))
         all_gt.extend(_build_ground_truth(machine, times, anomalies))
 
-    # Write sensors.csv
     sensors = pd.concat(all_sensors, ignore_index=True)
     sensors.to_csv(out_dir / "sensors.csv", index=False)
     print(f"sensors.csv      -> {len(sensors):,} rows")
 
-    # Write logs.csv
     logs = pd.DataFrame(all_logs).sort_values("timestamp").reset_index(drop=True)
     logs.to_csv(out_dir / "logs.csv", index=False)
     print(f"logs.csv         -> {len(logs):,} rows")
 
-    # Write notes.csv
     notes = pd.DataFrame(all_notes).sort_values("timestamp").reset_index(drop=True)
     notes.to_csv(out_dir / "notes.csv", index=False)
     print(f"notes.csv        -> {len(notes):,} rows")
 
-    # Write ground_truth.csv
     gt = pd.DataFrame(all_gt).sort_values(["machine_id", "window_start"]).reset_index(drop=True)
     gt.to_csv(out_dir / "ground_truth.csv", index=False)
     print(f"ground_truth.csv -> {len(gt):,} rows")
-
     print(f"\nAll files written to {out_dir.resolve()}")
 
 

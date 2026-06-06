@@ -20,12 +20,13 @@ logger = logging.getLogger(__name__)
 _RAW = Path(__file__).parent.parent.parent / "data" / "raw"
 
 SENSOR_DTYPES = {
-    "machine_id":        "category",
-    "temperature":       "float32",
-    "vibration":         "float32",
-    "pressure":          "float32",
-    "rpm":               "float32",
-    "power_consumption": "float32",
+    "machine_id":          "category",
+    "welding_current":     "float32",
+    "arc_voltage":         "float32",
+    "welding_speed":       "float32",
+    "wire_feed_rate":      "float32",
+    "shielding_gas_flow":  "float32",
+    "heat_input":          "float32",
 }
 
 LOG_DTYPES = {

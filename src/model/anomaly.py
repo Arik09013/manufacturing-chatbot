@@ -26,7 +26,12 @@ from sklearn.base import BaseEstimator
 logger = logging.getLogger(__name__)
 
 _SENSOR_COLS = [
-    "temperature", "vibration", "pressure", "rpm", "power_consumption"
+    "welding_current",
+    "arc_voltage",
+    "welding_speed",
+    "wire_feed_rate",
+    "shielding_gas_flow",
+    "heat_input",
 ]
 _STATS = ["mean", "std", "min", "max", "range"]
 SENSOR_FEATURE_COLS = [f"{c}_{s}" for c in _SENSOR_COLS for s in _STATS]

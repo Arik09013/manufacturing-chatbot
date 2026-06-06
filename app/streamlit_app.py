@@ -493,15 +493,119 @@ def _render_details(payload: dict) -> None:
         st.json({k: v for k, v in payload.items() if k != "raw_shap"})
 
 
+def _render_param_advice(rec: dict) -> None:
+    """Render a parameter recommendation card."""
+    if "error" in rec:
+        st.warning(rec["error"])
+        return
+
+    mat   = rec.get("material_display", rec.get("material", ""))
+    thick = rec.get("thickness_mm", "?")
+    band  = rec.get("band", "")
+    eff   = rec.get("efficiency_score", 0)
+    dep   = rec.get("deposition_rate_g_per_min", 0)
+    p     = rec.get("params", {})
+    note  = rec.get("notes", "")
+
+    eff_color = "#2ed573" if eff >= 8 else ("#ffa502" if eff >= 6 else "#ff4757")
+    eff_bar   = int(eff / 10 * 100)
+
+    st.markdown(f"""
+    <div class="diag-card normal">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.7rem;">
+        <span style="font-size:0.7rem;font-weight:700;letter-spacing:2px;
+                     text-transform:uppercase;color:#00d2ff;">PARAMETER RECOMMENDATION</span>
+        <span style="font-size:0.7rem;color:#8b949e;">{mat} · {thick} mm · {band}</span>
+      </div>
+
+      <div class="stat-grid">
+        <div class="stat-box">
+          <div class="stat-label">Current (A)</div>
+          <div class="stat-value" style="color:#00d2ff;">
+            {p.get('welding_current',['?','?'])[0]}–{p.get('welding_current',['?','?'])[1]}
+          </div>
+          <div style="font-size:0.62rem;color:#8b949e;">optimal: {rec.get('optimal_current','?')} A</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-label">Voltage (V)</div>
+          <div class="stat-value" style="color:#00d2ff;">
+            {p.get('arc_voltage',['?','?'])[0]}–{p.get('arc_voltage',['?','?'])[1]}
+          </div>
+          <div style="font-size:0.62rem;color:#8b949e;">optimal: {rec.get('optimal_voltage','?')} V</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-label">Speed (mm/min)</div>
+          <div class="stat-value" style="color:#00d2ff;">
+            {p.get('welding_speed',['?','?'])[0]}–{p.get('welding_speed',['?','?'])[1]}
+          </div>
+          <div style="font-size:0.62rem;color:#8b949e;">optimal: {rec.get('optimal_speed','?')}</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-label">Wire Feed (m/min)</div>
+          <div class="stat-value" style="color:#00d2ff;">
+            {p.get('wire_feed_rate',['?','?'])[0]}–{p.get('wire_feed_rate',['?','?'])[1]}
+          </div>
+          <div style="font-size:0.62rem;color:#8b949e;">optimal: {rec.get('optimal_wfr','?')}</div>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.8rem;margin:0.7rem 0;">
+        <div class="stat-box">
+          <div class="stat-label">Gas Flow (L/min)</div>
+          <div class="stat-value" style="color:#00d2ff;">
+            {p.get('shielding_gas_flow',['?','?'])[0]}–{p.get('shielding_gas_flow',['?','?'])[1]}
+          </div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-label">Gas Mix</div>
+          <div class="stat-value" style="font-size:0.75rem;color:#c9d1d9;">{p.get('gas_mix','—')}</div>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.8rem;margin-bottom:0.9rem;">
+        <div class="stat-box">
+          <div class="stat-label">Wire Diameter</div>
+          <div class="stat-value" style="color:#00d2ff;">{p.get('wire_diameter','1.2')} mm</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-label">Deposition Rate</div>
+          <div class="stat-value" style="color:#2ed573;">~{dep} g/min</div>
+        </div>
+      </div>
+
+      <div class="conf-wrap">
+        <div class="conf-label-row">
+          <span class="conf-label">Efficiency Score</span>
+          <span class="conf-pct" style="color:{eff_color};">{eff}/10</span>
+        </div>
+        <div class="conf-track">
+          <div class="conf-fill"
+               style="width:{eff_bar}%;background:linear-gradient(90deg,{eff_color}88,{eff_color});"></div>
+        </div>
+      </div>
+
+      <div style="margin-top:0.8rem;padding:0.6rem 0.8rem;background:#0d1117;
+                  border:1px solid #21262d;border-radius:7px;
+                  font-size:0.78rem;color:#8b949e;line-height:1.5;">
+        <span style="color:#00d2ff;font-weight:600;">Note: </span>{note}
+      </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    # Heat input range
+    hi = p.get("heat_input_range", [0, 0])
+    st.caption(f"Heat input range: {hi[0]}–{hi[1]} kJ/mm")
+
+
 # ── Sidebar ───────────────────────────────────────────────────────────────────
 
 with st.sidebar:
     st.markdown("""
     <div class="brand-header">
       <div>
-        <div class="brand-logo">Manufact<span>.AI</span></div>
+        <div class="brand-logo">Weld<span>.AI</span></div>
         <div style="font-size:0.62rem;color:#8b949e;margin-top:2px;
-                    letter-spacing:1px;">ANOMALY INTELLIGENCE</div>
+                    letter-spacing:1px;">WELDING INTELLIGENCE SYSTEM</div>
       </div>
       <div>
         <span class="brand-tag">MVP</span><br>
@@ -510,42 +614,45 @@ with st.sidebar:
     </div>
     """, unsafe_allow_html=True)
 
-    st.markdown('<div class="sidebar-label">Target Machine</div>', unsafe_allow_html=True)
+    st.markdown('<div class="sidebar-label">Welding Station</div>', unsafe_allow_html=True)
     selected_machine = st.selectbox(
-        "Target Machine",
-        ["auto-detect", "machine_1", "machine_2", "machine_3"],
+        "Welding Station",
+        ["auto-detect", "station_1", "station_2", "station_3"],
         label_visibility="collapsed",
     )
 
     st.markdown('<div class="sidebar-label">Query Time</div>', unsafe_allow_html=True)
     query_time_str = st.text_input(
         "Query Time",
-        placeholder="2026-05-01T15:30:00  (blank = auto)",
+        placeholder="2026-05-01T14:00:00  (blank = auto)",
         label_visibility="collapsed",
     )
 
-    st.markdown('<div class="sidebar-label">Quick Queries</div>', unsafe_allow_html=True)
+    st.markdown('<div class="sidebar-label">Example Queries</div>', unsafe_allow_html=True)
     example_queries = [
-        "Why is machine_1 running hot at 15:30?",
-        "What caused the vibration alarm on line 2?",
-        "Is machine_3 running normally?",
-        "Why did line 1 slow down at 15:24?",
-        "Bearing fault on machine_2 — root cause?",
+        "Why did station_1 stop at 14:00?",
+        "Arc instability on station_2 — cause?",
+        "Best settings for 5mm mild steel",
+        "Optimal speed for 3mm aluminum?",
+        "Is station_3 running normally?",
+        "What current for 8mm stainless?",
     ]
     for q in example_queries:
-        short = q[:46] + "…" if len(q) > 46 else q
+        short = q[:46] + ("…" if len(q) > 46 else "")
         st.markdown(f'<div class="query-pill">{short}</div>', unsafe_allow_html=True)
 
     st.markdown("<br>", unsafe_allow_html=True)
     st.markdown("""
     <div style="border-top:1px solid #21262d;padding-top:1rem;">
-      <div style="font-size:0.65rem;color:#8b949e;line-height:1.7;">
+      <div style="font-size:0.65rem;color:#8b949e;line-height:1.8;">
+        <b style="color:#30363d;">Process</b><br>
+        MIG / MAG / GMAW<br>
         <b style="color:#30363d;">Pipeline</b><br>
-        RandomForest · SHAP · Claude<br>
-        <b style="color:#30363d;">Data</b><br>
-        Sensor · Logs · Notes<br>
+        RandomForest &middot; SHAP &middot; Claude<br>
+        <b style="color:#30363d;">Materials</b><br>
+        Mild Steel &middot; SS &middot; Aluminum<br>
         <b style="color:#30363d;">Eval</b><br>
-        F1 = 0.905 · AUC = 0.9996
+        F1 = 0.99 &middot; AUC = 1.00
       </div>
     </div>
     """, unsafe_allow_html=True)
@@ -553,9 +660,9 @@ with st.sidebar:
 # ── Main header ───────────────────────────────────────────────────────────────
 
 st.markdown("""
-<div class="page-title">Anomaly Intelligence Console</div>
+<div class="page-title">Welding Intelligence Console</div>
 <div class="page-subtitle">
-  Ask a natural-language question about machine health, anomalies, or production events.
+  Ask about welding anomalies, fault root-causes, or get optimal parameter recommendations.
 </div>
 """, unsafe_allow_html=True)
 
@@ -568,11 +675,15 @@ for msg in st.session_state.messages:
     with st.chat_message(msg["role"]):
         st.markdown(msg["content"])
         if msg.get("payload"):
-            _render_details(msg["payload"])
+            p = msg["payload"]
+            if p.get("pipeline_type") == "parameter_advice":
+                _render_param_advice(p)
+            else:
+                _render_details(p)
 
 # ── Input handler ─────────────────────────────────────────────────────────────
 
-if prompt := st.chat_input("Describe a machine issue or ask about an anomaly…"):
+if prompt := st.chat_input("Ask about a weld fault or request parameter recommendations…"):
     st.session_state.messages.append({"role": "user", "content": prompt})
     with st.chat_message("user"):
         st.markdown(prompt)
@@ -580,9 +691,10 @@ if prompt := st.chat_input("Describe a machine issue or ask about an anomaly…"
     with st.chat_message("assistant"):
         with st.spinner("Running diagnostic pipeline…"):
             try:
-                from src.api.pipeline import run_pipeline
-                from src.chat.synthesize import synthesize
+                from src.api.pipeline import run_pipeline, run_param_pipeline
+                from src.chat.synthesize import synthesize, _fallback_text
                 from src.chat.intent import OutOfScopeError
+                from src.reasoning.param_advisor import parse_param_query
 
                 machine_id = None if selected_machine == "auto-detect" else selected_machine
                 query_time = None
@@ -590,14 +702,35 @@ if prompt := st.chat_input("Describe a machine issue or ask about an anomaly…"
                     from datetime import datetime
                     query_time = datetime.fromisoformat(query_time_str.strip())
 
-                payload = run_pipeline(
-                    question=prompt,
-                    machine_id=machine_id,
-                    query_time=query_time,
-                )
-                answer = synthesize(payload)
-                st.markdown(answer)
-                _render_details(payload)
+                # Route: parameter query or anomaly query?
+                if parse_param_query(prompt) is not None:
+                    payload = run_param_pipeline(prompt)
+                    rec = payload
+                    mat   = rec.get("material_display", rec.get("material", "material"))
+                    thick = rec.get("thickness_mm", "?")
+                    eff   = rec.get("efficiency_score", "?")
+                    answer = (
+                        f"Here are the recommended MIG/MAG parameters for "
+                        f"**{mat} ({thick} mm)**. "
+                        f"Efficiency score: **{eff}/10**. "
+                        f"Optimal speed: **{rec.get('optimal_speed','?')} mm/min**, "
+                        f"current: **{rec.get('optimal_current','?')} A**, "
+                        f"voltage: **{rec.get('optimal_voltage','?')} V**."
+                    )
+                    st.markdown(answer)
+                    _render_param_advice(payload)
+                else:
+                    payload = run_pipeline(
+                        question=prompt,
+                        machine_id=machine_id,
+                        query_time=query_time,
+                    )
+                    try:
+                        answer = synthesize(payload)
+                    except Exception:
+                        answer = _fallback_text(payload)
+                    st.markdown(answer)
+                    _render_details(payload)
 
                 st.session_state.messages.append({
                     "role": "assistant",
