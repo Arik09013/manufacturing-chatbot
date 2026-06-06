@@ -89,6 +89,12 @@ def run_pipeline(
     from src.reasoning.root_cause import identify_causes
     from src.reasoning.recommend import get_recommendation
     from src.reasoning.confidence import compute_confidence
+    from src.chat.intent import classify_intent, OutOfScopeError
+
+    # --- 0. Intent guard ---
+    intent_result = classify_intent(question)
+    if not intent_result.in_scope:
+        raise OutOfScopeError(question, intent_result)
 
     # --- 1. Parse intent ---
     intent = _parse_intent(question)

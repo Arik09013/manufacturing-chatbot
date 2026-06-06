@@ -8,7 +8,10 @@ An operator-facing chatbot that answers natural-language questions about product
 Operator question
        │
        ▼
-  NL parsing (LLM intent)
+  Intent classifier  ──── out-of-scope ────► polite refusal (no pipeline run)
+       │ in-scope
+       ▼
+  NL parsing (machine_id + timestamp extraction)
        │
        ▼
   Pipeline: load → preprocess → fuse → detect → explain (SHAP) → reason → confidence
@@ -18,6 +21,32 @@ Operator question
        │
        ▼
   Structured answer: anomaly + root cause + recommendation + SHAP explanation + confidence
+```
+
+## Input Scope
+
+The chatbot only answers questions about **manufacturing operations**. Out-of-domain
+questions (general knowledge, jokes, geography, sports, etc.) are rejected before
+the pipeline runs.
+
+**Supported topics:**
+- Machine anomalies and faults (`machine_1`, `line 2`, …)
+- Sensor readings (temperature, vibration, pressure, RPM, power)
+- Production logs and alarm events
+- Equipment failures (bearing, motor, pump, valve, coolant, …)
+- Maintenance and downtime
+- Root-cause analysis and recommendations
+
+**Out-of-scope examples (rejected with a polite message):**
+- "Who won the World Cup?"
+- "Tell me a joke."
+- "What is the capital of Bangladesh?"
+
+The classifier (`src/chat/intent.py`) uses keyword + regex matching — no LLM call
+needed for scope detection. To run the tests:
+
+```bash
+python -m pytest tests/test_intent.py -v
 ```
 
 ## Modalities

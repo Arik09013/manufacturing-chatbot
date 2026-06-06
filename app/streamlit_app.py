@@ -135,6 +135,7 @@ if prompt := st.chat_input("Ask about a machine anomaly…"):
             try:
                 from src.api.pipeline import run_pipeline
                 from src.chat.synthesize import synthesize
+                from src.chat.intent import OutOfScopeError
 
                 machine_id = None if selected_machine == "auto-detect" else selected_machine
                 query_time = None
@@ -156,6 +157,11 @@ if prompt := st.chat_input("Ask about a machine anomaly…"):
                     "content": answer,
                     "payload": payload,
                 })
+
+            except OutOfScopeError as exc:
+                msg = str(exc)
+                st.info(msg)
+                st.session_state.messages.append({"role": "assistant", "content": msg})
 
             except Exception as exc:
                 err = f"Pipeline error: {exc}"

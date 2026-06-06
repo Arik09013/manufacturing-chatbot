@@ -14,6 +14,7 @@ import sys
 from pathlib import Path
 
 from fastapi import FastAPI, HTTPException
+from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
@@ -59,6 +60,8 @@ def chat(req: ChatRequest):
     from src.api.pipeline import run_pipeline
     from src.chat.synthesize import synthesize
 
+    from src.chat.intent import OutOfScopeError
+
     try:
         query_time = None
         if req.query_time:
@@ -73,6 +76,11 @@ def chat(req: ChatRequest):
         answer = synthesize(payload)
         return ChatResponse(answer=answer, payload=payload)
 
+    except OutOfScopeError as exc:
+        return JSONResponse(
+            status_code=422,
+            content={"error": "out_of_scope", "message": str(exc)},
+        )
     except FileNotFoundError as exc:
         raise HTTPException(
             status_code=503,
@@ -88,6 +96,8 @@ def pipeline_raw(req: ChatRequest):
     """Return structured pipeline output without LLM synthesis."""
     from src.api.pipeline import run_pipeline
 
+    from src.chat.intent import OutOfScopeError
+
     try:
         query_time = None
         if req.query_time:
@@ -101,6 +111,11 @@ def pipeline_raw(req: ChatRequest):
         )
         return PipelineResponse(payload=payload)
 
+    except OutOfScopeError as exc:
+        return JSONResponse(
+            status_code=422,
+            content={"error": "out_of_scope", "message": str(exc)},
+        )
     except FileNotFoundError as exc:
         raise HTTPException(
             status_code=503,
