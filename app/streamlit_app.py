@@ -1,12 +1,5 @@
 """
-Streamlit chat frontend for the manufacturing chatbot MVP.
-
-Features:
-  - Chat message box
-  - Plain-language LLM answer display
-  - Expandable SHAP explanation panel
-  - Confidence indicator
-  - Structured payload viewer
+Streamlit chat frontend — professional dark industrial theme.
 """
 
 from __future__ import annotations
@@ -19,37 +12,555 @@ import streamlit as st
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 st.set_page_config(
-    page_title="Manufacturing Anomaly Chatbot",
-    page_icon="🏭",
+    page_title="ManufactAI — Anomaly Intelligence",
+    page_icon="⚙",
     layout="wide",
+    initial_sidebar_state="expanded",
 )
+
+# ── Global CSS ────────────────────────────────────────────────────────────────
+
+st.markdown("""
+<style>
+/* ── Base ── */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+html, body, [class*="css"] {
+    font-family: 'Inter', sans-serif;
+}
+
+.stApp {
+    background: #0d1117;
+    color: #c9d1d9;
+}
+
+/* ── Sidebar ── */
+[data-testid="stSidebar"] {
+    background: #0d1117;
+    border-right: 1px solid #21262d;
+}
+[data-testid="stSidebar"] .block-container {
+    padding-top: 1.5rem;
+}
+
+/* ── Header brand ── */
+.brand-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0 0 1.5rem 0;
+    border-bottom: 1px solid #21262d;
+    margin-bottom: 1.5rem;
+}
+.brand-logo {
+    font-size: 1.6rem;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    color: #ffffff;
+    font-family: 'Inter', sans-serif;
+}
+.brand-logo span {
+    color: #00d2ff;
+}
+.brand-tag {
+    font-size: 0.62rem;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #8b949e;
+    background: #161b22;
+    border: 1px solid #30363d;
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+.status-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: #2ed573;
+    box-shadow: 0 0 6px #2ed573;
+    display: inline-block;
+    margin-left: auto;
+}
+
+/* ── Sidebar section labels ── */
+.sidebar-label {
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #8b949e;
+    margin: 1.2rem 0 0.5rem 0;
+}
+
+/* ── Quick-query pills ── */
+.query-pill {
+    display: inline-block;
+    background: #161b22;
+    border: 1px solid #30363d;
+    border-radius: 6px;
+    padding: 5px 10px;
+    font-size: 0.72rem;
+    color: #8b949e;
+    margin: 3px 0;
+    width: 100%;
+    transition: border-color 0.15s;
+}
+.query-pill:hover { border-color: #00d2ff; color: #c9d1d9; }
+
+/* ── Page title ── */
+.page-title {
+    font-size: 1.35rem;
+    font-weight: 600;
+    color: #ffffff;
+    margin-bottom: 2px;
+}
+.page-subtitle {
+    font-size: 0.8rem;
+    color: #8b949e;
+    margin-bottom: 1.5rem;
+}
+
+/* ── Chat messages ── */
+[data-testid="stChatMessage"] {
+    background: transparent !important;
+    border: none !important;
+    padding: 0.2rem 0 !important;
+}
+
+/* ── Diagnostic result card ── */
+.diag-card {
+    background: #161b22;
+    border: 1px solid #30363d;
+    border-radius: 10px;
+    padding: 1.2rem 1.4rem;
+    margin: 0.8rem 0;
+    position: relative;
+    overflow: hidden;
+}
+.diag-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+}
+.diag-card.anomaly::before  { background: linear-gradient(90deg, #ff4757, #ff6b81); }
+.diag-card.normal::before   { background: linear-gradient(90deg, #2ed573, #7bed9f); }
+.diag-card.warning::before  { background: linear-gradient(90deg, #ffa502, #ffcc5c); }
+
+/* ── Stat grid inside cards ── */
+.stat-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.8rem;
+    margin: 0.9rem 0;
+}
+.stat-box {
+    background: #0d1117;
+    border: 1px solid #21262d;
+    border-radius: 7px;
+    padding: 0.6rem 0.8rem;
+}
+.stat-label {
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #8b949e;
+    margin-bottom: 3px;
+}
+.stat-value {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #c9d1d9;
+    font-family: 'JetBrains Mono', monospace;
+}
+.stat-value.anomaly { color: #ff4757; }
+.stat-value.normal  { color: #2ed573; }
+.stat-value.warn    { color: #ffa502; }
+
+/* ── Confidence bar ── */
+.conf-wrap { margin: 0.9rem 0 0.4rem; }
+.conf-label-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 5px;
+}
+.conf-label {
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #8b949e;
+}
+.conf-pct {
+    font-size: 0.85rem;
+    font-weight: 700;
+    font-family: 'JetBrains Mono', monospace;
+}
+.conf-track {
+    height: 5px;
+    background: #21262d;
+    border-radius: 3px;
+    overflow: hidden;
+}
+.conf-fill {
+    height: 100%;
+    border-radius: 3px;
+    transition: width 0.6s ease;
+}
+
+/* ── Cause list ── */
+.cause-list { margin: 0.6rem 0; }
+.cause-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 0.55rem 0.7rem;
+    background: #0d1117;
+    border: 1px solid #21262d;
+    border-radius: 7px;
+    margin-bottom: 6px;
+}
+.cause-rank {
+    font-size: 0.68rem;
+    font-weight: 700;
+    color: #8b949e;
+    background: #21262d;
+    border-radius: 4px;
+    padding: 1px 6px;
+    min-width: 22px;
+    text-align: center;
+    margin-top: 1px;
+    flex-shrink: 0;
+}
+.cause-text { font-size: 0.82rem; color: #c9d1d9; line-height: 1.4; }
+.cause-badge {
+    font-size: 0.62rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    padding: 1px 6px;
+    border-radius: 3px;
+    margin-left: auto;
+    flex-shrink: 0;
+    align-self: center;
+}
+.badge-high   { background: #ff47571a; color: #ff4757; border: 1px solid #ff475733; }
+.badge-medium { background: #ffa5021a; color: #ffa502; border: 1px solid #ffa50233; }
+.badge-low    { background: #8b949e1a; color: #8b949e; border: 1px solid #8b949e33; }
+
+/* ── Action box ── */
+.action-box {
+    background: #0d1117;
+    border: 1px solid #21262d;
+    border-radius: 7px;
+    padding: 0.7rem 0.9rem;
+    margin-top: 0.5rem;
+}
+.action-urgency {
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+}
+.urgency-critical { color: #ff4757; }
+.urgency-high     { color: #ffa502; }
+.urgency-medium   { color: #ffcc5c; }
+.action-primary { font-size: 0.83rem; color: #c9d1d9; margin-bottom: 4px; }
+.action-secondary { font-size: 0.78rem; color: #8b949e; }
+
+/* ── Section titles inside cards ── */
+.section-title {
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #8b949e;
+    margin: 1rem 0 0.5rem;
+    padding-top: 0.8rem;
+    border-top: 1px solid #21262d;
+}
+
+/* ── Streamlit overrides ── */
+.stSelectbox label, .stTextInput label {
+    color: #8b949e !important;
+    font-size: 0.72rem !important;
+    font-weight: 600 !important;
+    letter-spacing: 1px !important;
+    text-transform: uppercase !important;
+}
+[data-testid="stSelectbox"] > div > div,
+[data-testid="stTextInput"] input {
+    background: #161b22 !important;
+    border: 1px solid #30363d !important;
+    color: #c9d1d9 !important;
+    border-radius: 7px !important;
+}
+[data-testid="stChatInputTextArea"] {
+    background: #161b22 !important;
+    border: 1px solid #30363d !important;
+    color: #c9d1d9 !important;
+    border-radius: 10px !important;
+}
+.stButton > button {
+    background: #161b22;
+    border: 1px solid #30363d;
+    color: #c9d1d9;
+    border-radius: 7px;
+    font-size: 0.78rem;
+}
+.stButton > button:hover {
+    border-color: #00d2ff;
+    color: #00d2ff;
+}
+.stExpander {
+    background: #0d1117 !important;
+    border: 1px solid #21262d !important;
+    border-radius: 7px !important;
+}
+[data-testid="stExpanderToggleIcon"] { color: #8b949e !important; }
+hr { border-color: #21262d !important; }
+
+/* ── Out-of-scope info box ── */
+.stAlert {
+    background: #161b22 !important;
+    border: 1px solid #30363d !important;
+    border-radius: 8px !important;
+    color: #c9d1d9 !important;
+}
+</style>
+""", unsafe_allow_html=True)
+
+
+# ── Helpers ───────────────────────────────────────────────────────────────────
+
+def _conf_color(band: str) -> str:
+    return {"high": "#2ed573", "medium": "#ffa502", "low": "#ff4757"}.get(band, "#8b949e")
+
+def _urgency_label(urgency: str) -> str:
+    icons = {"critical": "● CRITICAL", "high": "● HIGH", "medium": "● MEDIUM"}
+    return icons.get(urgency, "● MEDIUM")
+
+def _shap_chart(drivers: list[dict]):
+    import matplotlib
+    matplotlib.use("Agg")
+    import matplotlib.pyplot as plt
+    import numpy as np
+
+    labels = [d["feature"].replace("_", " ") for d in drivers]
+    values = [d["shap"] for d in drivers]
+    colors = ["#ff4757" if v > 0 else "#00d2ff" for v in values]
+
+    fig, ax = plt.subplots(figsize=(6, max(2.2, len(labels) * 0.52)))
+    fig.patch.set_facecolor("#0d1117")
+    ax.set_facecolor("#0d1117")
+
+    bars = ax.barh(labels[::-1], values[::-1], color=colors[::-1],
+                   height=0.55, edgecolor="none")
+
+    ax.axvline(0, color="#30363d", linewidth=0.8, zorder=0)
+    ax.tick_params(colors="#8b949e", labelsize=8)
+    ax.set_xlabel("SHAP value", color="#8b949e", fontsize=8)
+    for spine in ax.spines.values():
+        spine.set_edgecolor("#21262d")
+    ax.xaxis.label.set_color("#8b949e")
+    ax.grid(axis="x", color="#21262d", linewidth=0.5, alpha=0.6)
+
+    # Value labels
+    for bar, v in zip(bars, values[::-1]):
+        ax.text(
+            v + (0.003 if v >= 0 else -0.003),
+            bar.get_y() + bar.get_height() / 2,
+            f"{v:+.3f}",
+            va="center",
+            ha="left" if v >= 0 else "right",
+            color="#8b949e",
+            fontsize=7.5,
+        )
+
+    plt.tight_layout(pad=0.4)
+    return fig
+
+
+def _render_details(payload: dict) -> None:
+    is_anomaly = payload.get("is_anomaly", False)
+    conf       = payload.get("confidence", {})
+    band       = conf.get("band", "unknown")
+    score      = conf.get("score", 0.0)
+    atype      = payload.get("anomaly_type") or "—"
+    machine    = payload.get("machine_id", "—")
+    prob       = payload.get("anomaly_prob", 0.0)
+    window     = payload.get("window_start", "")[:16].replace("T", " ")
+
+    card_class = "anomaly" if is_anomaly else "normal"
+    status_text = f"ANOMALY · {atype.upper().replace('_', ' ')}" if is_anomaly else "NORMAL OPERATION"
+    status_color = "#ff4757" if is_anomaly else "#2ed573"
+    prob_class = "anomaly" if prob > 0.6 else ("warn" if prob > 0.3 else "normal")
+
+    # ── Card header ──
+    st.markdown(f"""
+    <div class="diag-card {card_class}">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.6rem;">
+        <span style="font-size:0.7rem;font-weight:700;letter-spacing:2px;
+                     text-transform:uppercase;color:{status_color};">{status_text}</span>
+        <span style="font-size:0.7rem;color:#8b949e;font-family:'JetBrains Mono',monospace;">{window}</span>
+      </div>
+
+      <div class="stat-grid">
+        <div class="stat-box">
+          <div class="stat-label">Machine</div>
+          <div class="stat-value">{machine}</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-label">Anomaly Prob</div>
+          <div class="stat-value {prob_class}">{prob:.0%}</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-label">Anomaly Type</div>
+          <div class="stat-value" style="font-size:0.82rem;">{atype.replace("_"," ").title()}</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-label">Confidence</div>
+          <div class="stat-value" style="color:{_conf_color(band)};">{band.upper()}</div>
+        </div>
+      </div>
+
+      <div class="conf-wrap">
+        <div class="conf-label-row">
+          <span class="conf-label">Confidence score</span>
+          <span class="conf-pct" style="color:{_conf_color(band)};">{score:.0%}</span>
+        </div>
+        <div class="conf-track">
+          <div class="conf-fill" style="width:{score*100:.1f}%;
+               background:linear-gradient(90deg,{_conf_color(band)}88,{_conf_color(band)});"></div>
+        </div>
+      </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    # ── Causes & recommendation ──
+    if is_anomaly:
+        causes = payload.get("causes", [])
+        rec    = payload.get("recommendation", {})
+        urgency = rec.get("urgency", "medium")
+
+        with st.expander("Root Causes & Recommended Action", expanded=True):
+            badge_map = {"high": "badge-high", "medium": "badge-medium", "low": "badge-low"}
+            cause_html = '<div class="cause-list">'
+            for c in causes:
+                bc = badge_map.get(c["evidence_strength"], "badge-low")
+                cause_html += f"""
+                <div class="cause-item">
+                  <span class="cause-rank">#{c['rank']}</span>
+                  <span class="cause-text">{c['cause']}</span>
+                  <span class="cause-badge {bc}">{c['evidence_strength'].upper()}</span>
+                </div>"""
+            cause_html += "</div>"
+
+            uc = f"urgency-{urgency}"
+            ul = _urgency_label(urgency)
+            action_html = f"""
+            <div class="action-box">
+              <div class="action-urgency {uc}">{ul}</div>
+              <div class="action-primary">⚡ {rec.get('primary','')}</div>
+              <div class="action-secondary">↳ {rec.get('secondary','')}</div>
+            </div>"""
+
+            st.markdown(cause_html + action_html, unsafe_allow_html=True)
+
+    # ── SHAP chart ──
+    drivers = payload.get("shap_drivers", [])
+    with st.expander("SHAP Feature Contributions", expanded=is_anomaly):
+        if drivers:
+            col_chart, col_table = st.columns([3, 2])
+            with col_chart:
+                fig = _shap_chart(drivers)
+                st.pyplot(fig, use_container_width=True)
+            with col_table:
+                import pandas as pd
+                df = pd.DataFrame(drivers)[["feature", "shap", "direction"]].copy()
+                df.columns = ["Feature", "SHAP", "Direction"]
+                df["SHAP"] = df["SHAP"].map(lambda x: f"{x:+.4f}")
+                df["Direction"] = df["Direction"].str.replace("_", " ")
+                st.dataframe(df, hide_index=True, use_container_width=True,
+                             height=min(220, 38 + len(df) * 35))
+        else:
+            st.caption("No SHAP data available.")
+
+    # ── Raw payload ──
+    with st.expander("Raw Pipeline Payload"):
+        st.json({k: v for k, v in payload.items() if k != "raw_shap"})
+
 
 # ── Sidebar ───────────────────────────────────────────────────────────────────
 
 with st.sidebar:
-    st.title("Settings")
+    st.markdown("""
+    <div class="brand-header">
+      <div>
+        <div class="brand-logo">Manufact<span>.AI</span></div>
+        <div style="font-size:0.62rem;color:#8b949e;margin-top:2px;
+                    letter-spacing:1px;">ANOMALY INTELLIGENCE</div>
+      </div>
+      <div>
+        <span class="brand-tag">MVP</span><br>
+        <span class="status-dot" title="System online"></span>
+      </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown('<div class="sidebar-label">Target Machine</div>', unsafe_allow_html=True)
     selected_machine = st.selectbox(
-        "Default machine",
+        "Target Machine",
         ["auto-detect", "machine_1", "machine_2", "machine_3"],
+        label_visibility="collapsed",
     )
+
+    st.markdown('<div class="sidebar-label">Query Time</div>', unsafe_allow_html=True)
     query_time_str = st.text_input(
-        "Query time (ISO, e.g. 2026-05-01T15:30:00)",
-        placeholder="leave blank for auto",
+        "Query Time",
+        placeholder="2026-05-01T15:30:00  (blank = auto)",
+        label_visibility="collapsed",
     )
-    st.markdown("---")
-    st.markdown("**Example queries:**")
-    st.markdown("- Why did line 1 slow down at 15:30?")
-    st.markdown("- What caused the alarm on machine_2 at 10:00?")
-    st.markdown("- Is machine_3 running normally?")
-    st.markdown("---")
-    st.caption("MVP — Anomaly detection + SHAP + Claude synthesis")
 
-# ── Main chat area ────────────────────────────────────────────────────────────
+    st.markdown('<div class="sidebar-label">Quick Queries</div>', unsafe_allow_html=True)
+    example_queries = [
+        "Why is machine_1 running hot at 15:30?",
+        "What caused the vibration alarm on line 2?",
+        "Is machine_3 running normally?",
+        "Why did line 1 slow down at 15:24?",
+        "Bearing fault on machine_2 — root cause?",
+    ]
+    for q in example_queries:
+        short = q[:46] + "…" if len(q) > 46 else q
+        st.markdown(f'<div class="query-pill">{short}</div>', unsafe_allow_html=True)
 
-st.title("Manufacturing Anomaly Chatbot")
-st.caption("Ask a natural-language question about any machine or production event.")
+    st.markdown("<br>", unsafe_allow_html=True)
+    st.markdown("""
+    <div style="border-top:1px solid #21262d;padding-top:1rem;">
+      <div style="font-size:0.65rem;color:#8b949e;line-height:1.7;">
+        <b style="color:#30363d;">Pipeline</b><br>
+        RandomForest · SHAP · Claude<br>
+        <b style="color:#30363d;">Data</b><br>
+        Sensor · Logs · Notes<br>
+        <b style="color:#30363d;">Eval</b><br>
+        F1 = 0.905 · AUC = 0.9996
+      </div>
+    </div>
+    """, unsafe_allow_html=True)
 
-# Chat history
+# ── Main header ───────────────────────────────────────────────────────────────
+
+st.markdown("""
+<div class="page-title">Anomaly Intelligence Console</div>
+<div class="page-subtitle">
+  Ask a natural-language question about machine health, anomalies, or production events.
+</div>
+""", unsafe_allow_html=True)
+
+# ── Chat history ──────────────────────────────────────────────────────────────
+
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
@@ -59,73 +570,9 @@ for msg in st.session_state.messages:
         if msg.get("payload"):
             _render_details(msg["payload"])
 
-
-def _render_details(payload: dict) -> None:
-    is_anomaly = payload.get("is_anomaly", False)
-    conf = payload.get("confidence", {})
-
-    # Confidence badge
-    band = conf.get("band", "unknown")
-    score = conf.get("score", 0.0)
-    badge_color = {"high": "green", "medium": "orange", "low": "red"}.get(band, "gray")
-    st.markdown(
-        f"**Confidence:** :{badge_color}[{band.upper()} {score:.0%}]"
-    )
-
-    col1, col2 = st.columns(2)
-    with col1:
-        st.metric("Anomaly probability", f"{payload.get('anomaly_prob', 0):.0%}")
-        st.metric("Anomaly type", payload.get("anomaly_type") or "none")
-    with col2:
-        st.metric("Machine", payload.get("machine_id", "—"))
-        st.metric(
-            "Window",
-            payload.get("window_start", "")[:16].replace("T", " "),
-        )
-
-    if is_anomaly:
-        with st.expander("Root causes & recommendation", expanded=True):
-            causes = payload.get("causes", [])
-            for c in causes:
-                st.markdown(
-                    f"**{c['rank']}.** {c['cause']} — *evidence: {c['evidence_strength']}*"
-                )
-            rec = payload.get("recommendation", {})
-            if rec:
-                st.markdown("---")
-                urgency = rec.get("urgency", "medium")
-                urgency_icon = {"critical": "🔴", "high": "🟠", "medium": "🟡"}.get(
-                    urgency, "🔵"
-                )
-                st.markdown(f"**{urgency_icon} Primary action:** {rec.get('primary', '')}")
-                st.markdown(f"**Secondary action:** {rec.get('secondary', '')}")
-
-    with st.expander("SHAP explanation (sensor signals)", expanded=False):
-        st.text(payload.get("shap_text", "No SHAP data available."))
-        drivers = payload.get("shap_drivers", [])
-        if drivers:
-            import pandas as pd
-            df = pd.DataFrame(drivers)[["feature", "shap", "direction", "magnitude"]]
-            df["shap"] = df["shap"].round(4)
-            st.dataframe(df, use_container_width=True, hide_index=True)
-
-    with st.expander("Raw pipeline payload", expanded=False):
-        display_payload = {
-            k: v for k, v in payload.items()
-            if k not in ("raw_shap",)
-        }
-        st.json(display_payload)
-
-
-# Dummy reference to render_details for message history (before it's defined)
-# Redefine after function to avoid forward-reference issues in the history loop
-for i, msg in enumerate(st.session_state.messages):
-    pass  # already rendered above, no-op
-
-
 # ── Input handler ─────────────────────────────────────────────────────────────
 
-if prompt := st.chat_input("Ask about a machine anomaly…"):
+if prompt := st.chat_input("Describe a machine issue or ask about an anomaly…"):
     st.session_state.messages.append({"role": "user", "content": prompt})
     with st.chat_message("user"):
         st.markdown(prompt)
