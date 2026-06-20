@@ -1,0 +1,552 @@
+# Welding knowledge base — grounds the LLM for defect / troubleshooting / quality /
+# productivity / cost / process-comparison questions that the deterministic anomaly
+# pipeline and parameter optimizer do not cover.
+#
+# Source: AWS welding handbooks, ISO 5817 defect classification, CWI study material,
+# and standard MIG/MAG/TIG WPS practice (advisory approximations — verify against the
+# job's qualified WPS).
+#
+# Each entry:
+#   match:       phrases that route a question to this entry (lower-cased substring match)
+#   category:    defect_reduction | troubleshooting | quality | productivity | cost | comparison | process
+#   summary:     one-line statement of the topic
+#   causes:      ranked likely causes (most common first)
+#   remedies:    concrete corrective actions (parameter moves, technique, prep)
+#   parameters:  which weld parameters most influence this (for the LLM to reference)
+#   notes:       extra context, trade-offs, stainless/aluminum specifics
+
+topics:
+
+  # ── DEFECT REDUCTION ──────────────────────────────────────────────────────────
+  porosity:
+    match: [porosity, porous, pore, gas pocket, blowhole, pin hole, pinhole]
+    category: defect_reduction
+    summary: "Gas trapped in the solidifying weld pool, leaving voids that cut strength and fatigue life."
+    causes:
+      - "Shielding gas flow too low, or wind/draught blowing the gas shield away"
+      - "Contaminated base metal or wire — rust, mill scale, oil, paint, moisture"
+      - "Excessive arc length / voltage drawing air into the pool"
+      - "Damaged gas nozzle, leaking gas line, or clogged diffuser"
+      - "Travel speed too high — pool freezes before gas escapes"
+    remedies:
+      - "Set shielding gas flow to 15-20 L/min for MIG; check for leaks and shield from draughts"
+      - "Clean the joint to bright metal and use clean, dry wire; keep stainless wire uncontaminated"
+      - "Reduce arc length / trim voltage a little; keep a consistent stick-out (~10-15 mm)"
+      - "Inspect nozzle, diffuser and gas hose; replace if blocked or leaking"
+      - "Slow travel slightly so gas can escape before solidification"
+    parameters: [shielding_gas_flow, arc_voltage, welding_speed]
+    notes: "On stainless, moisture and CO2-rich mixes raise porosity — use Ar-rich tri-mix (e.g. Ar/2%CO2 or Ar/He/CO2). On aluminum, hydrogen porosity is the dominant mode: degrease and remove the oxide layer before welding."
+
+  undercut:
+    match: [undercut, under cut, undercutting]
+    category: defect_reduction
+    summary: "A groove melted into the base metal at the weld toe that is not filled, acting as a stress raiser."
+    causes:
+      - "Welding current / voltage too high — over-melts the toe"
+      - "Travel speed too high — not enough filler to fill the melted edge"
+      - "Incorrect torch angle or excessive weave dwell at the toes"
+      - "Arc length too long"
+    remedies:
+      - "Lower current/voltage into the recommended window for the thickness"
+      - "Reduce travel speed so the pool fills the toe"
+      - "Hold a correct work/travel angle (10-15 deg drag); pause briefly at weave edges"
+      - "Shorten the arc length and keep consistent stick-out"
+    parameters: [welding_current, arc_voltage, welding_speed]
+    notes: "Undercut is one of the most common rejectable defects under ISO 5817 level B — even shallow undercut fails fatigue-critical joints."
+
+  lack_of_fusion:
+    match: [lack of fusion, incomplete fusion, cold lap, lack of penetration, incomplete penetration, did not fuse, not fused]
+    category: defect_reduction
+    summary: "The weld metal failed to fuse with the base metal or a previous pass — a serious, often hidden defect."
+    causes:
+      - "Heat input too low — current too low or travel speed too high"
+      - "Poor joint preparation — too narrow a gap, no bevel on thicker plate"
+      - "Arc directed at the filler instead of the joint sidewalls"
+      - "Travel speed outrunning the pool / arc not reaching the root"
+    remedies:
+      - "Increase current or slow travel to raise heat input into the standards window"
+      - "Open the root gap / add a bevel for plate above ~5 mm; ensure good fit-up"
+      - "Point the arc at the leading edge of the pool against the sidewalls"
+      - "Use a slight weave or multi-pass on thicker sections to reach the sidewalls"
+    parameters: [welding_current, welding_speed, heat_input]
+    notes: "For 5 mm plate, single-pass MIG can struggle to fuse the root — consider a root pass plus fill, or a bevelled joint. Lack of fusion is hard to detect visually; it usually needs UT/RT."
+
+  spatter:
+    match: [spatter, spattering, splatter]
+    category: defect_reduction
+    summary: "Molten droplets thrown clear of the pool — wasted wire, extra cleanup, and a sign of an unstable arc."
+    causes:
+      - "Voltage too low for the wire-feed speed (harsh short-circuit transfer)"
+      - "Wrong shielding gas — high CO2 content increases spatter"
+      - "Excessive stick-out, dirty wire, or worn contact tip"
+      - "Arc too long / erratic"
+    remedies:
+      - "Tune voltage up slightly to smooth the short-circuit transfer, or switch to spray/pulse"
+      - "Use an Ar-rich mix (e.g. Ar/CO2 80/20 or higher Ar) to cut spatter"
+      - "Keep stick-out ~10-15 mm, use clean wire, replace worn contact tips"
+      - "Shorten and stabilise the arc"
+    parameters: [arc_voltage, welding_current, shielding_gas_flow]
+    notes: "Pulsed MIG and spray transfer are nearly spatter-free vs. short-circuit, but need higher current and Ar-rich gas. Maintain penetration by keeping heat input in range while you raise voltage."
+
+  distortion:
+    match: [distortion, distort, warping, warp, warped, buckling, bowing]
+    category: defect_reduction
+    summary: "Permanent shape change from uneven heating/cooling — worst on thin sheet and stainless."
+    causes:
+      - "Too much heat input — large heat-affected zone, more expansion/contraction"
+      - "Poor welding sequence / over-welding (oversized weld)"
+      - "No fixturing or clamping to restrain the part"
+      - "Stainless steel's low thermal conductivity + high expansion concentrate stress"
+    remedies:
+      - "Minimise heat input — faster travel, lower current, smaller weld size to spec"
+      - "Use a back-step or balanced/skip sequence; alternate sides on a joint"
+      - "Clamp or fixture the part; use a heat sink (copper backing) on thin stainless"
+      - "Use intermittent (stitch) welds where a continuous weld is not required"
+    parameters: [heat_input, welding_current, welding_speed]
+    notes: "On thin stainless sheet, keep heat input low and weld fast with chill bars. Don't over-weld — a weld larger than design adds heat and distortion for no strength gain."
+
+  burn_through:
+    match: [burn through, burn-through, burnthrough, blow through, melt through, hole in]
+    category: defect_reduction
+    summary: "The arc melts entirely through thin material, leaving a hole."
+    causes:
+      - "Heat input too high for the thickness — current too high or travel too slow"
+      - "Excessive root gap on thin sheet"
+      - "Dwelling too long in one spot"
+    remedies:
+      - "Lower current and speed up travel; use short-circuit or pulsed transfer on thin gauge"
+      - "Close up the root gap or use a backing bar / copper chill"
+      - "Use a stitch / skip technique to let the area cool"
+    parameters: [welding_current, welding_speed, heat_input]
+    notes: "Thin stainless and aluminum are very burn-through prone. Pulsed MIG gives fine heat control on gauge material."
+
+  # ── TROUBLESHOOTING ───────────────────────────────────────────────────────────
+  cracking:
+    match: [crack, cracking, cracked, cold crack, hot crack, solidification crack, cracking after cooling]
+    category: troubleshooting
+    summary: "Fractures in the weld or HAZ — the most serious weld defect. Split into hot (solidification) and cold (hydrogen) cracking."
+    causes:
+      - "Hydrogen cold cracking: moisture/contamination + hard HAZ + restraint (appears hours after cooling)"
+      - "Solidification (hot) cracking: high sulphur/impurity, deep-narrow bead shape, high restraint"
+      - "Fast cooling on hardenable / high-carbon steel"
+      - "Excessive joint restraint with no stress relief"
+    remedies:
+      - "Cold cracking: dry/clean materials, use low-hydrogen consumables, pre-heat, slow cooling"
+      - "Hot cracking: use a wider (less deep-narrow) bead, lower travel speed, low-impurity filler"
+      - "Pre-heat hardenable steels; control inter-pass temperature; consider post-weld heat treatment"
+      - "Reduce restraint / improve joint design to relieve stress"
+    parameters: [heat_input, welding_speed, welding_current]
+    notes: "Cracking that appears AFTER cooling (delayed) is classic hydrogen cold cracking — the fix is low-hydrogen practice + pre-heat. Austenitic stainless is prone to hot (solidification) cracking; keep ferrite number in range and avoid deep-narrow beads."
+
+  narrow_bead:
+    match: [narrow bead, bead too narrow, thin bead, ropey bead, ropy bead, bead is narrow]
+    category: troubleshooting
+    summary: "A bead that is too narrow and high (ropey) instead of flat and wetted-in."
+    causes:
+      - "Voltage too low — arc cone too tight, poor wetting"
+      - "Travel speed too high"
+      - "Arc length too short / excessive stick-out"
+    remedies:
+      - "Raise voltage so the bead flattens and wets into the toes"
+      - "Slow travel slightly and/or add a small weave"
+      - "Set a correct stick-out (~10-15 mm) and arc length"
+    parameters: [arc_voltage, welding_speed, welding_current]
+    notes: "Voltage chiefly controls bead width/wetting; current/wire-feed controls penetration and deposition. Adjust voltage first for a narrow bead."
+
+  discoloration:
+    match: [discoloration, discolouration, heat tint, oxidation color, rainbow, sugaring, tint around the weld, coloured weld]
+    category: troubleshooting
+    summary: "Oxide heat-tint colours (straw, blue, grey) on stainless near the weld — degrades corrosion resistance."
+    causes:
+      - "Excess heat input / slow travel — wide hot zone oxidises"
+      - "Inadequate shielding or back-purge on stainless"
+      - "Air entrainment from a long arc or draughts"
+    remedies:
+      - "Reduce heat input — faster travel, lower current; keep inter-pass temp low"
+      - "Improve gas coverage; back-purge the root with argon on stainless pipe/sheet"
+      - "Use a trailing shield for critical corrosion service; pickle/passivate after welding"
+    parameters: [heat_input, shielding_gas_flow, welding_speed]
+    notes: "Heavy heat tint (dark blue/grey, 'sugaring' on the back) means chromium-depleted oxide and lost corrosion resistance — for service-critical stainless it must be removed by pickling or mechanical cleaning."
+
+  inconsistent_penetration:
+    match: [inconsistent penetration, varying penetration, uneven penetration, penetration across the joint, inconsistent weld]
+    category: troubleshooting
+    summary: "Penetration that varies along the joint — usually a fit-up, technique, or parameter-stability problem."
+    causes:
+      - "Variable root gap / poor fit-up along the joint"
+      - "Inconsistent travel speed or stick-out (manual technique)"
+      - "Fluctuating wire feed or unstable power supply"
+      - "Heat building up — later in the weld penetrates more than the cold start"
+    remedies:
+      - "Improve and check fit-up; tack consistently; use a backing bar"
+      - "Keep travel speed and stick-out steady; consider mechanised/robotic travel"
+      - "Service the wire feeder (rollers, liner, tip) and check the power source"
+      - "Manage inter-pass temperature so heat input is consistent end to end"
+    parameters: [welding_current, welding_speed, wire_feed_rate]
+    notes: "If penetration grows toward the end of a seam, the part is heating up — let it cool or step the current down. Robotic/mechanised travel removes most manual inconsistency."
+
+  # ── QUALITY OPTIMIZATION ──────────────────────────────────────────────────────
+  tensile_strength:
+    match: [tensile strength, weld strength, strongest weld, maximize strength, strength of the weld, stronger weld]
+    category: quality
+    summary: "Weld tensile strength comes from full fusion, sound (defect-free) metal, and a matched/over-matched filler."
+    causes: []
+    remedies:
+      - "Ensure complete fusion and penetration — defects (porosity, lack of fusion) are what usually cut strength"
+      - "Use a filler whose strength matches or over-matches the base metal"
+      - "Keep heat input in the standards window — too high coarsens the HAZ and lowers toughness"
+      - "Control cooling on hardenable steels (pre-heat / inter-pass) to avoid brittle structures"
+      - "Avoid undercut and crater cracks at stops/starts (use run-off tabs or crater fill)"
+    parameters: [heat_input, welding_current, welding_speed]
+    notes: "A correctly-made weld is usually stronger than the base metal, so 'maximising strength' is really about eliminating defects and not over-heating the HAZ. Filler selection and joint design matter more than chasing high current."
+
+  bead_appearance:
+    match: [bead appearance, weld appearance, nicer weld, bead look, improve the look, smooth bead, weld looks]
+    category: quality
+    summary: "A uniform, well-wetted bead with even ripples and no spatter reflects a stable arc and good technique."
+    causes: []
+    remedies:
+      - "Balance voltage (width/wetting) against wire-feed/current (penetration) for a flat bead"
+      - "Keep a steady travel speed, work angle, and stick-out"
+      - "Use Ar-rich gas and spray/pulse transfer to reduce spatter and smooth the bead"
+      - "Clean the joint and use a consistent weave or straight drag"
+    parameters: [arc_voltage, welding_speed, welding_current]
+    notes: "Appearance follows arc stability — fix spatter and wetting first. Pulsed MIG gives the cleanest 'TIG-like' bead on steel and stainless."
+
+  heat_input_range:
+    match: [ideal heat input, heat input range, correct heat input, recommended heat input, what heat input]
+    category: quality
+    summary: "Heat input balances penetration (too low = lack of fusion) against distortion/HAZ damage (too high)."
+    causes: []
+    remedies:
+      - "Stainless steel: keep heat input roughly 0.5-1.5 kJ/mm depending on thickness and grade"
+      - "Stay inside the thickness-band window the parameter advisor reports for your job"
+      - "Raise heat input (more current / slower travel) to cure lack of fusion; lower it to cure burn-through/distortion"
+    parameters: [heat_input, welding_current, welding_speed]
+    notes: "Austenitic stainless is sensitive to high heat input (sensitisation, distortion, heat tint) — stay at the lower end of the range. Ask the parameter advisor with a material + thickness for the exact computed window."
+
+  quality_drivers:
+    match: [parameters most affect quality, affect weld quality, parameters most affect, what affects weld quality, parameters affect quality, most influence weld, influence weld strength, critical process variable, process parameters most influence, key variables, variables for welding]
+    category: quality
+    summary: "The dominant quality levers are heat input (current, voltage, travel speed), shielding, and technique/fit-up."
+    causes: []
+    remedies:
+      - "Heat input (current x voltage / travel speed) — controls penetration, fusion, distortion"
+      - "Welding current / wire-feed speed — penetration and deposition"
+      - "Arc voltage — bead width, wetting, and spatter"
+      - "Travel speed — heat input, bead profile, and productivity"
+      - "Shielding gas type & flow — porosity, spatter, and corrosion resistance"
+      - "Joint prep & fit-up, torch angle, stick-out — fusion consistency"
+    parameters: [welding_current, arc_voltage, welding_speed, shielding_gas_flow]
+    notes: "For stainless specifically the critical variables are heat input control (to limit sensitisation/distortion), shielding/back-purge (to protect corrosion resistance), and filler/ferrite selection. Use the sensitivity table from the parameter advisor to see the numeric effect of each lever."
+
+  # ── PRODUCTIVITY ──────────────────────────────────────────────────────────────
+  deposition_increase:
+    match: [increase deposition, deposition rate, more deposition, faster deposition, increase the deposition]
+    category: productivity
+    summary: "Deposition rate (kg/h of weld metal) rises with wire-feed speed/current — within fusion and heat-input limits."
+    causes: []
+    remedies:
+      - "Increase wire-feed speed / current (raises deposition) while keeping heat input in range"
+      - "Use a larger wire diameter for a higher burn-off at the same current density"
+      - "Switch to spray or pulsed-spray transfer for high deposition at higher currents"
+      - "Consider flux-cored (FCAW) or metal-cored wire for high deposition on thick steel"
+    parameters: [wire_feed_rate, welding_current]
+    notes: "More deposition without losing quality means adding both metal AND travel speed so heat input stays in-window. Spray/pulse transfer and cored wires are the usual high-productivity routes — but spray needs Ar-rich gas and higher current."
+
+  minimize_time:
+    match: [minimize welding time, reduce welding time, faster welding, weld faster, cycle time, less time, minimize time]
+    category: productivity
+    summary: "Cycle time falls by welding faster, depositing more per pass, and cutting arc-off time (setup, cleanup, rework)."
+    causes: []
+    remedies:
+      - "Raise travel speed to the top of the window (watch for undercut / lack of fusion)"
+      - "Increase deposition (wire-feed, larger wire, spray/pulse) to fill joints in fewer passes"
+      - "Reduce non-arc time: better fixturing, fewer re-positions, less between-pass cleaning"
+      - "Cut rework — most lost time is fixing defects, not the welding itself"
+    parameters: [welding_speed, wire_feed_rate, welding_current]
+    notes: "Arc-on time is often <30% of cycle time. The biggest productivity wins are usually fixturing, reduced spatter cleanup, and lower rework — not just turning up the speed."
+
+  process_productivity:
+    match: [most productive process, which process is most productive, process is most productive, most productive, fastest process, best process for, most efficient process]
+    category: comparison
+    summary: "For 5 mm stainless, MIG (GMAW), especially pulsed-spray, is the most productive mainstream choice; TIG is slower but highest quality."
+    causes: []
+    remedies:
+      - "MIG / pulsed MIG (GMAW): highest deposition and travel speed — best general productivity on 5 mm"
+      - "Metal-cored / flux-cored wire: even higher deposition on thicker steel sections"
+      - "TIG (GTAW): slowest, but best for thin gauge, root passes, and cosmetic/critical joints"
+      - "Stick (SMAW): portable and tolerant of dirty conditions, but low duty cycle and slow"
+    parameters: [wire_feed_rate, welding_speed]
+    notes: "On 5 mm stainless, pulsed MIG gives near-TIG quality at MIG productivity — usually the best speed/quality balance. Reserve TIG for visible or corrosion-critical joints."
+
+  reduce_rework:
+    match: [reduce rework, less rework, minimize rework, avoid rework, rework in]
+    category: productivity
+    summary: "Rework is eliminated upstream — stable parameters, clean prep, good fit-up, and first-pass defect control."
+    causes: []
+    remedies:
+      - "Lock down a qualified WPS and stick to the parameter windows"
+      - "Clean and fit up joints properly; tack consistently"
+      - "Control the common rejects up front: porosity (gas), undercut (speed/current), lack of fusion (heat input)"
+      - "Use mechanised/robotic travel for repeatability on long runs"
+    parameters: [welding_current, welding_speed, shielding_gas_flow]
+    notes: "Rework is the single biggest hidden cost in fabrication. Spending time on prep and parameter stability pays back several times over in avoided grinding and re-welding."
+
+  # ── COST OPTIMIZATION ─────────────────────────────────────────────────────────
+  gas_consumption:
+    match: [reduce shielding gas, gas consumption, save gas, gas cost, reduce gas, less gas]
+    category: cost
+    summary: "Shielding-gas cost is cut by flow control, leak elimination, and avoiding draughts (which tempt over-flowing)."
+    causes: []
+    remedies:
+      - "Set flow to the minimum that prevents porosity (typically 12-18 L/min for MIG) — more is wasted"
+      - "Fit a flow regulator / gas-saver (surge) device to cut start-of-weld gas spikes"
+      - "Fix leaks in hoses, fittings and solenoids; check the whole line periodically"
+      - "Shield the work area from draughts so you don't compensate with excess flow"
+    parameters: [shielding_gas_flow]
+    notes: "Over-flowing gas not only wastes money but can cause turbulence and porosity. Right-size the flow and stop leaks — that's where the savings are."
+
+  consumable_cost:
+    match: [wire cost, consumable cost, wire type, cost-performance, cost performance, consumable costs, cheapest wire, minimize consumable]
+    category: cost
+    summary: "Consumable cost-per-metre depends on wire price, deposition efficiency (spatter loss), and rework."
+    causes: []
+    remedies:
+      - "Choose a wire with high deposition efficiency (less spatter = more wire becomes weld metal)"
+      - "Solid wire is cheapest per kg; metal-cored costs more but deposits faster (lower labour cost) on thick steel"
+      - "Match wire diameter to the job — oversized wire on thin work wastes metal and heat"
+      - "Cut spatter (Ar-rich gas, correct voltage) so you buy less wire and grind less"
+    parameters: [wire_feed_rate, shielding_gas_flow]
+    notes: "Total cost = wire + gas + LABOUR + rework. Labour usually dominates, so a slightly pricier wire that welds faster and cleaner (metal-cored, low-spatter) is often cheaper overall."
+
+  manufacturing_cost:
+    match: [reduce manufacturing cost, manufacturing cost, overall cost, reduce overall cost, lower cost, cost of welding, reduce cost, reduce overall manufacturing]
+    category: cost
+    summary: "Welding cost is dominated by labour/arc time, then rework, then consumables and gas."
+    causes: []
+    remedies:
+      - "Cut arc time: higher deposition and travel speed, fewer passes (joint design, larger/cored wire)"
+      - "Cut rework: stable WPS, clean prep — defects are the biggest avoidable cost"
+      - "Cut consumable waste: low-spatter setup, right-sized wire, minimum effective gas flow"
+      - "Increase duty cycle / automate repetitive long welds"
+    parameters: [welding_speed, wire_feed_rate, shielding_gas_flow]
+    notes: "Labour and overhead are typically 70-85% of weld cost; filler and gas are a small fraction. Optimise for arc-on time and first-time-right, not just cheaper consumables."
+
+  improve_efficiency:
+    match: [improve efficiency, welding efficiency, increase efficiency, efficiency by, more efficient welding, boost efficiency, overall efficiency]
+    category: productivity
+    summary: "Welding efficiency improves across four levers: arc-on time, deposition rate, defect/rework rate, and consumable waste."
+    causes: []
+    remedies:
+      - "Raise deposition and travel speed (within heat-input limits) to deposit more per minute"
+      - "Increase duty cycle: better fixturing, fewer re-positions, mechanise long seams"
+      - "Drive down rework with a locked WPS and clean prep (the largest single efficiency lever)"
+      - "Switch to pulsed/spray transfer or cored wire where the joint allows"
+    parameters: [wire_feed_rate, welding_speed, welding_current]
+    notes: "A 20% efficiency gain usually comes from raising duty cycle and cutting rework, NOT from welding hotter. Measure arc-on time first; that's where most shops are losing 20%+."
+
+  # ── COMPARISONS ───────────────────────────────────────────────────────────────
+  shielding_gas_choice:
+    match: [which shielding gas, which gas, best shielding gas, strongest weld gas, what gas, gas gives, gas for stainless, gas mix]
+    category: comparison
+    summary: "Gas choice trades penetration, spatter, and (on stainless) corrosion resistance — there is no single 'strongest', but Ar-rich tri-mixes are preferred for stainless."
+    causes: []
+    remedies:
+      - "Mild steel MIG: Ar/CO2 (80/20) general purpose; higher CO2 = deeper penetration but more spatter"
+      - "Stainless MIG: Ar-rich tri-mix (e.g. Ar/He/CO2 or Ar/2%CO2) — low CO2 to protect corrosion resistance, low spatter"
+      - "Stainless/aluminum TIG: 100% Argon (add helium for more heat on thick aluminum)"
+      - "Pure CO2: cheap and deep-penetrating on steel but high spatter — not for stainless"
+    parameters: [shielding_gas_flow]
+    notes: "Weld STRENGTH is governed by fusion and filler, not the gas — but the wrong gas (high CO2 on stainless) carburises the weld and harms corrosion resistance. For strong, clean stainless welds use an Ar-rich, low-CO2 tri-mix."
+
+  transfer_mode:
+    match: [spray transfer, pulse mig, pulsed mig, spray or pulse, transfer mode, short circuit, dip transfer, which transfer]
+    category: comparison
+    summary: "Transfer mode sets the metal-droplet behaviour: short-circuit (thin/positional), spray (thick/flat, high deposition), pulse (best all-round control)."
+    causes: []
+    remedies:
+      - "Short-circuit (dip): low heat, thin gauge and positional welds — more spatter"
+      - "Spray: high current, Ar-rich gas, flat/horizontal only — smooth, high deposition, deep penetration"
+      - "Pulsed MIG: spray-like quality at lower average heat — works positionally, low spatter, fine control"
+      - "For 5 mm stainless: pulsed MIG is usually best (control + low heat tint); spray if it's flat and you want max deposition"
+    parameters: [welding_current, arc_voltage]
+    notes: "Spray needs >~150-200 A and ~80%+ argon, and only welds flat/horizontal. Pulse gives most of spray's benefits with positional capability and lower heat input — ideal for thin or distortion-prone stainless."
+
+  # ── SIMULATION & ROBOTICS INTEGRATION (NVIDIA Isaac Sim domain) ───────────────
+  # These entries use the robotics-integration engineer persona (knowledge_domain
+  # = integration) and answer "how do I build this welding cell in Isaac Sim" type
+  # questions with descriptive, phased, step-by-step procedures.
+
+  isaac_full_integration:
+    match: [full system integration, full integration, whole system, end to end, complete system, build this in isaac, build the system, system integration, how do i build, step by step, overall procedure, full procedure, entire setup, complete procedure, what do i need to do, where to do]
+    category: integration
+    summary: "Building a welding-cell chatbot in Isaac Sim is four loosely-coupled subsystems — sim scene, sensor suite, Apple Vision Pro teleoperation, and the LLM chatbot — wired together over ROS 2 topics so sim and real hardware are interchangeable."
+    causes: []
+    remedies:
+      - "Phase 0 — Environment: RTX 4080/4090+ GPU, Ubuntu 22.04 (CloudXR/Vision Pro tooling is Linux-first), install Isaac Sim 4.x + Isaac Lab; Vision Pro in developer mode + a Mac with Xcode"
+      - "Phase 1 — Scene: import the manipulator URDF/USD (UR10e/Franka), add an articulation controller, fix a welding-torch end-effector to the last link, add two workpiece plates with collision meshes; validate stable physics before anything else"
+      - "Phase 2 — Sensors: add a wrist RGBD Camera (RGB + distance-to-image-plane depth annotator), an RTX LiDAR for the cell, and a wrist 6-axis force/torque sensor; publish all of them on ROS 2 topics via an OmniGraph action graph"
+      - "Phase 3 — Weld task: define seam waypoints, drive the torch with a motion controller (RMPflow/Lula), hold force/standoff with the F/T sensor + wrist depth, and emit welding parameters (travel speed, standoff, current, voltage) as the bridge to the chatbot"
+      - "Phase 5 — Chatbot (do BEFORE teleop): a FastAPI bridge subscribes to /weld/params telemetry and feeds it into this repo's synthesize.py / param_advisor.py so the assistant answers from live sim state"
+      - "Phase 4 — Vision Pro teleop (LAST): CloudXR streams the viewport to the headset, the Isaac XR teleop sample retargets hand-tracking to the torch end-effector; F/T is shown as a visual overlay because the headset has no haptics"
+    parameters: []
+    notes: "Build order matters: get a fully SCRIPTED weld pass + chatbot working before touching the headset, so you have a demo even if CloudXR fights you. Everything crosses subsystem boundaries as ROS 2 topics so simulated sensors can later be swapped for real hardware (realsense-ros, UR driver, real F/T) without changing chatbot code. The CloudXR/Vision Pro stack is Linux-only and version-fragile — verify sample versions against your Isaac Sim version. Isaac does NOT simulate arc-welding metallurgy; the 'weld' is a contact/trajectory event and arc current/voltage are scenario variables."
+
+  isaac_sim_setup:
+    match: [isaac sim, isaac, omniverse, install isaac, set up isaac, environment setup, gpu requirement, which gpu, isaac lab, scene setup, robot in the scene, import robot, urdf, add the robot, build scene, build the scene, simulation platform]
+    category: simulation
+    summary: "Stand up the Isaac Sim environment and a stable robot scene: RTX GPU + Linux + Isaac Sim 4.x/Isaac Lab, then a manipulator, torch end-effector, and workpiece with verified physics."
+    causes: []
+    remedies:
+      - "Hardware/OS: RTX 4080/4090 or A6000+ (Isaac is RTX-only; ray-traced depth/LiDAR are expensive); Ubuntu 22.04 strongly preferred over Windows because teleop tooling is Linux-first"
+      - "Install: Isaac Sim 4.x via Omniverse Launcher or 'pip install isaacsim --extra-index-url https://pypi.nvidia.com', then Isaac Lab (./isaaclab.sh --install) where the manipulation/teleop samples live"
+      - "Robot: import a URDF with the URDF Importer extension (set joint drives to Position, fix the base) → outputs a USD; or reference a built-in arm like /Isaac/Robots/UniversalRobots/ur10e/ur10e.usd"
+      - "Scene: create a World, add_default_ground_plane, add_reference_to_stage for the robot, wrap it in a SingleArticulation, and add two FixedCuboid plates as the workpiece"
+      - "Validate: command joint targets and step the world ~300 frames to confirm stable physics and correct joint limits/drive stiffness BEFORE adding sensors"
+    parameters: []
+    notes: "NVIDIA renames namespaces between releases (omni.isaac.* became isaacsim.* around 4.5) — pin your Isaac Sim version and treat imports as version-sensitive. Add a welding torch as a rigid body fixed to the last link; it's geometry only at this stage."
+
+  sim_sensors:
+    match: [depth camera, rgbd, rgb-d, rgb camera, camera in isaac, simulate sensor, sensors in isaac, lidar, lidar sensor, point cloud, force sensor, torque sensor, force torque, f/t sensor, 6-axis, wrist sensor, contact sensor, add sensors, sensor suite, which sensors, how to add a camera]
+    category: simulation
+    summary: "Each physical sensor maps to an Isaac Sim component: RGBD = one Camera with RGB + depth annotators; LiDAR = RTX LiDAR; force/torque = a wrist contact/F-T sensor plus per-joint articulation efforts."
+    causes: []
+    remedies:
+      - "RGBD / depth camera: one wrist-mounted Camera prim; call add_distance_to_image_plane_to_frame() for the depth channel and get_rgba() for RGB — a real RealSense is RGB+depth in one device, so model ONE camera, not two"
+      - "LiDAR: create an RTX LiDAR via IsaacSensorCreateRtxLidar with a config profile (e.g. Ouster_OS0) for a cell/workspace point cloud"
+      - "Force/torque: a wrist ContactSensor for contact force, plus robot.get_measured_joint_efforts() for per-joint torque; a single 6-axis F/T sensor at the tool flange gives both 3 forces and 3 torques"
+      - "Publishing: stream everything over ROS 2 with an OmniGraph action graph (ROS2CameraHelper for rgb/depth, ROS2RtxLidarHelper for the scan, ROS2PublishJointState for joints) on named topics like /wrist/rgb, /wrist/depth, /cell/scan"
+      - "Mounting choice: a wrist camera is best for seam tracking; add a fixed overview camera only if you need a scene view"
+    parameters: []
+    notes: "The wrist 6-axis force/torque sensor is the most important for welding — it gives contact and push-force into the seam. Publish F/T on a custom topic (e.g. /weld/ft) from the control loop. Pull sensor data directly in Python for quick tests, or over ROS 2 for a modular, swap-to-real pipeline."
+
+  vision_pro_teleop:
+    match: [vision pro, apple vision pro, teleop, teleoperation, tele-operation, cloudxr, cloud xr, headset, hand tracking, retarget, retargeting, xr teleop, stream to headset, control with hands, gr00t]
+    category: integration
+    summary: "Apple Vision Pro teleoperation runs on NVIDIA's CloudXR + Isaac XR teleop workflow: stream the viewport to the headset, retarget hand-tracking to the torch end-effector, and surface force as a visual overlay (no haptics)."
+    causes: []
+    remedies:
+      - "CloudXR Runtime on the Linux host streams the Isaac Sim scene to the headset and returns head/hand tracking"
+      - "Build NVIDIA's Apple Vision Pro client (the Isaac XR Teleop sample app) in Xcode and sideload it to the headset with developer mode enabled"
+      - "Enable Isaac's XR/teleop extension; it exposes hand-tracking poses (head + ~26 joints per hand at ~90 Hz)"
+      - "Retarget: map each hand pose from the headset frame into the robot frame and feed it as the end-effector target to the motion controller — pinch/move and the torch follows; these demonstrations are also what GR00T-style imitation-learning records"
+      - "Feedback: the headset has no force feedback, so render F/T sensor readings as an on-screen overlay (a color bar going green→amber→red as force spikes)"
+    parameters: []
+    notes: "This is the hardest, least-documented piece and is where most people stall — do it LAST, after a scripted weld pass and the chatbot already work. The whole CloudXR/XR-teleop chain is Linux-only and version-fragile; confirm the sample-app version against your Isaac Sim version before investing time."
+
+  sim_chatbot_integration:
+    match: [connect the chatbot, wire in the chatbot, chatbot integration, ros bridge, ros 2 bridge, ros2 bridge, fastapi bridge, telemetry bridge, live data, closed loop, connect to chatbot, bridge service, feed sim data, integrate chatbot, isaac to chatbot]
+    category: integration
+    summary: "The chatbot becomes the reasoning layer over the sim: a small FastAPI bridge subscribes to ROS 2 weld telemetry and feeds live state into this repo's synthesize.py / param_advisor.py, closing the loop sim → ROS 2 → FastAPI → LLM → answer."
+    causes: []
+    remedies:
+      - "Isaac Sim publishes live state — F/T values, travel speed, standoff, seam-tracking error, sensor health — on ROS 2 topics (e.g. /weld/params, /weld/ft)"
+      - "A FastAPI bridge service runs a ROS 2 subscriber node (in a background thread) that caches the latest telemetry dict"
+      - "On a /chat request, feed that live telemetry into the existing reasoning layer: param_advisor for parameter context, then synthesize() to narrate a plain-language operator answer"
+      - "Surface answers back in the in-sim omni.ui panel or the headset, so an operator can ask 'why is the weld force spiking on this pass?' and get an answer grounded in the live data"
+      - "Optionally let the chatbot suggest/adjust welding parameters that feed back into the sim controller for a closed loop"
+    parameters: []
+    notes: "Cleanest topology: Isaac Sim ⇄ ROS 2 topics ⇄ FastAPI bridge ⇄ this repo's pipeline (src/api/main.py, synthesize.py, param_advisor.py). Keep ROS 2 topic names identical between sim and real hardware so the chatbot code never changes when you go sim-to-real. The welding parameters emitted by the sim (speed, standoff, current, voltage) map directly onto welding_params.yaml."
+
+  sensor_hardware_daq:
+    match: [what sensors, what hardware, which hardware, data acquisition, daq, bill of materials, what kind of sensors, hardware list, hardware do i need, sensors do i need, components, parts list, sampling rate, ethercat, ni cdaq, ptp, time sync, realsense, ouster, ati sensor, robotiq, what to buy]
+    category: hardware
+    summary: "Networked sensors (RealSense, Ouster LiDAR, UR arm, Vision Pro) are acquired in software by ROS 2 drivers; the real DAQ hardware needed is an NI cDAQ for high-rate analog arc current/voltage plus an EtherCAT master for the 6-axis F/T sensor and safety I/O — all PTP time-synchronized."
+    causes: []
+    remedies:
+      - "Manipulator: UR10e (10 kg, 1.3 m, ±0.05 mm) over Ethernet/RTDE at 500 Hz — RTDE already streams joint positions, velocities and TCP force, and ur_robot_driver is mature"
+      - "Vision: Intel RealSense D435i/D455 (RGB+depth+IMU, USB3, ~30-90 fps) at the wrist for seam tracking and standoff"
+      - "Force/torque: ATI Axia80 (EtherCAT, up to 7 kHz) or Robotiq FT-300 (USB, 100 Hz) at the wrist flange — one 6-axis unit gives both forces and torques; per-joint torque also comes free from the UR articulation"
+      - "LiDAR: Ouster OS0-32 or Livox Mid-360 (Ethernet/UDP, 10-20 Hz) on a fixed pillar for cell mapping"
+      - "Arc data: a Fronius TPS / Lincoln Power Wave exposes current/voltage/wire-feed over its digital bus; for high-rate capture add an NI cDAQ (NI-9215 voltage, NI-9227 current) or NI USB-6363 sampling at >=10 kHz to catch transfer dynamics"
+      - "DAQ classes: (A) digital/networked sensors → ROS 2 drivers, no DAQ card; (B) analog arc/thermocouples → NI cDAQ/USB-6363; (C) deterministic control loop → EtherCAT master (TwinCAT or ethercat_driver_ros2) gathering the ATI F/T and safety I/O"
+    parameters: []
+    notes: "Time-sync is non-negotiable across 30 Hz-10 kHz sensors: use PTP (IEEE 1588) on Ethernet devices, ROS 2 message_filters ApproximateTimeSynchronizer to align topics, and a hardware clock for analog channels. Log everything to rosbag2 + Parquet/TDMS, PTP-timestamped. Compute: Threadripper/Ryzen 9, 64 GB, RTX 4090, Ubuntu 22.04 + PREEMPT_RT. Safety (mandatory for a real arc): Category-3 safety relay / safety PLC (Pilz/TwinSAFE) cutting torch + wire feed independently of software, light curtains, fume extraction. Minimum viable build can skip the DAQ entirely (all USB/Ethernet via ROS 2) with arc data simulated."
+
+  robot_kinematics_control:
+    match: [kinematics, inverse kinematics, forward kinematics, ik, ik solver, motion planning, trajectory planning, plan the path, path planning, moveit, move it, cumotion, cu motion, isaac manipulator, rmpflow, lula, collision avoidance, collision, seam tracking, follow the seam, follow the weld, torch angle, travel speed control, standoff, contact tip distance, ctwd, touch sensing, seam finding, force control, force-controlled, how does the arm move, control the robot, joint targets, waypoints]
+    category: integration
+    summary: "Welding motion is a closed control loop: plan the seam path (IK + trajectory), drive the torch along it with a motion controller, and correct in real time from wrist depth (standoff) and the 6-axis force/torque sensor (contact) — all while a collision check guards the arm, fixture, and workpiece."
+    causes: []
+    remedies:
+      - "Path: define seam waypoints on the workpiece (start → end, plus weave if needed), each carrying a target torch pose — work angle, travel angle, and contact-tip-to-work distance (standoff)"
+      - "IK + planning: solve joint targets per waypoint with an IK solver and plan a smooth, collision-free trajectory — options are RMPflow/Lula (built into Isaac), MoveIt 2 over ROS 2, or GPU cuMotion / Isaac Manipulator for fast replanning"
+      - "Execution: stream the trajectory to the articulation controller; hold travel speed constant along the seam (constant speed = constant heat input, the link back to welding_params.yaml)"
+      - "Seam-finding (before arc-on): drive the torch down until the wrist F/T sensor reports contact force, then retract to the standoff — this 'touch sense' locates the real seam and absorbs fit-up error"
+      - "Closed-loop correction (during the pass): wrist RGBD depth holds standoff, the F/T sensor holds push-force into the joint, and seam-tracking error from the depth/RGB image nudges the end-effector target so the torch stays on the seam"
+      - "Collision avoidance: load collision meshes for arm + torch + fixture + plates so the planner refuses self/scene collisions; keep a safety margin around clamps"
+    parameters: [welding_speed, heat_input]
+    notes: "Describe the runtime as a loop so it can be drawn as boxes/arrows: seam waypoint ──▶ IK solver ──▶ joint targets ──▶ articulation controller ──▶ [F/T + wrist depth feedback] ──▶ pose correction ──▶ back to controller. Constant travel speed is what keeps heat input in the standards window — speed control IS process control here. cuMotion/Isaac Manipulator is the GPU path for fast replanning; RMPflow is the simplest in-sim option; MoveIt 2 is the portable ROS 2 option that also drives the real UR arm unchanged. IK reach/singularities near the seam ends are the usual failure point — check reachability of every waypoint before committing the path."
+
+  weld_process_simulation:
+    match: [simulate the weld, simulate welding, weld pool, weld puddle, arc simulation, simulate the arc, molten pool, melt pool, weld physics, welding physics, metallurgy, thermal model, heat simulation, cfd, simulate the torch, torch simulation, fault injection, inject fault, inject a fault, simulate a fault, simulate faults, how do you simulate the weld, weld bead simulation, validate heat input, does isaac simulate welding]
+    category: simulation
+    summary: "Isaac Sim does NOT model arc-welding metallurgy — there is no real molten pool or fusion physics. You represent the weld as a trajectory + contact event, treat current/voltage/wire-feed as scenario variables, validate them against the physics formulas in the optimizer, and inject faults by perturbing those variables and the sensor streams."
+    causes: []
+    remedies:
+      - "Torch + weld: model the torch as rigid geometry on the last link; the 'weld' is the torch following the seam at a set standoff/speed with F/T contact — a kinematic/contact event, not melted metal"
+      - "Visual weld bead (optional): lay down a deposited-bead mesh or a particle/decal trail along the executed path for a believable look — cosmetic only, not physics"
+      - "Process variables as scenario inputs: drive welding_current, arc_voltage, travel_speed, wire_feed as scripted signals on the /weld/params topic; compute heat input HI = (η·60·I·V)/(1000·S) live and check it lands inside the standards window from welding_params.yaml"
+      - "Validation: confirm the simulated I/V/speed reproduce the same heat-input and deposition-rate numbers the param_advisor optimizer outputs — that's how you tie the sim back to the thesis physics"
+      - "Fault injection (the 5 fault types): script perturbations — arc_instability = noisy/oscillating voltage; wire_feed_fault = wire-feed dropout; gas_flow_failure = drop the gas-flow channel; overheating = current up / speed down (heat input out of window high); underheat = the inverse — and add matching sensor noise so the fault detector sees realistic signatures"
+      - "Higher fidelity (future work / out of scope): couple an external thermal or CFD weld-pool model (e.g. a reduced-order heat-conduction model) and feed its temperature field back as a simulated thermal-camera channel"
+    parameters: [welding_current, arc_voltage, welding_speed, heat_input, wire_feed_rate]
+    notes: "Be explicit and honest with the advisor: Isaac Sim is a robotics/sensor simulator, not a welding-metallurgy solver. Its value here is the ROBOT + SENSOR + DATA pipeline, not the arc physics — the arc physics already live in the parameter optimizer's formulas. Fault injection is what generates the labelled multimodal data that trains/exercises the DistilBERT + RandomForest detector, so the sim and the ML pipeline connect exactly at the /weld/params + sensor topics. Flow to draw: scripted I/V/speed ──▶ heat-input formula ──▶ check vs standards window ──▶ publish /weld/params + perturbed sensors ──▶ fault detector."
+
+  sim_to_real_digital_twin:
+    match: [sim to real, sim-to-real, sim2real, reality gap, transfer to real, real hardware, digital twin, is it a digital twin, twin vs simulation, domain randomization, domain randomisation, validate the simulation, validate against real, without real hardware, deploy to the real, real welding cell, real robot, go to real]
+    category: integration
+    summary: "Today this is a SIMULATION (offline, synthetic), not yet a digital twin (a live model mirroring a real cell). The bridge to real hardware is the ROS 2 topic contract: keep topic names/schemas identical, so swapping simulated sensors for real drivers (realsense-ros, ur_robot_driver, real F/T) needs no chatbot-code change. Domain randomization narrows the reality gap."
+    causes: []
+    remedies:
+      - "Name the distinction clearly: Simulation = a designed scene you script and replay; Digital twin = a synchronized virtual replica fed by a REAL cell's live data. You have the first; the second needs real sensors streaming in."
+      - "The swap contract: simulated and real sensors publish the SAME ROS 2 topics (/wrist/rgb, /wrist/depth, /cell/scan, /weld/ft, /weld/params). Replace the Isaac publisher with realsense-ros / ur_robot_driver / the EtherCAT F/T driver and the chatbot pipeline is unchanged"
+      - "Narrow the reality gap: domain randomization (lighting, textures, sensor noise, friction, latency) during sim so models don't overfit clean data; calibrate simulated sensor noise to real datasheet specs"
+      - "Validate without real hardware: cross-check simulated heat-input/deposition against the optimizer's physics formulas and published AWS/ISO windows; replay any available real welding CSVs through the same pipeline; report results as 'physics-validated in simulation, hardware validation is future work'"
+      - "Promote to a true twin later: stream a real cell's PTP-timestamped telemetry onto the same topics so the Isaac scene mirrors live state — then it is a digital twin"
+    parameters: []
+    notes: "Architecture that makes sim-to-real cheap (draw it as two interchangeable sources into one contract): [Isaac Sim publishers] ──┐ and [Real drivers: realsense-ros / UR / F/T] ──┘ both ──▶ identical ROS 2 topics ──▶ FastAPI bridge ──▶ chatbot pipeline. The honest thesis line: the contribution is a hardware-agnostic, sensor-fusion + reasoning pipeline demonstrated in simulation with a clear, low-friction path to real hardware — not a claim of validated real-world welding. Reality gap (sim noise ≠ real noise, no true arc physics) is the headline limitation."
+
+  sim_ui_visualization:
+    match: [ui in isaac, ui direction, user interface, omni.ui, omni ui, viewport, visualize, visualisation, visualization, what does the operator see, operator view, display, dashboard in sim, overlay, hud, show the data, spatial ui, ar overlay, in-sim panel, gui, how to show, interface direction, screen]
+    category: integration
+    summary: "Three coordinated surfaces: the Isaac Sim/Omniverse VIEWPORT (3D scene + robot), an in-sim omni.ui PANEL or the existing Streamlit app for the chatbot Q&A and sensor readouts, and (in teleop) an Apple Vision Pro SPATIAL overlay rendering force/standoff as a HUD since the headset has no haptics."
+    causes: []
+    remedies:
+      - "Viewport (Omniverse): the live 3D cell — arm, torch, workpiece, seam path; add the LiDAR point cloud and camera frusta as debug-draw so the sensors are visible"
+      - "Sensor overlays: render F/T as a color bar (green→amber→red on force spikes), standoff as a number near the tool, and the RGBD/seam-tracking view as a small image inset"
+      - "Chatbot surface: either embed an omni.ui panel docked in the Isaac window (operator asks + reads answers without leaving the sim) OR keep this repo's Streamlit app (app/streamlit_app.py) side-by-side — the Streamlit dark industrial theme, parameter cards and SHAP chart already exist, so reuse them"
+      - "Diagnosis display: when the chatbot flags a fault, highlight the offending sensor channel in the panel and (optionally) tint the weld region in the viewport so the explanation is spatially grounded"
+      - "Vision Pro: present the scene as a spatial view with a floating HUD — live weld parameters, the force color-bar, and the chatbot's last answer pinned in the operator's field of view"
+    parameters: []
+    notes: "Recommended layout to describe (boxes side by side): ┌ Isaac viewport: 3D cell + point cloud + force bar ┐  ┌ Chatbot panel (omni.ui or Streamlit): question, answer, SHAP, params ┐ — linked by the ROS 2 → FastAPI bridge so the panel always reflects live viewport state. omni.ui is the native in-sim toolkit (docked panels, buttons, image providers); reach for it only if the chatbot must live inside the Isaac window, otherwise the existing Streamlit UI is less work. Keep the operator's primary readouts (force, standoff, fault flag) glanceable, not buried in text."
+
+  xai_in_simulation:
+    match: [explainability, explainable, explainable ai, xai, shap, lime, attention, explain the prediction, where does shap, interpretability, why did the model, trust the answer, explain the fault from sim, explain over sim data]
+    category: integration
+    summary: "Explainability is unchanged by the data SOURCE: whether sensor data comes from Isaac Sim or real hardware, it arrives on the same topics, gets fused, classified (RandomForest / DistilBERT), and explained with SHAP (driving channels), LIME (local), and attention (text notes) — the sim just makes it easy to prove the explanation is right because you know the injected ground truth."
+    causes: []
+    remedies:
+      - "Pipeline is data-agnostic: sim sensor topics ──▶ fusion ──▶ detector ──▶ SHAP/LIME/attention ──▶ synthesize.py narration — identical to the CSV pipeline, only the source changed"
+      - "SHAP: shows which fused sensor channels drove the fault call (e.g. arc_voltage variance for arc_instability) — the top-driver check"
+      - "LIME: a local, model-agnostic second opinion on the same prediction"
+      - "Attention: highlights which words in the operator note the DistilBERT detector weighted"
+      - "Sim advantage — ground-truth validation: because YOU injected the fault into a known channel, you can verify SHAP points at that exact channel (the 100% SHAP-alignment metric), which you cannot do on unlabeled real data"
+      - "Confidence: report the same 0.7·anomaly_prob + 0.3·SHAP-agreement score so the operator sees how trustworthy the call is"
+    parameters: []
+    notes: "Flow to draw: [Isaac sim sensors] ──▶ fuse ──▶ detector ──▶ SHAP + LIME + attention ──▶ confidence ──▶ LLM narration. The thesis point: simulation turns explainability from a qualitative claim into a measurable one — injected-channel vs SHAP-attributed-channel gives a fidelity number. This is exactly Objective 2 (all three XAI methods) demonstrated with ground truth."
+
+  thesis_contribution_sim:
+    match: [novel contribution, novelty, what is new, why simulation, why isaac, why use simulation, why not real data, contribution of, research contribution, limitations, future work, defend, defense, viva, what does it prove, justify the simulation, academic contribution, significance, why this matters]
+    category: integration
+    summary: "The novel contribution is a hardware-agnostic, no-RAG, explainable welding-reasoning pipeline (multimodal fusion → detection → SHAP/LIME/attention → physics-grounded parameter optimizer → LLM narration that never invents numbers); Isaac Sim adds a controllable, ground-truth source that lets you generate labelled multimodal data, inject known faults, and MEASURE explanation fidelity — things real shop-floor data can't give cheaply or safely."
+    causes: []
+    remedies:
+      - "Why simulation, not just real data: real welding data is scarce, unlabeled, expensive, and hazardous to perturb; the sim gives unlimited labelled multimodal data with KNOWN injected faults, enabling the 100% SHAP-alignment fidelity metric and safe fault scenarios"
+      - "What the sim proves that CSVs didn't: an end-to-end robot+sensor+reasoning loop (seam tracking, F/T contact, live telemetry → chatbot) and a clean sim-to-real swap path via the ROS 2 topic contract"
+      - "Core contributions to state: (1) trustworthy, hallucination-free welding advice — every number from physics/ML, LLM phrases only; (2) all three XAI methods with a measurable fidelity number; (3) no-RAG deterministic knowledge grounding; (4) modular pipeline that runs on sim OR real hardware unchanged"
+      - "Limitations (state them proactively): Isaac doesn't model arc metallurgy (no real weld pool); ROC-AUC ~1.0 is optimistic on cleanly-separable injected faults; no expert/operator validation study yet; CloudXR/Vision Pro teleop is the fragile, least-proven piece"
+      - "Future work: real-hardware validation (true digital twin), expert validation of prescriptive setpoints, comprehensibility survey of the XAI, cross-attention transformer fusion, and a coupled thermal/CFD weld-pool model"
+    parameters: []
+    notes: "Frame it as a positioning chain: real data = scarce/unlabeled/unsafe ──▶ simulation = labelled/controllable/ground-truth ──▶ enables measurable XAI + safe fault injection + sim-to-real path ──▶ contribution = trustworthy explainable welding assistant, demonstrated in sim, ready for hardware. Be honest that the welding metallurgy is NOT simulated and hardware validation is future work — owning the limitations is what makes the contribution defensible. See the gap analysis: Objective 2 (3 XAI methods) and the parameter optimizer are the fully-met core; transformer fusion and live data are the named future work."

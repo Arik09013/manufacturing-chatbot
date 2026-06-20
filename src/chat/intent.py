@@ -30,7 +30,16 @@ MANUFACTURING_KEYWORDS: frozenset[str] = frozenset({
     "shielding gas", "gas flow", "gas cylinder", "solenoid",
     "heat input", "penetration", "fusion", "burn-through", "porosity",
     "spatter", "undercut", "distortion", "bead", "weld bead",
-    "mig", "mag", "tig", "gmaw", "gtaw", "fcaw",
+    # ── Defects / troubleshooting / quality vocabulary ──
+    "crack", "cracking", "cracked", "warping", "warp", "warped", "buckling",
+    "lack of fusion", "incomplete fusion", "lack of penetration",
+    "discoloration", "discolouration", "heat tint", "sugaring",
+    "tensile", "tensile strength", "weld strength", "weld quality",
+    "consumable", "consumables", "rework", "spray transfer", "spray", "pulse",
+    "pulsed", "transfer mode", "shielding gas", "gas mix", "gas consumption",
+    "cost", "productivity", "deposition rate", "duty cycle", "filler",
+    "mig", "mag", "tig", "smaw", "gmaw", "gtaw", "fcaw", "mma",
+    "stick welding", "stick electrode", "manual metal arc",
     "deposition", "deposition rate",
     "welding speed", "travel speed", "welding current",
     "mild steel", "stainless", "aluminum", "aluminium",
@@ -49,13 +58,76 @@ MANUFACTURING_KEYWORDS: frozenset[str] = frozenset({
     "production", "manufacturing", "factory", "plant",
     "maintenance", "downtime", "startup", "shutdown",
     "operator", "shift", "batch", "setpoint", "throughput",
+    # ── General manufacturing processes (non-welding) — answered by the
+    #    general-manufacturing LLM advisor, not the welding pipeline ──
+    "machining", "cnc", "milling", "mill", "lathe", "turning", "drilling",
+    "boring", "grinding", "spindle speed", "feed rate", "cutting speed",
+    "end mill", "tooling", "tool wear", "chatter", "swarf", "coolant",
+    "injection molding", "injection moulding", "molding", "moulding",
+    "mold", "mould", "sink mark", "sink marks", "short shot", "flash",
+    "warpage", "shrinkage", "gate", "runner", "sprue", "clamp tonnage",
+    "thermoplastic", "abs", "polypropylene", "polymer", "resin", "plastic",
+    "casting", "die casting", "sand casting", "investment casting",
+    "forging", "extrusion", "extrude", "rolling", "drawing",
+    "sheet metal", "stamping", "press brake", "bending", "springback",
+    "blanking", "punching", "deep drawing", "tonnage",
+    "additive", "additive manufacturing", "3d print", "3d printing",
+    "3d printed", "fdm", "fff", "sla", "sls", "dmls", "slicing", "infill",
+    "machine tool", "fixture", "jig", "workholding", "clamp",
+    "heat treatment", "annealing", "quenching", "tempering", "hardening",
+    "case hardening", "carburizing", "normalizing",
+    "surface finish", "roughness", "ra", "plating", "anodizing", "coating",
+    "deburring", "polishing", "honing",
+    "tolerance", "tolerances", "gd&t", "gdt", "metrology", "cmm",
+    "inspection", "spc", "process capability", "cpk", "ppk",
+    "six sigma", "lean", "kaizen", "5s", "kanban", "poka yoke",
+    "oee", "overall equipment effectiveness", "takt", "takt time",
+    "cycle time", "lead time", "bottleneck", "scrap", "yield",
+    "assembly", "assembly line", "bom", "bill of materials",
+    "cad", "cam", "cnc program", "g-code", "gcode",
+    "material", "alloy", "carbon steel", "titanium", "copper", "brass",
+    "composite", "ceramic", "tooling cost", "machining cost",
     # ── Parameter queries ──
     "best setting", "optimal setting", "recommend setting",
     "best speed", "best current", "best parameter", "optimal parameter",
     "what speed", "what current", "what voltage", "how fast",
     "efficiency",
+    # parameter / consumable vocabulary (so "what's the parameter if I use a
+    # 1.5 wire diameter instead of 1.2" is recognised as in-scope)
+    "parameter", "parameters", "setting", "settings",
+    "wire diameter", "wire dia", "wire size", "electrode diameter",
+    "tungsten", "tungsten diameter", "filler", "filler wire", "diameter",
     # ── Pipeline concepts ──
     "root cause", "root-cause", "recommendation",
+    # ── Simulation & robotics integration (Isaac Sim domain) ──
+    "isaac sim", "isaac", "isaac lab", "omniverse", "nvidia isaac",
+    "simulation", "simulate", "simulated", "simulator", "digital twin",
+    "manipulator", "end effector", "end-effector", "articulation",
+    "urdf", "usd", "rmpflow", "motion controller", "trajectory",
+    "depth camera", "rgbd", "rgb-d", "rgb camera", "camera", "point cloud",
+    "lidar", "lidar sensor", "force sensor", "torque sensor",
+    "force torque", "force/torque", "f/t sensor", "6-axis", "wrist sensor",
+    "teleop", "teleoperation", "tele-operation", "vision pro", "apple vision pro",
+    "cloudxr", "cloud xr", "headset", "hand tracking", "retarget", "retargeting",
+    "ros", "ros2", "ros 2", "omnigraph", "action graph", "topic", "bridge",
+    "daq", "data acquisition", "ethercat", "ni cdaq", "ptp", "time sync",
+    "realsense", "ouster", "ati", "robotiq", "wrist camera", "seam tracking",
+    "scene", "workpiece", "fixture", "weld cell", "welding cell", "gr00t",
+    # ── Kinematics / control / planning ──
+    "kinematics", "inverse kinematics", "forward kinematics", "ik solver",
+    "motion planning", "trajectory planning", "path planning", "moveit",
+    "cumotion", "isaac manipulator", "lula", "collision avoidance",
+    "standoff", "touch sensing", "seam finding", "force control",
+    "waypoint", "waypoints",
+    # ── Sim realism / faults / sim-to-real ──
+    "weld pool", "weld puddle", "melt pool", "fault injection",
+    "sim to real", "sim-to-real", "sim2real", "reality gap",
+    "domain randomization", "domain randomisation",
+    # ── In-sim UI / visualization ──
+    "omni.ui", "viewport", "spatial ui", "overlay", "point cloud overlay",
+    # ── Explainability / thesis framing (integration context) ──
+    "explainability", "interpretability", "novel contribution", "novelty",
+    "research contribution", "future work", "reality",
 })
 
 # Regex patterns that strongly signal manufacturing context even if the exact
@@ -73,15 +145,15 @@ _PATTERNS: list[re.Pattern] = [
 ]
 
 OUT_OF_SCOPE_MESSAGE = (
-    "I'm a welding operations AI assistant. I can only answer questions about "
-    "welding anomalies, parameter optimisation, equipment faults, sensor readings, "
-    "and root-cause analysis.\n\n"
+    "I'm a manufacturing AI assistant. I answer questions about manufacturing and "
+    "industrial engineering — welding (my deepest specialism), plus machining, molding, "
+    "casting, forming, additive manufacturing, quality, maintenance, and operations.\n\n"
     "Examples of supported questions:\n"
     "  • Why did station_1 stop welding at 14:00?\n"
-    "  • What caused the arc instability alarm on station_2?\n"
     "  • Best settings for 5mm mild steel?\n"
-    "  • What is the optimal welding speed for 3mm aluminum?\n"
-    "  • Is station_3 running within normal parameters?"
+    "  • What spindle speed and feed for CNC milling 6061 aluminium?\n"
+    "  • How do I reduce sink marks in injection-moulded ABS parts?\n"
+    "  • How do I calculate OEE for my production line?"
 )
 
 

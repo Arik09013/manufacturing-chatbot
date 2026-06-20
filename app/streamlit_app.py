@@ -11,6 +11,15 @@ import streamlit as st
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
+from src.api.pipeline import (
+    run_pipeline,
+    run_param_pipeline,
+    run_knowledge_pipeline,
+    route_question,
+)
+from src.chat.synthesize import synthesize, _fallback_text
+from src.chat.intent import OutOfScopeError
+
 st.set_page_config(
     page_title="ManufactAI — Anomaly Intelligence",
     page_icon="⚙",
@@ -488,88 +497,191 @@ def _render_details(payload: dict) -> None:
         else:
             st.caption("No SHAP data available.")
 
+    # ── LIME chart (independent local surrogate) ──
+    lime_drivers = payload.get("lime_drivers", [])
+    if lime_drivers:
+        with st.expander("LIME Local Explanation (cross-check)", expanded=False):
+            st.caption("Independent local surrogate model — a second XAI view to cross-check SHAP.")
+            import pandas as pd
+            df = pd.DataFrame(lime_drivers)[["condition", "weight", "direction"]].copy()
+            df.columns = ["Feature condition", "Weight", "Direction"]
+            df["Weight"] = df["Weight"].map(lambda x: f"{x:+.4f}")
+            df["Direction"] = df["Direction"].str.replace("_", " ")
+            st.dataframe(df, hide_index=True, use_container_width=True,
+                         height=min(240, 38 + len(df) * 35))
+
+    # ── Attention visualization (operator-note transformer) ──
+    note_attention = payload.get("note_attention")
+    if note_attention and note_attention.get("tokens"):
+        with st.expander("Operator-Note Attention (DistilBERT)", expanded=is_anomaly):
+            st.caption("Transformer self-attention over the operator note — brighter = more focus.")
+            spans = []
+            for t in note_attention["tokens"]:
+                w = t["weight"]
+                # cyan background, opacity ∝ attention weight
+                spans.append(
+                    f"<span style='background:rgba(0,210,255,{0.12 + 0.78 * w:.2f});"
+                    f"padding:2px 6px;margin:2px;border-radius:5px;display:inline-block;"
+                    f"color:#e6edf3;font-family:JetBrains Mono,monospace;font-size:0.85rem;'>"
+                    f"{t['token']}</span>"
+                )
+            st.markdown(
+                f"<div style='line-height:2.1;'>{''.join(spans)}</div>",
+                unsafe_allow_html=True,
+            )
+            st.caption("Most-attended words: " + ", ".join(note_attention.get("top_tokens", [])))
+
     # ── Raw payload ──
     with st.expander("Raw Pipeline Payload"):
-        st.json({k: v for k, v in payload.items() if k != "raw_shap"})
+        st.json({k: v for k, v in payload.items()
+                 if k not in ("raw_shap", "note_attention")})
+
+
+def _na(value, suffix="") -> str:
+    return "N/A" if value is None else f"{value}{suffix}"
+
+
+def _range_text(rng) -> str:
+    return "N/A" if rng is None else f"{rng[0]}–{rng[1]}"
 
 
 def _render_param_advice(rec: dict) -> None:
     """Render a parameter recommendation card."""
     if "error" in rec:
         st.warning(rec["error"])
+        if rec.get("supported_processes"):
+            st.caption(f"Supported processes for {rec.get('material_display', rec.get('material',''))}: "
+                       + ", ".join(rec["supported_processes"]))
         return
 
-    mat   = rec.get("material_display", rec.get("material", ""))
-    thick = rec.get("thickness_mm", "?")
-    band  = rec.get("band", "")
-    eff   = rec.get("efficiency_score", 0)
-    dep   = rec.get("deposition_rate_g_per_min", 0)
-    p     = rec.get("params", {})
-    note  = rec.get("notes", "")
+    mat    = rec.get("material_display", rec.get("material", ""))
+    thick  = rec.get("thickness_mm", "?")
+    band   = rec.get("band", "")
+    proc   = rec.get("process_display", rec.get("process", ""))
+    eff    = rec.get("efficiency_score", 0)
+    note   = rec.get("notes", "")
+    ranges = rec.get("ranges", {})
+    opt    = rec.get("optimized", {})
+    metrics = rec.get("computed_metrics", {})
+    dep    = metrics.get("deposition_rate_g_per_min")
+    hi_val = metrics.get("heat_input_kj_per_mm")
+    hi_rng = metrics.get("heat_input_range", [0, 0])
 
     eff_color = "#2ed573" if eff >= 8 else ("#ffa502" if eff >= 6 else "#ff4757")
     eff_bar   = int(eff / 10 * 100)
+
+    consumable_field = rec.get("consumable_field")
+    consumable_label = {
+        "wire_diameter": "Wire Diameter", "tungsten_diameter": "Tungsten Diameter",
+        "electrode_diameter": "Electrode Diameter",
+    }.get(consumable_field, "Consumable")
+    consumable_value = rec.get(consumable_field) if consumable_field else None
+    consumable_extra = f" ({rec['electrode_type']})" if consumable_field == "electrode_diameter" and rec.get("electrode_type") else ""
+
+    # Carried conversation context: what this follow-up inherited from earlier turns.
+    carried = rec.get("carried", [])
+    if carried:
+        st.markdown(
+            f"<div style='margin-bottom:0.5rem;font-size:0.66rem;color:#8b949e;'>"
+            f"<span style='color:#00d2ff;font-weight:600;'>↩ Continuing from earlier:</span> "
+            f"{', '.join(carried)}</div>",
+            unsafe_allow_html=True,
+        )
+
+    # Operator-pinned parameters: announce that the rest were recomputed around them.
+    user_fixed = rec.get("user_fixed", [])
+    if user_fixed:
+        fixed_chips = " ".join(
+            f"<span style='font-size:0.62rem;font-weight:700;letter-spacing:1px;"
+            f"color:#0d1117;background:#ffd166;padding:2px 8px;border-radius:4px;"
+            f"margin-right:6px;'>{f['label']}: {f.get('display_value', f['value'])} {f['unit']} (FIXED)</span>"
+            for f in user_fixed
+        )
+        defaulted = rec.get("defaulted", {})
+        assumed = []
+        if defaulted.get("material"):
+            assumed.append(f"material → {mat}")
+        if defaulted.get("thickness"):
+            assumed.append(f"thickness → {thick} mm")
+        assumed_note = (
+            f"<div style='font-size:0.62rem;color:#8b949e;margin-top:4px;'>assumed: "
+            f"{', '.join(assumed)}</div>" if assumed else ""
+        )
+        st.markdown(
+            f"<div style='margin-bottom:0.6rem;padding:0.55rem 0.7rem;background:#0d1117;"
+            f"border:1px solid #30363d;border-left:3px solid #ffd166;border-radius:7px;'>"
+            f"<div style='font-size:0.66rem;color:#ffd166;font-weight:700;letter-spacing:1px;"
+            f"text-transform:uppercase;margin-bottom:5px;'>You fixed these — other values recomputed around them</div>"
+            f"{fixed_chips}{assumed_note}</div>",
+            unsafe_allow_html=True,
+        )
+    for w in rec.get("override_warnings", []):
+        st.caption(f"⚠ {w}")
 
     st.markdown(f"""
     <div class="diag-card normal">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.7rem;">
         <span style="font-size:0.7rem;font-weight:700;letter-spacing:2px;
                      text-transform:uppercase;color:#00d2ff;">PARAMETER RECOMMENDATION</span>
-        <span style="font-size:0.7rem;color:#8b949e;">{mat} · {thick} mm · {band}</span>
+        <span style="font-size:0.7rem;color:#8b949e;">{proc} · {mat} · {thick} mm · {band}</span>
       </div>
 
       <div class="stat-grid">
         <div class="stat-box">
           <div class="stat-label">Current (A)</div>
-          <div class="stat-value" style="color:#00d2ff;">
-            {p.get('welding_current',['?','?'])[0]}–{p.get('welding_current',['?','?'])[1]}
-          </div>
-          <div style="font-size:0.62rem;color:#8b949e;">optimal: {rec.get('optimal_current','?')} A</div>
+          <div class="stat-value" style="color:#00d2ff;">{_range_text(ranges.get('welding_current'))}</div>
+          <div style="font-size:0.62rem;color:#8b949e;">optimized: {_na(opt.get('welding_current'), ' A')}</div>
         </div>
         <div class="stat-box">
           <div class="stat-label">Voltage (V)</div>
-          <div class="stat-value" style="color:#00d2ff;">
-            {p.get('arc_voltage',['?','?'])[0]}–{p.get('arc_voltage',['?','?'])[1]}
-          </div>
-          <div style="font-size:0.62rem;color:#8b949e;">optimal: {rec.get('optimal_voltage','?')} V</div>
+          <div class="stat-value" style="color:#00d2ff;">{_range_text(ranges.get('arc_voltage'))}</div>
+          <div style="font-size:0.62rem;color:#8b949e;">optimized: {_na(opt.get('arc_voltage'), ' V')}</div>
         </div>
         <div class="stat-box">
           <div class="stat-label">Speed (mm/min)</div>
-          <div class="stat-value" style="color:#00d2ff;">
-            {p.get('welding_speed',['?','?'])[0]}–{p.get('welding_speed',['?','?'])[1]}
-          </div>
-          <div style="font-size:0.62rem;color:#8b949e;">optimal: {rec.get('optimal_speed','?')}</div>
+          <div class="stat-value" style="color:#00d2ff;">{_range_text(ranges.get('welding_speed'))}</div>
+          <div style="font-size:0.62rem;color:#8b949e;">optimized: {_na(opt.get('welding_speed'))}</div>
         </div>
         <div class="stat-box">
           <div class="stat-label">Wire Feed (m/min)</div>
-          <div class="stat-value" style="color:#00d2ff;">
-            {p.get('wire_feed_rate',['?','?'])[0]}–{p.get('wire_feed_rate',['?','?'])[1]}
-          </div>
-          <div style="font-size:0.62rem;color:#8b949e;">optimal: {rec.get('optimal_wfr','?')}</div>
+          <div class="stat-value" style="color:#00d2ff;">{_range_text(ranges.get('wire_feed_rate'))}</div>
+          <div style="font-size:0.62rem;color:#8b949e;">optimized: {_na(opt.get('wire_feed_rate'))}</div>
         </div>
       </div>
 
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.8rem;margin:0.7rem 0;">
         <div class="stat-box">
           <div class="stat-label">Gas Flow (L/min)</div>
-          <div class="stat-value" style="color:#00d2ff;">
-            {p.get('shielding_gas_flow',['?','?'])[0]}–{p.get('shielding_gas_flow',['?','?'])[1]}
-          </div>
+          <div class="stat-value" style="color:#00d2ff;">{_range_text(ranges.get('shielding_gas_flow'))}</div>
         </div>
         <div class="stat-box">
           <div class="stat-label">Gas Mix</div>
-          <div class="stat-value" style="font-size:0.75rem;color:#c9d1d9;">{p.get('gas_mix','—')}</div>
+          <div class="stat-value" style="font-size:0.75rem;color:#c9d1d9;">{rec.get('gas_mix') or '—'}</div>
         </div>
       </div>
 
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.8rem;margin-bottom:0.9rem;">
         <div class="stat-box">
-          <div class="stat-label">Wire Diameter</div>
-          <div class="stat-value" style="color:#00d2ff;">{p.get('wire_diameter','1.2')} mm</div>
+          <div class="stat-label">{consumable_label}</div>
+          <div class="stat-value" style="color:#00d2ff;">{_na(consumable_value, ' mm')}{consumable_extra}</div>
         </div>
         <div class="stat-box">
           <div class="stat-label">Deposition Rate</div>
-          <div class="stat-value" style="color:#2ed573;">~{dep} g/min</div>
+          <div class="stat-value" style="color:#2ed573;">{'~' + str(dep) + ' g/min' if dep is not None else 'N/A for this process'}</div>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.8rem;margin-bottom:0.9rem;">
+        <div class="stat-box">
+          <div class="stat-label">Computed Heat Input</div>
+          <div class="stat-value" style="color:#00d2ff;">{hi_val} kJ/mm</div>
+          <div style="font-size:0.62rem;color:#8b949e;">standards window: {_range_text(hi_rng)} kJ/mm</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-label">Arc / Deposition Efficiency</div>
+          <div class="stat-value" style="font-size:0.85rem;color:#c9d1d9;">
+            {rec.get('arc_efficiency','?')} / {rec.get('deposition_efficiency','?')}
+          </div>
         </div>
       </div>
 
@@ -592,9 +704,105 @@ def _render_param_advice(rec: dict) -> None:
     </div>
     """, unsafe_allow_html=True)
 
-    # Heat input range
-    hi = p.get("heat_input_range", [0, 0])
-    st.caption(f"Heat input range: {hi[0]}–{hi[1]} kJ/mm")
+    _render_sensitivity(rec.get("sensitivity", []))
+
+
+def _render_rag_sources(passages: list) -> None:
+    """Render the RAG-retrieved passages that grounded the answer, with citations."""
+    chips = " ".join(
+        f"<span style='font-size:0.6rem;font-weight:600;letter-spacing:1px;"
+        f"text-transform:uppercase;color:#00d2ff;background:#0d1117;border:1px solid #30363d;"
+        f"padding:2px 7px;border-radius:4px;margin-right:6px;'>"
+        f"[{p.get('cite','S?')}] {p.get('source','')}</span>"
+        for p in passages
+    )
+    st.markdown(
+        f"<div style='margin-bottom:0.6rem;'>Retrieved via RAG (semantic + keyword): {chips}</div>",
+        unsafe_allow_html=True,
+    )
+    with st.expander("Retrieved sources — what the answer is grounded in"):
+        for p in passages:
+            st.markdown(
+                f"**[{p.get('cite','S?')}] {p.get('title','')}** "
+                f"&nbsp;·&nbsp; `{p.get('source','')}` &nbsp;·&nbsp; "
+                f"score {p.get('score',0):.2f} "
+                f"(semantic {p.get('semantic_score',0):.2f}, keyword {p.get('lexical_score',0):.2f})"
+            )
+            st.caption(p.get("text", ""))
+            st.markdown("---")
+
+
+def _render_knowledge(payload: dict) -> None:
+    """Render the grounded knowledge behind a welding-advice answer."""
+    passages = payload.get("rag_passages", [])
+    topics = payload.get("matched_topics", [])
+
+    if passages:
+        _render_rag_sources(passages)
+
+    if not topics:
+        if not passages:
+            st.caption("No curated entry or retrieved passage matched — answered from general welding best-practice (advisory).")
+        return
+
+    chips = " ".join(
+        f"<span style='font-size:0.6rem;font-weight:600;letter-spacing:1px;"
+        f"text-transform:uppercase;color:#00d2ff;background:#0d1117;border:1px solid #30363d;"
+        f"padding:2px 7px;border-radius:4px;margin-right:6px;'>"
+        f"{t['topic'].replace('_',' ')} · {t.get('category','').replace('_',' ')}</span>"
+        for t in topics
+    )
+    st.markdown(
+        f"<div style='margin-bottom:0.6rem;'>Grounded in knowledge base: {chips}</div>",
+        unsafe_allow_html=True,
+    )
+
+    with st.expander("Reference detail — causes & corrective actions"):
+        for t in topics:
+            st.markdown(f"**{t['topic'].replace('_', ' ').title()}** — {t.get('summary','')}")
+            if t.get("causes"):
+                st.markdown("_Likely causes:_")
+                for c in t["causes"]:
+                    st.markdown(f"- {c}")
+            if t.get("remedies"):
+                st.markdown("_Corrective actions:_")
+                for r in t["remedies"]:
+                    st.markdown(f"- {r}")
+            if t.get("notes"):
+                st.caption(t["notes"])
+            st.markdown("---")
+
+
+def _render_sensitivity(sensitivity: list) -> None:
+    """Render the deterministic 'explain why' sensitivity table in an expander."""
+    if not sensitivity:
+        return
+    with st.expander("Why these settings? — sensitivity analysis"):
+        for row in sensitivity:
+            name = row["parameter"].replace("_", " ").title()
+            base = row["base_value"]
+            up, down = row["up"], row["down"]
+
+            def _fx(effects):
+                if not effects:
+                    return "—"
+                return " · ".join(f"{e['effect'].replace('_',' ')}: {e['change']}" for e in effects)
+
+            st.markdown(f"**{name}** — current optimum: `{base}` (step {row['step']})")
+            st.markdown(
+                f"<div style='font-size:0.8rem;color:#c9d1d9;line-height:1.6;margin-bottom:0.6rem;'>"
+                f"&#8593; raise to <code>{up['value']}</code> &rarr; heat input "
+                f"<code>{up['heat_input']}</code> kJ/mm ({up['heat_input_change']})"
+                f"{', dep. rate ' + str(up['deposition_rate']) + ' g/min' if up['deposition_rate'] is not None else ''}"
+                f"<br>&nbsp;&nbsp;&nbsp;effects: {_fx(row['effects']['increase'])}"
+                f"<br>&nbsp;&nbsp;&nbsp;via heat input: {_fx(up['heat_input_effects'])}"
+                f"<br>&#8595; lower to <code>{down['value']}</code> &rarr; heat input "
+                f"<code>{down['heat_input']}</code> kJ/mm ({down['heat_input_change']})"
+                f"{', dep. rate ' + str(down['deposition_rate']) + ' g/min' if down['deposition_rate'] is not None else ''}"
+                f"<br>&nbsp;&nbsp;&nbsp;effects: {_fx(row['effects']['decrease'])}"
+                f"<br>&nbsp;&nbsp;&nbsp;via heat input: {_fx(down['heat_input_effects'])}"
+                f"</div>", unsafe_allow_html=True,
+            )
 
 
 # ── Sidebar ───────────────────────────────────────────────────────────────────
@@ -671,13 +879,23 @@ st.markdown("""
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
+# Conversation memory for follow-up parameter queries: the resolved material /
+# thickness / process / pinned-parameter state from the last param turn, so a
+# follow-up ("now stay in 1.5 diameter and more than 21 voltage") inherits what it
+# doesn't restate instead of silently falling back to defaults.
+if "param_context" not in st.session_state:
+    st.session_state.param_context = None
+
 for msg in st.session_state.messages:
     with st.chat_message(msg["role"]):
         st.markdown(msg["content"])
         if msg.get("payload"):
             p = msg["payload"]
-            if p.get("pipeline_type") == "parameter_advice":
+            ptype = p.get("pipeline_type")
+            if ptype == "parameter_advice":
                 _render_param_advice(p)
+            elif ptype == "knowledge_advice":
+                _render_knowledge(p)
             else:
                 _render_details(p)
 
@@ -691,46 +909,39 @@ if prompt := st.chat_input("Ask about a weld fault or request parameter recommen
     with st.chat_message("assistant"):
         with st.spinner("Running diagnostic pipeline…"):
             try:
-                from src.api.pipeline import run_pipeline, run_param_pipeline
-                from src.chat.synthesize import synthesize, _fallback_text
-                from src.chat.intent import OutOfScopeError
-                from src.reasoning.param_advisor import parse_param_query
-
                 machine_id = None if selected_machine == "auto-detect" else selected_machine
                 query_time = None
                 if query_time_str.strip():
                     from datetime import datetime
                     query_time = datetime.fromisoformat(query_time_str.strip())
 
-                # Route: parameter query or anomaly query?
-                if parse_param_query(prompt) is not None:
-                    payload = run_param_pipeline(prompt)
-                    rec = payload
-                    mat   = rec.get("material_display", rec.get("material", "material"))
-                    thick = rec.get("thickness_mm", "?")
-                    eff   = rec.get("efficiency_score", "?")
-                    answer = (
-                        f"Here are the recommended MIG/MAG parameters for "
-                        f"**{mat} ({thick} mm)**. "
-                        f"Efficiency score: **{eff}/10**. "
-                        f"Optimal speed: **{rec.get('optimal_speed','?')} mm/min**, "
-                        f"current: **{rec.get('optimal_current','?')} A**, "
-                        f"voltage: **{rec.get('optimal_voltage','?')} V**."
+                # Route: parameter optimisation, station diagnostic, or knowledge advice?
+                route = route_question(prompt)
+                if route == "param":
+                    payload = run_param_pipeline(
+                        prompt, context=st.session_state.param_context
                     )
-                    st.markdown(answer)
-                    _render_param_advice(payload)
+                    # Persist the resolved param state for the next follow-up turn.
+                    if payload.get("param_context"):
+                        st.session_state.param_context = payload["param_context"]
+                    render = _render_param_advice
+                elif route == "knowledge":
+                    payload = run_knowledge_pipeline(prompt)
+                    render = _render_knowledge
                 else:
                     payload = run_pipeline(
                         question=prompt,
                         machine_id=machine_id,
                         query_time=query_time,
                     )
-                    try:
-                        answer = synthesize(payload)
-                    except Exception:
-                        answer = _fallback_text(payload)
-                    st.markdown(answer)
-                    _render_details(payload)
+                    render = _render_details
+
+                try:
+                    answer = synthesize(payload)
+                except Exception:
+                    answer = _fallback_text(payload)
+                st.markdown(answer)
+                render(payload)
 
                 st.session_state.messages.append({
                     "role": "assistant",

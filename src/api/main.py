@@ -34,6 +34,11 @@ class ChatRequest(BaseModel):
     question: str
     machine_id: str | None = None
     query_time: str | None = None   # ISO 8601 string
+    # Conversation memory for follow-up parameter queries. The client echoes back
+    # the `param_context` from the previous response so a follow-up ("now stay in
+    # 1.5 diameter and more than 21 voltage") inherits the earlier material/
+    # thickness and accumulated pinned parameters. Stateless on the server.
+    param_context: dict | None = None
 
 
 class ChatResponse(BaseModel):
@@ -43,6 +48,29 @@ class ChatResponse(BaseModel):
 
 class PipelineResponse(BaseModel):
     payload: dict
+
+
+# ── Routing helper ────────────────────────────────────────────────────────────
+
+def _route_and_run(question: str, machine_id: str | None, query_time,
+                   param_context: dict | None = None):
+    """Route a question to the param / knowledge / anomaly pipeline and run it."""
+    from src.api.pipeline import (
+        route_question,
+        run_pipeline,
+        run_param_pipeline,
+        run_knowledge_pipeline,
+        run_general_pipeline,
+    )
+
+    route = route_question(question)
+    if route == "param":
+        return run_param_pipeline(question, context=param_context)
+    if route == "knowledge":
+        return run_knowledge_pipeline(question)
+    if route == "general":
+        return run_general_pipeline(question)
+    return run_pipeline(question=question, machine_id=machine_id, query_time=query_time)
 
 
 # ── Endpoints ─────────────────────────────────────────────────────────────────
@@ -57,7 +85,6 @@ def chat(req: ChatRequest):
     """
     Run the full pipeline and return a plain-language LLM answer + raw payload.
     """
-    from src.api.pipeline import run_pipeline
     from src.chat.synthesize import synthesize
 
     from src.chat.intent import OutOfScopeError
@@ -68,11 +95,8 @@ def chat(req: ChatRequest):
             from datetime import datetime
             query_time = datetime.fromisoformat(req.query_time)
 
-        payload = run_pipeline(
-            question=req.question,
-            machine_id=req.machine_id,
-            query_time=query_time,
-        )
+        payload = _route_and_run(req.question, req.machine_id, query_time,
+                                 param_context=req.param_context)
         answer = synthesize(payload)
         return ChatResponse(answer=answer, payload=payload)
 
@@ -94,8 +118,6 @@ def chat(req: ChatRequest):
 @app.post("/pipeline/raw", response_model=PipelineResponse)
 def pipeline_raw(req: ChatRequest):
     """Return structured pipeline output without LLM synthesis."""
-    from src.api.pipeline import run_pipeline
-
     from src.chat.intent import OutOfScopeError
 
     try:
@@ -104,11 +126,8 @@ def pipeline_raw(req: ChatRequest):
             from datetime import datetime
             query_time = datetime.fromisoformat(req.query_time)
 
-        payload = run_pipeline(
-            question=req.question,
-            machine_id=req.machine_id,
-            query_time=query_time,
-        )
+        payload = _route_and_run(req.question, req.machine_id, query_time,
+                                 param_context=req.param_context)
         return PipelineResponse(payload=payload)
 
     except OutOfScopeError as exc:

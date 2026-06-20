@@ -128,8 +128,8 @@ def test_out_of_scope_error_message():
     result = classify_intent("Who won the World Cup?")
     exc = OutOfScopeError("Who won the World Cup?", result)
     msg = str(exc)
-    assert "manufacturing" in msg.lower()
-    assert "machine" in msg.lower()
+    assert "welding" in msg.lower()
+    assert "settings" in msg.lower()
 
 
 def test_pipeline_raises_out_of_scope():

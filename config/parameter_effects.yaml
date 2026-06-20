@@ -1,0 +1,69 @@
+# Qualitative effect labels for the parameter-advisor sensitivity analysis.
+#
+# For each weld parameter (and the derived heat_input metric), this maps the
+# direction of a small nudge (increase / decrease) to its known physical
+# consequences. The advisor attaches these labels to *computed* deltas — it
+# never invents a number, only narrates what a Python-computed change implies.
+#
+# IMPORTANT — physical correctness constraint:
+#   Consumable / tip / tungsten / electrode wear is driven by thermal load,
+#   which tracks CURRENT and HEAT INPUT — not travel speed. Do not attach wear
+#   effects to welding_speed; that would misattribute the cause.
+
+welding_current:
+  increase:
+    - {effect: penetration,        change: "deeper"}
+    - {effect: heat_input,         change: "higher"}
+    - {effect: spatter,            change: "may increase if pushed past the spray-transfer threshold"}
+    - {effect: consumable_wear,    change: "higher — increased thermal load erodes contact tip / electrode / tungsten faster"}
+  decrease:
+    - {effect: penetration,        change: "shallower"}
+    - {effect: heat_input,         change: "lower"}
+    - {effect: lack_of_fusion_risk, change: "higher — arc may not fully melt the joint faces"}
+    - {effect: consumable_wear,    change: "lower — reduced thermal load on contact tip / electrode / tungsten"}
+
+arc_voltage:
+  increase:
+    - {effect: bead_geometry,      change: "wider, flatter bead"}
+    - {effect: spatter,            change: "may increase — longer arc length is less stable"}
+    - {effect: penetration,        change: "slightly reduced — arc energy spreads over a wider area"}
+  decrease:
+    - {effect: bead_geometry,      change: "narrower, more convex bead"}
+    - {effect: arc_stability,      change: "may degrade — short arc risks stubbing / wire sticking"}
+    - {effect: penetration,        change: "slightly more concentrated"}
+
+welding_speed:
+  increase:
+    - {effect: heat_input,         change: "lower (less energy delivered per mm of weld)"}
+    - {effect: lack_of_fusion_risk, change: "higher — less time for the joint to fully fuse"}
+    - {effect: throughput,         change: "higher — more weld length per minute"}
+    - {effect: distortion,         change: "lower — less heat accumulates in the part"}
+  decrease:
+    - {effect: heat_input,         change: "higher (more energy delivered per mm of weld)"}
+    - {effect: burn_through_risk,  change: "higher — especially on thin sections"}
+    - {effect: distortion,         change: "higher — more heat accumulates in the part"}
+    - {effect: throughput,         change: "lower — less weld length per minute"}
+
+wire_feed_rate:
+  increase:
+    - {effect: deposition_rate,    change: "higher — more wire volume delivered per minute"}
+    - {effect: welding_current,    change: "tends to rise — wire feed and current are coupled in constant-voltage GMAW"}
+    - {effect: throughput,         change: "higher"}
+  decrease:
+    - {effect: deposition_rate,    change: "lower — less wire volume delivered per minute"}
+    - {effect: welding_current,    change: "tends to fall"}
+    - {effect: throughput,         change: "lower"}
+
+# Derived metric — explains the downstream consequences of a heat-input shift
+# that results from any combination of current / voltage / speed changes.
+heat_input:
+  increase:
+    - {effect: penetration,        change: "deeper"}
+    - {effect: distortion_risk,    change: "higher — larger heat-affected zone, more thermal expansion/contraction"}
+    - {effect: burn_through_risk,  change: "higher, especially on thin material"}
+    - {effect: cooling_rate,       change: "slower — coarser grain structure in the heat-affected zone"}
+  decrease:
+    - {effect: penetration,        change: "shallower"}
+    - {effect: lack_of_fusion_risk, change: "higher"}
+    - {effect: cooling_rate,       change: "faster — higher hardness / cracking risk on hardenable alloys"}
+    - {effect: distortion_risk,    change: "lower"}

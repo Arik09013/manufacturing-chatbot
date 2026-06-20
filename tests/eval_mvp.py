@@ -40,13 +40,14 @@ logger = logging.getLogger(__name__)
 
 OUTPUT_PATH = Path(__file__).parent.parent / "outputs" / "eval_report.md"
 
-# Anomaly type -> sensor channels expected to be top SHAP drivers
+# Welding anomaly type -> sensor channels expected among the top XAI drivers
+# (matches the channels perturbed in src/data/generate_synthetic.py).
 EXPECTED_SHAP_CHANNELS = {
-    "overheating":     ["temperature", "power_consumption"],
-    "bearing_failure": ["vibration", "rpm"],
-    "pressure_loss":   ["pressure"],
-    "motor_overload":  ["power_consumption", "temperature"],
-    "coolant_failure": ["temperature", "pressure"],
+    "arc_instability":  ["welding_current", "arc_voltage", "heat_input"],
+    "wire_feed_fault":  ["wire_feed_rate", "welding_current"],
+    "gas_flow_failure": ["shielding_gas_flow"],
+    "overheating":      ["heat_input", "welding_speed", "welding_current"],
+    "underheat":        ["heat_input", "welding_speed", "arc_voltage"],
 }
 
 
@@ -135,6 +136,146 @@ def evaluate_shap_alignment(df: pd.DataFrame, feat_names: list[str]) -> dict:
     return alignment
 
 
+def evaluate_lime_alignment(df: pd.DataFrame) -> dict:
+    """
+    Same alignment check as SHAP, but using the LIME local surrogate — confirms
+    the second XAI method also surfaces the correct injected channel.
+    """
+    from src.explain.lime_explainer import get_default_lime_explainer
+
+    explainer = get_default_lime_explainer(top_n=5)
+    anomaly_rows = df[df["is_anomaly"] == True]
+    results_by_type: dict[str, list[bool]] = {}
+
+    for _, row in anomaly_rows.iterrows():
+        atype = str(row.get("anomaly_type", ""))
+        if atype not in EXPECTED_SHAP_CHANNELS:
+            continue
+        try:
+            res = explainer.explain_row(pd.DataFrame([row]))
+        except Exception:
+            continue
+        top_features = [d["feature"] for d in res["lime_drivers"]]
+        expected = EXPECTED_SHAP_CHANNELS[atype]
+        hit = any(any(ch in feat for feat in top_features) for ch in expected)
+        results_by_type.setdefault(atype, []).append(hit)
+
+    alignment = {a: round(sum(h) / len(h), 3) for a, h in results_by_type.items() if h}
+    total = sum(len(v) for v in results_by_type.values())
+    alignment["overall"] = (
+        round(sum(sum(v) for v in results_by_type.values()) / total, 3) if total else 0.0
+    )
+    return alignment
+
+
+def evaluate_root_cause(df: pd.DataFrame, ks=(1, 2, 3)) -> dict:
+    """
+    Rank-quality of the root-cause mapper.
+
+    For each anomalous window we treat the *canonical* cause for the true
+    anomaly type (the first cause listed for that type in cause_action_map.yaml)
+    as the relevant answer, then check the rank the mapper assigns it given the
+    SHAP drivers. Reports Mean Reciprocal Rank (MRR) and top-k accuracy.
+    """
+    import joblib
+    from src.explain.shap_explainer import AnomalyExplainer
+    from src.reasoning.root_cause import identify_causes, _load_map
+
+    bundle = joblib.load(Path(__file__).parent.parent / "models" / "anomaly.joblib")
+    explainer = AnomalyExplainer(bundle["detector"], top_n=5)
+    cause_cfg = _load_map()
+
+    def _canonical(atype: str):
+        entries = cause_cfg.get(atype, {}).get("causes", [])
+        if not entries:
+            return None
+        first = entries[0]
+        return list(first.values())[0] if isinstance(first, dict) else str(first)
+
+    reciprocal_ranks: list[float] = []
+    topk_hits = {k: 0 for k in ks}
+    n = 0
+
+    for _, row in df[df["is_anomaly"] == True].iterrows():
+        atype = str(row.get("anomaly_type", ""))
+        canonical = _canonical(atype)
+        if canonical is None:
+            continue
+        row_df = pd.DataFrame([row])
+        try:
+            shap_res = explainer.explain_row(row_df)
+        except Exception:
+            continue
+        log_codes = str(row.get("unique_event_codes", ""))
+        ranked = [c["cause"] for c in identify_causes(atype, shap_res["shap_drivers"], log_codes, top_n=5)]
+
+        n += 1
+        if canonical in ranked:
+            rank = ranked.index(canonical) + 1
+            reciprocal_ranks.append(1.0 / rank)
+            for k in ks:
+                if rank <= k:
+                    topk_hits[k] += 1
+        else:
+            reciprocal_ranks.append(0.0)
+
+    return {
+        "n": n,
+        "mrr": round(sum(reciprocal_ranks) / n, 3) if n else 0.0,
+        "topk": {k: round(topk_hits[k] / n, 3) if n else 0.0 for k in ks},
+    }
+
+
+def evaluate_prescriptive() -> dict:
+    """
+    Quantitative check on the parameter advisor's prescriptive setpoints.
+
+    For every supported material x process x thickness-band, recompute the
+    optimized settings and measure:
+      - in_window_rate: fraction of recommended setpoints inside the standards
+        window (should be 100% — the optimizer is constrained to it)
+      - mean_norm_dev: mean |optimized - window_center| / window_width across
+        current / voltage / speed (0 = dead-centre, 0.5 = at an edge) — i.e. an
+        MAE of setpoints normalised by the allowed range.
+    """
+    from src.reasoning.param_advisor import recommend_parameters, _load_params
+
+    params_db = _load_params()
+    fields = ["welding_current", "arc_voltage", "welding_speed"]
+    thickness_probe = {"thin": 2.0, "medium": 6.0, "thick": 15.0}
+
+    deviations: list[float] = []
+    in_window = 0
+    total = 0
+
+    for material, mat_db in params_db.get("materials", {}).items():
+        for process in mat_db:
+            if process not in params_db.get("processes", {}):
+                continue
+            for band in mat_db[process]:
+                rec = recommend_parameters(material, thickness_probe.get(band, 6.0), process)
+                if "error" in rec or rec.get("band") != band:
+                    continue
+                opt, ranges = rec["optimized"], rec["ranges"]
+                for f in fields:
+                    rng = ranges.get(f)
+                    val = opt.get(f)
+                    if not rng or val is None:
+                        continue
+                    lo, hi = rng
+                    width = (hi - lo) or 1.0
+                    center = (lo + hi) / 2.0
+                    deviations.append(abs(val - center) / width)
+                    in_window += int(lo <= val <= hi)
+                    total += 1
+
+    return {
+        "n_setpoints": total,
+        "in_window_rate": round(in_window / total, 3) if total else 0.0,
+        "mean_norm_dev": round(sum(deviations) / len(deviations), 3) if deviations else 0.0,
+    }
+
+
 def evaluate_confidence_calibration(df: pd.DataFrame) -> dict:
     """
     High-confidence predictions should have higher accuracy.
@@ -172,7 +313,10 @@ def evaluate_confidence_calibration(df: pd.DataFrame) -> dict:
     return result
 
 
-def write_report(detection: dict, shap_alignment: dict, calibration: dict) -> str:
+def write_report(detection: dict, shap_alignment: dict, calibration: dict,
+                 lime_alignment: dict | None = None,
+                 root_cause: dict | None = None,
+                 prescriptive: dict | None = None) -> str:
     lines = [
         "# MVP Evaluation Report",
         "",
@@ -211,11 +355,57 @@ def write_report(detection: dict, shap_alignment: dict, calibration: dict) -> st
     for atype, score in shap_alignment.items():
         lines.append(f"| {atype} | {score:.0%} |")
 
+    if lime_alignment:
+        lines += [
+            "",
+            "### LIME Driver Alignment (independent XAI cross-check)",
+            "",
+            "| Anomaly type | Alignment |",
+            "|---|---|",
+        ]
+        for atype, score in lime_alignment.items():
+            lines.append(f"| {atype} | {score:.0%} |")
+
+    if root_cause:
+        lines += [
+            "",
+            "---",
+            "",
+            "## 3. Root-Cause Ranking",
+            "",
+            "Rank quality of the heuristic root-cause mapper for the canonical cause",
+            "of each anomaly type (given SHAP drivers).",
+            "",
+            "| Metric | Score |",
+            "|---|---|",
+            f"| MRR | {root_cause['mrr']} |",
+        ]
+        for k, v in root_cause["topk"].items():
+            lines.append(f"| Top-{k} accuracy | {v:.0%} |")
+        lines.append(f"| Anomalous windows scored | {root_cause['n']} |")
+
+    if prescriptive:
+        lines += [
+            "",
+            "---",
+            "",
+            "## 4. Prescriptive Setpoint Quality",
+            "",
+            "Parameter-advisor recommendations across every supported",
+            "material x process x thickness band.",
+            "",
+            "| Metric | Score |",
+            "|---|---|",
+            f"| In-window compliance | {prescriptive['in_window_rate']:.0%} |",
+            f"| Mean normalised deviation (MAE / range) | {prescriptive['mean_norm_dev']} |",
+            f"| Setpoints evaluated | {prescriptive['n_setpoints']} |",
+        ]
+
     lines += [
         "",
         "---",
         "",
-        "## 3. Confidence Calibration",
+        "## 5. Confidence Calibration",
         "",
         "| Confidence band | N | Accuracy |",
         "|---|---|---|",
@@ -252,11 +442,24 @@ def main() -> None:
     shap_alignment = evaluate_shap_alignment(df, detection["feat_names"])
     logger.info("SHAP alignment: %s", shap_alignment)
 
+    logger.info("Running LIME alignment check…")
+    lime_alignment = evaluate_lime_alignment(df)
+    logger.info("LIME alignment: %s", lime_alignment)
+
+    logger.info("Running root-cause ranking (MRR/top-k)…")
+    root_cause = evaluate_root_cause(df)
+    logger.info("Root cause: %s", root_cause)
+
+    logger.info("Running prescriptive setpoint evaluation…")
+    prescriptive = evaluate_prescriptive()
+    logger.info("Prescriptive: %s", prescriptive)
+
     logger.info("Running confidence calibration check…")
     calibration = evaluate_confidence_calibration(df)
     logger.info("Calibration: %s", calibration)
 
-    report = write_report(detection, shap_alignment, calibration)
+    report = write_report(detection, shap_alignment, calibration,
+                          lime_alignment, root_cause, prescriptive)
 
     OUTPUT_PATH.parent.mkdir(parents=True, exist_ok=True)
     OUTPUT_PATH.write_text(report, encoding="utf-8")

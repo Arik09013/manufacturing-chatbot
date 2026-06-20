@@ -1,127 +1,376 @@
-# Optimal welding parameter tables for MIG/MAG process
-# Source: AWS D1.1, ISO 15614-1, typical WPS guidelines
+# Welding parameter standards windows — keyed by material -> process family -> thickness band
+# Source: AWS D1.1, ISO 15614-1, ASM Welding Handbook typical WPS guidelines (advisory approximations)
 #
-# efficiency_score: 1–10 rating for deposition rate vs distortion trade-off
-#   10 = maximum deposition, minimum passes, minimum heat distortion
+# efficiency_score: 1-10 rating of overall process suitability for this material/thickness/process
+#   combo (throughput vs. quality/control trade-off). 10 = best balance for this combination.
+#
+# process families:
+#   GMAW — covers user-facing "MIG" and "MAG". Both use the same wire-feed parameter windows;
+#          they differ only in shielding-gas chemistry (captured per-entry via gas_mix), so
+#          they share one table to avoid duplicating near-identical data.
+#   TIG  — GTAW. No continuous wire feed (filler is manual/cold-wire) -> wire_feed_rate: null,
+#          deposition_rate is not a controlled process variable.
+#   SMAW — Stick / MMA. Flux-cored electrode self-shields -> wire_feed_rate: null AND
+#          shielding_gas_flow: null.
 
-MIG_MAG:
+processes:
+  GMAW:
+    aliases: [mig, mag, gmaw, "mig/mag", "mig-mag"]
+    display_name: "GMAW (MIG/MAG)"
+    arc_efficiency: 0.82          # fraction of arc energy entering the workpiece
+    deposition_efficiency: 0.95   # fraction of wire metal that becomes weld metal (vs. spatter)
+    uses_wire_feed: true
+    uses_shielding_gas: true
+  TIG:
+    aliases: [tig, gtaw]
+    display_name: "GTAW (TIG)"
+    arc_efficiency: 0.60
+    deposition_efficiency: 0.90
+    uses_wire_feed: false
+    uses_shielding_gas: true
+  SMAW:
+    aliases: [smaw, stick, mma, "manual metal arc", "stick welding"]
+    display_name: "SMAW (Stick)"
+    arc_efficiency: 0.75
+    deposition_efficiency: 0.65
+    uses_wire_feed: false
+    uses_shielding_gas: false
 
+
+materials:
+
+  # ════════════════════════════════════════════════════════════════════════
   mild_steel:
-    thin:                    # 1–3 mm
-      thickness_range: [1, 3]
-      welding_current:   [80,  130]   # A
-      arc_voltage:       [17,  21]    # V
-      welding_speed:     [400, 700]   # mm/min
-      wire_feed_rate:    [4.0, 7.0]   # m/min
-      shielding_gas_flow: [12,  16]   # L/min
-      wire_diameter:     1.0          # mm
-      gas_mix:           "Ar/CO2 (75/25)"
-      heat_input_range:  [0.15, 0.35] # kJ/mm
-      efficiency_score:  7
-      notes: "Short-circuit or pulsed transfer recommended to avoid burn-through."
+    density_g_cm3: 7.85
 
-    medium:                  # 3–8 mm
-      thickness_range: [3, 8]
-      welding_current:   [130, 220]
-      arc_voltage:       [20,  26]
-      welding_speed:     [250, 500]
-      wire_feed_rate:    [6.0, 11.0]
-      shielding_gas_flow: [14,  18]
-      wire_diameter:     1.2
-      gas_mix:           "Ar/CO2 (80/20)"
-      heat_input_range:  [0.35, 0.70]
-      efficiency_score:  9
-      notes: "Spray or pulsed-spray transfer. Single or double pass. Optimal speed is 350 mm/min."
+    GMAW:
+      thin:                    # 1-3 mm
+        thickness_range: [1, 3]
+        welding_current:    [80,  130]   # A
+        arc_voltage:        [17,  21]    # V
+        welding_speed:      [400, 700]   # mm/min
+        wire_feed_rate:     [4.0, 7.0]   # m/min
+        shielding_gas_flow: [12,  16]    # L/min
+        wire_diameter:      1.0          # mm
+        gas_mix:            "Ar/CO2 (75/25)"
+        heat_input_range:   [0.15, 0.35] # kJ/mm
+        efficiency_score:   7
+        notes: "Short-circuit or pulsed transfer recommended to avoid burn-through."
 
-    thick:                   # > 8 mm
-      thickness_range: [8, 50]
-      welding_current:   [220, 350]
-      arc_voltage:       [25,  32]
-      welding_speed:     [200, 380]
-      wire_feed_rate:    [10.0, 16.0]
-      shielding_gas_flow: [16,  22]
-      wire_diameter:     1.6
-      gas_mix:           "Ar/CO2 (80/20) or 100% CO2"
-      heat_input_range:  [0.60, 1.40]
-      efficiency_score:  8
-      notes: "Multiple passes. Pre-heat to 80–150 C for thicknesses > 20 mm. Use backstep sequence."
+      medium:                  # 3-8 mm
+        thickness_range: [3, 8]
+        welding_current:    [130, 220]
+        arc_voltage:        [20,  26]
+        welding_speed:      [250, 500]
+        wire_feed_rate:     [6.0, 11.0]
+        shielding_gas_flow: [14,  18]
+        wire_diameter:      1.2
+        gas_mix:            "Ar/CO2 (80/20)"
+        heat_input_range:   [0.35, 0.70]
+        efficiency_score:   9
+        notes: "Spray or pulsed-spray transfer. Single or double pass."
 
+      thick:                   # > 8 mm
+        thickness_range: [8, 50]
+        welding_current:    [220, 350]
+        arc_voltage:        [25,  32]
+        welding_speed:      [200, 380]
+        wire_feed_rate:     [10.0, 16.0]
+        shielding_gas_flow: [16,  22]
+        wire_diameter:      1.6
+        gas_mix:            "Ar/CO2 (80/20) or 100% CO2"
+        heat_input_range:   [0.60, 1.40]
+        efficiency_score:   8
+        notes: "Multiple passes. Pre-heat to 80-150 C for thicknesses > 20 mm. Use backstep sequence."
+
+    TIG:
+      thin:
+        thickness_range: [1, 3]
+        welding_current:    [40,  90]
+        arc_voltage:        [10,  14]
+        welding_speed:      [80,  150]
+        wire_feed_rate:     null
+        shielding_gas_flow: [8,   12]
+        tungsten_diameter:  1.6
+        gas_mix:            "100% Argon"
+        heat_input_range:   [0.10, 0.25]
+        efficiency_score:   5
+        notes: "DCEN, 2% thoriated or ceriated tungsten. Low heat input gives precise, clean root passes."
+
+      medium:
+        thickness_range: [3, 8]
+        welding_current:    [90,  150]
+        arc_voltage:        [12,  16]
+        welding_speed:      [60,  120]
+        wire_feed_rate:     null
+        shielding_gas_flow: [10,  15]
+        tungsten_diameter:  2.4
+        gas_mix:            "100% Argon"
+        heat_input_range:   [0.25, 0.55]
+        efficiency_score:   5
+        notes: "Slow but highly controllable. Best for root passes; pair with GMAW fill/cap for throughput."
+
+      thick:
+        thickness_range: [8, 50]
+        welding_current:    [140, 220]
+        arc_voltage:        [14,  18]
+        welding_speed:      [50,  100]
+        wire_feed_rate:     null
+        shielding_gas_flow: [12,  18]
+        tungsten_diameter:  3.2
+        gas_mix:            "100% Argon or Ar/He blend for added heat"
+        heat_input_range:   [0.50, 1.00]
+        efficiency_score:   4
+        notes: "Low throughput at this thickness — use mainly for root pass, fill/cap with GMAW or SMAW."
+
+    SMAW:
+      thin:
+        thickness_range: [1, 3]
+        welding_current:    [60,  100]
+        arc_voltage:        [20,  24]
+        welding_speed:      [150, 250]
+        wire_feed_rate:     null
+        shielding_gas_flow: null
+        electrode_diameter: 2.5
+        electrode_type:     "E6013"
+        heat_input_range:   [0.20, 0.45]
+        efficiency_score:   4
+        notes: "Light-gauge stick welding is prone to burn-through — keep travel speed up, use stringer beads."
+
+      medium:
+        thickness_range: [3, 8]
+        welding_current:    [100, 160]
+        arc_voltage:        [22,  26]
+        welding_speed:      [120, 200]
+        wire_feed_rate:     null
+        shielding_gas_flow: null
+        electrode_diameter: 3.2
+        electrode_type:     "E7018"
+        heat_input_range:   [0.40, 0.80]
+        efficiency_score:   5
+        notes: "Low-hydrogen electrode (E7018) for crack resistance. Bake rods before use to control moisture."
+
+      thick:
+        thickness_range: [8, 50]
+        welding_current:    [150, 220]
+        arc_voltage:        [24,  30]
+        welding_speed:      [100, 180]
+        wire_feed_rate:     null
+        shielding_gas_flow: null
+        electrode_diameter: 4.0
+        electrode_type:     "E7018"
+        heat_input_range:   [0.70, 1.40]
+        efficiency_score:   5
+        notes: "Multi-pass with interpass cleaning (slag removal). Pre-heat thick sections to slow cooling rate."
+
+  # ════════════════════════════════════════════════════════════════════════
   stainless_steel:
-    thin:
-      thickness_range: [1, 3]
-      welding_current:   [70,  120]
-      arc_voltage:       [17,  21]
-      welding_speed:     [350, 600]
-      wire_feed_rate:    [3.5, 6.5]
-      shielding_gas_flow: [12,  16]
-      wire_diameter:     1.0
-      gas_mix:           "Ar/He/CO2 (98/1/1 — Tri-mix)"
-      heat_input_range:  [0.12, 0.30]
-      efficiency_score:  6
-      notes: "Keep heat input low to prevent sensitization. Use stringer beads only."
+    density_g_cm3: 7.90
 
-    medium:
-      thickness_range: [3, 8]
-      welding_current:   [120, 200]
-      arc_voltage:       [20,  25]
-      welding_speed:     [250, 450]
-      wire_feed_rate:    [5.5, 10.0]
-      shielding_gas_flow: [14,  18]
-      wire_diameter:     1.2
-      gas_mix:           "Ar/He/CO2 (98/1/1)"
-      heat_input_range:  [0.30, 0.65]
-      efficiency_score:  8
-      notes: "Pulse MIG preferred. Back purge with argon for root pass on pipe."
+    GMAW:
+      thin:
+        thickness_range: [1, 3]
+        welding_current:    [70,  120]
+        arc_voltage:        [17,  21]
+        welding_speed:      [350, 600]
+        wire_feed_rate:     [3.5, 6.5]
+        shielding_gas_flow: [12,  16]
+        wire_diameter:      1.0
+        gas_mix:            "Ar/He/CO2 (98/1/1 - Tri-mix)"
+        heat_input_range:   [0.12, 0.30]
+        efficiency_score:   6
+        notes: "Keep heat input low to prevent sensitization. Use stringer beads only."
 
-    thick:
-      thickness_range: [8, 50]
-      welding_current:   [200, 320]
-      arc_voltage:       [24,  30]
-      welding_speed:     [180, 350]
-      wire_feed_rate:    [9.0, 15.0]
-      shielding_gas_flow: [16,  20]
-      wire_diameter:     1.6
-      gas_mix:           "Ar/He/CO2 (98/1/1)"
-      heat_input_range:  [0.55, 1.20]
-      efficiency_score:  7
-      notes: "Interpass temperature < 150 C. Multiple stringer beads preferred."
+      medium:
+        thickness_range: [3, 8]
+        welding_current:    [120, 200]
+        arc_voltage:        [20,  25]
+        welding_speed:      [250, 450]
+        wire_feed_rate:     [5.5, 10.0]
+        shielding_gas_flow: [14,  18]
+        wire_diameter:      1.2
+        gas_mix:            "Ar/He/CO2 (98/1/1)"
+        heat_input_range:   [0.30, 0.65]
+        efficiency_score:   8
+        notes: "Pulse MIG preferred. Back purge with argon for root pass on pipe."
 
+      thick:
+        thickness_range: [8, 50]
+        welding_current:    [200, 320]
+        arc_voltage:        [24,  30]
+        welding_speed:      [180, 350]
+        wire_feed_rate:     [9.0, 15.0]
+        shielding_gas_flow: [16,  20]
+        wire_diameter:      1.6
+        gas_mix:            "Ar/He/CO2 (98/1/1)"
+        heat_input_range:   [0.55, 1.20]
+        efficiency_score:   7
+        notes: "Interpass temperature < 150 C. Multiple stringer beads preferred."
+
+    TIG:
+      thin:
+        thickness_range: [1, 3]
+        welding_current:    [50,  100]
+        arc_voltage:        [10,  14]
+        welding_speed:      [80,  160]
+        wire_feed_rate:     null
+        shielding_gas_flow: [8,   12]
+        tungsten_diameter:  1.6
+        gas_mix:            "100% Argon (back-purge root with argon)"
+        heat_input_range:   [0.08, 0.22]
+        efficiency_score:   7
+        notes: "TIG is the standard for thin stainless — clean, low-distortion, low-oxidation welds."
+
+      medium:
+        thickness_range: [3, 8]
+        welding_current:    [100, 160]
+        arc_voltage:        [12,  16]
+        welding_speed:      [70,  130]
+        wire_feed_rate:     null
+        shielding_gas_flow: [10,  15]
+        tungsten_diameter:  2.4
+        gas_mix:            "100% Argon"
+        heat_input_range:   [0.20, 0.45]
+        efficiency_score:   6
+        notes: "Cold-wire feed addition recommended for consistent fill. Watch interpass temperature."
+
+      thick:
+        thickness_range: [8, 50]
+        welding_current:    [150, 230]
+        arc_voltage:        [14,  18]
+        welding_speed:      [60,  110]
+        wire_feed_rate:     null
+        shielding_gas_flow: [12,  18]
+        tungsten_diameter:  3.2
+        gas_mix:            "Ar/He blend for deeper penetration"
+        heat_input_range:   [0.40, 0.85]
+        efficiency_score:   5
+        notes: "Use for root pass; pair with GMAW fill/cap to keep total heat input and time manageable."
+
+    SMAW:
+      thin:
+        thickness_range: [1, 3]
+        welding_current:    [50,  90]
+        arc_voltage:        [20,  24]
+        welding_speed:      [120, 200]
+        wire_feed_rate:     null
+        shielding_gas_flow: null
+        electrode_diameter: 2.5
+        electrode_type:     "E308L-16"
+        heat_input_range:   [0.18, 0.40]
+        efficiency_score:   4
+        notes: "Use low-carbon (L-grade) electrode to avoid carbide precipitation. Keep interpass temp low."
+
+      medium:
+        thickness_range: [3, 8]
+        welding_current:    [90,  140]
+        arc_voltage:        [22,  26]
+        welding_speed:      [100, 170]
+        wire_feed_rate:     null
+        shielding_gas_flow: null
+        electrode_diameter: 3.2
+        electrode_type:     "E308L-16"
+        heat_input_range:   [0.35, 0.70]
+        efficiency_score:   4
+        notes: "Short arc length to minimise dilution and oxidation. Stringer beads preferred."
+
+      thick:
+        thickness_range: [8, 50]
+        welding_current:    [130, 190]
+        arc_voltage:        [24,  28]
+        welding_speed:      [90,  150]
+        wire_feed_rate:     null
+        shielding_gas_flow: null
+        electrode_diameter: 4.0
+        electrode_type:     "E309L-16"
+        heat_input_range:   [0.65, 1.20]
+        efficiency_score:   4
+        notes: "E309L for dissimilar/buffer layers. Multi-pass with strict interpass temperature control."
+
+  # ════════════════════════════════════════════════════════════════════════
   aluminum:
-    thin:
-      thickness_range: [1, 4]
-      welding_current:   [60,  130]
-      arc_voltage:       [16,  21]
-      welding_speed:     [500, 900]
-      wire_feed_rate:    [6.0, 12.0]
-      shielding_gas_flow: [15,  20]
-      wire_diameter:     1.0
-      gas_mix:           "100% Argon"
-      heat_input_range:  [0.08, 0.28]
-      efficiency_score:  6
-      notes: "Use push technique (15-20 deg). Clean base metal thoroughly. Spool-gun recommended."
+    density_g_cm3: 2.70
 
-    medium:
-      thickness_range: [4, 12]
-      welding_current:   [130, 250]
-      arc_voltage:       [21,  27]
-      welding_speed:     [350, 700]
-      wire_feed_rate:    [10.0, 18.0]
-      shielding_gas_flow: [18,  25]
-      wire_diameter:     1.2
-      gas_mix:           "100% Argon or Ar/He (75/25)"
-      heat_input_range:  [0.25, 0.65]
-      efficiency_score:  9
-      notes: "Pulsed MIG greatly improves arc stability on aluminum. Optimal speed: 500 mm/min."
+    GMAW:
+      thin:
+        thickness_range: [1, 4]
+        welding_current:    [60,  130]
+        arc_voltage:        [16,  21]
+        welding_speed:      [500, 900]
+        wire_feed_rate:     [6.0, 12.0]
+        shielding_gas_flow: [15,  20]
+        wire_diameter:      1.0
+        gas_mix:            "100% Argon"
+        heat_input_range:   [0.08, 0.28]
+        efficiency_score:   6
+        notes: "Use push technique (15-20 deg). Clean base metal thoroughly. Spool-gun recommended."
 
-    thick:
-      thickness_range: [12, 50]
-      welding_current:   [250, 400]
-      arc_voltage:       [26,  33]
-      welding_speed:     [250, 500]
-      wire_feed_rate:    [14.0, 20.0]
-      shielding_gas_flow: [20,  30]
-      wire_diameter:     1.6
-      gas_mix:           "Ar/He (50/50) for deep penetration"
-      heat_input_range:  [0.55, 1.40]
-      efficiency_score:  8
-      notes: "Pre-heat 60–120 C. Helium blend increases heat input and penetration depth."
+      medium:
+        thickness_range: [4, 12]
+        welding_current:    [130, 250]
+        arc_voltage:        [21,  27]
+        welding_speed:      [350, 700]
+        wire_feed_rate:     [10.0, 18.0]
+        shielding_gas_flow: [18,  25]
+        wire_diameter:      1.2
+        gas_mix:            "100% Argon or Ar/He (75/25)"
+        heat_input_range:   [0.25, 0.65]
+        efficiency_score:   9
+        notes: "Pulsed MIG greatly improves arc stability on aluminum."
+
+      thick:
+        thickness_range: [12, 50]
+        welding_current:    [250, 400]
+        arc_voltage:        [26,  33]
+        welding_speed:      [250, 500]
+        wire_feed_rate:     [14.0, 20.0]
+        shielding_gas_flow: [20,  30]
+        wire_diameter:      1.6
+        gas_mix:            "Ar/He (50/50) for deep penetration"
+        heat_input_range:   [0.55, 1.40]
+        efficiency_score:   8
+        notes: "Pre-heat 60-120 C. Helium blend increases heat input and penetration depth."
+
+    TIG:
+      thin:
+        thickness_range: [1, 4]
+        welding_current:    [60,  120]
+        arc_voltage:        [10,  15]
+        welding_speed:      [150, 300]
+        wire_feed_rate:     null
+        shielding_gas_flow: [10,  16]
+        tungsten_diameter:  2.4
+        gas_mix:            "100% Argon (AC, balanced wave for oxide-breaking)"
+        heat_input_range:   [0.05, 0.15]
+        efficiency_score:   8
+        notes: "AC TIG is the gold standard for thin aluminum — best control, cleanest welds, minimal distortion."
+
+      medium:
+        thickness_range: [4, 12]
+        welding_current:    [120, 200]
+        arc_voltage:        [12,  17]
+        welding_speed:      [120, 250]
+        wire_feed_rate:     null
+        shielding_gas_flow: [14,  20]
+        tungsten_diameter:  3.2
+        gas_mix:            "100% Argon (AC)"
+        heat_input_range:   [0.15, 0.40]
+        efficiency_score:   7
+        notes: "AC balance and frequency control oxide removal vs. penetration. Pre-clean to remove oxide layer."
+
+      thick:
+        thickness_range: [12, 50]
+        welding_current:    [180, 280]
+        arc_voltage:        [15,  20]
+        welding_speed:      [100, 200]
+        wire_feed_rate:     null
+        shielding_gas_flow: [16,  24]
+        tungsten_diameter:  4.0
+        gas_mix:            "Ar/He blend for added heat at thickness"
+        heat_input_range:   [0.35, 0.75]
+        efficiency_score:   6
+        notes: "Pre-heat to offset aluminum's high thermal conductivity. Consider GMAW for fill passes to control time."
+
+    # SMAW intentionally omitted: stick electrodes for aluminum (e.g. E4043) are non-standard
+    # industrial practice — GMAW and GTAW are the accepted processes. The advisor returns a
+    # clear "process not supported for this material" explanation rather than fabricated numbers.

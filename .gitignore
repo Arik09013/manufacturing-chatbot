@@ -48,6 +48,19 @@ data/processed/*.parquet
 models/*.joblib
 outputs/*.png
 
+# RAG vector index (regenerated from the corpus on first run)
+models/rag_index/
+
+# Fine-tuned / downloaded model weights (regenerable; too large for git — use
+# the training script to reproduce). GitHub rejects files over 100 MB.
+models/distilbert_fault/
+*.safetensors
+*.bin
+*.pt
+*.ckpt
+*.h5
+*.onnx
+
 # Keep directory markers
 !data/raw/.gitkeep
 !data/processed/.gitkeep

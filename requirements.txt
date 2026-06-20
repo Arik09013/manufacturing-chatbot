@@ -7,15 +7,19 @@ pyarrow>=14.0.0
 scikit-learn>=1.4.0
 joblib>=1.3.0
 
-# NLP / embeddings
+# NLP / embeddings (also powers the RAG retriever — local embeddings, no API key)
 sentence-transformers>=2.6.0
+transformers>=4.40.0
+accelerate>=1.1.0   # required by HuggingFace Trainer (DistilBERT fine-tuning)
 
 # Explainability
 shap>=0.44.0
+lime>=0.2.0
 matplotlib>=3.8.0
 
 # LLM
 anthropic>=0.25.0
+groq>=0.11.0
 python-dotenv>=1.0.0
 
 # Validation
