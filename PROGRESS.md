@@ -93,7 +93,9 @@
 
 ## T9 — LLM Synthesis Layer
 - [x] `src/chat/prompts.py` (system prompt + synthesis template)
-- [x] `src/chat/synthesize.py` (Anthropic Claude + Ollama fallback + plain-text fallback)
+- [x] `src/chat/synthesize.py` (backend-agnostic synthesis + deterministic fallback)
+- [x] `src/chat/backends.py` (pluggable backend abstraction — identical `generate/synthesize/chat/stream` interface)
+- [x] `config/llm.yaml` (backend registry: Claude, Groq, Ollama Llama/Qwen/Mistral)
 
 **Status: COMPLETE**
 
@@ -126,5 +128,19 @@
 ## T13 — Lightweight Evaluation
 - [x] `tests/eval_mvp.py` (5-fold CV + SHAP alignment + confidence calibration)
 - [x] `outputs/eval_report.md` — F1=0.905, ROC-AUC=0.9996, SHAP alignment=100%
+
+**Status: COMPLETE**
+
+---
+
+## T14 — Multi-Model Integration & Comparative Benchmark
+- [x] `src/chat/backends.py` — pluggable backends (Claude, Groq, Ollama Llama/Qwen/Mistral) with one interface, validation, and graceful fallback (missing model / not pulled / daemon down / timeout / bad backend)
+- [x] `config/llm.yaml` — central backend/model registry (env vars override)
+- [x] `evaluation/metrics.py` — automated, deterministic quality metrics (groundedness, hallucination, faithfulness, citation, readability, safety, conciseness, latency, tokens/sec, cost, determinism, composite)
+- [x] `evaluation/datasets/benchmark_set.json` — 64 prompts across all five routes
+- [x] `evaluation/benchmark.py` — execution engine (run every backend, score, write CSV/JSON)
+- [x] `evaluation/plots.py` — matplotlib comparison figures (bar, radar, latency, hallucination, faithfulness, per-route, cost-vs-quality)
+- [x] `evaluation/report.py` → `evaluation/report.md` — thesis-ready report
+- [x] Existing suite still green (121/121) — no regressions
 
 **Status: COMPLETE**

@@ -1,0 +1,48 @@
+# ── LLM synthesis backend configuration ───────────────────────────────────────
+# Central registry of synthesis backends. src.chat.backends reads this file and
+# merges it over the built-in defaults; environment variables (SYNTHESIZER_BACKEND,
+# OLLAMA_MODEL, ANTHROPIC_MODEL, GROQ_MODEL) take precedence over anything here.
+#
+# Set SYNTHESIZER_BACKEND (env or default_backend below) to one of the keys under
+# `backends`. To run a fully-local welding assistant, choose an ollama_* backend
+# and make sure the model is pulled (`ollama pull qwen2.5:3b`).
+
+default_backend: anthropic
+
+backends:
+  # Hosted Claude — highest linguistic quality, API dependent.
+  anthropic:
+    provider: anthropic
+    model: claude-haiku-4-5-20251001      # narrates grounded (anomaly/param/knowledge) routes
+    general_model: claude-opus-4-8        # general-manufacturing route (LLM is the knowledge source)
+
+  # Hosted Llama on Groq — fast baseline, API dependent.
+  groq:
+    provider: groq
+    model: llama-3.3-70b-versatile
+
+  # Generic local Ollama — model taken from OLLAMA_MODEL when set.
+  ollama:
+    provider: ollama
+    model: llama3.2
+
+  # Pinned local comparison variants (used by the benchmark harness).
+  ollama_llama:
+    provider: ollama
+    model: llama3.2                        # balanced local baseline
+
+  ollama_qwen:
+    provider: ollama
+    model: qwen2.5:3b                      # strong technical reasoning, multilingual, small
+
+  ollama_mistral:
+    provider: ollama
+    model: mistral:7b                      # fast, efficient CPU inference
+
+# Backends compared by `python evaluation/benchmark.py` (override with --backends).
+benchmark_backends:
+  - anthropic
+  - groq
+  - ollama_llama
+  - ollama_qwen
+  - ollama_mistral

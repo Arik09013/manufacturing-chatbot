@@ -61,6 +61,10 @@ models/distilbert_fault/
 *.h5
 *.onnx
 
+# Benchmark run log + payload cache (transient); CSVs / figures / report are kept as deliverables
+evaluation/results/_run.log
+evaluation/results/_payloads.pkl
+
 # Keep directory markers
 !data/raw/.gitkeep
 !data/processed/.gitkeep

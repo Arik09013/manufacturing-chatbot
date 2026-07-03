@@ -17,11 +17,53 @@ Operator question
   Pipeline: load → preprocess → fuse → detect → explain (SHAP) → reason → confidence
        │
        ▼
-  LLM synthesis layer (Claude)
+  LLM synthesis layer  (pluggable backend: Claude · Llama/Groq · Ollama Llama/Qwen/Mistral)
        │
        ▼
   Structured answer: anomaly + root cause + recommendation + SHAP explanation + confidence
 ```
+
+## LLM Backends
+
+The synthesis layer is backend-agnostic (`src/chat/backends.py`): every backend
+exposes the same `generate()/synthesize()/chat()/stream()` interface, so the
+pipeline, API, UI, RAG, SHAP/LIME, and routing are unchanged regardless of which
+model narrates. Select one with `SYNTHESIZER_BACKEND`:
+
+| `SYNTHESIZER_BACKEND` | Model | Hosting |
+|---|---|---|
+| `anthropic` / `claude` | claude-haiku-4-5 (opus-4-8 for general route) | hosted API |
+| `groq` | llama-3.3-70b-versatile | hosted API |
+| `ollama_llama` | llama3.2 | local (Ollama) |
+| `ollama_qwen` | qwen2.5:3b | local (Ollama) |
+| `ollama_mistral` | mistral:7b | local (Ollama) |
+| `ollama` | `OLLAMA_MODEL` (generic) | local (Ollama) |
+
+Models and defaults live in `config/llm.yaml`; environment variables override it.
+Any backend failure (down / model not pulled / timeout / missing key) falls back
+to the deterministic grounded summary — the assistant never crashes. For a fully
+offline setup: `ollama pull qwen2.5:3b mistral:7b` and set
+`SYNTHESIZER_BACKEND=ollama_qwen`.
+
+## Benchmarking (model comparison)
+
+An automated, heuristic evaluation framework compares response quality across
+backends for the welding assistant — no manual scoring, no LLM-as-judge:
+
+```bash
+python evaluation/benchmark.py                          # all backends, full prompt set
+python evaluation/benchmark.py --backends ollama_qwen ollama_mistral
+python evaluation/benchmark.py --limit 10               # quick smoke run
+python evaluation/benchmark.py --determinism-runs 3     # measure output variance
+```
+
+It runs the deterministic pipeline once per prompt to build the grounding
+payload, narrates that identical payload with every backend, and scores each on
+groundedness, hallucination, faithfulness, citation preservation, readability,
+safety, conciseness, latency, tokens/sec, cost, and determinism. Outputs land in
+`evaluation/results/` (`<model>_results.csv`, `comparison.csv`, `raw_outputs.json`,
+`figures/*.png`) and a thesis-ready `evaluation/report.md`. Dataset:
+`evaluation/datasets/benchmark_set.json` (64 prompts across all five routes).
 
 ## Input Scope
 
@@ -103,6 +145,7 @@ manufacturing-chatbot/
 │   └── api/           # FastAPI backend
 ├── app/               # Streamlit frontend
 ├── demo/              # Demo scripts and walkthrough
+├── evaluation/        # LLM benchmark: metrics, dataset, runner, plots, report
 └── tests/             # Evaluation and unit tests
 ```
 

@@ -87,13 +87,19 @@ An LLM (Groq / Claude / Ollama) sits on top **only to phrase grounded results in
 
 ### FR-6 — LLM Synthesis Layer
 - **FR-6.1** Convert structured pipeline output into a plain-language answer.
-- **FR-6.2** Support pluggable backends: **Groq** (llama-3.3-70b), **Anthropic** (Claude), **Ollama** (local) via `SYNTHESIZER_BACKEND`.
+- **FR-6.2** Support pluggable backends behind one interface (`generate/synthesize/chat/stream`) via `SYNTHESIZER_BACKEND`: **Anthropic** (Claude), **Groq** (llama-3.3-70b), and **Ollama** local models — `ollama_llama` (llama3.2), `ollama_qwen` (**qwen2.5:3b**), `ollama_mistral` (**mistral:7b**). Backend/model registry in `config/llm.yaml` (env vars override).
 - **FR-6.3** Never produce numbers not present in the computed payload (enforced by system prompt).
-- **FR-6.4** Provide a deterministic text fallback when no LLM backend/key is available.
+- **FR-6.4** Validate the backend and degrade gracefully (missing model / model not pulled / daemon down / timeout / context overflow / invalid backend) — always fall back to the deterministic grounded summary, never crash.
 
 ### FR-7 — Interfaces
 - **FR-7.1** Streamlit chat UI (dark industrial theme) with parameter cards, SHAP charts, and knowledge cards.
 - **FR-7.2** FastAPI backend: `POST /chat`, `POST /pipeline/raw`, `GET /health`.
+
+### FR-8 — Comparative Model Evaluation
+- **FR-8.1** Benchmark all backends on an identical grounding payload per prompt (fair synthesis comparison) — `evaluation/benchmark.py`.
+- **FR-8.2** Score automatically (no manual rating, no LLM judge): groundedness, hallucination rate, faithfulness, citation preservation, readability, safety, conciseness, latency, tokens/sec, cost, determinism, and a composite quality score — `evaluation/metrics.py`.
+- **FR-8.3** Emit per-model CSVs, `comparison.csv`, raw JSON, matplotlib figures, and a thesis-ready `evaluation/report.md`.
+- **FR-8.4** Dataset of ≥50 prompts covering every route — `evaluation/datasets/benchmark_set.json` (64 prompts).
 
 ---
 
@@ -126,7 +132,7 @@ User question
      └────────────┴───────────────────┘
                   │
                   ▼
-        [LLM synthesis] (Groq / Claude / Ollama) — phrasing only
+        [LLM synthesis] (Claude / Groq / Ollama: Llama·Qwen·Mistral) — phrasing only
                   │
                   ▼
    Plain-language answer + explainability (Streamlit / API)
@@ -142,7 +148,9 @@ User question
 | SHAP explainer | `src/explain/shap_explainer.py` | feature attribution |
 | Knowledge base | `config/welding_knowledge.yaml` + `src/reasoning/knowledge.py` | curated entries + keyword fallback |
 | RAG retriever | `src/rag/` (`corpus.py`, `index.py`, `retriever.py`) | corpus build, local embeddings, hybrid semantic+keyword retrieval, citations |
-| LLM synthesis | `src/chat/synthesize.py`, `src/chat/prompts.py` | narration, backends |
+| LLM synthesis | `src/chat/synthesize.py`, `src/chat/prompts.py` | narration, routing to backend |
+| LLM backends | `src/chat/backends.py`, `config/llm.yaml` | Claude/Groq/Ollama abstraction, validation, fallback |
+| Model benchmark | `evaluation/` (`metrics.py`, `benchmark.py`, `plots.py`, `report.py`) | automated comparative evaluation |
 | UI | `app/streamlit_app.py` | chat front-end |
 | API | `src/api/main.py` | REST endpoints |
 

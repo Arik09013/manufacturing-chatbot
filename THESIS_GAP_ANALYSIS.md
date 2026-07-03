@@ -89,9 +89,10 @@
 | ➕ **Knowledge base** | 25 grounded welding topics (defects, cost, quality, comparisons) |
 | ➕ **Intent guard** | rejects out-of-scope questions |
 | ➕ **3-way router** | param / anomaly / knowledge |
-| ➕ **Pluggable LLM backends** | Groq, Claude, Ollama |
+| ➕ **Pluggable LLM backends** | Claude, Groq (Llama-70B), Ollama Llama/**Qwen2.5:3b**/**Mistral 7B** — one interface, graceful fallback (`src/chat/backends.py`, `config/llm.yaml`) |
+| ➕ **Comparative model-evaluation framework** | Automated, heuristic benchmark (`evaluation/`) scoring groundedness, hallucination, faithfulness, citation, readability, safety, conciseness, latency, tokens/sec, cost, determinism across all backends → CSV + figures + thesis report; answers *which LLM is most suitable for an explainable welding assistant* |
 | ➕ **Sensitivity / explain-why** | parameter-level XAI (nudge → effect) |
-| ➕ **88 automated tests** | |
+| ➕ **121 automated tests** | up from 88; multi-backend refactor introduced no regressions |
 
 ---
 
