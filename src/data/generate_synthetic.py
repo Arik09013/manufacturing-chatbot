@@ -284,17 +284,32 @@ def _build_ground_truth(machine, times, anomalies):
     ]
 
 
-# ── Main ──────────────────────────────────────────────────────────────────────
+# ── Multi-Seed & In-Memory Generation ─────────────────────────────────────────
 
-def generate(out_dir: Path = OUT_DIR) -> None:
-    out_dir.mkdir(parents=True, exist_ok=True)
+def set_seed(seed: int = 42) -> None:
+    """Set the random generator seed for synthetic data reproducibility."""
+    global rng, SEED
+    SEED = seed
+    rng = np.random.default_rng(seed)
+    random.seed(seed)
+
+
+def generate_synthetic_multimodal(
+    seed: int = 42,
+) -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame]:
+    """
+    Generate synthetic tri-modal welding dataset for a specific seed in-memory.
+
+    Returns
+    -------
+    (sensors_df, logs_df, notes_df, ground_truth_df)
+    """
+    set_seed(seed)
     times = _time_range()
-    print(f"Time range: {times[0]} to {times[-1]}  ({len(times):,} minutes)")
 
     all_sensors, all_logs, all_notes, all_gt = [], [], [], []
 
     for machine in MACHINES:
-        print(f"  Generating {machine}...")
         anomalies = _schedule_anomalies(times)
         sensor_df = _build_sensor_series(times, anomalies)
         sensor_df.insert(0, "machine_id", machine)
@@ -304,18 +319,35 @@ def generate(out_dir: Path = OUT_DIR) -> None:
         all_gt.extend(_build_ground_truth(machine, times, anomalies))
 
     sensors = pd.concat(all_sensors, ignore_index=True)
+    logs = pd.DataFrame(all_logs).sort_values("timestamp").reset_index(drop=True)
+    notes = pd.DataFrame(all_notes).sort_values("timestamp").reset_index(drop=True)
+    gt = pd.DataFrame(all_gt).sort_values(["machine_id", "window_start"]).reset_index(drop=True)
+
+    # Restore default seed 42 to prevent any global state side-effects
+    set_seed(42)
+
+    return sensors, logs, notes, gt
+
+
+# ── Main ──────────────────────────────────────────────────────────────────────
+
+def generate(out_dir: Path = OUT_DIR, seed: int = 42) -> None:
+    out_dir.mkdir(parents=True, exist_ok=True)
+    times = _time_range()
+    print(f"Time range: {times[0]} to {times[-1]}  ({len(times):,} minutes)")
+    print(f"Generating synthetic dataset with seed={seed}...")
+
+    sensors, logs, notes, gt = generate_synthetic_multimodal(seed=seed)
+
     sensors.to_csv(out_dir / "sensors.csv", index=False)
     print(f"sensors.csv      -> {len(sensors):,} rows")
 
-    logs = pd.DataFrame(all_logs).sort_values("timestamp").reset_index(drop=True)
     logs.to_csv(out_dir / "logs.csv", index=False)
     print(f"logs.csv         -> {len(logs):,} rows")
 
-    notes = pd.DataFrame(all_notes).sort_values("timestamp").reset_index(drop=True)
     notes.to_csv(out_dir / "notes.csv", index=False)
     print(f"notes.csv        -> {len(notes):,} rows")
 
-    gt = pd.DataFrame(all_gt).sort_values(["machine_id", "window_start"]).reset_index(drop=True)
     gt.to_csv(out_dir / "ground_truth.csv", index=False)
     print(f"ground_truth.csv -> {len(gt):,} rows")
     print(f"\nAll files written to {out_dir.resolve()}")
@@ -323,3 +355,4 @@ def generate(out_dir: Path = OUT_DIR) -> None:
 
 if __name__ == "__main__":
     generate()
+

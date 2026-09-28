@@ -1,0 +1,35 @@
+scenario,category,model,accuracy,precision,recall,f1,roc_auc,pr_auc,fpr,f1_delta,pr_auc_delta,recall_delta
+CLEAN,Reference,Random Forest,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+CLEAN,Reference,Logistic Regression,0.9973,0.9091,1.0,0.9524,1.0,1.0,0.0027,0.0,0.0,0.0
+CLEAN,Reference,DistilBERT,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+NOISE_1%,Sensor Noise,Random Forest,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+NOISE_1%,Sensor Noise,Logistic Regression,0.9973,0.9091,1.0,0.9524,1.0,1.0,0.0027,0.0,0.0,0.0
+NOISE_3%,Sensor Noise,Random Forest,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+NOISE_3%,Sensor Noise,Logistic Regression,0.9973,0.9091,1.0,0.9524,1.0,1.0,0.0027,0.0,0.0,0.0
+NOISE_5%,Sensor Noise,Random Forest,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+NOISE_5%,Sensor Noise,Logistic Regression,0.9973,0.9091,1.0,0.9524,1.0,1.0,0.0027,0.0,0.0,0.0
+NOISE_5%,Sensor Noise,DistilBERT,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+MISSING_5%,Missingness,Random Forest,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+MISSING_5%,Missingness,Logistic Regression,0.9973,0.9091,1.0,0.9524,1.0,1.0,0.0027,0.0,0.0,0.0
+MISSING_10%,Missingness,Random Forest,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+MISSING_10%,Missingness,Logistic Regression,0.9973,0.9091,1.0,0.9524,1.0,1.0,0.0027,0.0,0.0,0.0
+MISSING_10%,Missingness,DistilBERT,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+MISSING_BLOCK,Missingness,Random Forest,0.9973,1.0,0.9,0.9474,0.9948,0.9345,0.0,-0.0526,-0.0655,-0.1
+MISSING_BLOCK,Missingness,Logistic Regression,0.9947,1.0,0.8,0.8889,0.9934,0.8883,0.0,-0.0635,-0.1117,-0.2
+DRIFT_2%,Temporal Drift,Random Forest,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+DRIFT_2%,Temporal Drift,Logistic Regression,0.9973,0.9091,1.0,0.9524,1.0,1.0,0.0027,0.0,0.0,0.0
+DRIFT_5%,Temporal Drift,Random Forest,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+DRIFT_5%,Temporal Drift,Logistic Regression,0.9973,0.9091,1.0,0.9524,1.0,1.0,0.0027,0.0,0.0,0.0
+DRIFT_5%,Temporal Drift,DistilBERT,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+SEVERITY_75%,Fault Severity,Random Forest,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+SEVERITY_75%,Fault Severity,Logistic Regression,0.9973,0.9091,1.0,0.9524,1.0,1.0,0.0027,0.0,0.0,0.0
+SEVERITY_50%,Fault Severity,Random Forest,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+SEVERITY_50%,Fault Severity,Logistic Regression,0.9973,0.9091,1.0,0.9524,1.0,1.0,0.0027,0.0,0.0,0.0
+SEVERITY_50%,Fault Severity,DistilBERT,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+SEVERITY_25%,Fault Severity,Random Forest,0.992,1.0,0.7,0.8235,0.997,0.9198,0.0,-0.1765,-0.0802,-0.3
+SEVERITY_25%,Fault Severity,Logistic Regression,0.976,0.6667,0.2,0.3077,0.9956,0.8196,0.0027,-0.6447,-0.1804,-0.8
+DROPOUT_10%,Feature Dropout,Random Forest,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+DROPOUT_10%,Feature Dropout,Logistic Regression,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0476,0.0,0.0
+DROPOUT_20%,Feature Dropout,Random Forest,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+DROPOUT_20%,Feature Dropout,Logistic Regression,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0476,0.0,0.0
+DROPOUT_20%,Feature Dropout,DistilBERT,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0

@@ -1,0 +1,1053 @@
+{
+  "dataset": "manufacturing_chatbot_welding_tri_modal",
+  "reference_seed": 42,
+  "n_train_samples": 1533,
+  "n_test_samples": 375,
+  "n_anomalies_train": 50,
+  "n_anomalies_test": 10,
+  "models_evaluated": [
+    "Random Forest",
+    "Logistic Regression",
+    "DistilBERT"
+  ],
+  "scenarios": {
+    "CLEAN": {
+      "category": "Reference",
+      "metadata": {
+        "description": "Clean unperturbed test set (reference baseline)",
+        "level": 0.0
+      },
+      "models": {
+        "Random Forest": {
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "roc_auc": 1.0,
+          "pr_auc": 1.0,
+          "confusion_matrix": [
+            [
+              365,
+              0
+            ],
+            [
+              0,
+              10
+            ]
+          ],
+          "n_train": 1533,
+          "n_test": 375,
+          "n_anomalies_train": 50,
+          "n_anomalies_test": 10,
+          "false_positive_rate": 0.0,
+          "f1_delta": 0.0,
+          "pr_auc_delta": 0.0,
+          "recall_delta": 0.0,
+          "precision_delta": 0.0
+        },
+        "Logistic Regression": {
+          "accuracy": 0.9973,
+          "precision": 0.9091,
+          "recall": 1.0,
+          "f1": 0.9524,
+          "roc_auc": 1.0,
+          "pr_auc": 1.0,
+          "confusion_matrix": [
+            [
+              364,
+              1
+            ],
+            [
+              0,
+              10
+            ]
+          ],
+          "n_train": 1533,
+          "n_test": 375,
+          "n_anomalies_train": 50,
+          "n_anomalies_test": 10,
+          "false_positive_rate": 0.0027,
+          "f1_delta": 0.0,
+          "pr_auc_delta": 0.0,
+          "recall_delta": 0.0,
+          "precision_delta": 0.0
+        },
+        "DistilBERT": {
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "roc_auc": 1.0,
+          "pr_auc": 1.0,
+          "confusion_matrix": [
+            [
+              365,
+              0
+            ],
+            [
+              0,
+              10
+            ]
+          ],
+          "n_train": 1533,
+          "n_test": 375,
+          "n_anomalies_train": 50,
+          "n_anomalies_test": 10,
+          "false_positive_rate": 0.0,
+          "f1_delta": 0.0,
+          "pr_auc_delta": 0.0,
+          "recall_delta": 0.0
+        }
+      }
+    },
+    "NOISE_1%": {
+      "category": "Sensor Noise",
+      "metadata": {
+        "description": "1% Gaussian sensor noise",
+        "level": 0.01
+      },
+      "models": {
+        "Random Forest": {
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "roc_auc": 1.0,
+          "pr_auc": 1.0,
+          "confusion_matrix": [
+            [
+              365,
+              0
+            ],
+            [
+              0,
+              10
+            ]
+          ],
+          "n_train": 1533,
+          "n_test": 375,
+          "n_anomalies_train": 50,
+          "n_anomalies_test": 10,
+          "false_positive_rate": 0.0,
+          "f1_delta": 0.0,
+          "pr_auc_delta": 0.0,
+          "recall_delta": 0.0,
+          "precision_delta": 0.0
+        },
+        "Logistic Regression": {
+          "accuracy": 0.9973,
+          "precision": 0.9091,
+          "recall": 1.0,
+          "f1": 0.9524,
+          "roc_auc": 1.0,
+          "pr_auc": 1.0,
+          "confusion_matrix": [
+            [
+              364,
+              1
+            ],
+            [
+              0,
+              10
+            ]
+          ],
+          "n_train": 1533,
+          "n_test": 375,
+          "n_anomalies_train": 50,
+          "n_anomalies_test": 10,
+          "false_positive_rate": 0.0027,
+          "f1_delta": 0.0,
+          "pr_auc_delta": 0.0,
+          "recall_delta": 0.0,
+          "precision_delta": 0.0
+        }
+      }
+    },
+    "NOISE_3%": {
+      "category": "Sensor Noise",
+      "metadata": {
+        "description": "3% Gaussian sensor noise",
+        "level": 0.03
+      },
+      "models": {
+        "Random Forest": {
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "roc_auc": 1.0,
+          "pr_auc": 1.0,
+          "confusion_matrix": [
+            [
+              365,
+              0
+            ],
+            [
+              0,
+              10
+            ]
+          ],
+          "n_train": 1533,
+          "n_test": 375,
+          "n_anomalies_train": 50,
+          "n_anomalies_test": 10,
+          "false_positive_rate": 0.0,
+          "f1_delta": 0.0,
+          "pr_auc_delta": 0.0,
+          "recall_delta": 0.0,
+          "precision_delta": 0.0
+        },
+        "Logistic Regression": {
+          "accuracy": 0.9973,
+          "precision": 0.9091,
+          "recall": 1.0,
+          "f1": 0.9524,
+          "roc_auc": 1.0,
+          "pr_auc": 1.0,
+          "confusion_matrix": [
+            [
+              364,
+              1
+            ],
+            [
+              0,
+              10
+            ]
+          ],
+          "n_train": 1533,
+          "n_test": 375,
+          "n_anomalies_train": 50,
+          "n_anomalies_test": 10,
+          "false_positive_rate": 0.0027,
+          "f1_delta": 0.0,
+          "pr_auc_delta": 0.0,
+          "recall_delta": 0.0,
+          "precision_delta": 0.0
+        }
+      }
+    },
+    "NOISE_5%": {
+      "category": "Sensor Noise",
+      "metadata": {
+        "description": "5% Gaussian sensor noise",
+        "level": 0.05
+      },
+      "models": {
+        "Random Forest": {
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "roc_auc": 1.0,
+          "pr_auc": 1.0,
+          "confusion_matrix": [
+            [
+              365,
+              0
+            ],
+            [
+              0,
+              10
+            ]
+          ],
+          "n_train": 1533,
+          "n_test": 375,
+          "n_anomalies_train": 50,
+          "n_anomalies_test": 10,
+          "false_positive_rate": 0.0,
+          "f1_delta": 0.0,
+          "pr_auc_delta": 0.0,
+          "recall_delta": 0.0,
+          "precision_delta": 0.0
+        },
+        "Logistic Regression": {
+          "accuracy": 0.9973,
+          "precision": 0.9091,
+          "recall": 1.0,
+          "f1": 0.9524,
+          "roc_auc": 1.0,
+          "pr_auc": 1.0,
+          "confusion_matrix": [
+            [
+              364,
+              1
+            ],
+            [
+              0,
+              10
+            ]
+          ],
+          "n_train": 1533,
+          "n_test": 375,
+          "n_anomalies_train": 50,
+          "n_anomalies_test": 10,
+          "false_positive_rate": 0.0027,
+          "f1_delta": 0.0,
+          "pr_auc_delta": 0.0,
+          "recall_delta": 0.0,
+          "precision_delta": 0.0
+        },
+        "DistilBERT": {
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "roc_auc": 1.0,
+          "pr_auc": 1.0,
+          "confusion_matrix": [
+            [
+              365,
+              0
+            ],
+            [
+              0,
+              10
+            ]
+          ],
+          "n_train": 1533,
+          "n_test": 375,
+          "n_anomalies_train": 50,
+          "n_anomalies_test": 10,
+          "false_positive_rate": 0.0,
+          "f1_delta": 0.0,
+          "pr_auc_delta": 0.0,
+          "recall_delta": 0.0
+        }
+      }
+    },
+    "MISSING_5%": {
+      "category": "Missingness",
+      "metadata": {
+        "description": "5% random sensor missingness (imputed with normal mean)",
+        "level": 0.05
+      },
+      "models": {
+        "Random Forest": {
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "roc_auc": 1.0,
+          "pr_auc": 1.0,
+          "confusion_matrix": [
+            [
+              365,
+              0
+            ],
+            [
+              0,
+              10
+            ]
+          ],
+          "n_train": 1533,
+          "n_test": 375,
+          "n_anomalies_train": 50,
+          "n_anomalies_test": 10,
+          "false_positive_rate": 0.0,
+          "f1_delta": 0.0,
+          "pr_auc_delta": 0.0,
+          "recall_delta": 0.0,
+          "precision_delta": 0.0
+        },
+        "Logistic Regression": {
+          "accuracy": 0.9973,
+          "precision": 0.9091,
+          "recall": 1.0,
+          "f1": 0.9524,
+          "roc_auc": 1.0,
+          "pr_auc": 1.0,
+          "confusion_matrix": [
+            [
+              364,
+              1
+            ],
+            [
+              0,
+              10
+            ]
+          ],
+          "n_train": 1533,
+          "n_test": 375,
+          "n_anomalies_train": 50,
+          "n_anomalies_test": 10,
+          "false_positive_rate": 0.0027,
+          "f1_delta": 0.0,
+          "pr_auc_delta": 0.0,
+          "recall_delta": 0.0,
+          "precision_delta": 0.0
+        }
+      }
+    },
+    "MISSING_10%": {
+      "category": "Missingness",
+      "metadata": {
+        "description": "10% random sensor missingness (imputed with normal mean)",
+        "level": 0.1
+      },
+      "models": {
+        "Random Forest": {
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "roc_auc": 1.0,
+          "pr_auc": 1.0,
+          "confusion_matrix": [
+            [
+              365,
+              0
+            ],
+            [
+              0,
+              10
+            ]
+          ],
+          "n_train": 1533,
+          "n_test": 375,
+          "n_anomalies_train": 50,
+          "n_anomalies_test": 10,
+          "false_positive_rate": 0.0,
+          "f1_delta": 0.0,
+          "pr_auc_delta": 0.0,
+          "recall_delta": 0.0,
+          "precision_delta": 0.0
+        },
+        "Logistic Regression": {
+          "accuracy": 0.9973,
+          "precision": 0.9091,
+          "recall": 1.0,
+          "f1": 0.9524,
+          "roc_auc": 1.0,
+          "pr_auc": 1.0,
+          "confusion_matrix": [
+            [
+              364,
+              1
+            ],
+            [
+              0,
+              10
+            ]
+          ],
+          "n_train": 1533,
+          "n_test": 375,
+          "n_anomalies_train": 50,
+          "n_anomalies_test": 10,
+          "false_positive_rate": 0.0027,
+          "f1_delta": 0.0,
+          "pr_auc_delta": 0.0,
+          "recall_delta": 0.0,
+          "precision_delta": 0.0
+        },
+        "DistilBERT": {
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "roc_auc": 1.0,
+          "pr_auc": 1.0,
+          "confusion_matrix": [
+            [
+              365,
+              0
+            ],
+            [
+              0,
+              10
+            ]
+          ],
+          "n_train": 1533,
+          "n_test": 375,
+          "n_anomalies_train": 50,
+          "n_anomalies_test": 10,
+          "false_positive_rate": 0.0,
+          "f1_delta": 0.0,
+          "pr_auc_delta": 0.0,
+          "recall_delta": 0.0
+        }
+      }
+    },
+    "MISSING_BLOCK": {
+      "category": "Missingness",
+      "metadata": {
+        "description": "Contiguous temporal block missingness (10 consecutive windows)",
+        "level": "10_windows"
+      },
+      "models": {
+        "Random Forest": {
+          "accuracy": 0.9973,
+          "precision": 1.0,
+          "recall": 0.9,
+          "f1": 0.9474,
+          "roc_auc": 0.9948,
+          "pr_auc": 0.9345,
+          "confusion_matrix": [
+            [
+              365,
+              0
+            ],
+            [
+              1,
+              9
+            ]
+          ],
+          "n_train": 1533,
+          "n_test": 375,
+          "n_anomalies_train": 50,
+          "n_anomalies_test": 10,
+          "false_positive_rate": 0.0,
+          "f1_delta": -0.0526,
+          "pr_auc_delta": -0.0655,
+          "recall_delta": -0.1,
+          "precision_delta": 0.0
+        },
+        "Logistic Regression": {
+          "accuracy": 0.9947,
+          "precision": 1.0,
+          "recall": 0.8,
+          "f1": 0.8889,
+          "roc_auc": 0.9934,
+          "pr_auc": 0.8883,
+          "confusion_matrix": [
+            [
+              365,
+              0
+            ],
+            [
+              2,
+              8
+            ]
+          ],
+          "n_train": 1533,
+          "n_test": 375,
+          "n_anomalies_train": 50,
+          "n_anomalies_test": 10,
+          "false_positive_rate": 0.0,
+          "f1_delta": -0.0635,
+          "pr_auc_delta": -0.1117,
+          "recall_delta": -0.2,
+          "precision_delta": 0.0909
+        }
+      }
+    },
+    "DRIFT_2%": {
+      "category": "Temporal Drift",
+      "metadata": {
+        "description": "2% progressive linear sensor drift across test horizon",
+        "level": 0.02
+      },
+      "models": {
+        "Random Forest": {
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "roc_auc": 1.0,
+          "pr_auc": 1.0,
+          "confusion_matrix": [
+            [
+              365,
+              0
+            ],
+            [
+              0,
+              10
+            ]
+          ],
+          "n_train": 1533,
+          "n_test": 375,
+          "n_anomalies_train": 50,
+          "n_anomalies_test": 10,
+          "false_positive_rate": 0.0,
+          "f1_delta": 0.0,
+          "pr_auc_delta": 0.0,
+          "recall_delta": 0.0,
+          "precision_delta": 0.0
+        },
+        "Logistic Regression": {
+          "accuracy": 0.9973,
+          "precision": 0.9091,
+          "recall": 1.0,
+          "f1": 0.9524,
+          "roc_auc": 1.0,
+          "pr_auc": 1.0,
+          "confusion_matrix": [
+            [
+              364,
+              1
+            ],
+            [
+              0,
+              10
+            ]
+          ],
+          "n_train": 1533,
+          "n_test": 375,
+          "n_anomalies_train": 50,
+          "n_anomalies_test": 10,
+          "false_positive_rate": 0.0027,
+          "f1_delta": 0.0,
+          "pr_auc_delta": 0.0,
+          "recall_delta": 0.0,
+          "precision_delta": 0.0
+        }
+      }
+    },
+    "DRIFT_5%": {
+      "category": "Temporal Drift",
+      "metadata": {
+        "description": "5% progressive linear sensor drift across test horizon",
+        "level": 0.05
+      },
+      "models": {
+        "Random Forest": {
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "roc_auc": 1.0,
+          "pr_auc": 1.0,
+          "confusion_matrix": [
+            [
+              365,
+              0
+            ],
+            [
+              0,
+              10
+            ]
+          ],
+          "n_train": 1533,
+          "n_test": 375,
+          "n_anomalies_train": 50,
+          "n_anomalies_test": 10,
+          "false_positive_rate": 0.0,
+          "f1_delta": 0.0,
+          "pr_auc_delta": 0.0,
+          "recall_delta": 0.0,
+          "precision_delta": 0.0
+        },
+        "Logistic Regression": {
+          "accuracy": 0.9973,
+          "precision": 0.9091,
+          "recall": 1.0,
+          "f1": 0.9524,
+          "roc_auc": 1.0,
+          "pr_auc": 1.0,
+          "confusion_matrix": [
+            [
+              364,
+              1
+            ],
+            [
+              0,
+              10
+            ]
+          ],
+          "n_train": 1533,
+          "n_test": 375,
+          "n_anomalies_train": 50,
+          "n_anomalies_test": 10,
+          "false_positive_rate": 0.0027,
+          "f1_delta": 0.0,
+          "pr_auc_delta": 0.0,
+          "recall_delta": 0.0,
+          "precision_delta": 0.0
+        },
+        "DistilBERT": {
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "roc_auc": 1.0,
+          "pr_auc": 1.0,
+          "confusion_matrix": [
+            [
+              365,
+              0
+            ],
+            [
+              0,
+              10
+            ]
+          ],
+          "n_train": 1533,
+          "n_test": 375,
+          "n_anomalies_train": 50,
+          "n_anomalies_test": 10,
+          "false_positive_rate": 0.0,
+          "f1_delta": 0.0,
+          "pr_auc_delta": 0.0,
+          "recall_delta": 0.0
+        }
+      }
+    },
+    "SEVERITY_75%": {
+      "category": "Fault Severity",
+      "metadata": {
+        "description": "Anomalies reduced to 75% of original severity",
+        "level": 0.75
+      },
+      "models": {
+        "Random Forest": {
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "roc_auc": 1.0,
+          "pr_auc": 1.0,
+          "confusion_matrix": [
+            [
+              365,
+              0
+            ],
+            [
+              0,
+              10
+            ]
+          ],
+          "n_train": 1533,
+          "n_test": 375,
+          "n_anomalies_train": 50,
+          "n_anomalies_test": 10,
+          "false_positive_rate": 0.0,
+          "f1_delta": 0.0,
+          "pr_auc_delta": 0.0,
+          "recall_delta": 0.0,
+          "precision_delta": 0.0
+        },
+        "Logistic Regression": {
+          "accuracy": 0.9973,
+          "precision": 0.9091,
+          "recall": 1.0,
+          "f1": 0.9524,
+          "roc_auc": 1.0,
+          "pr_auc": 1.0,
+          "confusion_matrix": [
+            [
+              364,
+              1
+            ],
+            [
+              0,
+              10
+            ]
+          ],
+          "n_train": 1533,
+          "n_test": 375,
+          "n_anomalies_train": 50,
+          "n_anomalies_test": 10,
+          "false_positive_rate": 0.0027,
+          "f1_delta": 0.0,
+          "pr_auc_delta": 0.0,
+          "recall_delta": 0.0,
+          "precision_delta": 0.0
+        }
+      }
+    },
+    "SEVERITY_50%": {
+      "category": "Fault Severity",
+      "metadata": {
+        "description": "Anomalies reduced to 50% of original severity",
+        "level": 0.5
+      },
+      "models": {
+        "Random Forest": {
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "roc_auc": 1.0,
+          "pr_auc": 1.0,
+          "confusion_matrix": [
+            [
+              365,
+              0
+            ],
+            [
+              0,
+              10
+            ]
+          ],
+          "n_train": 1533,
+          "n_test": 375,
+          "n_anomalies_train": 50,
+          "n_anomalies_test": 10,
+          "false_positive_rate": 0.0,
+          "f1_delta": 0.0,
+          "pr_auc_delta": 0.0,
+          "recall_delta": 0.0,
+          "precision_delta": 0.0
+        },
+        "Logistic Regression": {
+          "accuracy": 0.9973,
+          "precision": 0.9091,
+          "recall": 1.0,
+          "f1": 0.9524,
+          "roc_auc": 1.0,
+          "pr_auc": 1.0,
+          "confusion_matrix": [
+            [
+              364,
+              1
+            ],
+            [
+              0,
+              10
+            ]
+          ],
+          "n_train": 1533,
+          "n_test": 375,
+          "n_anomalies_train": 50,
+          "n_anomalies_test": 10,
+          "false_positive_rate": 0.0027,
+          "f1_delta": 0.0,
+          "pr_auc_delta": 0.0,
+          "recall_delta": 0.0,
+          "precision_delta": 0.0
+        },
+        "DistilBERT": {
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "roc_auc": 1.0,
+          "pr_auc": 1.0,
+          "confusion_matrix": [
+            [
+              365,
+              0
+            ],
+            [
+              0,
+              10
+            ]
+          ],
+          "n_train": 1533,
+          "n_test": 375,
+          "n_anomalies_train": 50,
+          "n_anomalies_test": 10,
+          "false_positive_rate": 0.0,
+          "f1_delta": 0.0,
+          "pr_auc_delta": 0.0,
+          "recall_delta": 0.0
+        }
+      }
+    },
+    "SEVERITY_25%": {
+      "category": "Fault Severity",
+      "metadata": {
+        "description": "Anomalies reduced to 25% of original severity (subtle fault)",
+        "level": 0.25
+      },
+      "models": {
+        "Random Forest": {
+          "accuracy": 0.992,
+          "precision": 1.0,
+          "recall": 0.7,
+          "f1": 0.8235,
+          "roc_auc": 0.997,
+          "pr_auc": 0.9198,
+          "confusion_matrix": [
+            [
+              365,
+              0
+            ],
+            [
+              3,
+              7
+            ]
+          ],
+          "n_train": 1533,
+          "n_test": 375,
+          "n_anomalies_train": 50,
+          "n_anomalies_test": 10,
+          "false_positive_rate": 0.0,
+          "f1_delta": -0.1765,
+          "pr_auc_delta": -0.0802,
+          "recall_delta": -0.3,
+          "precision_delta": 0.0
+        },
+        "Logistic Regression": {
+          "accuracy": 0.976,
+          "precision": 0.6667,
+          "recall": 0.2,
+          "f1": 0.3077,
+          "roc_auc": 0.9956,
+          "pr_auc": 0.8196,
+          "confusion_matrix": [
+            [
+              364,
+              1
+            ],
+            [
+              8,
+              2
+            ]
+          ],
+          "n_train": 1533,
+          "n_test": 375,
+          "n_anomalies_train": 50,
+          "n_anomalies_test": 10,
+          "false_positive_rate": 0.0027,
+          "f1_delta": -0.6447,
+          "pr_auc_delta": -0.1804,
+          "recall_delta": -0.8,
+          "precision_delta": -0.2424
+        }
+      }
+    },
+    "DROPOUT_10%": {
+      "category": "Feature Dropout",
+      "metadata": {
+        "description": "10% sensor feature channels masked (3 channels)",
+        "level": 0.1
+      },
+      "models": {
+        "Random Forest": {
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "roc_auc": 1.0,
+          "pr_auc": 1.0,
+          "confusion_matrix": [
+            [
+              365,
+              0
+            ],
+            [
+              0,
+              10
+            ]
+          ],
+          "n_train": 1533,
+          "n_test": 375,
+          "n_anomalies_train": 50,
+          "n_anomalies_test": 10,
+          "false_positive_rate": 0.0,
+          "f1_delta": 0.0,
+          "pr_auc_delta": 0.0,
+          "recall_delta": 0.0,
+          "precision_delta": 0.0
+        },
+        "Logistic Regression": {
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "roc_auc": 1.0,
+          "pr_auc": 1.0,
+          "confusion_matrix": [
+            [
+              365,
+              0
+            ],
+            [
+              0,
+              10
+            ]
+          ],
+          "n_train": 1533,
+          "n_test": 375,
+          "n_anomalies_train": 50,
+          "n_anomalies_test": 10,
+          "false_positive_rate": 0.0,
+          "f1_delta": 0.0476,
+          "pr_auc_delta": 0.0,
+          "recall_delta": 0.0,
+          "precision_delta": 0.0909
+        }
+      }
+    },
+    "DROPOUT_20%": {
+      "category": "Feature Dropout",
+      "metadata": {
+        "description": "20% sensor feature channels masked (6 channels)",
+        "level": 0.2
+      },
+      "models": {
+        "Random Forest": {
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "roc_auc": 1.0,
+          "pr_auc": 1.0,
+          "confusion_matrix": [
+            [
+              365,
+              0
+            ],
+            [
+              0,
+              10
+            ]
+          ],
+          "n_train": 1533,
+          "n_test": 375,
+          "n_anomalies_train": 50,
+          "n_anomalies_test": 10,
+          "false_positive_rate": 0.0,
+          "f1_delta": 0.0,
+          "pr_auc_delta": 0.0,
+          "recall_delta": 0.0,
+          "precision_delta": 0.0
+        },
+        "Logistic Regression": {
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "roc_auc": 1.0,
+          "pr_auc": 1.0,
+          "confusion_matrix": [
+            [
+              365,
+              0
+            ],
+            [
+              0,
+              10
+            ]
+          ],
+          "n_train": 1533,
+          "n_test": 375,
+          "n_anomalies_train": 50,
+          "n_anomalies_test": 10,
+          "false_positive_rate": 0.0,
+          "f1_delta": 0.0476,
+          "pr_auc_delta": 0.0,
+          "recall_delta": 0.0,
+          "precision_delta": 0.0909
+        },
+        "DistilBERT": {
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "roc_auc": 1.0,
+          "pr_auc": 1.0,
+          "confusion_matrix": [
+            [
+              365,
+              0
+            ],
+            [
+              0,
+              10
+            ]
+          ],
+          "n_train": 1533,
+          "n_test": 375,
+          "n_anomalies_train": 50,
+          "n_anomalies_test": 10,
+          "false_positive_rate": 0.0,
+          "f1_delta": 0.0,
+          "pr_auc_delta": 0.0,
+          "recall_delta": 0.0
+        }
+      }
+    }
+  }
+}

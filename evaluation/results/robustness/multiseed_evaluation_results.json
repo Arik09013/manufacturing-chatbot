@@ -1,0 +1,389 @@
+{
+  "seeds_evaluated": [
+    42,
+    123,
+    456,
+    789,
+    2026
+  ],
+  "seed_runs": {
+    "42": {
+      "dataset_stats": {
+        "total_samples": 1917,
+        "total_anomalies": 60,
+        "anomaly_rate": 0.0313,
+        "anomalies_by_machine": {
+          "station_1": 20,
+          "station_2": 20,
+          "station_3": 20
+        },
+        "fault_type_counts": {
+          "wire_feed_fault": 18,
+          "arc_instability": 14,
+          "underheat": 10,
+          "overheating": 10,
+          "gas_flow_failure": 8
+        },
+        "n_train": 1533,
+        "n_test": 375,
+        "n_purged": 9,
+        "n_anomalies_train": 50,
+        "n_anomalies_test": 10
+      },
+      "chronological_models": {
+        "Random Forest": {
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "roc_auc": 1.0,
+          "pr_auc": 1.0,
+          "confusion_matrix": [
+            [
+              365,
+              0
+            ],
+            [
+              0,
+              10
+            ]
+          ],
+          "n_train": 1533,
+          "n_test": 375,
+          "n_anomalies_train": 50,
+          "n_anomalies_test": 10,
+          "train_time_sec": 0.2495
+        },
+        "Logistic Regression": {
+          "accuracy": 0.9973,
+          "precision": 0.9091,
+          "recall": 1.0,
+          "f1": 0.9524,
+          "roc_auc": 1.0,
+          "pr_auc": 1.0,
+          "confusion_matrix": [
+            [
+              364,
+              1
+            ],
+            [
+              0,
+              10
+            ]
+          ],
+          "n_train": 1533,
+          "n_test": 375,
+          "n_anomalies_train": 50,
+          "n_anomalies_test": 10,
+          "train_time_sec": 0.0132
+        }
+      }
+    },
+    "123": {
+      "dataset_stats": {
+        "total_samples": 1917,
+        "total_anomalies": 62,
+        "anomaly_rate": 0.0323,
+        "anomalies_by_machine": {
+          "station_1": 21,
+          "station_2": 20,
+          "station_3": 21
+        },
+        "fault_type_counts": {
+          "underheat": 19,
+          "arc_instability": 18,
+          "gas_flow_failure": 13,
+          "overheating": 10,
+          "wire_feed_fault": 2
+        },
+        "n_train": 1510,
+        "n_test": 398,
+        "n_purged": 9,
+        "n_anomalies_train": 55,
+        "n_anomalies_test": 6
+      },
+      "chronological_models": {
+        "Random Forest": {
+          "accuracy": 0.995,
+          "precision": 0.75,
+          "recall": 1.0,
+          "f1": 0.8571,
+          "roc_auc": 1.0,
+          "pr_auc": 1.0,
+          "confusion_matrix": [
+            [
+              390,
+              2
+            ],
+            [
+              0,
+              6
+            ]
+          ],
+          "n_train": 1510,
+          "n_test": 398,
+          "n_anomalies_train": 55,
+          "n_anomalies_test": 6,
+          "train_time_sec": 0.402
+        },
+        "Logistic Regression": {
+          "accuracy": 0.9975,
+          "precision": 0.8571,
+          "recall": 1.0,
+          "f1": 0.9231,
+          "roc_auc": 1.0,
+          "pr_auc": 1.0,
+          "confusion_matrix": [
+            [
+              391,
+              1
+            ],
+            [
+              0,
+              6
+            ]
+          ],
+          "n_train": 1510,
+          "n_test": 398,
+          "n_anomalies_train": 55,
+          "n_anomalies_test": 6,
+          "train_time_sec": 0.0234
+        }
+      }
+    },
+    "456": {
+      "dataset_stats": {
+        "total_samples": 1917,
+        "total_anomalies": 63,
+        "anomaly_rate": 0.0329,
+        "anomalies_by_machine": {
+          "station_1": 21,
+          "station_2": 20,
+          "station_3": 22
+        },
+        "fault_type_counts": {
+          "overheating": 21,
+          "arc_instability": 14,
+          "underheat": 13,
+          "gas_flow_failure": 8,
+          "wire_feed_fault": 7
+        },
+        "n_train": 1487,
+        "n_test": 421,
+        "n_purged": 9,
+        "n_anomalies_train": 57,
+        "n_anomalies_test": 4
+      },
+      "chronological_models": {
+        "Random Forest": {
+          "accuracy": 0.9976,
+          "precision": 0.8,
+          "recall": 1.0,
+          "f1": 0.8889,
+          "roc_auc": 1.0,
+          "pr_auc": 1.0,
+          "confusion_matrix": [
+            [
+              416,
+              1
+            ],
+            [
+              0,
+              4
+            ]
+          ],
+          "n_train": 1487,
+          "n_test": 421,
+          "n_anomalies_train": 57,
+          "n_anomalies_test": 4,
+          "train_time_sec": 0.3902
+        },
+        "Logistic Regression": {
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "roc_auc": 1.0,
+          "pr_auc": 1.0,
+          "confusion_matrix": [
+            [
+              417,
+              0
+            ],
+            [
+              0,
+              4
+            ]
+          ],
+          "n_train": 1487,
+          "n_test": 421,
+          "n_anomalies_train": 57,
+          "n_anomalies_test": 4,
+          "train_time_sec": 0.0224
+        }
+      }
+    },
+    "789": {
+      "dataset_stats": {
+        "total_samples": 1917,
+        "total_anomalies": 61,
+        "anomaly_rate": 0.0318,
+        "anomalies_by_machine": {
+          "station_1": 20,
+          "station_2": 21,
+          "station_3": 20
+        },
+        "fault_type_counts": {
+          "gas_flow_failure": 18,
+          "overheating": 16,
+          "arc_instability": 11,
+          "underheat": 10,
+          "wire_feed_fault": 6
+        },
+        "n_train": 1533,
+        "n_test": 375,
+        "n_purged": 9,
+        "n_anomalies_train": 45,
+        "n_anomalies_test": 15
+      },
+      "chronological_models": {
+        "Random Forest": {
+          "accuracy": 0.9947,
+          "precision": 0.9333,
+          "recall": 0.9333,
+          "f1": 0.9333,
+          "roc_auc": 0.9978,
+          "pr_auc": 0.9704,
+          "confusion_matrix": [
+            [
+              359,
+              1
+            ],
+            [
+              1,
+              14
+            ]
+          ],
+          "n_train": 1533,
+          "n_test": 375,
+          "n_anomalies_train": 45,
+          "n_anomalies_test": 15,
+          "train_time_sec": 0.392
+        },
+        "Logistic Regression": {
+          "accuracy": 0.9947,
+          "precision": 0.9333,
+          "recall": 0.9333,
+          "f1": 0.9333,
+          "roc_auc": 0.9972,
+          "pr_auc": 0.9667,
+          "confusion_matrix": [
+            [
+              359,
+              1
+            ],
+            [
+              1,
+              14
+            ]
+          ],
+          "n_train": 1533,
+          "n_test": 375,
+          "n_anomalies_train": 45,
+          "n_anomalies_test": 15,
+          "train_time_sec": 0.0229
+        }
+      }
+    },
+    "2026": {
+      "dataset_stats": {
+        "total_samples": 1917,
+        "total_anomalies": 62,
+        "anomaly_rate": 0.0323,
+        "anomalies_by_machine": {
+          "station_1": 21,
+          "station_2": 21,
+          "station_3": 20
+        },
+        "fault_type_counts": {
+          "underheat": 26,
+          "arc_instability": 16,
+          "wire_feed_fault": 10,
+          "gas_flow_failure": 6,
+          "overheating": 4
+        },
+        "n_train": 1433,
+        "n_test": 475,
+        "n_purged": 9,
+        "n_anomalies_train": 55,
+        "n_anomalies_test": 6
+      },
+      "chronological_models": {
+        "Random Forest": {
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "roc_auc": 1.0,
+          "pr_auc": 1.0,
+          "confusion_matrix": [
+            [
+              469,
+              0
+            ],
+            [
+              0,
+              6
+            ]
+          ],
+          "n_train": 1433,
+          "n_test": 475,
+          "n_anomalies_train": 55,
+          "n_anomalies_test": 6,
+          "train_time_sec": 0.3909
+        },
+        "Logistic Regression": {
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "roc_auc": 1.0,
+          "pr_auc": 1.0,
+          "confusion_matrix": [
+            [
+              469,
+              0
+            ],
+            [
+              0,
+              6
+            ]
+          ],
+          "n_train": 1433,
+          "n_test": 475,
+          "n_anomalies_train": 55,
+          "n_anomalies_test": 6,
+          "train_time_sec": 0.0248
+        }
+      }
+    }
+  },
+  "summary_statistics": {
+    "Random Forest": {
+      "f1_mean": 0.9359,
+      "f1_std": 0.0577,
+      "f1_min": 0.8571,
+      "f1_max": 1.0,
+      "roc_auc_mean": 0.9996,
+      "roc_auc_std": 0.0009
+    },
+    "Logistic Regression": {
+      "f1_mean": 0.9618,
+      "f1_std": 0.0326,
+      "f1_min": 0.9231,
+      "f1_max": 1.0,
+      "roc_auc_mean": 0.9994,
+      "roc_auc_std": 0.0011
+    }
+  }
+}

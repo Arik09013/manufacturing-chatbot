@@ -1,0 +1,45 @@
+{
+  "benchmark_timestamp": "2026-09-29",
+  "multiseed_seeds": [
+    42,
+    123,
+    456,
+    789,
+    2026
+  ],
+  "multiseed_summary": {
+    "Random Forest": {
+      "f1_mean": 0.9359,
+      "f1_std": 0.0577,
+      "f1_min": 0.8571,
+      "f1_max": 1.0,
+      "roc_auc_mean": 0.9996,
+      "roc_auc_std": 0.0009
+    },
+    "Logistic Regression": {
+      "f1_mean": 0.9618,
+      "f1_std": 0.0326,
+      "f1_min": 0.9231,
+      "f1_max": 1.0,
+      "roc_auc_mean": 0.9994,
+      "roc_auc_std": 0.0011
+    }
+  },
+  "robustness_scenarios_evaluated": [
+    "CLEAN",
+    "NOISE_1%",
+    "NOISE_3%",
+    "NOISE_5%",
+    "MISSING_5%",
+    "MISSING_10%",
+    "MISSING_BLOCK",
+    "DRIFT_2%",
+    "DRIFT_5%",
+    "SEVERITY_75%",
+    "SEVERITY_50%",
+    "SEVERITY_25%",
+    "DROPOUT_10%",
+    "DROPOUT_20%"
+  ],
+  "total_experiment_records": 34
+}
