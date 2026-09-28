@@ -1,0 +1,86 @@
+{
+  "verified_at": "2026-09-29",
+  "dataset_total_windows": 1917,
+  "total_anomalies": 60,
+  "chronological_split": {
+    "embargo_minutes_required": 30,
+    "train_samples": 1533,
+    "test_samples": 375,
+    "purged_samples": 9,
+    "train_anomalies": 50,
+    "test_anomalies": 10,
+    "purged_anomalies": 0,
+    "checks_passed": true,
+    "machine_reports": {
+      "station_1": {
+        "train_windows": 511,
+        "test_windows": 125,
+        "train_anomalies": 16,
+        "test_anomalies": 4,
+        "last_train_end": "2026-05-06 14:00:00",
+        "first_test_start": "2026-05-06 14:30:00",
+        "actual_embargo_gap_minutes": 30.0,
+        "embargo_passed": true
+      },
+      "station_2": {
+        "train_windows": 511,
+        "test_windows": 125,
+        "train_anomalies": 16,
+        "test_anomalies": 4,
+        "last_train_end": "2026-05-06 14:00:00",
+        "first_test_start": "2026-05-06 14:30:00",
+        "actual_embargo_gap_minutes": 30.0,
+        "embargo_passed": true
+      },
+      "station_3": {
+        "train_windows": 511,
+        "test_windows": 125,
+        "train_anomalies": 18,
+        "test_anomalies": 2,
+        "last_train_end": "2026-05-06 14:00:00",
+        "first_test_start": "2026-05-06 14:30:00",
+        "actual_embargo_gap_minutes": 30.0,
+        "embargo_passed": true
+      }
+    }
+  },
+  "lomo_splits": {
+    "station_1": {
+      "train_samples": 1278,
+      "test_samples": 639,
+      "train_machines": [
+        "station_2",
+        "station_3"
+      ],
+      "test_machines": [
+        "station_1"
+      ],
+      "checks_passed": true
+    },
+    "station_2": {
+      "train_samples": 1278,
+      "test_samples": 639,
+      "train_machines": [
+        "station_1",
+        "station_3"
+      ],
+      "test_machines": [
+        "station_2"
+      ],
+      "checks_passed": true
+    },
+    "station_3": {
+      "train_samples": 1278,
+      "test_samples": 639,
+      "train_machines": [
+        "station_1",
+        "station_2"
+      ],
+      "test_machines": [
+        "station_3"
+      ],
+      "checks_passed": true
+    }
+  },
+  "all_checks_passed": true
+}

@@ -1,0 +1,50 @@
+{
+  "split_mode": "chronological",
+  "split_description": "Chronological 80/20 Holdout (embargo=30 min)",
+  "embargo_minutes": 30,
+  "holdout_machine": null,
+  "distilbert": {
+    "accuracy": 1.0,
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "roc_auc": 1.0,
+    "pr_auc": 1.0,
+    "confusion_matrix": [
+      [
+        365,
+        0
+      ],
+      [
+        0,
+        10
+      ]
+    ],
+    "n_train": 1533,
+    "n_test": 375,
+    "n_anomalies_train": 50,
+    "n_anomalies_test": 10
+  },
+  "random_forest": {
+    "accuracy": 1.0,
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "roc_auc": 1.0,
+    "pr_auc": 1.0,
+    "confusion_matrix": [
+      [
+        365,
+        0
+      ],
+      [
+        0,
+        10
+      ]
+    ],
+    "n_train": 1533,
+    "n_test": 375,
+    "n_anomalies_train": 50,
+    "n_anomalies_test": 10
+  }
+}

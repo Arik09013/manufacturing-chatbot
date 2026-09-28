@@ -29,7 +29,7 @@ is judged on citation preservation, readability, safety, and conciseness.
 ## 3. Experimental Setup
 
 - **Dataset:** `evaluation/datasets/benchmark_set.json` — **64 prompts** spanning routes: anomaly, general, knowledge, param, robotics.
-- **Backends compared:** anthropic (claude-haiku-4-5-20251001), groq (llama-3.3-70b-versatile), ollama_llama (llama3.2), ollama_qwen (qwen2.5:3b), ollama_mistral (mistral:7b).
+- **Backends compared:** anthropic (claude-haiku-4-5-20251001), ollama_mistral (mistral:7b), ollama_llama (llama3.2), groq (llama-3.3-70b-versatile), ollama_qwen (qwen2.5:3b).
 - **Prompt parity:** identical grounding payload and system prompt per route across all backends.
 - **Fallback:** any backend failure (down / not pulled / timeout / no key) falls back to the deterministic grounded summary and is recorded — the harness never crashes.
 
@@ -37,8 +37,7 @@ is judged on citation preservation, readability, safety, and conciseness.
 
 - **Compute:** CPU-only (no GPU required); local models served by Ollama.
 - **OS / Python:** Windows 10 · Python 3.11.0.
-- **Ollama:** Warning: could not connect to a running Ollama instance
-Warning: client version is 0.30.11.
+- **Ollama:** ollama version is 0.30.11.
 - **Local models:** `qwen2.5:3b`, `mistral:7b`, `llama3.2`. **Hosted models:** Anthropic Claude, Llama-3.3-70B via Groq.
 
 ## 4. Evaluation Metrics
@@ -64,11 +63,11 @@ Warning: client version is 0.30.11.
 
 | Rank | Backend | Model | Quality | Faithfulness | Halluc. | Citation | Readability | Safety | Concise | Latency (s) | tok/s | Cost/1k ($) | Fallback |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| 1 | anthropic | claude-haiku-4-5-20251001 | 0.845 | 0.993 | 0.007 | 0.605 | 0.703 | 0.990 | 0.754 | 10.89 | 47.9 | 4.1000 | 0.00 |
-| 2 | groq | llama-3.3-70b-versatile | 0.789 | 0.995 | 0.005 | 0.487 | 0.531 | 0.945 | 0.828 | 1.89 | 617.8 | 1.1000 | 0.64 |
-| 3 | ollama_llama | llama3.2 | 0.763 | 1.000 | 0.000 | 0.526 | 0.501 | 0.922 | 0.730 | 0.00 | 0.0 | 0 | 1.00 |
-| 4 | ollama_qwen | qwen2.5:3b | 0.763 | 1.000 | 0.000 | 0.526 | 0.501 | 0.922 | 0.730 | 0.00 | 0.0 | 0 | 1.00 |
-| 5 | ollama_mistral | mistral:7b | 0.763 | 1.000 | 0.000 | 0.526 | 0.501 | 0.922 | 0.730 | 0.00 | 0.0 | 0 | 1.00 |
+| 1 | anthropic | claude-haiku-4-5-20251001 | 0.851 | 0.970 | 0.030 | 0.632 | 0.725 | 0.992 | 0.748 | 10.86 | 47.1 | 4.1000 | 0.00 |
+| 2 | ollama_mistral | mistral:7b | 0.812 | 0.972 | 0.028 | 0.711 | 0.529 | 0.946 | 0.888 | 37.78 | 7.4 | 0 | 0.03 |
+| 3 | ollama_llama | llama3.2 | 0.776 | 0.956 | 0.044 | 0.605 | 0.487 | 0.935 | 0.842 | 9.45 | 27.2 | 0 | 0.00 |
+| 4 | groq | llama-3.3-70b-versatile | 0.769 | 1.000 | 0.000 | 0.500 | 0.499 | 0.930 | 0.765 | 0.91 | 748.0 | 1.1000 | 0.94 |
+| 5 | ollama_qwen | qwen2.5:3b | 0.758 | 0.985 | 0.015 | 0.355 | 0.466 | 0.964 | 0.775 | 9.02 | 34.6 | 0 | 0.00 |
 
 *Composite quality weights: faithfulness 0.35, safety 0.25, citation 0.15,
 readability 0.15, conciseness 0.10 (metrics that are N/A on a route are dropped
@@ -78,10 +77,10 @@ and the remaining weights renormalized).*
 
 | Route | anthropic | groq | ollama_llama | ollama_qwen | ollama_mistral |
 |---|---|---|---|---|---|
-| anomaly | 0.952 | 0.923 | 0.888 | 0.888 | 0.888 |
-| general | 0.889 | 0.847 | 0.847 | 0.847 | 0.847 |
-| knowledge | 0.756 | 0.664 | 0.623 | 0.623 | 0.623 |
-| param | 0.973 | 0.993 | 0.996 | 0.996 | 0.996 |
+| anomaly | 0.935 | 0.899 | 0.892 | 0.901 | 0.921 |
+| general | 0.899 | 0.847 | 0.722 | 0.765 | 0.718 |
+| knowledge | 0.775 | 0.631 | 0.713 | 0.653 | 0.783 |
+| param | 0.953 | 0.996 | 0.931 | 0.945 | 0.906 |
 
 ### 5.2 Figures
 
@@ -98,8 +97,8 @@ See `evaluation/results/figures/`:
 - **Llama 3.2 (local)** — Balanced local baseline — no API key, fully offline, reasonable prose. Trade-off: CPU latency and a smaller model than the hosted 70B.
 
 **Leading configuration this run:** `anthropic` (claude-haiku-4-5-20251001) at
-composite quality **0.845**, mean latency
-10.89 s, fallback rate 0.00.
+composite quality **0.851**, mean latency
+10.86 s, fallback rate 0.00.
 For a *fully-offline* deployment the strongest local candidates are Qwen2.5:3b
 (technical reasoning, small footprint) and Mistral 7B (fast CPU inference); for
 *maximum linguistic quality and citation discipline* with a network budget,

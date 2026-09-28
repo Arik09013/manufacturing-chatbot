@@ -1,0 +1,571 @@
+{
+  "embargo_minutes": 30,
+  "n_train_total": 1533,
+  "n_test_total": 375,
+  "n_purged_total": 9,
+  "models": {
+    "Random Forest": {
+      "category": "Tree Ensemble (Supervised)",
+      "is_supervised": true,
+      "class_imbalance_strategy": "class_weight='balanced' (inversely proportional to class frequencies)",
+      "config": {
+        "n_estimators": 200,
+        "min_samples_leaf": 2,
+        "class_weight": "balanced",
+        "random_state": 42,
+        "n_jobs": -1
+      },
+      "per_machine": {
+        "station_1": {
+          "accuracy": 0.984,
+          "precision": 0.6667,
+          "recall": 1.0,
+          "f1": 0.8,
+          "roc_auc": 1.0,
+          "pr_auc": 1.0,
+          "confusion_matrix": [
+            [
+              119,
+              2
+            ],
+            [
+              0,
+              4
+            ]
+          ],
+          "n_train": 511,
+          "n_test": 125,
+          "n_anomalies_train": 16,
+          "n_anomalies_test": 4,
+          "train_time_sec": 0.2512,
+          "inference_time_sec": 0.0531,
+          "inference_time_per_sample_ms": 0.4244
+        },
+        "station_2": {
+          "accuracy": 0.992,
+          "precision": 0.8,
+          "recall": 1.0,
+          "f1": 0.8889,
+          "roc_auc": 1.0,
+          "pr_auc": 1.0,
+          "confusion_matrix": [
+            [
+              120,
+              1
+            ],
+            [
+              0,
+              4
+            ]
+          ],
+          "n_train": 511,
+          "n_test": 125,
+          "n_anomalies_train": 16,
+          "n_anomalies_test": 4,
+          "train_time_sec": 0.2883,
+          "inference_time_sec": 0.0563,
+          "inference_time_per_sample_ms": 0.4501
+        },
+        "station_3": {
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "roc_auc": 1.0,
+          "pr_auc": 1.0,
+          "confusion_matrix": [
+            [
+              123,
+              0
+            ],
+            [
+              0,
+              2
+            ]
+          ],
+          "n_train": 511,
+          "n_test": 125,
+          "n_anomalies_train": 18,
+          "n_anomalies_test": 2,
+          "train_time_sec": 0.253,
+          "inference_time_sec": 0.0945,
+          "inference_time_per_sample_ms": 0.7563
+        }
+      },
+      "macro_average": {
+        "accuracy": 0.992,
+        "precision": 0.8222,
+        "recall": 1.0,
+        "f1": 0.8963,
+        "roc_auc": 1.0,
+        "pr_auc": 1.0,
+        "mean_train_time_sec": 0.2642,
+        "mean_inference_time_sec": 0.068
+      },
+      "pooled_all_machines": {
+        "accuracy": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "roc_auc": 1.0,
+        "pr_auc": 1.0,
+        "confusion_matrix": [
+          [
+            365,
+            0
+          ],
+          [
+            0,
+            10
+          ]
+        ],
+        "n_train": 1533,
+        "n_test": 375,
+        "n_anomalies_train": 50,
+        "n_anomalies_test": 10,
+        "train_time_sec": 0.4264,
+        "inference_time_sec": 0.1216,
+        "inference_time_per_sample_ms": 0.3242,
+        "model_complexity": {
+          "serialized_size_bytes": 483383,
+          "structural_parameters": 5112,
+          "complexity_description": "5112 decision tree nodes across 200 trees"
+        }
+      },
+      "timing_and_size": {
+        "train_time_sec": 0.4264,
+        "inference_time_sec": 0.1216,
+        "inference_time_per_sample_ms": 0.3242,
+        "serialized_size_bytes": 483383,
+        "structural_parameters": 5112,
+        "complexity_description": "5112 decision tree nodes across 200 trees"
+      }
+    },
+    "Logistic Regression": {
+      "category": "Linear Model (Supervised)",
+      "is_supervised": true,
+      "class_imbalance_strategy": "class_weight='balanced' (heuristically scales loss inversely to class frequencies)",
+      "config": {
+        "class_weight": "balanced",
+        "max_iter": 1000,
+        "random_state": 42,
+        "solver": "lbfgs"
+      },
+      "per_machine": {
+        "station_1": {
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "roc_auc": 1.0,
+          "pr_auc": 1.0,
+          "confusion_matrix": [
+            [
+              121,
+              0
+            ],
+            [
+              0,
+              4
+            ]
+          ],
+          "n_train": 511,
+          "n_test": 125,
+          "n_anomalies_train": 16,
+          "n_anomalies_test": 4,
+          "train_time_sec": 0.0148,
+          "inference_time_sec": 0.0006,
+          "inference_time_per_sample_ms": 0.0045
+        },
+        "station_2": {
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "roc_auc": 1.0,
+          "pr_auc": 1.0,
+          "confusion_matrix": [
+            [
+              121,
+              0
+            ],
+            [
+              0,
+              4
+            ]
+          ],
+          "n_train": 511,
+          "n_test": 125,
+          "n_anomalies_train": 16,
+          "n_anomalies_test": 4,
+          "train_time_sec": 0.0175,
+          "inference_time_sec": 0.0004,
+          "inference_time_per_sample_ms": 0.0029
+        },
+        "station_3": {
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "roc_auc": 1.0,
+          "pr_auc": 1.0,
+          "confusion_matrix": [
+            [
+              123,
+              0
+            ],
+            [
+              0,
+              2
+            ]
+          ],
+          "n_train": 511,
+          "n_test": 125,
+          "n_anomalies_train": 18,
+          "n_anomalies_test": 2,
+          "train_time_sec": 0.0177,
+          "inference_time_sec": 0.0005,
+          "inference_time_per_sample_ms": 0.0039
+        }
+      },
+      "macro_average": {
+        "accuracy": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "roc_auc": 1.0,
+        "pr_auc": 1.0,
+        "mean_train_time_sec": 0.0167,
+        "mean_inference_time_sec": 0.0005
+      },
+      "pooled_all_machines": {
+        "accuracy": 0.9973,
+        "precision": 0.9091,
+        "recall": 1.0,
+        "f1": 0.9524,
+        "roc_auc": 1.0,
+        "pr_auc": 1.0,
+        "confusion_matrix": [
+          [
+            364,
+            1
+          ],
+          [
+            0,
+            10
+          ]
+        ],
+        "n_train": 1533,
+        "n_test": 375,
+        "n_anomalies_train": 50,
+        "n_anomalies_test": 10,
+        "train_time_sec": 0.0183,
+        "inference_time_sec": 0.0007,
+        "inference_time_per_sample_ms": 0.0017,
+        "model_complexity": {
+          "serialized_size_bytes": 872,
+          "structural_parameters": 41,
+          "complexity_description": "41 linear coefficients + bias"
+        }
+      },
+      "timing_and_size": {
+        "train_time_sec": 0.0183,
+        "inference_time_sec": 0.0007,
+        "inference_time_per_sample_ms": 0.0017,
+        "serialized_size_bytes": 872,
+        "structural_parameters": 41,
+        "complexity_description": "41 linear coefficients + bias"
+      }
+    },
+    "Support Vector Machine": {
+      "category": "Kernel Method (Supervised)",
+      "is_supervised": true,
+      "class_imbalance_strategy": "class_weight='balanced' (scales penalty parameter C per class)",
+      "config": {
+        "C": 1.0,
+        "kernel": "rbf",
+        "class_weight": "balanced",
+        "probability": true,
+        "random_state": 42
+      },
+      "per_machine": {
+        "station_1": {
+          "accuracy": 0.992,
+          "precision": 0.8,
+          "recall": 1.0,
+          "f1": 0.8889,
+          "roc_auc": 1.0,
+          "pr_auc": 1.0,
+          "confusion_matrix": [
+            [
+              120,
+              1
+            ],
+            [
+              0,
+              4
+            ]
+          ],
+          "n_train": 511,
+          "n_test": 125,
+          "n_anomalies_train": 16,
+          "n_anomalies_test": 4,
+          "train_time_sec": 0.0155,
+          "inference_time_sec": 0.0039,
+          "inference_time_per_sample_ms": 0.0312
+        },
+        "station_2": {
+          "accuracy": 0.984,
+          "precision": 0.6667,
+          "recall": 1.0,
+          "f1": 0.8,
+          "roc_auc": 1.0,
+          "pr_auc": 1.0,
+          "confusion_matrix": [
+            [
+              119,
+              2
+            ],
+            [
+              0,
+              4
+            ]
+          ],
+          "n_train": 511,
+          "n_test": 125,
+          "n_anomalies_train": 16,
+          "n_anomalies_test": 4,
+          "train_time_sec": 0.0162,
+          "inference_time_sec": 0.0021,
+          "inference_time_per_sample_ms": 0.0166
+        },
+        "station_3": {
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "roc_auc": 1.0,
+          "pr_auc": 1.0,
+          "confusion_matrix": [
+            [
+              123,
+              0
+            ],
+            [
+              0,
+              2
+            ]
+          ],
+          "n_train": 511,
+          "n_test": 125,
+          "n_anomalies_train": 18,
+          "n_anomalies_test": 2,
+          "train_time_sec": 0.0123,
+          "inference_time_sec": 0.0021,
+          "inference_time_per_sample_ms": 0.0164
+        }
+      },
+      "macro_average": {
+        "accuracy": 0.992,
+        "precision": 0.8222,
+        "recall": 1.0,
+        "f1": 0.8963,
+        "roc_auc": 1.0,
+        "pr_auc": 1.0,
+        "mean_train_time_sec": 0.0147,
+        "mean_inference_time_sec": 0.0027
+      },
+      "pooled_all_machines": {
+        "accuracy": 0.9893,
+        "precision": 0.75,
+        "recall": 0.9,
+        "f1": 0.8182,
+        "roc_auc": 0.9986,
+        "pr_auc": 0.9587,
+        "confusion_matrix": [
+          [
+            362,
+            3
+          ],
+          [
+            1,
+            9
+          ]
+        ],
+        "n_train": 1533,
+        "n_test": 375,
+        "n_anomalies_train": 50,
+        "n_anomalies_test": 10,
+        "train_time_sec": 0.0718,
+        "inference_time_sec": 0.0143,
+        "inference_time_per_sample_ms": 0.0382,
+        "model_complexity": {
+          "serialized_size_bytes": 41096,
+          "structural_parameters": 4680,
+          "complexity_description": "117 support vectors (4680 float coordinates)"
+        }
+      },
+      "timing_and_size": {
+        "train_time_sec": 0.0718,
+        "inference_time_sec": 0.0143,
+        "inference_time_per_sample_ms": 0.0382,
+        "serialized_size_bytes": 41096,
+        "structural_parameters": 4680,
+        "complexity_description": "117 support vectors (4680 float coordinates)"
+      }
+    },
+    "Isolation Forest": {
+      "category": "Tree Ensemble (Unsupervised)",
+      "is_supervised": false,
+      "class_imbalance_strategy": "None (unsupervised anomaly isolation based on tree path length)",
+      "config": {
+        "n_estimators": 200,
+        "contamination": "auto",
+        "random_state": 42,
+        "n_jobs": -1
+      },
+      "per_machine": {
+        "station_1": {
+          "accuracy": 0.912,
+          "precision": 0.2667,
+          "recall": 1.0,
+          "f1": 0.4211,
+          "roc_auc": 0.9917,
+          "pr_auc": 0.8167,
+          "confusion_matrix": [
+            [
+              110,
+              11
+            ],
+            [
+              0,
+              4
+            ]
+          ],
+          "n_train": 511,
+          "n_test": 125,
+          "n_anomalies_train": 16,
+          "n_anomalies_test": 4,
+          "train_time_sec": 0.3131,
+          "inference_time_sec": 0.0437,
+          "inference_time_per_sample_ms": 0.3498
+        },
+        "station_2": {
+          "accuracy": 0.952,
+          "precision": 0.4,
+          "recall": 1.0,
+          "f1": 0.5714,
+          "roc_auc": 0.9938,
+          "pr_auc": 0.8042,
+          "confusion_matrix": [
+            [
+              115,
+              6
+            ],
+            [
+              0,
+              4
+            ]
+          ],
+          "n_train": 511,
+          "n_test": 125,
+          "n_anomalies_train": 16,
+          "n_anomalies_test": 4,
+          "train_time_sec": 0.3274,
+          "inference_time_sec": 0.0382,
+          "inference_time_per_sample_ms": 0.3059
+        },
+        "station_3": {
+          "accuracy": 0.984,
+          "precision": 0.5,
+          "recall": 1.0,
+          "f1": 0.6667,
+          "roc_auc": 1.0,
+          "pr_auc": 1.0,
+          "confusion_matrix": [
+            [
+              121,
+              2
+            ],
+            [
+              0,
+              2
+            ]
+          ],
+          "n_train": 511,
+          "n_test": 125,
+          "n_anomalies_train": 18,
+          "n_anomalies_test": 2,
+          "train_time_sec": 0.3254,
+          "inference_time_sec": 0.0346,
+          "inference_time_per_sample_ms": 0.2771
+        }
+      },
+      "macro_average": {
+        "accuracy": 0.9493,
+        "precision": 0.3889,
+        "recall": 1.0,
+        "f1": 0.5531,
+        "roc_auc": 0.9952,
+        "pr_auc": 0.8736,
+        "mean_train_time_sec": 0.322,
+        "mean_inference_time_sec": 0.0389
+      },
+      "pooled_all_machines": {
+        "accuracy": 0.9787,
+        "precision": 0.5556,
+        "recall": 1.0,
+        "f1": 0.7143,
+        "roc_auc": 0.9934,
+        "pr_auc": 0.7251,
+        "confusion_matrix": [
+          [
+            357,
+            8
+          ],
+          [
+            0,
+            10
+          ]
+        ],
+        "n_train": 1533,
+        "n_test": 375,
+        "n_anomalies_train": 50,
+        "n_anomalies_test": 10,
+        "train_time_sec": 0.3514,
+        "inference_time_sec": 0.0386,
+        "inference_time_per_sample_ms": 0.103,
+        "model_complexity": {
+          "serialized_size_bytes": 1583501,
+          "structural_parameters": 16478,
+          "complexity_description": "16478 decision tree nodes across 200 trees"
+        }
+      },
+      "timing_and_size": {
+        "train_time_sec": 0.3514,
+        "inference_time_sec": 0.0386,
+        "inference_time_per_sample_ms": 0.103,
+        "serialized_size_bytes": 1583501,
+        "structural_parameters": 16478,
+        "complexity_description": "16478 decision tree nodes across 200 trees"
+      }
+    }
+  },
+  "unavailable_models": {
+    "XGBoost": {
+      "category": "Gradient Boosted Trees (Supervised)",
+      "status": "not executed \u2014 dependency unavailable",
+      "notes": "Not executed \u2014 dependency unavailable in virtual environment."
+    },
+    "LightGBM": {
+      "category": "Gradient Boosted Trees (Supervised)",
+      "status": "not executed \u2014 dependency unavailable",
+      "notes": "Not executed \u2014 dependency unavailable in virtual environment."
+    },
+    "CatBoost": {
+      "category": "Gradient Boosted Trees (Supervised)",
+      "status": "not executed \u2014 dependency unavailable",
+      "notes": "Not executed \u2014 dependency unavailable in virtual environment."
+    }
+  }
+}

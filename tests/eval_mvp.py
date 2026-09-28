@@ -58,7 +58,15 @@ def load_fused_data() -> pd.DataFrame:
 
 
 def evaluate_detection(df: pd.DataFrame) -> dict:
-    """5-fold stratified cross-validation on anomaly detection."""
+    """
+    [LEGACY / LEAKY EVALUATION]
+    5-fold stratified cross-validation on anomaly detection.
+    WARNING: Suffers from temporal leakage due to 50% overlapping windows
+    being randomly shuffled across train/test folds without embargo.
+    Retained strictly for backwards-compatibility and legacy baseline comparison.
+    Use `evaluate_detection_chronological` or `evaluate_detection_lomo` for
+    defensible, leakage-safe evaluation.
+    """
     from src.model.anomaly import AnomalyDetector, get_feature_matrix, get_labels
 
     X, feat_names = get_feature_matrix(df)
@@ -82,6 +90,27 @@ def evaluate_detection(df: pd.DataFrame) -> dict:
         "report":    classification_report(y, y_pred, target_names=["normal", "anomaly"]),
         "feat_names": feat_names,
     }
+
+
+def evaluate_detection_chronological(df: pd.DataFrame, embargo_minutes: int = 30) -> dict:
+    """
+    Leakage-safe, time-aware chronological evaluation.
+    Splits earliest 80% for training and latest 20% for testing per machine,
+    enforcing a >=30 min temporal embargo gap. Preprocessing scaler is fitted
+    strictly on training data.
+    """
+    from evaluation.eval_time_aware import evaluate_rf_chronological
+    return evaluate_rf_chronological(df, embargo_minutes=embargo_minutes)
+
+
+def evaluate_detection_lomo(df: pd.DataFrame) -> dict:
+    """
+    Leakage-safe Leave-One-Machine-Out (LOMO) cross-validation.
+    Trains on 2 machines and evaluates on the completely held-out 3rd machine.
+    Preprocessing scaler is fitted strictly on training data.
+    """
+    from evaluation.eval_time_aware import evaluate_rf_lomo
+    return evaluate_rf_lomo(df)
 
 
 def evaluate_shap_alignment(df: pd.DataFrame, feat_names: list[str]) -> dict:
