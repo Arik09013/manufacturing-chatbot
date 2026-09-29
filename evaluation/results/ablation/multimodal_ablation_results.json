@@ -1,0 +1,1158 @@
+{
+  "chronological": {
+    "split_protocol": "Chronological Holdout (80/20, embargo=30 min)",
+    "n_train_total": 1533,
+    "n_test_total": 375,
+    "n_purged_total": 9,
+    "n_anomalies_train": 50,
+    "n_anomalies_test": 10,
+    "conditions": {
+      "FULL": {
+        "status": "EXECUTED",
+        "feature_count": 40,
+        "feature_columns": [
+          "welding_current_mean",
+          "welding_current_std",
+          "welding_current_min",
+          "welding_current_max",
+          "welding_current_range",
+          "arc_voltage_mean",
+          "arc_voltage_std",
+          "arc_voltage_min",
+          "arc_voltage_max",
+          "arc_voltage_range",
+          "welding_speed_mean",
+          "welding_speed_std",
+          "welding_speed_min",
+          "welding_speed_max",
+          "welding_speed_range",
+          "wire_feed_rate_mean",
+          "wire_feed_rate_std",
+          "wire_feed_rate_min",
+          "wire_feed_rate_max",
+          "wire_feed_rate_range",
+          "shielding_gas_flow_mean",
+          "shielding_gas_flow_std",
+          "shielding_gas_flow_min",
+          "shielding_gas_flow_max",
+          "shielding_gas_flow_range",
+          "heat_input_mean",
+          "heat_input_std",
+          "heat_input_min",
+          "heat_input_max",
+          "heat_input_range",
+          "n_events",
+          "n_alarm",
+          "n_warning",
+          "n_maintenance",
+          "n_production",
+          "n_diagnostic",
+          "n_operational",
+          "has_alarm",
+          "has_warning",
+          "has_note"
+        ],
+        "models": {
+          "Random Forest": {
+            "accuracy": 1.0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0,
+            "roc_auc": 1.0,
+            "pr_auc": 1.0,
+            "confusion_matrix": [
+              [
+                365,
+                0
+              ],
+              [
+                0,
+                10
+              ]
+            ],
+            "n_train": 1533,
+            "n_test": 375,
+            "n_anomalies_train": 50,
+            "n_anomalies_test": 10,
+            "train_time_sec": 0.4245,
+            "inference_time_sec": 0.1233,
+            "false_positive_rate": 0.0,
+            "delta_f1": 0.0,
+            "delta_pr_auc": 0.0,
+            "relative_f1_change_pct": 0.0
+          },
+          "Logistic Regression": {
+            "accuracy": 0.9973,
+            "precision": 0.9091,
+            "recall": 1.0,
+            "f1": 0.9524,
+            "roc_auc": 1.0,
+            "pr_auc": 1.0,
+            "confusion_matrix": [
+              [
+                364,
+                1
+              ],
+              [
+                0,
+                10
+              ]
+            ],
+            "n_train": 1533,
+            "n_test": 375,
+            "n_anomalies_train": 50,
+            "n_anomalies_test": 10,
+            "train_time_sec": 0.0217,
+            "inference_time_sec": 0.0009,
+            "false_positive_rate": 0.0027,
+            "delta_f1": 0.0,
+            "delta_pr_auc": 0.0,
+            "relative_f1_change_pct": 0.0
+          },
+          "DistilBERT": {
+            "accuracy": 1.0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0,
+            "roc_auc": 1.0,
+            "pr_auc": 1.0,
+            "confusion_matrix": [
+              [
+                365,
+                0
+              ],
+              [
+                0,
+                10
+              ]
+            ],
+            "n_train": 1533,
+            "n_test": 375,
+            "n_anomalies_train": 50,
+            "n_anomalies_test": 10,
+            "false_positive_rate": 0.0,
+            "delta_f1": 0.0,
+            "delta_pr_auc": 0.0,
+            "relative_f1_change_pct": 0.0
+          }
+        }
+      },
+      "SENSOR_ONLY": {
+        "status": "EXECUTED",
+        "feature_count": 30,
+        "feature_columns": [
+          "welding_current_mean",
+          "welding_current_std",
+          "welding_current_min",
+          "welding_current_max",
+          "welding_current_range",
+          "arc_voltage_mean",
+          "arc_voltage_std",
+          "arc_voltage_min",
+          "arc_voltage_max",
+          "arc_voltage_range",
+          "welding_speed_mean",
+          "welding_speed_std",
+          "welding_speed_min",
+          "welding_speed_max",
+          "welding_speed_range",
+          "wire_feed_rate_mean",
+          "wire_feed_rate_std",
+          "wire_feed_rate_min",
+          "wire_feed_rate_max",
+          "wire_feed_rate_range",
+          "shielding_gas_flow_mean",
+          "shielding_gas_flow_std",
+          "shielding_gas_flow_min",
+          "shielding_gas_flow_max",
+          "shielding_gas_flow_range",
+          "heat_input_mean",
+          "heat_input_std",
+          "heat_input_min",
+          "heat_input_max",
+          "heat_input_range"
+        ],
+        "models": {
+          "Random Forest": {
+            "accuracy": 0.984,
+            "precision": 0.6667,
+            "recall": 0.8,
+            "f1": 0.7273,
+            "roc_auc": 0.9956,
+            "pr_auc": 0.9032,
+            "confusion_matrix": [
+              [
+                361,
+                4
+              ],
+              [
+                2,
+                8
+              ]
+            ],
+            "n_train": 1533,
+            "n_test": 375,
+            "n_anomalies_train": 50,
+            "n_anomalies_test": 10,
+            "train_time_sec": 0.444,
+            "inference_time_sec": 0.1281,
+            "false_positive_rate": 0.011,
+            "delta_f1": -0.2727,
+            "delta_pr_auc": -0.0968,
+            "relative_f1_change_pct": -27.27
+          },
+          "Logistic Regression": {
+            "accuracy": 0.9867,
+            "precision": 0.6667,
+            "recall": 1.0,
+            "f1": 0.8,
+            "roc_auc": 0.9989,
+            "pr_auc": 0.9714,
+            "confusion_matrix": [
+              [
+                360,
+                5
+              ],
+              [
+                0,
+                10
+              ]
+            ],
+            "n_train": 1533,
+            "n_test": 375,
+            "n_anomalies_train": 50,
+            "n_anomalies_test": 10,
+            "train_time_sec": 0.0282,
+            "inference_time_sec": 0.0007,
+            "false_positive_rate": 0.0137,
+            "delta_f1": -0.1524,
+            "delta_pr_auc": -0.0286,
+            "relative_f1_change_pct": -16.0
+          },
+          "DistilBERT": {
+            "accuracy": 0.9733,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "roc_auc": 0.9934,
+            "pr_auc": 0.7307,
+            "confusion_matrix": [
+              [
+                365,
+                0
+              ],
+              [
+                10,
+                0
+              ]
+            ],
+            "n_train": 1533,
+            "n_test": 375,
+            "n_anomalies_train": 50,
+            "n_anomalies_test": 10,
+            "false_positive_rate": 0.0,
+            "delta_f1": -1.0,
+            "delta_pr_auc": -0.2693,
+            "relative_f1_change_pct": -100.0
+          }
+        }
+      },
+      "WITHOUT_SENSOR": {
+        "status": "EXECUTED",
+        "feature_count": 10,
+        "feature_columns": [
+          "n_events",
+          "n_alarm",
+          "n_warning",
+          "n_maintenance",
+          "n_production",
+          "n_diagnostic",
+          "n_operational",
+          "has_alarm",
+          "has_warning",
+          "has_note"
+        ],
+        "models": {
+          "Random Forest": {
+            "accuracy": 0.9813,
+            "precision": 0.5882,
+            "recall": 1.0,
+            "f1": 0.7407,
+            "roc_auc": 0.9971,
+            "pr_auc": 0.8765,
+            "confusion_matrix": [
+              [
+                358,
+                7
+              ],
+              [
+                0,
+                10
+              ]
+            ],
+            "n_train": 1533,
+            "n_test": 375,
+            "n_anomalies_train": 50,
+            "n_anomalies_test": 10,
+            "train_time_sec": 0.425,
+            "inference_time_sec": 0.1264,
+            "false_positive_rate": 0.0192,
+            "delta_f1": -0.2593,
+            "delta_pr_auc": -0.1235,
+            "relative_f1_change_pct": -25.93
+          },
+          "Logistic Regression": {
+            "accuracy": 0.9813,
+            "precision": 0.5882,
+            "recall": 1.0,
+            "f1": 0.7407,
+            "roc_auc": 0.9971,
+            "pr_auc": 0.8765,
+            "confusion_matrix": [
+              [
+                358,
+                7
+              ],
+              [
+                0,
+                10
+              ]
+            ],
+            "n_train": 1533,
+            "n_test": 375,
+            "n_anomalies_train": 50,
+            "n_anomalies_test": 10,
+            "train_time_sec": 0.012,
+            "inference_time_sec": 0.0007,
+            "false_positive_rate": 0.0192,
+            "delta_f1": -0.2117,
+            "delta_pr_auc": -0.1235,
+            "relative_f1_change_pct": -22.23
+          },
+          "DistilBERT": {
+            "accuracy": 0.9813,
+            "precision": 0.5882,
+            "recall": 1.0,
+            "f1": 0.7407,
+            "roc_auc": 0.9942,
+            "pr_auc": 0.8713,
+            "confusion_matrix": [
+              [
+                358,
+                7
+              ],
+              [
+                0,
+                10
+              ]
+            ],
+            "n_train": 1533,
+            "n_test": 375,
+            "n_anomalies_train": 50,
+            "n_anomalies_test": 10,
+            "false_positive_rate": 0.0192,
+            "delta_f1": -0.2593,
+            "delta_pr_auc": -0.1287,
+            "relative_f1_change_pct": -25.93
+          }
+        }
+      },
+      "WITHOUT_LOGS": {
+        "status": "EXECUTED",
+        "feature_count": 31,
+        "feature_columns": [
+          "welding_current_mean",
+          "welding_current_std",
+          "welding_current_min",
+          "welding_current_max",
+          "welding_current_range",
+          "arc_voltage_mean",
+          "arc_voltage_std",
+          "arc_voltage_min",
+          "arc_voltage_max",
+          "arc_voltage_range",
+          "welding_speed_mean",
+          "welding_speed_std",
+          "welding_speed_min",
+          "welding_speed_max",
+          "welding_speed_range",
+          "wire_feed_rate_mean",
+          "wire_feed_rate_std",
+          "wire_feed_rate_min",
+          "wire_feed_rate_max",
+          "wire_feed_rate_range",
+          "shielding_gas_flow_mean",
+          "shielding_gas_flow_std",
+          "shielding_gas_flow_min",
+          "shielding_gas_flow_max",
+          "shielding_gas_flow_range",
+          "heat_input_mean",
+          "heat_input_std",
+          "heat_input_min",
+          "heat_input_max",
+          "heat_input_range",
+          "has_note"
+        ],
+        "models": {
+          "Random Forest": {
+            "accuracy": 0.9867,
+            "precision": 0.6923,
+            "recall": 0.9,
+            "f1": 0.7826,
+            "roc_auc": 0.9951,
+            "pr_auc": 0.8795,
+            "confusion_matrix": [
+              [
+                361,
+                4
+              ],
+              [
+                1,
+                9
+              ]
+            ],
+            "n_train": 1533,
+            "n_test": 375,
+            "n_anomalies_train": 50,
+            "n_anomalies_test": 10,
+            "train_time_sec": 0.4318,
+            "inference_time_sec": 0.1255,
+            "false_positive_rate": 0.011,
+            "delta_f1": -0.2174,
+            "delta_pr_auc": -0.1205,
+            "relative_f1_change_pct": -21.74
+          },
+          "Logistic Regression": {
+            "accuracy": 0.9867,
+            "precision": 0.6667,
+            "recall": 1.0,
+            "f1": 0.8,
+            "roc_auc": 0.9989,
+            "pr_auc": 0.9714,
+            "confusion_matrix": [
+              [
+                360,
+                5
+              ],
+              [
+                0,
+                10
+              ]
+            ],
+            "n_train": 1533,
+            "n_test": 375,
+            "n_anomalies_train": 50,
+            "n_anomalies_test": 10,
+            "train_time_sec": 0.0242,
+            "inference_time_sec": 0.0008,
+            "false_positive_rate": 0.0137,
+            "delta_f1": -0.1524,
+            "delta_pr_auc": -0.0286,
+            "relative_f1_change_pct": -16.0
+          },
+          "DistilBERT": {
+            "accuracy": 0.9733,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "roc_auc": 0.9932,
+            "pr_auc": 0.7234,
+            "confusion_matrix": [
+              [
+                365,
+                0
+              ],
+              [
+                10,
+                0
+              ]
+            ],
+            "n_train": 1533,
+            "n_test": 375,
+            "n_anomalies_train": 50,
+            "n_anomalies_test": 10,
+            "false_positive_rate": 0.0,
+            "delta_f1": -1.0,
+            "delta_pr_auc": -0.2766,
+            "relative_f1_change_pct": -100.0
+          }
+        }
+      },
+      "WITHOUT_OPERATOR_NOTES": {
+        "status": "EXECUTED",
+        "feature_count": 39,
+        "feature_columns": [
+          "welding_current_mean",
+          "welding_current_std",
+          "welding_current_min",
+          "welding_current_max",
+          "welding_current_range",
+          "arc_voltage_mean",
+          "arc_voltage_std",
+          "arc_voltage_min",
+          "arc_voltage_max",
+          "arc_voltage_range",
+          "welding_speed_mean",
+          "welding_speed_std",
+          "welding_speed_min",
+          "welding_speed_max",
+          "welding_speed_range",
+          "wire_feed_rate_mean",
+          "wire_feed_rate_std",
+          "wire_feed_rate_min",
+          "wire_feed_rate_max",
+          "wire_feed_rate_range",
+          "shielding_gas_flow_mean",
+          "shielding_gas_flow_std",
+          "shielding_gas_flow_min",
+          "shielding_gas_flow_max",
+          "shielding_gas_flow_range",
+          "heat_input_mean",
+          "heat_input_std",
+          "heat_input_min",
+          "heat_input_max",
+          "heat_input_range",
+          "n_events",
+          "n_alarm",
+          "n_warning",
+          "n_maintenance",
+          "n_production",
+          "n_diagnostic",
+          "n_operational",
+          "has_alarm",
+          "has_warning"
+        ],
+        "models": {
+          "Random Forest": {
+            "accuracy": 1.0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0,
+            "roc_auc": 1.0,
+            "pr_auc": 1.0,
+            "confusion_matrix": [
+              [
+                365,
+                0
+              ],
+              [
+                0,
+                10
+              ]
+            ],
+            "n_train": 1533,
+            "n_test": 375,
+            "n_anomalies_train": 50,
+            "n_anomalies_test": 10,
+            "train_time_sec": 0.4311,
+            "inference_time_sec": 0.1235,
+            "false_positive_rate": 0.0,
+            "delta_f1": 0.0,
+            "delta_pr_auc": 0.0,
+            "relative_f1_change_pct": 0.0
+          },
+          "Logistic Regression": {
+            "accuracy": 0.9973,
+            "precision": 0.9091,
+            "recall": 1.0,
+            "f1": 0.9524,
+            "roc_auc": 1.0,
+            "pr_auc": 1.0,
+            "confusion_matrix": [
+              [
+                364,
+                1
+              ],
+              [
+                0,
+                10
+              ]
+            ],
+            "n_train": 1533,
+            "n_test": 375,
+            "n_anomalies_train": 50,
+            "n_anomalies_test": 10,
+            "train_time_sec": 0.0213,
+            "inference_time_sec": 0.0008,
+            "false_positive_rate": 0.0027,
+            "delta_f1": 0.0,
+            "delta_pr_auc": 0.0,
+            "relative_f1_change_pct": 0.0
+          },
+          "DistilBERT": {
+            "accuracy": 1.0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0,
+            "roc_auc": 1.0,
+            "pr_auc": 1.0,
+            "confusion_matrix": [
+              [
+                365,
+                0
+              ],
+              [
+                0,
+                10
+              ]
+            ],
+            "n_train": 1533,
+            "n_test": 375,
+            "n_anomalies_train": 50,
+            "n_anomalies_test": 10,
+            "false_positive_rate": 0.0,
+            "delta_f1": 0.0,
+            "delta_pr_auc": 0.0,
+            "relative_f1_change_pct": 0.0
+          }
+        }
+      },
+      "WITHOUT_ENGINEERING_CONTEXT": {
+        "status": "NOT_APPLICABLE",
+        "feature_count": 0,
+        "feature_columns": [],
+        "reason": "Not applicable \u2014 engineering documents are utilized exclusively in RAG retrieval for advisory questions, never as model features."
+      }
+    }
+  },
+  "lomo": {
+    "split_protocol": "Leave-One-Machine-Out (LOMO) Cross-Validation",
+    "conditions": {
+      "FULL": {
+        "status": "EXECUTED",
+        "feature_count": 40,
+        "feature_columns": [
+          "welding_current_mean",
+          "welding_current_std",
+          "welding_current_min",
+          "welding_current_max",
+          "welding_current_range",
+          "arc_voltage_mean",
+          "arc_voltage_std",
+          "arc_voltage_min",
+          "arc_voltage_max",
+          "arc_voltage_range",
+          "welding_speed_mean",
+          "welding_speed_std",
+          "welding_speed_min",
+          "welding_speed_max",
+          "welding_speed_range",
+          "wire_feed_rate_mean",
+          "wire_feed_rate_std",
+          "wire_feed_rate_min",
+          "wire_feed_rate_max",
+          "wire_feed_rate_range",
+          "shielding_gas_flow_mean",
+          "shielding_gas_flow_std",
+          "shielding_gas_flow_min",
+          "shielding_gas_flow_max",
+          "shielding_gas_flow_range",
+          "heat_input_mean",
+          "heat_input_std",
+          "heat_input_min",
+          "heat_input_max",
+          "heat_input_range",
+          "n_events",
+          "n_alarm",
+          "n_warning",
+          "n_maintenance",
+          "n_production",
+          "n_diagnostic",
+          "n_operational",
+          "has_alarm",
+          "has_warning",
+          "has_note"
+        ],
+        "models": {
+          "Random Forest": {
+            "macro_average": {
+              "accuracy": 0.9979,
+              "precision": 0.9545,
+              "recall": 0.9833,
+              "f1": 0.9683,
+              "roc_auc": 0.9993,
+              "pr_auc": 0.9817,
+              "delta_f1": 0.0,
+              "rel_f1_change_pct": 0.0
+            },
+            "pooled_all_folds": {
+              "accuracy": 0.9979,
+              "precision": 0.9516,
+              "recall": 0.9833,
+              "f1": 0.9672,
+              "roc_auc": 0.9994,
+              "pr_auc": 0.9822,
+              "confusion_matrix": [
+                [
+                  1854,
+                  3
+                ],
+                [
+                  1,
+                  59
+                ]
+              ],
+              "n_train": 1278,
+              "n_test": 1917,
+              "n_anomalies_train": 40,
+              "n_anomalies_test": 60
+            }
+          },
+          "Logistic Regression": {
+            "macro_average": {
+              "accuracy": 0.9995,
+              "precision": 0.9841,
+              "recall": 1.0,
+              "f1": 0.9919,
+              "roc_auc": 0.9998,
+              "pr_auc": 0.9945,
+              "delta_f1": 0.0,
+              "rel_f1_change_pct": 0.0
+            },
+            "pooled_all_folds": {
+              "accuracy": 0.9995,
+              "precision": 0.9836,
+              "recall": 1.0,
+              "f1": 0.9917,
+              "roc_auc": 0.9998,
+              "pr_auc": 0.9942,
+              "confusion_matrix": [
+                [
+                  1856,
+                  1
+                ],
+                [
+                  0,
+                  60
+                ]
+              ],
+              "n_train": 1278,
+              "n_test": 1917,
+              "n_anomalies_train": 40,
+              "n_anomalies_test": 60
+            }
+          }
+        }
+      },
+      "SENSOR_ONLY": {
+        "status": "EXECUTED",
+        "feature_count": 30,
+        "feature_columns": [
+          "welding_current_mean",
+          "welding_current_std",
+          "welding_current_min",
+          "welding_current_max",
+          "welding_current_range",
+          "arc_voltage_mean",
+          "arc_voltage_std",
+          "arc_voltage_min",
+          "arc_voltage_max",
+          "arc_voltage_range",
+          "welding_speed_mean",
+          "welding_speed_std",
+          "welding_speed_min",
+          "welding_speed_max",
+          "welding_speed_range",
+          "wire_feed_rate_mean",
+          "wire_feed_rate_std",
+          "wire_feed_rate_min",
+          "wire_feed_rate_max",
+          "wire_feed_rate_range",
+          "shielding_gas_flow_mean",
+          "shielding_gas_flow_std",
+          "shielding_gas_flow_min",
+          "shielding_gas_flow_max",
+          "shielding_gas_flow_range",
+          "heat_input_mean",
+          "heat_input_std",
+          "heat_input_min",
+          "heat_input_max",
+          "heat_input_range"
+        ],
+        "models": {
+          "Random Forest": {
+            "macro_average": {
+              "accuracy": 0.9765,
+              "precision": 0.593,
+              "recall": 0.8167,
+              "f1": 0.6824,
+              "roc_auc": 0.9935,
+              "pr_auc": 0.8288,
+              "delta_f1": -0.2859,
+              "rel_f1_change_pct": -29.53
+            },
+            "pooled_all_folds": {
+              "accuracy": 0.9765,
+              "precision": 0.5904,
+              "recall": 0.8167,
+              "f1": 0.6853,
+              "roc_auc": 0.9933,
+              "pr_auc": 0.8244,
+              "confusion_matrix": [
+                [
+                  1823,
+                  34
+                ],
+                [
+                  11,
+                  49
+                ]
+              ],
+              "n_train": 1278,
+              "n_test": 1917,
+              "n_anomalies_train": 40,
+              "n_anomalies_test": 60
+            }
+          },
+          "Logistic Regression": {
+            "macro_average": {
+              "accuracy": 0.9927,
+              "precision": 0.8158,
+              "recall": 1.0,
+              "f1": 0.8972,
+              "roc_auc": 0.9994,
+              "pr_auc": 0.9836,
+              "delta_f1": -0.0947,
+              "rel_f1_change_pct": -9.55
+            },
+            "pooled_all_folds": {
+              "accuracy": 0.9927,
+              "precision": 0.8108,
+              "recall": 1.0,
+              "f1": 0.8955,
+              "roc_auc": 0.9991,
+              "pr_auc": 0.9673,
+              "confusion_matrix": [
+                [
+                  1843,
+                  14
+                ],
+                [
+                  0,
+                  60
+                ]
+              ],
+              "n_train": 1278,
+              "n_test": 1917,
+              "n_anomalies_train": 40,
+              "n_anomalies_test": 60
+            }
+          }
+        }
+      },
+      "WITHOUT_SENSOR": {
+        "status": "EXECUTED",
+        "feature_count": 10,
+        "feature_columns": [
+          "n_events",
+          "n_alarm",
+          "n_warning",
+          "n_maintenance",
+          "n_production",
+          "n_diagnostic",
+          "n_operational",
+          "has_alarm",
+          "has_warning",
+          "has_note"
+        ],
+        "models": {
+          "Random Forest": {
+            "macro_average": {
+              "accuracy": 0.9765,
+              "precision": 0.5946,
+              "recall": 1.0,
+              "f1": 0.7393,
+              "roc_auc": 0.9934,
+              "pr_auc": 0.8276,
+              "delta_f1": -0.229,
+              "rel_f1_change_pct": -23.65
+            },
+            "pooled_all_folds": {
+              "accuracy": 0.9765,
+              "precision": 0.5714,
+              "recall": 1.0,
+              "f1": 0.7273,
+              "roc_auc": 0.9931,
+              "pr_auc": 0.8187,
+              "confusion_matrix": [
+                [
+                  1812,
+                  45
+                ],
+                [
+                  0,
+                  60
+                ]
+              ],
+              "n_train": 1278,
+              "n_test": 1917,
+              "n_anomalies_train": 40,
+              "n_anomalies_test": 60
+            }
+          },
+          "Logistic Regression": {
+            "macro_average": {
+              "accuracy": 0.9765,
+              "precision": 0.5946,
+              "recall": 1.0,
+              "f1": 0.7393,
+              "roc_auc": 0.997,
+              "pr_auc": 0.8892,
+              "delta_f1": -0.2526,
+              "rel_f1_change_pct": -25.47
+            },
+            "pooled_all_folds": {
+              "accuracy": 0.9765,
+              "precision": 0.5714,
+              "recall": 1.0,
+              "f1": 0.7273,
+              "roc_auc": 0.9952,
+              "pr_auc": 0.8769,
+              "confusion_matrix": [
+                [
+                  1812,
+                  45
+                ],
+                [
+                  0,
+                  60
+                ]
+              ],
+              "n_train": 1278,
+              "n_test": 1917,
+              "n_anomalies_train": 40,
+              "n_anomalies_test": 60
+            }
+          }
+        }
+      },
+      "WITHOUT_LOGS": {
+        "status": "EXECUTED",
+        "feature_count": 31,
+        "feature_columns": [
+          "welding_current_mean",
+          "welding_current_std",
+          "welding_current_min",
+          "welding_current_max",
+          "welding_current_range",
+          "arc_voltage_mean",
+          "arc_voltage_std",
+          "arc_voltage_min",
+          "arc_voltage_max",
+          "arc_voltage_range",
+          "welding_speed_mean",
+          "welding_speed_std",
+          "welding_speed_min",
+          "welding_speed_max",
+          "welding_speed_range",
+          "wire_feed_rate_mean",
+          "wire_feed_rate_std",
+          "wire_feed_rate_min",
+          "wire_feed_rate_max",
+          "wire_feed_rate_range",
+          "shielding_gas_flow_mean",
+          "shielding_gas_flow_std",
+          "shielding_gas_flow_min",
+          "shielding_gas_flow_max",
+          "shielding_gas_flow_range",
+          "heat_input_mean",
+          "heat_input_std",
+          "heat_input_min",
+          "heat_input_max",
+          "heat_input_range",
+          "has_note"
+        ],
+        "models": {
+          "Random Forest": {
+            "macro_average": {
+              "accuracy": 0.9776,
+              "precision": 0.5995,
+              "recall": 0.85,
+              "f1": 0.7008,
+              "roc_auc": 0.9939,
+              "pr_auc": 0.8243,
+              "delta_f1": -0.2675,
+              "rel_f1_change_pct": -27.63
+            },
+            "pooled_all_folds": {
+              "accuracy": 0.9776,
+              "precision": 0.6,
+              "recall": 0.85,
+              "f1": 0.7034,
+              "roc_auc": 0.9938,
+              "pr_auc": 0.8325,
+              "confusion_matrix": [
+                [
+                  1823,
+                  34
+                ],
+                [
+                  9,
+                  51
+                ]
+              ],
+              "n_train": 1278,
+              "n_test": 1917,
+              "n_anomalies_train": 40,
+              "n_anomalies_test": 60
+            }
+          },
+          "Logistic Regression": {
+            "macro_average": {
+              "accuracy": 0.9927,
+              "precision": 0.8158,
+              "recall": 1.0,
+              "f1": 0.8972,
+              "roc_auc": 0.9994,
+              "pr_auc": 0.9836,
+              "delta_f1": -0.0947,
+              "rel_f1_change_pct": -9.55
+            },
+            "pooled_all_folds": {
+              "accuracy": 0.9927,
+              "precision": 0.8108,
+              "recall": 1.0,
+              "f1": 0.8955,
+              "roc_auc": 0.9991,
+              "pr_auc": 0.9673,
+              "confusion_matrix": [
+                [
+                  1843,
+                  14
+                ],
+                [
+                  0,
+                  60
+                ]
+              ],
+              "n_train": 1278,
+              "n_test": 1917,
+              "n_anomalies_train": 40,
+              "n_anomalies_test": 60
+            }
+          }
+        }
+      },
+      "WITHOUT_OPERATOR_NOTES": {
+        "status": "EXECUTED",
+        "feature_count": 39,
+        "feature_columns": [
+          "welding_current_mean",
+          "welding_current_std",
+          "welding_current_min",
+          "welding_current_max",
+          "welding_current_range",
+          "arc_voltage_mean",
+          "arc_voltage_std",
+          "arc_voltage_min",
+          "arc_voltage_max",
+          "arc_voltage_range",
+          "welding_speed_mean",
+          "welding_speed_std",
+          "welding_speed_min",
+          "welding_speed_max",
+          "welding_speed_range",
+          "wire_feed_rate_mean",
+          "wire_feed_rate_std",
+          "wire_feed_rate_min",
+          "wire_feed_rate_max",
+          "wire_feed_rate_range",
+          "shielding_gas_flow_mean",
+          "shielding_gas_flow_std",
+          "shielding_gas_flow_min",
+          "shielding_gas_flow_max",
+          "shielding_gas_flow_range",
+          "heat_input_mean",
+          "heat_input_std",
+          "heat_input_min",
+          "heat_input_max",
+          "heat_input_range",
+          "n_events",
+          "n_alarm",
+          "n_warning",
+          "n_maintenance",
+          "n_production",
+          "n_diagnostic",
+          "n_operational",
+          "has_alarm",
+          "has_warning"
+        ],
+        "models": {
+          "Random Forest": {
+            "macro_average": {
+              "accuracy": 0.999,
+              "precision": 0.9833,
+              "recall": 0.9833,
+              "f1": 0.9833,
+              "roc_auc": 0.9994,
+              "pr_auc": 0.982,
+              "delta_f1": 0.015,
+              "rel_f1_change_pct": 1.55
+            },
+            "pooled_all_folds": {
+              "accuracy": 0.999,
+              "precision": 0.9833,
+              "recall": 0.9833,
+              "f1": 0.9833,
+              "roc_auc": 0.9993,
+              "pr_auc": 0.9806,
+              "confusion_matrix": [
+                [
+                  1856,
+                  1
+                ],
+                [
+                  1,
+                  59
+                ]
+              ],
+              "n_train": 1278,
+              "n_test": 1917,
+              "n_anomalies_train": 40,
+              "n_anomalies_test": 60
+            }
+          },
+          "Logistic Regression": {
+            "macro_average": {
+              "accuracy": 0.9995,
+              "precision": 0.9841,
+              "recall": 1.0,
+              "f1": 0.9919,
+              "roc_auc": 0.9998,
+              "pr_auc": 0.9945,
+              "delta_f1": 0.0,
+              "rel_f1_change_pct": 0.0
+            },
+            "pooled_all_folds": {
+              "accuracy": 0.9995,
+              "precision": 0.9836,
+              "recall": 1.0,
+              "f1": 0.9917,
+              "roc_auc": 0.9998,
+              "pr_auc": 0.9942,
+              "confusion_matrix": [
+                [
+                  1856,
+                  1
+                ],
+                [
+                  0,
+                  60
+                ]
+              ],
+              "n_train": 1278,
+              "n_test": 1917,
+              "n_anomalies_train": 40,
+              "n_anomalies_test": 60
+            }
+          }
+        }
+      },
+      "WITHOUT_ENGINEERING_CONTEXT": {
+        "status": "NOT_APPLICABLE",
+        "feature_count": 0,
+        "reason": "Not applicable \u2014 engineering documents are utilized exclusively in RAG retrieval for advisory questions, never as model features."
+      }
+    }
+  }
+}

@@ -1,0 +1,150 @@
+{
+  "benchmark_timestamp": "2026-09-29",
+  "conditions_evaluated": [
+    "FULL",
+    "SENSOR_ONLY",
+    "WITHOUT_SENSOR",
+    "WITHOUT_LOGS",
+    "WITHOUT_OPERATOR_NOTES",
+    "WITHOUT_ENGINEERING_CONTEXT"
+  ],
+  "chronological_summary": {
+    "FULL": {
+      "Random Forest": {
+        "f1": 1.0,
+        "delta_f1": 0.0,
+        "pr_auc": 1.0
+      },
+      "Logistic Regression": {
+        "f1": 0.9524,
+        "delta_f1": 0.0,
+        "pr_auc": 1.0
+      },
+      "DistilBERT": {
+        "f1": 1.0,
+        "delta_f1": 0.0,
+        "pr_auc": 1.0
+      }
+    },
+    "SENSOR_ONLY": {
+      "Random Forest": {
+        "f1": 0.7273,
+        "delta_f1": -0.2727,
+        "pr_auc": 0.9032
+      },
+      "Logistic Regression": {
+        "f1": 0.8,
+        "delta_f1": -0.1524,
+        "pr_auc": 0.9714
+      },
+      "DistilBERT": {
+        "f1": 0.0,
+        "delta_f1": -1.0,
+        "pr_auc": 0.7307
+      }
+    },
+    "WITHOUT_SENSOR": {
+      "Random Forest": {
+        "f1": 0.7407,
+        "delta_f1": -0.2593,
+        "pr_auc": 0.8765
+      },
+      "Logistic Regression": {
+        "f1": 0.7407,
+        "delta_f1": -0.2117,
+        "pr_auc": 0.8765
+      },
+      "DistilBERT": {
+        "f1": 0.7407,
+        "delta_f1": -0.2593,
+        "pr_auc": 0.8713
+      }
+    },
+    "WITHOUT_LOGS": {
+      "Random Forest": {
+        "f1": 0.7826,
+        "delta_f1": -0.2174,
+        "pr_auc": 0.8795
+      },
+      "Logistic Regression": {
+        "f1": 0.8,
+        "delta_f1": -0.1524,
+        "pr_auc": 0.9714
+      },
+      "DistilBERT": {
+        "f1": 0.0,
+        "delta_f1": -1.0,
+        "pr_auc": 0.7234
+      }
+    },
+    "WITHOUT_OPERATOR_NOTES": {
+      "Random Forest": {
+        "f1": 1.0,
+        "delta_f1": 0.0,
+        "pr_auc": 1.0
+      },
+      "Logistic Regression": {
+        "f1": 0.9524,
+        "delta_f1": 0.0,
+        "pr_auc": 1.0
+      },
+      "DistilBERT": {
+        "f1": 1.0,
+        "delta_f1": 0.0,
+        "pr_auc": 1.0
+      }
+    }
+  },
+  "lomo_summary": {
+    "FULL": {
+      "Random Forest": {
+        "macro_f1": 0.9683,
+        "delta_f1": 0.0
+      },
+      "Logistic Regression": {
+        "macro_f1": 0.9919,
+        "delta_f1": 0.0
+      }
+    },
+    "SENSOR_ONLY": {
+      "Random Forest": {
+        "macro_f1": 0.6824,
+        "delta_f1": -0.2859
+      },
+      "Logistic Regression": {
+        "macro_f1": 0.8972,
+        "delta_f1": -0.0947
+      }
+    },
+    "WITHOUT_SENSOR": {
+      "Random Forest": {
+        "macro_f1": 0.7393,
+        "delta_f1": -0.229
+      },
+      "Logistic Regression": {
+        "macro_f1": 0.7393,
+        "delta_f1": -0.2526
+      }
+    },
+    "WITHOUT_LOGS": {
+      "Random Forest": {
+        "macro_f1": 0.7008,
+        "delta_f1": -0.2675
+      },
+      "Logistic Regression": {
+        "macro_f1": 0.8972,
+        "delta_f1": -0.0947
+      }
+    },
+    "WITHOUT_OPERATOR_NOTES": {
+      "Random Forest": {
+        "macro_f1": 0.9833,
+        "delta_f1": 0.015
+      },
+      "Logistic Regression": {
+        "macro_f1": 0.9919,
+        "delta_f1": 0.0
+      }
+    }
+  }
+}
