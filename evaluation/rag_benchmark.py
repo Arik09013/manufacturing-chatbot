@@ -1,0 +1,490 @@
+"""
+Benchmark Query Dataset for Formal RAG Retrieval Evaluation (Step 7).
+
+Defines 40 realistic, domain-specific operator and welding engineering queries
+with verified, deterministic ground-truth relevance mappings strictly based on
+the 41 actual passages in the knowledge base (kb:* and doc:*).
+
+No relevance labels are hallucinated or fabricated. Every query maps to at least
+one specific passage that directly answers or provides essential engineering context
+for the query.
+"""
+
+from __future__ import annotations
+
+import json
+from pathlib import Path
+from typing import Any, Dict, List, Optional, Set, Tuple
+
+_ROOT = Path(__file__).resolve().parent.parent
+
+# 40 Grounded Benchmark Queries across 7 key engineering categories
+BENCHMARK_QUERIES: List[Dict[str, Any]] = [
+    # -------------------------------------------------------------
+    # Category 1: Defect Causes & Remedies (8 queries)
+    # -------------------------------------------------------------
+    {
+        "query_id": "Q01",
+        "query": "What causes porosity in MIG welding and how do I prevent it?",
+        "category": "defect_causes_remedies",
+        "relevant_doc_ids": ["kb:porosity", "doc:shielding_gas_selection.md#4"],
+        "rationale": (
+            "kb:porosity is the primary defect entry detailing low gas flow, drafts, "
+            "surface contaminants, and voltage/travel speed remedies. "
+            "doc:shielding_gas_selection.md#4 covers flow rate bounds (15-20 L/min), "
+            "drafts, leaking lines, and diffusers as root causes of porosity."
+        ),
+    },
+    {
+        "query_id": "Q02",
+        "query": "Why am I getting undercut at the weld toe and how can I fix it?",
+        "category": "defect_causes_remedies",
+        "relevant_doc_ids": ["kb:undercut"],
+        "rationale": (
+            "kb:undercut explains current/voltage too high, excessive travel speed, "
+            "and incorrect torch drag angle, recommending lower parameters and weave dwell."
+        ),
+    },
+    {
+        "query_id": "Q03",
+        "query": "How do I resolve lack of fusion between weld passes or on the sidewall?",
+        "category": "defect_causes_remedies",
+        "relevant_doc_ids": ["kb:lack_of_fusion"],
+        "rationale": (
+            "kb:lack_of_fusion addresses insufficient heat input, poor joint prep/gap, "
+            "and improper arc direction against joint sidewalls."
+        ),
+    },
+    {
+        "query_id": "Q04",
+        "query": "Why is my GMAW process producing excessive spatter?",
+        "category": "defect_causes_remedies",
+        "relevant_doc_ids": ["kb:spatter"],
+        "rationale": (
+            "kb:spatter identifies low voltage for wire speed, high-CO2 gas mixtures, "
+            "excessive stick-out, and recommends Ar-rich gas and voltage trimming."
+        ),
+    },
+    {
+        "query_id": "Q05",
+        "query": "How can I prevent angular distortion and warpage on thin stainless steel weldments?",
+        "category": "defect_causes_remedies",
+        "relevant_doc_ids": ["kb:distortion"],
+        "rationale": (
+            "kb:distortion focuses on high heat input, low thermal conductivity in stainless, "
+            "back-step sequencing, fixturing, and copper chill bars."
+        ),
+    },
+    {
+        "query_id": "Q06",
+        "query": "What welding parameter adjustments prevent burn through on thin sheet metal?",
+        "category": "defect_causes_remedies",
+        "relevant_doc_ids": ["kb:burn_through"],
+        "rationale": (
+            "kb:burn_through details current reduction, faster travel speed, short-circuit "
+            "or pulsed transfer, and backing bars to avoid excessive heat input."
+        ),
+    },
+    {
+        "query_id": "Q07",
+        "query": "What is the difference between hot solidification cracking and cold hydrogen cracking?",
+        "category": "defect_causes_remedies",
+        "relevant_doc_ids": ["kb:cracking"],
+        "rationale": (
+            "kb:cracking explicitly contrasts solidification (hot) cracking from impurities "
+            "and bead shape against hydrogen (cold) cracking from moisture and delayed embrittlement."
+        ),
+    },
+    {
+        "query_id": "Q08",
+        "query": "What causes delayed cracking after cooling in high-strength steel welds?",
+        "category": "defect_causes_remedies",
+        "relevant_doc_ids": ["kb:cracking"],
+        "rationale": (
+            "kb:cracking explicitly notes that cracking appearing after cooling (delayed) is "
+            "classic hydrogen cold cracking requiring pre-heat and low-hydrogen consumables."
+        ),
+    },
+    # -------------------------------------------------------------
+    # Category 2: Troubleshooting Weld Profile & Metallurgy (6 queries)
+    # -------------------------------------------------------------
+    {
+        "query_id": "Q09",
+        "query": "Why is the weld bead profile too narrow and ropey instead of flat and wetted?",
+        "category": "troubleshooting_profile",
+        "relevant_doc_ids": ["kb:narrow_bead"],
+        "rationale": (
+            "kb:narrow_bead explains voltage too low, tight arc cone, excessive stick-out, "
+            "and why voltage should be adjusted first to increase bead width and wetting."
+        ),
+    },
+    {
+        "query_id": "Q10",
+        "query": "How to prevent dark blue discoloration and loss of corrosion resistance on stainless steel?",
+        "category": "troubleshooting_profile",
+        "relevant_doc_ids": ["kb:discoloration"],
+        "rationale": (
+            "kb:discoloration describes heat-tint oxide colors, chromium depletion, "
+            "reduced heat input, back-purging with argon, and pickling/passivation."
+        ),
+    },
+    {
+        "query_id": "Q11",
+        "query": "What causes penetration to vary inconsistently along the length of a weld seam?",
+        "category": "troubleshooting_profile",
+        "relevant_doc_ids": ["kb:inconsistent_penetration"],
+        "rationale": (
+            "kb:inconsistent_penetration identifies variable root gaps, manual speed variance, "
+            "feeder instability, and heat buildup along continuous seams."
+        ),
+    },
+    {
+        "query_id": "Q12",
+        "query": "How can an engineer maximize weld joint tensile strength?",
+        "category": "troubleshooting_profile",
+        "relevant_doc_ids": ["kb:tensile_strength"],
+        "rationale": (
+            "kb:tensile_strength explains that tensile strength relies on full fusion, "
+            "defect-free metal, matched/over-matched filler, and avoiding excessive heat input."
+        ),
+    },
+    {
+        "query_id": "Q13",
+        "query": "What welding parameters produce a clean, uniform bead appearance with fine ripples?",
+        "category": "troubleshooting_profile",
+        "relevant_doc_ids": ["kb:bead_appearance"],
+        "rationale": (
+            "kb:bead_appearance details balancing voltage against wire-feed/current, steady travel, "
+            "Ar-rich gas, and pulsed MIG transfer for TIG-like ripple cosmetics."
+        ),
+    },
+    {
+        "query_id": "Q14",
+        "query": "Why does heavy sugaring or severe heat tint appear on the backside of stainless welds?",
+        "category": "troubleshooting_profile",
+        "relevant_doc_ids": ["kb:discoloration"],
+        "rationale": (
+            "kb:discoloration explicitly addresses dark blue/grey sugaring on the back of stainless "
+            "as chromium-depleted oxide resulting from inadequate root back-purging."
+        ),
+    },
+    # -------------------------------------------------------------
+    # Category 3: Process Parameters & Quality Drivers (5 queries)
+    # -------------------------------------------------------------
+    {
+        "query_id": "Q15",
+        "query": "What is the recommended heat input range in kJ/mm for austenitic stainless steel?",
+        "category": "parameters_physics",
+        "relevant_doc_ids": ["kb:heat_input_range"],
+        "rationale": (
+            "kb:heat_input_range recommends keeping stainless heat input roughly 0.5-1.5 kJ/mm "
+            "to prevent sensitisation and distortion."
+        ),
+    },
+    {
+        "query_id": "Q16",
+        "query": "What are the primary operational parameters that act as dominant quality drivers in welding?",
+        "category": "parameters_physics",
+        "relevant_doc_ids": ["kb:quality_drivers"],
+        "rationale": (
+            "kb:quality_drivers maps the five core levers: heat input, current/wire-feed, "
+            "voltage, travel speed, and shielding gas flow/type."
+        ),
+    },
+    {
+        "query_id": "Q17",
+        "query": "How does travel speed interact with current and voltage to determine heat input?",
+        "category": "parameters_physics",
+        "relevant_doc_ids": ["kb:heat_input_range", "kb:quality_drivers"],
+        "rationale": (
+            "Both passages outline heat input as (I * V / S) and discuss how travel speed "
+            "balances penetration against distortion and HAZ degradation."
+        ),
+    },
+    {
+        "query_id": "Q18",
+        "query": "Which parameter should be adjusted first to increase weld bead width and improve toe wetting?",
+        "category": "parameters_physics",
+        "relevant_doc_ids": ["kb:narrow_bead", "kb:quality_drivers"],
+        "rationale": (
+            "kb:narrow_bead and kb:quality_drivers note that arc voltage chiefly controls "
+            "bead width, wetting, and toe contact angles."
+        ),
+    },
+    {
+        "query_id": "Q19",
+        "query": "How does excessive contact-tip-to-work stick-out distance cause arc instability and spatter?",
+        "category": "parameters_physics",
+        "relevant_doc_ids": ["kb:spatter", "kb:narrow_bead"],
+        "rationale": (
+            "kb:spatter and kb:narrow_bead identify improper stick-out (recommending 10-15 mm) "
+            "as a prime driver of arc instability, high spatter, and ropey bead shapes."
+        ),
+    },
+    # -------------------------------------------------------------
+    # Category 4: Productivity & Manufacturing Economics (7 queries)
+    # -------------------------------------------------------------
+    {
+        "query_id": "Q20",
+        "query": "How can a welding shop increase the metal deposition rate in kilograms per hour?",
+        "category": "productivity_economics",
+        "relevant_doc_ids": ["kb:deposition_increase"],
+        "rationale": (
+            "kb:deposition_increase outlines wire-feed speed, wire diameter, spray/pulsed-spray transfer, "
+            "and metal-cored or flux-cored consumables."
+        ),
+    },
+    {
+        "query_id": "Q21",
+        "query": "What methods are most effective to reduce total welding cycle time and arc-off non-productive time?",
+        "category": "productivity_economics",
+        "relevant_doc_ids": ["kb:minimize_time"],
+        "rationale": (
+            "kb:minimize_time emphasizes that arc-on time is <30% of cycle time, pointing to fixturing, "
+            "fewer passes, spatter reduction, and cutting defect rework."
+        ),
+    },
+    {
+        "query_id": "Q22",
+        "query": "Which welding process offers the best productivity and deposition balance for 5mm stainless plate?",
+        "category": "productivity_economics",
+        "relevant_doc_ids": ["kb:process_productivity"],
+        "rationale": (
+            "kb:process_productivity compares MIG/GMAW (especially pulsed spray) against TIG and SMAW, "
+            "recommending pulsed MIG for 5mm stainless plate."
+        ),
+    },
+    {
+        "query_id": "Q23",
+        "query": "How can manufacturing plants systematically reduce rework and post-weld grinding?",
+        "category": "productivity_economics",
+        "relevant_doc_ids": ["kb:reduce_rework"],
+        "rationale": (
+            "kb:reduce_rework outlines qualified WPS lockdown, clean edge preparation, "
+            "fit-up accuracy, and robotic repeatability to eliminate defects upstream."
+        ),
+    },
+    {
+        "query_id": "Q24",
+        "query": "How can shielding gas consumption and expenses be reduced without risking weld porosity?",
+        "category": "productivity_economics",
+        "relevant_doc_ids": ["kb:gas_consumption"],
+        "rationale": (
+            "kb:gas_consumption explains setting optimal flow (12-18 L/min), installing surge "
+            "gas-savers, fixing line leaks, and eliminating drafts."
+        ),
+    },
+    {
+        "query_id": "Q25",
+        "query": "How does wire spatter loss and deposition efficiency affect overall consumable cost per meter?",
+        "category": "productivity_economics",
+        "relevant_doc_ids": ["kb:consumable_cost"],
+        "rationale": (
+            "kb:consumable_cost analyzes deposition efficiency, wire spatter waste, solid vs "
+            "metal-cored wire tradeoffs, and total labor-dominated cost structures."
+        ),
+    },
+    {
+        "query_id": "Q26",
+        "query": "What cost component represents the dominant fraction of total weld manufacturing cost?",
+        "category": "productivity_economics",
+        "relevant_doc_ids": ["kb:manufacturing_cost"],
+        "rationale": (
+            "kb:manufacturing_cost highlights that labor and overhead comprise 70-85% of total weld cost, "
+            "demonstrating why arc-on time and first-time-right quality dominate material costs."
+        ),
+    },
+    {
+        "query_id": "Q27",
+        "query": "What are the four primary levers to improve overall welding fabrication efficiency?",
+        "category": "productivity_economics",
+        "relevant_doc_ids": ["kb:improve_efficiency"],
+        "rationale": (
+            "kb:improve_efficiency names the four levers: arc-on duty cycle, deposition rate, "
+            "defect/rework reduction, and consumable waste elimination."
+        ),
+    },
+    # -------------------------------------------------------------
+    # Category 5: Shielding Gas Selection & Flow Rates (6 queries)
+    # -------------------------------------------------------------
+    {
+        "query_id": "Q28",
+        "query": "What shielding gas blend is recommended for MIG welding stainless steel?",
+        "category": "gas_selection",
+        "relevant_doc_ids": ["kb:shielding_gas_choice", "doc:shielding_gas_selection.md#2"],
+        "rationale": (
+            "Both sources recommend Ar-rich tri-mixes (Ar/He/CO2 or Ar/2%CO2) and explain "
+            "why CO2 must remain low (<= 2-3%) to prevent sensitization and carbide precipitation."
+        ),
+    },
+    {
+        "query_id": "Q29",
+        "query": "What shielding gas mixture should be chosen for GMAW of carbon and mild steel?",
+        "category": "gas_selection",
+        "relevant_doc_ids": ["kb:shielding_gas_choice", "doc:shielding_gas_selection.md#1"],
+        "rationale": (
+            "Both sources detail pure CO2 vs Ar-20%CO2 vs Ar-8%CO2, contrasting penetration, "
+            "spatter levels, and spray transfer capability."
+        ),
+    },
+    {
+        "query_id": "Q30",
+        "query": "Can CO2 or oxygen be used in shielding gas mixtures when MIG welding aluminum?",
+        "category": "gas_selection",
+        "relevant_doc_ids": ["doc:shielding_gas_selection.md#3"],
+        "rationale": (
+            "doc:shielding_gas_selection.md#3 explicitly cautions never to use CO2 or oxygen on aluminum "
+            "because they violently oxidise the weld pool causing severe dross and porosity."
+        ),
+    },
+    {
+        "query_id": "Q31",
+        "query": "What is the recommended shielding gas flow rate in L/min for standard GMAW MIG welding?",
+        "category": "gas_selection",
+        "relevant_doc_ids": ["doc:shielding_gas_selection.md#4", "kb:porosity", "kb:gas_consumption"],
+        "rationale": (
+            "doc:shielding_gas_selection.md#4 specifies 15-20 L/min, consistent with kb:porosity (15-20 L/min) "
+            "and kb:gas_consumption (12-18 L/min)."
+        ),
+    },
+    {
+        "query_id": "Q32",
+        "query": "Why should CO2 content in stainless steel shielding gas be kept below 2 to 3 percent?",
+        "category": "gas_selection",
+        "relevant_doc_ids": ["doc:shielding_gas_selection.md#2", "kb:shielding_gas_choice"],
+        "rationale": (
+            "Both documents explain that carbon pickup from higher CO2 concentrations causes carbide "
+            "precipitation in the HAZ, destroying corrosion resistance."
+        ),
+    },
+    {
+        "query_id": "Q33",
+        "query": "Why does an excessively high shielding gas flow rate cause weld porosity rather than preventing it?",
+        "category": "gas_selection",
+        "relevant_doc_ids": ["doc:shielding_gas_selection.md#4", "kb:gas_consumption"],
+        "rationale": (
+            "Both passages highlight that excessive gas velocity generates turbulent aspiration "
+            "that sucks atmospheric oxygen and nitrogen into the molten weld pool."
+        ),
+    },
+    # -------------------------------------------------------------
+    # Category 6: Metal Transfer Modes (3 queries)
+    # -------------------------------------------------------------
+    {
+        "query_id": "Q34",
+        "query": "What are the operating requirements and physical characteristics of spray transfer in GMAW?",
+        "category": "transfer_modes",
+        "relevant_doc_ids": ["kb:transfer_mode"],
+        "rationale": (
+            "kb:transfer_mode covers current thresholds (>150-200A), Ar-rich gas requirement (>=80%), "
+            "flat/horizontal position limitation, and deep penetration / low spatter dynamics."
+        ),
+    },
+    {
+        "query_id": "Q35",
+        "query": "When should pulsed MIG welding be chosen instead of short-circuit or spray transfer?",
+        "category": "transfer_modes",
+        "relevant_doc_ids": ["kb:transfer_mode", "kb:process_productivity"],
+        "rationale": (
+            "Both passages explain that pulsed MIG combines spray-like low spatter and deposition "
+            "with all-position capability and lower average heat input for distortion-prone stainless."
+        ),
+    },
+    {
+        "query_id": "Q36",
+        "query": "What minimum current and argon percentage are required to achieve spray arc?",
+        "category": "transfer_modes",
+        "relevant_doc_ids": ["kb:transfer_mode"],
+        "rationale": (
+            "kb:transfer_mode explicitly notes spray requires >~150-200 A and ~80%+ argon."
+        ),
+    },
+    # -------------------------------------------------------------
+    # Category 7: Simulation, Robotics & DAQ (4 queries)
+    # -------------------------------------------------------------
+    {
+        "query_id": "Q37",
+        "query": "What DAQ hardware is required to sample high-rate analog arc voltage and current signals at 10 kHz?",
+        "category": "simulation_robotics_daq",
+        "relevant_doc_ids": ["kb:sensor_hardware_daq"],
+        "rationale": (
+            "kb:sensor_hardware_daq specifies NI cDAQ with NI-9215 (voltage) and NI-9227 (current) "
+            "or NI USB-6363 sampling at >=10 kHz alongside PTP IEEE 1588 synchronization."
+        ),
+    },
+    {
+        "query_id": "Q38",
+        "query": "How does robot seam-finding touch sensing and closed-loop force-torque control maintain seam tracking?",
+        "category": "simulation_robotics_daq",
+        "relevant_doc_ids": ["kb:robot_kinematics_control"],
+        "rationale": (
+            "kb:robot_kinematics_control explains touch-sense seam finding, wrist F/T contact force, "
+            "and depth standoff feedback loops."
+        ),
+    },
+    {
+        "query_id": "Q39",
+        "query": "How is the weld process simulated in Isaac Sim given that arc metallurgy and weld pools are not modeled?",
+        "category": "simulation_robotics_daq",
+        "relevant_doc_ids": ["kb:weld_process_simulation"],
+        "rationale": (
+            "kb:weld_process_simulation explains modeling the weld as a kinematic trajectory + contact event, "
+            "using scripted scenario variables (I, V, speed) validated against physics formulas."
+        ),
+    },
+    {
+        "query_id": "Q40",
+        "query": "What ROS 2 topics and topic contract allow seamless sim-to-real transfer to physical robot hardware?",
+        "category": "simulation_robotics_daq",
+        "relevant_doc_ids": ["kb:sim_to_real_digital_twin"],
+        "rationale": (
+            "kb:sim_to_real_digital_twin defines the ROS 2 topic contract over /wrist/rgb, "
+            "/wrist/depth, /cell/scan, /weld/ft, and /weld/params."
+        ),
+    },
+]
+
+
+def get_benchmark_queries() -> List[Dict[str, Any]]:
+    """Return the static list of 40 grounded benchmark queries."""
+    return list(BENCHMARK_QUERIES)
+
+
+def validate_benchmark_queries(
+    passages: List[Dict[str, Any]],
+) -> Tuple[bool, List[str]]:
+    """
+    Validate that every document ID in BENCHMARK_QUERIES exists in the provided passages.
+
+    Returns:
+        (is_valid, error_messages)
+    """
+    passage_ids: Set[str] = {p["id"] for p in passages}
+    errors: List[str] = []
+
+    for q in BENCHMARK_QUERIES:
+        qid = q.get("query_id", "UNKNOWN")
+        rel_ids = q.get("relevant_doc_ids", [])
+        if not rel_ids:
+            errors.append(f"Query {qid} has empty relevant_doc_ids")
+        for doc_id in rel_ids:
+            if doc_id not in passage_ids:
+                errors.append(f"Query {qid} references missing doc_id: '{doc_id}'")
+
+    return len(errors) == 0, errors
+
+
+def save_benchmark_queries(dest_path: Optional[Path] = None) -> Path:
+    """Save the benchmark dataset as JSON."""
+    if dest_path is None:
+        dest_path = _ROOT / "artifacts" / "rag_query_benchmark.json"
+    dest_path.parent.mkdir(parents=True, exist_ok=True)
+    with open(dest_path, "w", encoding="utf-8") as f:
+        json.dump(BENCHMARK_QUERIES, f, indent=2, ensure_ascii=False)
+        f.write("\n")
+    return dest_path
+
+
+if __name__ == "__main__":
+    out = save_benchmark_queries()
+    print(f"Saved {len(BENCHMARK_QUERIES)} benchmark queries to {out}")
