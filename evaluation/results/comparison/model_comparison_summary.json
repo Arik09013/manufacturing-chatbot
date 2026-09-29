@@ -1,0 +1,153 @@
+{
+  "benchmark_timestamp": "2026-09-29",
+  "models_evaluated": [
+    "Random Forest",
+    "Logistic Regression",
+    "Support Vector Machine",
+    "Isolation Forest",
+    "DistilBERT (theta=0.5)",
+    "DistilBERT (val-tuned)"
+  ],
+  "chronological_summary": {
+    "Random Forest": {
+      "f1": 1.0,
+      "macro_f1": 1.0,
+      "pr_auc": 1.0,
+      "roc_auc": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "infer_time_sec": 0.0742
+    },
+    "Logistic Regression": {
+      "f1": 0.9524,
+      "macro_f1": 0.9755,
+      "pr_auc": 1.0,
+      "roc_auc": 1.0,
+      "precision": 0.9091,
+      "recall": 1.0,
+      "infer_time_sec": 0.0008
+    },
+    "Support Vector Machine": {
+      "f1": 0.8182,
+      "macro_f1": 0.9063,
+      "pr_auc": 0.9587,
+      "roc_auc": 0.9986,
+      "precision": 0.75,
+      "recall": 0.9,
+      "infer_time_sec": 0.0053
+    },
+    "Isolation Forest": {
+      "f1": 0.7143,
+      "macro_f1": 0.8516,
+      "pr_auc": 0.7251,
+      "roc_auc": 0.9934,
+      "precision": 0.5556,
+      "recall": 1.0,
+      "infer_time_sec": 0.0252
+    },
+    "DistilBERT (theta=0.5)": {
+      "f1": 1.0,
+      "macro_f1": 1.0,
+      "pr_auc": 1.0,
+      "roc_auc": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "infer_time_sec": 11.6269
+    },
+    "DistilBERT (val-tuned)": {
+      "f1": 1.0,
+      "macro_f1": 1.0,
+      "pr_auc": 1.0,
+      "roc_auc": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "infer_time_sec": 11.6269
+    }
+  },
+  "lomo_summary": {
+    "Random Forest": {
+      "macro_f1": 0.9683,
+      "macro_pr_auc": 0.9817,
+      "macro_roc_auc": 0.9993
+    },
+    "Logistic Regression": {
+      "macro_f1": 0.9919,
+      "macro_pr_auc": 0.9945,
+      "macro_roc_auc": 0.9998
+    },
+    "Support Vector Machine": {
+      "macro_f1": 0.8167,
+      "macro_pr_auc": 0.9669,
+      "macro_roc_auc": 0.9988
+    },
+    "Isolation Forest": {
+      "macro_f1": 0.6983,
+      "macro_pr_auc": 0.8108,
+      "macro_roc_auc": 0.9938
+    },
+    "DistilBERT": {
+      "macro_f1": 0.9837,
+      "macro_pr_auc": 0.9885,
+      "macro_roc_auc": 0.9997
+    }
+  },
+  "multiseed_summary": {
+    "Random Forest": {
+      "f1_mean": 1.0,
+      "f1_std": 0.0,
+      "prauc_mean": 1.0
+    },
+    "Logistic Regression": {
+      "f1_mean": 0.9524,
+      "f1_std": 0.0,
+      "prauc_mean": 1.0
+    },
+    "Support Vector Machine": {
+      "f1_mean": 0.8182,
+      "f1_std": 0.0,
+      "prauc_mean": 0.9587
+    },
+    "Isolation Forest": {
+      "f1_mean": 0.7097,
+      "f1_std": 0.019,
+      "prauc_mean": 0.7651
+    },
+    "DistilBERT": {
+      "f1_mean": 1.0,
+      "f1_std": 0.0,
+      "prauc_mean": 1.0
+    }
+  },
+  "statistical_summary": {
+    "Random Forest vs Logistic Regression": {
+      "discordant_pairs": 1,
+      "p_value": 1.0,
+      "significant": false
+    },
+    "Random Forest vs Support Vector Machine": {
+      "discordant_pairs": 4,
+      "p_value": 0.125,
+      "significant": false
+    },
+    "Random Forest vs DistilBERT": {
+      "discordant_pairs": 0,
+      "p_value": 1.0,
+      "significant": false
+    },
+    "Logistic Regression vs DistilBERT": {
+      "discordant_pairs": 1,
+      "p_value": 1.0,
+      "significant": false
+    },
+    "Support Vector Machine vs DistilBERT": {
+      "discordant_pairs": 4,
+      "p_value": 0.125,
+      "significant": false
+    },
+    "Random Forest vs Isolation Forest": {
+      "discordant_pairs": 8,
+      "p_value": 0.0078,
+      "significant": true
+    }
+  }
+}

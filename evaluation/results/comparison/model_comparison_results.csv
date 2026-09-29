@@ -1,0 +1,7 @@
+model,category,is_supervised,parameter_count,disk_footprint_mb,chrono_accuracy,chrono_precision,chrono_recall,chrono_f1,chrono_macro_f1,chrono_roc_auc,chrono_pr_auc,chrono_fpr,chrono_fnr,chrono_train_time_sec,chrono_infer_time_sec,lomo_macro_accuracy,lomo_macro_precision,lomo_macro_recall,lomo_macro_f1,lomo_macro_roc_auc,lomo_macro_pr_auc,multiseed_f1_mean,multiseed_f1_std,multiseed_prauc_mean
+Random Forest,Tree Ensemble (Supervised),True,5112,0.55,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.258,0.0742,0.9979,0.9545,0.9833,0.9683,0.9993,0.9817,1.0,0.0,1.0
+Logistic Regression,Linear Model (Supervised),True,41,0.001,0.9973,0.9091,1.0,0.9524,0.9755,1.0,1.0,0.0027,0.0,0.0123,0.0008,0.9995,0.9841,1.0,0.9919,0.9998,0.9945,0.9524,0.0,1.0
+Support Vector Machine,Kernel Method (Supervised),True,117,0.15,0.9893,0.75,0.9,0.8182,0.9063,0.9986,0.9587,0.0082,0.1,0.0463,0.0053,0.9864,0.7076,0.9667,0.8167,0.9988,0.9669,0.8182,0.0,0.9587
+Isolation Forest,Tree Ensemble (Unsupervised),False,16478,0.5,0.9787,0.5556,1.0,0.7143,0.8516,0.9934,0.7251,0.0219,0.0,0.2152,0.0252,0.9734,0.5416,0.9833,0.6983,0.9938,0.8108,0.7097,0.019,0.7651
+DistilBERT (theta=0.5),Fine-Tuned Transformer (Supervised Text),True,66364418,268.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,176.6,11.6269,0.9989,0.9683,1.0,0.9837,0.9997,0.9885,1.0,0.0,1.0
+DistilBERT (val-tuned),Fine-Tuned Transformer (Validation-Tuned Cutoff),True,66364418,268.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,176.6,11.6269,0.9989,0.9683,1.0,0.9837,0.9997,0.9885,1.0,0.0,1.0
