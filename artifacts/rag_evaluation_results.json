@@ -1,0 +1,501 @@
+{
+  "step": "Step 7 — Formal RAG Retrieval Evaluation",
+  "timestamp": "2026-09-29 23:35:44",
+  "corpus_info": {
+    "total_passages": 41,
+    "kb_passages": 36,
+    "doc_passages": 5,
+    "embedding_model": "sentence-transformers/all-MiniLM-L6-v2",
+    "embedding_dimension": 384
+  },
+  "benchmark_info": {
+    "total_queries": 40,
+    "num_categories": 7,
+    "categories": [
+      "defect_causes_remedies",
+      "gas_selection",
+      "parameters_physics",
+      "productivity_economics",
+      "simulation_robotics_daq",
+      "transfer_modes",
+      "troubleshooting_profile"
+    ]
+  },
+  "production_retriever_metrics": {
+    "Recall@1": 0.875,
+    "Recall@3": 0.975,
+    "Recall@4": 1.0,
+    "Recall@5": 1.0,
+    "MRR": 0.9271,
+    "P@1": 0.875,
+    "P@3": 0.375,
+    "P@4": 0.3,
+    "P@5": 0.24,
+    "nDCG@3": 0.8911,
+    "nDCG@5": 0.9151
+  },
+  "ablation_metrics": {
+    "FULL_HYBRID": {
+      "Recall@1": 0.875,
+      "Recall@3": 0.975,
+      "Recall@4": 1.0,
+      "Recall@5": 1.0,
+      "MRR": 0.9271,
+      "P@1": 0.875,
+      "P@3": 0.375,
+      "P@4": 0.3,
+      "P@5": 0.24,
+      "nDCG@3": 0.8911,
+      "nDCG@5": 0.9151
+    },
+    "DENSE_ONLY": {
+      "Recall@1": 0.8,
+      "Recall@3": 0.975,
+      "Recall@4": 0.975,
+      "Recall@5": 1.0,
+      "MRR": 0.8925,
+      "P@1": 0.8,
+      "P@3": 0.375,
+      "P@4": 0.2812,
+      "P@5": 0.235,
+      "nDCG@3": 0.884,
+      "nDCG@5": 0.8959
+    },
+    "LEXICAL_ONLY": {
+      "Recall@1": 0.825,
+      "Recall@3": 0.95,
+      "Recall@4": 0.95,
+      "Recall@5": 0.95,
+      "MRR": 0.8833,
+      "P@1": 0.825,
+      "P@3": 0.3417,
+      "P@4": 0.275,
+      "P@5": 0.225,
+      "nDCG@3": 0.8314,
+      "nDCG@5": 0.8556
+    },
+    "WITHOUT_DENSE": {
+      "Recall@1": 0.975,
+      "Recall@3": 0.975,
+      "Recall@4": 0.975,
+      "Recall@5": 0.975,
+      "MRR": 0.975,
+      "P@1": 0.975,
+      "P@3": 0.375,
+      "P@4": 0.2875,
+      "P@5": 0.235,
+      "nDCG@3": 0.9229,
+      "nDCG@5": 0.9339
+    },
+    "WITHOUT_LEXICAL": {
+      "Recall@1": 0.825,
+      "Recall@3": 1.0,
+      "Recall@4": 1.0,
+      "Recall@5": 1.0,
+      "MRR": 0.9083,
+      "P@1": 0.825,
+      "P@3": 0.3833,
+      "P@4": 0.2938,
+      "P@5": 0.235,
+      "nDCG@3": 0.8961,
+      "nDCG@5": 0.9027
+    },
+    "WITHOUT_TITLE": {
+      "Recall@1": 0.875,
+      "Recall@3": 0.975,
+      "Recall@4": 1.0,
+      "Recall@5": 1.0,
+      "MRR": 0.9271,
+      "P@1": 0.875,
+      "P@3": 0.375,
+      "P@4": 0.2875,
+      "P@5": 0.235,
+      "nDCG@3": 0.8875,
+      "nDCG@5": 0.9029
+    }
+  },
+  "top_k_sweep": [
+    {
+      "k": 1,
+      "Recall@1": 0.875,
+      "P@1": 0.875,
+      "MRR": 0.875,
+      "avg_retrieved": 1.0
+    },
+    {
+      "k": 2,
+      "Recall@2": 0.95,
+      "P@2": 0.5,
+      "MRR": 0.9125,
+      "avg_retrieved": 2.0
+    },
+    {
+      "k": 3,
+      "Recall@3": 0.975,
+      "P@3": 0.375,
+      "MRR": 0.9208,
+      "avg_retrieved": 3.0
+    },
+    {
+      "k": 4,
+      "Recall@4": 1.0,
+      "P@4": 0.3,
+      "MRR": 0.9271,
+      "avg_retrieved": 4.0
+    },
+    {
+      "k": 5,
+      "Recall@5": 1.0,
+      "P@5": 0.24,
+      "MRR": 0.9271,
+      "avg_retrieved": 5.0
+    },
+    {
+      "k": 8,
+      "Recall@8": 1.0,
+      "P@8": 0.1562,
+      "MRR": 0.9271,
+      "avg_retrieved": 7.92
+    },
+    {
+      "k": 10,
+      "Recall@10": 1.0,
+      "P@10": 0.125,
+      "MRR": 0.9271,
+      "avg_retrieved": 9.88
+    }
+  ],
+  "threshold_sweep": [
+    {
+      "threshold": 0.0,
+      "Recall@1": 0.875,
+      "Recall@4": 1.0,
+      "P@4": 0.3,
+      "MRR": 0.9271,
+      "avg_retrieved": 4.0
+    },
+    {
+      "threshold": 0.05,
+      "Recall@1": 0.875,
+      "Recall@4": 1.0,
+      "P@4": 0.3,
+      "MRR": 0.9271,
+      "avg_retrieved": 4.0
+    },
+    {
+      "threshold": 0.1,
+      "Recall@1": 0.875,
+      "Recall@4": 1.0,
+      "P@4": 0.3,
+      "MRR": 0.9271,
+      "avg_retrieved": 4.0
+    },
+    {
+      "threshold": 0.15,
+      "Recall@1": 0.875,
+      "Recall@4": 1.0,
+      "P@4": 0.3,
+      "MRR": 0.9271,
+      "avg_retrieved": 4.0
+    },
+    {
+      "threshold": 0.2,
+      "Recall@1": 0.875,
+      "Recall@4": 1.0,
+      "P@4": 0.3,
+      "MRR": 0.9271,
+      "avg_retrieved": 3.95
+    },
+    {
+      "threshold": 0.25,
+      "Recall@1": 0.875,
+      "Recall@4": 1.0,
+      "P@4": 0.3,
+      "MRR": 0.9271,
+      "avg_retrieved": 3.85
+    },
+    {
+      "threshold": 0.3,
+      "Recall@1": 0.875,
+      "Recall@4": 0.975,
+      "P@4": 0.2875,
+      "MRR": 0.9187,
+      "avg_retrieved": 3.7
+    },
+    {
+      "threshold": 0.35,
+      "Recall@1": 0.875,
+      "Recall@4": 0.975,
+      "P@4": 0.2875,
+      "MRR": 0.9187,
+      "avg_retrieved": 3.17
+    },
+    {
+      "threshold": 0.4,
+      "Recall@1": 0.85,
+      "Recall@4": 0.925,
+      "P@4": 0.2625,
+      "MRR": 0.8812,
+      "avg_retrieved": 2.38
+    }
+  ],
+  "latency_profile": {
+    "encoding_latency": {
+      "mean_ms": 17.61,
+      "median_ms": 16.78,
+      "p95_ms": 22.061,
+      "min_ms": 14.133,
+      "max_ms": 28.631,
+      "std_ms": 2.655
+    },
+    "scoring_latency": {
+      "mean_ms": 0.235,
+      "median_ms": 0.218,
+      "p95_ms": 0.302,
+      "min_ms": 0.138,
+      "max_ms": 0.875,
+      "std_ms": 0.089
+    },
+    "total_latency": {
+      "mean_ms": 17.845,
+      "median_ms": 17.014,
+      "p95_ms": 22.274,
+      "min_ms": 14.347,
+      "max_ms": 28.848,
+      "std_ms": 2.647
+    },
+    "num_measurements": 120
+  },
+  "category_breakdown": {
+    "defect_causes_remedies": {
+      "num_queries": 8,
+      "Recall@1": 0.875,
+      "Recall@4": 1.0,
+      "MRR": 0.9375,
+      "P@4": 0.2812,
+      "nDCG@5": 0.9438
+    },
+    "gas_selection": {
+      "num_queries": 6,
+      "Recall@1": 0.6667,
+      "Recall@4": 1.0,
+      "MRR": 0.7917,
+      "P@4": 0.4167,
+      "nDCG@5": 0.7331
+    },
+    "parameters_physics": {
+      "num_queries": 5,
+      "Recall@1": 0.8,
+      "Recall@4": 1.0,
+      "MRR": 0.8667,
+      "P@4": 0.35,
+      "nDCG@5": 0.8207
+    },
+    "productivity_economics": {
+      "num_queries": 8,
+      "Recall@1": 1.0,
+      "Recall@4": 1.0,
+      "MRR": 1.0,
+      "P@4": 0.25,
+      "nDCG@5": 1.0
+    },
+    "simulation_robotics_daq": {
+      "num_queries": 4,
+      "Recall@1": 1.0,
+      "Recall@4": 1.0,
+      "MRR": 1.0,
+      "P@4": 0.25,
+      "nDCG@5": 1.0
+    },
+    "transfer_modes": {
+      "num_queries": 3,
+      "Recall@1": 0.6667,
+      "Recall@4": 1.0,
+      "MRR": 0.8333,
+      "P@4": 0.3333,
+      "nDCG@5": 0.8502
+    },
+    "troubleshooting_profile": {
+      "num_queries": 6,
+      "Recall@1": 1.0,
+      "Recall@4": 1.0,
+      "MRR": 1.0,
+      "P@4": 0.25,
+      "nDCG@5": 1.0
+    }
+  },
+  "diagnostics_suboptimal_queries": [
+    {
+      "query_id": "Q04",
+      "query": "Why is my GMAW process producing excessive spatter?",
+      "category": "defect_causes_remedies",
+      "relevant_doc_ids": [
+        "kb:spatter"
+      ],
+      "first_hit_rank": 2,
+      "hit_in_top4": true,
+      "rank_1_retrieved_id": "doc:shielding_gas_selection.md#0",
+      "rank_1_score": 0.3617,
+      "retrieved_top4": [
+        {
+          "id": "doc:shielding_gas_selection.md#0",
+          "score": 0.3617,
+          "is_relevant": false
+        },
+        {
+          "id": "kb:spatter",
+          "score": 0.3614,
+          "is_relevant": true
+        },
+        {
+          "id": "kb:process_productivity",
+          "score": 0.3176,
+          "is_relevant": false
+        },
+        {
+          "id": "kb:porosity",
+          "score": 0.2263,
+          "is_relevant": false
+        }
+      ]
+    },
+    {
+      "query_id": "Q17",
+      "query": "How does travel speed interact with current and voltage to determine heat input?",
+      "category": "parameters_physics",
+      "relevant_doc_ids": [
+        "kb:heat_input_range",
+        "kb:quality_drivers"
+      ],
+      "first_hit_rank": 3,
+      "hit_in_top4": true,
+      "rank_1_retrieved_id": "kb:weld_process_simulation",
+      "rank_1_score": 0.3146,
+      "retrieved_top4": [
+        {
+          "id": "kb:weld_process_simulation",
+          "score": 0.3146,
+          "is_relevant": false
+        },
+        {
+          "id": "kb:inconsistent_penetration",
+          "score": 0.2979,
+          "is_relevant": false
+        },
+        {
+          "id": "kb:heat_input_range",
+          "score": 0.2907,
+          "is_relevant": true
+        },
+        {
+          "id": "kb:quality_drivers",
+          "score": 0.2708,
+          "is_relevant": true
+        }
+      ]
+    },
+    {
+      "query_id": "Q29",
+      "query": "What shielding gas mixture should be chosen for GMAW of carbon and mild steel?",
+      "category": "gas_selection",
+      "relevant_doc_ids": [
+        "kb:shielding_gas_choice",
+        "doc:shielding_gas_selection.md#1"
+      ],
+      "first_hit_rank": 2,
+      "hit_in_top4": true,
+      "rank_1_retrieved_id": "doc:shielding_gas_selection.md#0",
+      "rank_1_score": 0.5313,
+      "retrieved_top4": [
+        {
+          "id": "doc:shielding_gas_selection.md#0",
+          "score": 0.5313,
+          "is_relevant": false
+        },
+        {
+          "id": "kb:shielding_gas_choice",
+          "score": 0.518,
+          "is_relevant": true
+        },
+        {
+          "id": "kb:gas_consumption",
+          "score": 0.3534,
+          "is_relevant": false
+        },
+        {
+          "id": "doc:shielding_gas_selection.md#1",
+          "score": 0.3511,
+          "is_relevant": true
+        }
+      ]
+    },
+    {
+      "query_id": "Q30",
+      "query": "Can CO2 or oxygen be used in shielding gas mixtures when MIG welding aluminum?",
+      "category": "gas_selection",
+      "relevant_doc_ids": [
+        "doc:shielding_gas_selection.md#3"
+      ],
+      "first_hit_rank": 4,
+      "hit_in_top4": true,
+      "rank_1_retrieved_id": "kb:shielding_gas_choice",
+      "rank_1_score": 0.5395,
+      "retrieved_top4": [
+        {
+          "id": "kb:shielding_gas_choice",
+          "score": 0.5395,
+          "is_relevant": false
+        },
+        {
+          "id": "doc:shielding_gas_selection.md#0",
+          "score": 0.5117,
+          "is_relevant": false
+        },
+        {
+          "id": "kb:porosity",
+          "score": 0.4573,
+          "is_relevant": false
+        },
+        {
+          "id": "doc:shielding_gas_selection.md#3",
+          "score": 0.4365,
+          "is_relevant": true
+        }
+      ]
+    },
+    {
+      "query_id": "Q36",
+      "query": "What minimum current and argon percentage are required to achieve spray arc?",
+      "category": "transfer_modes",
+      "relevant_doc_ids": [
+        "kb:transfer_mode"
+      ],
+      "first_hit_rank": 2,
+      "hit_in_top4": true,
+      "rank_1_retrieved_id": "doc:shielding_gas_selection.md#1",
+      "rank_1_score": 0.4734,
+      "retrieved_top4": [
+        {
+          "id": "doc:shielding_gas_selection.md#1",
+          "score": 0.4734,
+          "is_relevant": false
+        },
+        {
+          "id": "kb:transfer_mode",
+          "score": 0.4441,
+          "is_relevant": true
+        },
+        {
+          "id": "kb:spatter",
+          "score": 0.3949,
+          "is_relevant": false
+        },
+        {
+          "id": "kb:minimize_time",
+          "score": 0.3561,
+          "is_relevant": false
+        }
+      ]
+    }
+  ]
+}

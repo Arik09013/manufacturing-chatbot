@@ -1,0 +1,112 @@
+{
+  "inventory_version": "1.0",
+  "audit_timestamp": "2026-09-30 00:00:00",
+  "source_files": [
+    "src/chat/intent.py",
+    "src/api/pipeline.py",
+    "tests/test_intent.py"
+  ],
+  "intent_architecture": {
+    "level_1_scope_classifier": {
+      "file": "src/chat/intent.py",
+      "function": "classify_intent(question: str) -> IntentResult",
+      "purpose": "Binary scope guard to determine whether a query falls within industrial manufacturing and welding operations before invoking ML pipelines or LLM backends.",
+      "labels": [
+        "in_scope",
+        "out_of_scope"
+      ],
+      "rule_precedence": [
+        {
+          "step": 1,
+          "name": "keyword_matching",
+          "mechanism": "Iterates through frozenset `MANUFACTURING_KEYWORDS` (>200 curated terms). Multi-word phrases are checked as substrings; single-word terms are checked with regex word boundaries `\\b<kw>\\b` after lowercasing.",
+          "confidence_assigned": 1.0,
+          "result": "in_scope=True"
+        },
+        {
+          "step": 2,
+          "name": "regex_pattern_matching",
+          "mechanism": "Iterates through list `_PATTERNS` (9 precompiled regexes matching machine IDs, station patterns, line patterns, sensor/alarm occurrences, and thickness mentions).",
+          "confidence_assigned": 0.8,
+          "result": "in_scope=True"
+        },
+        {
+          "step": 3,
+          "name": "fallback_rejection",
+          "mechanism": "If neither keywords nor regex patterns match, returns out_of_scope.",
+          "confidence_assigned": 1.0,
+          "result": "in_scope=False, matched_term='', reason='No manufacturing-related terms detected'"
+        }
+      ],
+      "confidence_behavior": {
+        "1.0": "Assigned when a direct keyword or multi-word phrase matches from MANUFACTURING_KEYWORDS, or on out-of-scope fallback.",
+        "0.8": "Assigned when a regex structural pattern matches (_PATTERNS) without an explicit vocabulary keyword."
+      },
+      "exception_handling": "Pipelines wrap calls and raise `OutOfScopeError(question, result)` when `not result.in_scope`, returning a standardized rejection explanation."
+    },
+    "level_2_routing_classifier": {
+      "file": "src/api/pipeline.py",
+      "function": "route_question(question: str) -> str",
+      "purpose": "Deterministic rule-based router that assigns an in-scope question to the appropriate specialized pipeline.",
+      "labels": [
+        "param",
+        "anomaly",
+        "knowledge",
+        "general"
+      ],
+      "rule_precedence": [
+        {
+          "precedence": 1,
+          "intent": "general",
+          "condition": "_is_other_manufacturing_domain(question)",
+          "rule_logic": "Matches non-welding manufacturing vocabulary in `_OTHER_MANUFACTURING_TERMS` (machining, CNC, milling, lathe, injection molding, casting, forging, sheet metal, stamping, additive/3D printing, heat treatment, GD&T, Six Sigma, Lean, 5S, OEE, takt time, BOM).",
+          "downstream_handler": "run_general_pipeline(question) -> General manufacturing LLM advisor"
+        },
+        {
+          "precedence": 2,
+          "intent": "param",
+          "condition": "parse_param_query(question) is not None",
+          "rule_logic": "Requires both a recognized workpiece material (steel, stainless, aluminum) and plate thickness (`\\d+\\s*mm`).",
+          "downstream_handler": "run_param_pipeline(question) -> Grid-search parameter advisor optimizer"
+        },
+        {
+          "precedence": 3,
+          "intent": "anomaly",
+          "condition": "_STATION_RE.search(question.lower())",
+          "rule_logic": "Matches specific station or line references (`\\b(?:station|line|machine)[_\\s]?\\d\\b|\\b[sm][123]\\b`).",
+          "downstream_handler": "run_pipeline(question) -> Multimodal detector (Random Forest/DistilBERT) + SHAP/LIME"
+        },
+        {
+          "precedence": 4,
+          "intent": "knowledge",
+          "condition": "Default fallback for remaining in-scope questions",
+          "rule_logic": "Captures general welding knowledge, defect causes, troubleshooting, shielding gas selection, productivity, and Isaac Sim / robotics integration.",
+          "downstream_handler": "run_knowledge_pipeline(question) -> Hybrid RAG knowledge retriever"
+        }
+      ]
+    },
+    "unified_intent_taxonomy": {
+      "out_of_scope": "Unsupported query rejected by classify_intent guard (chitchat, sports, trivia, cooking, etc.).",
+      "anomaly": "Specific machine/station operational event, telemetry, or fault diagnosis query.",
+      "param": "Welding parameter optimization query containing material and thickness specifications.",
+      "knowledge": "General welding engineering advice (defects, troubleshooting, process comparisons, economics, robotics).",
+      "general": "Non-welding manufacturing processes (CNC, molding, casting, stamping, additive, lean/OEE)."
+    }
+  },
+  "keyword_inventory_summary": {
+    "total_manufacturing_keywords": 204,
+    "total_regex_patterns": 9,
+    "total_other_manufacturing_terms": 74,
+    "total_welding_markers": 23,
+    "categories": [
+      "welding_specific",
+      "defects_quality",
+      "equipment_sensors",
+      "anomalies_faults",
+      "plant_operations",
+      "non_welding_manufacturing",
+      "parameter_queries",
+      "simulation_robotics"
+    ]
+  }
+}

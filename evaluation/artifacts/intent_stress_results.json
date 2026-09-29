@@ -1,0 +1,505 @@
+{
+  "step": "Step 8 — Intent Classification Stress Evaluation",
+  "timestamp": "2026-09-30 00:03:03",
+  "benchmark_summary": {
+    "total_queries": 100,
+    "intents": [
+      "out_of_scope",
+      "anomaly",
+      "param",
+      "knowledge",
+      "general"
+    ],
+    "perturbation_types": [
+      "clean_direct",
+      "short_query",
+      "paraphrase",
+      "informal_slang",
+      "typos_spelling",
+      "abbreviations",
+      "code_switching",
+      "word_order",
+      "noisy_redundant",
+      "multi_keyword",
+      "short_ambiguous",
+      "unsupported_out_of_scope"
+    ],
+    "difficulty_levels": [
+      "easy",
+      "medium",
+      "hard"
+    ],
+    "queries_per_intent": {
+      "out_of_scope": 20,
+      "anomaly": 20,
+      "param": 20,
+      "knowledge": 20,
+      "general": 20
+    }
+  },
+  "multi_class_intent_metrics": {
+    "accuracy": 0.86,
+    "macro_f1": 0.8487,
+    "total_samples": 100,
+    "correct_samples": 86,
+    "per_class": {
+      "out_of_scope": {
+        "precision": 0.9091,
+        "recall": 1.0,
+        "f1": 0.9524,
+        "support": 20
+      },
+      "anomaly": {
+        "precision": 1.0,
+        "recall": 0.95,
+        "f1": 0.9744,
+        "support": 20
+      },
+      "param": {
+        "precision": 1.0,
+        "recall": 0.4,
+        "f1": 0.5714,
+        "support": 20
+      },
+      "knowledge": {
+        "precision": 0.6129,
+        "recall": 0.95,
+        "f1": 0.7451,
+        "support": 20
+      },
+      "general": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "support": 20
+      }
+    }
+  },
+  "binary_scope_metrics": {
+    "accuracy": 0.98,
+    "macro_f1": 0.9699,
+    "total_samples": 100,
+    "correct_samples": 98,
+    "per_class": {
+      "in_scope": {
+        "precision": 1.0,
+        "recall": 0.975,
+        "f1": 0.9873,
+        "support": 80
+      },
+      "out_of_scope": {
+        "precision": 0.9091,
+        "recall": 1.0,
+        "f1": 0.9524,
+        "support": 20
+      }
+    }
+  },
+  "confusion_matrix_5x5": {
+    "labels": [
+      "out_of_scope",
+      "anomaly",
+      "param",
+      "knowledge",
+      "general"
+    ],
+    "matrix": [
+      [
+        20,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        1,
+        19,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        8,
+        12,
+        0
+      ],
+      [
+        1,
+        0,
+        0,
+        19,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        20
+      ]
+    ]
+  },
+  "confusion_matrix_scope_2x2": {
+    "labels": [
+      "in_scope",
+      "out_of_scope"
+    ],
+    "matrix": [
+      [
+        78,
+        2
+      ],
+      [
+        0,
+        20
+      ]
+    ]
+  },
+  "perturbation_breakdown": {
+    "clean_direct": {
+      "total": 29,
+      "correct": 27,
+      "accuracy": 0.931,
+      "degradation_vs_clean": 0.0
+    },
+    "short_query": {
+      "total": 11,
+      "correct": 10,
+      "accuracy": 0.9091,
+      "degradation_vs_clean": 0.0219
+    },
+    "paraphrase": {
+      "total": 5,
+      "correct": 4,
+      "accuracy": 0.8,
+      "degradation_vs_clean": 0.131
+    },
+    "informal_slang": {
+      "total": 5,
+      "correct": 4,
+      "accuracy": 0.8,
+      "degradation_vs_clean": 0.131
+    },
+    "typos_spelling": {
+      "total": 5,
+      "correct": 3,
+      "accuracy": 0.6,
+      "degradation_vs_clean": 0.331
+    },
+    "abbreviations": {
+      "total": 6,
+      "correct": 3,
+      "accuracy": 0.5,
+      "degradation_vs_clean": 0.431
+    },
+    "code_switching": {
+      "total": 7,
+      "correct": 6,
+      "accuracy": 0.8571,
+      "degradation_vs_clean": 0.0739
+    },
+    "word_order": {
+      "total": 4,
+      "correct": 3,
+      "accuracy": 0.75,
+      "degradation_vs_clean": 0.181
+    },
+    "noisy_redundant": {
+      "total": 5,
+      "correct": 4,
+      "accuracy": 0.8,
+      "degradation_vs_clean": 0.131
+    },
+    "multi_keyword": {
+      "total": 4,
+      "correct": 4,
+      "accuracy": 1.0,
+      "degradation_vs_clean": -0.069
+    },
+    "short_ambiguous": {
+      "total": 5,
+      "correct": 4,
+      "accuracy": 0.8,
+      "degradation_vs_clean": 0.131
+    },
+    "unsupported_out_of_scope": {
+      "total": 14,
+      "correct": 14,
+      "accuracy": 1.0,
+      "degradation_vs_clean": -0.069
+    }
+  },
+  "difficulty_breakdown": {
+    "easy": {
+      "total": 51,
+      "correct": 48,
+      "accuracy": 0.9412
+    },
+    "medium": {
+      "total": 39,
+      "correct": 30,
+      "accuracy": 0.7692
+    },
+    "hard": {
+      "total": 10,
+      "correct": 8,
+      "accuracy": 0.8
+    }
+  },
+  "confidence_analysis": {
+    "confidence_1_0": {
+      "count": 99,
+      "correct": 85,
+      "accuracy": 0.8586
+    },
+    "confidence_0_8": {
+      "count": 1,
+      "correct": 1,
+      "accuracy": 1.0
+    },
+    "other_confidence": {
+      "count": 0
+    }
+  },
+  "abstention_analysis": {
+    "total_unsupported_queries": 20,
+    "correct_abstention_count": 20,
+    "correct_abstention_rate": 1.0,
+    "false_acceptance_count": 0,
+    "false_acceptance_rate": 0.0,
+    "total_in_scope_queries": 80,
+    "false_rejection_count": 2,
+    "false_rejection_rate": 0.025
+  },
+  "mismatches_summary": {
+    "count": 14,
+    "details": [
+      {
+        "query_id": "ANOM_08",
+        "text": "sttion_1 triggred an alrm at 10:15",
+        "expected_intent": "anomaly",
+        "predicted_intent": "out_of_scope",
+        "expected_scope": "in_scope",
+        "predicted_scope": "out_of_scope",
+        "intent_correct": false,
+        "scope_correct": false,
+        "perturbation_type": "typos_spelling",
+        "difficulty": "hard",
+        "confidence": 1.0,
+        "matched_term": "",
+        "reason": "No manufacturing-related terms detected",
+        "rationale": "Typos in station and alarm words, stress-testing regex robustness."
+      },
+      {
+        "query_id": "PARAM_04",
+        "text": "5mm steel settings",
+        "expected_intent": "param",
+        "predicted_intent": "knowledge",
+        "expected_scope": "in_scope",
+        "predicted_scope": "in_scope",
+        "intent_correct": false,
+        "scope_correct": true,
+        "perturbation_type": "short_query",
+        "difficulty": "easy",
+        "confidence": 1.0,
+        "matched_term": "settings",
+        "reason": "Matched keyword: 'settings'",
+        "rationale": "Telegraphic query with thickness (5mm) and material (steel)."
+      },
+      {
+        "query_id": "PARAM_05",
+        "text": "3 mm stainless mig params",
+        "expected_intent": "param",
+        "predicted_intent": "knowledge",
+        "expected_scope": "in_scope",
+        "predicted_scope": "in_scope",
+        "intent_correct": false,
+        "scope_correct": true,
+        "perturbation_type": "abbreviations",
+        "difficulty": "medium",
+        "confidence": 1.0,
+        "matched_term": "stainless",
+        "reason": "Matched keyword: 'stainless'",
+        "rationale": "Abbreviated 'params' with 3 mm and stainless."
+      },
+      {
+        "query_id": "PARAM_06",
+        "text": "Could you provide recommended operating setpoints for welding 8 mm thick carbon steel plates?",
+        "expected_intent": "param",
+        "predicted_intent": "knowledge",
+        "expected_scope": "in_scope",
+        "predicted_scope": "in_scope",
+        "intent_correct": false,
+        "scope_correct": true,
+        "perturbation_type": "paraphrase",
+        "difficulty": "medium",
+        "confidence": 1.0,
+        "matched_term": "carbon steel",
+        "reason": "Matched keyword phrase: 'carbon steel'",
+        "rationale": "Polite paraphrase specifying 8 mm carbon steel."
+      },
+      {
+        "query_id": "PARAM_08",
+        "text": "optmize mig weld for 6mm mld stel",
+        "expected_intent": "param",
+        "predicted_intent": "knowledge",
+        "expected_scope": "in_scope",
+        "predicted_scope": "in_scope",
+        "intent_correct": false,
+        "scope_correct": true,
+        "perturbation_type": "typos_spelling",
+        "difficulty": "hard",
+        "confidence": 1.0,
+        "matched_term": "weld",
+        "reason": "Matched keyword: 'weld'",
+        "rationale": "Multiple typos in optimize, mild, steel while keeping 6mm."
+      },
+      {
+        "query_id": "PARAM_09",
+        "text": "4mm ms plate parameters",
+        "expected_intent": "param",
+        "predicted_intent": "knowledge",
+        "expected_scope": "in_scope",
+        "predicted_scope": "in_scope",
+        "intent_correct": false,
+        "scope_correct": true,
+        "perturbation_type": "abbreviations",
+        "difficulty": "medium",
+        "confidence": 1.0,
+        "matched_term": "parameters",
+        "reason": "Matched keyword: 'parameters'",
+        "rationale": "Abbreviation 'ms' for mild steel alongside 4mm."
+      },
+      {
+        "query_id": "PARAM_11",
+        "text": "For mild steel of 12 mm thickness what welding speed and wire feed do you recommend?",
+        "expected_intent": "param",
+        "predicted_intent": "knowledge",
+        "expected_scope": "in_scope",
+        "predicted_scope": "in_scope",
+        "intent_correct": false,
+        "scope_correct": true,
+        "perturbation_type": "word_order",
+        "difficulty": "medium",
+        "confidence": 1.0,
+        "matched_term": "welding speed",
+        "reason": "Matched keyword phrase: 'welding speed'",
+        "rationale": "Inverted word order with 12 mm and mild steel."
+      },
+      {
+        "query_id": "PARAM_12",
+        "text": "I am setting up a production run today and I need the exact parameter configuration for 2 mm mild steel sheet welding.",
+        "expected_intent": "param",
+        "predicted_intent": "knowledge",
+        "expected_scope": "in_scope",
+        "predicted_scope": "in_scope",
+        "intent_correct": false,
+        "scope_correct": true,
+        "perturbation_type": "noisy_redundant",
+        "difficulty": "medium",
+        "confidence": 1.0,
+        "matched_term": "production",
+        "reason": "Matched keyword: 'production'",
+        "rationale": "Lengthy conversational setup containing 2 mm mild steel."
+      },
+      {
+        "query_id": "PARAM_14",
+        "text": "8mm aluminum",
+        "expected_intent": "param",
+        "predicted_intent": "knowledge",
+        "expected_scope": "in_scope",
+        "predicted_scope": "in_scope",
+        "intent_correct": false,
+        "scope_correct": true,
+        "perturbation_type": "short_ambiguous",
+        "difficulty": "medium",
+        "confidence": 1.0,
+        "matched_term": "aluminum",
+        "reason": "Matched keyword: 'aluminum'",
+        "rationale": "Ultra-short material and thickness pair."
+      },
+      {
+        "query_id": "PARAM_15",
+        "text": "Suggest welding current and arc voltage for 15 mm mild steel joint.",
+        "expected_intent": "param",
+        "predicted_intent": "knowledge",
+        "expected_scope": "in_scope",
+        "predicted_scope": "in_scope",
+        "intent_correct": false,
+        "scope_correct": true,
+        "perturbation_type": "clean_direct",
+        "difficulty": "easy",
+        "confidence": 1.0,
+        "matched_term": "welding current",
+        "reason": "Matched keyword phrase: 'welding current'",
+        "rationale": "Standard parameter request for 15 mm mild steel."
+      },
+      {
+        "query_id": "PARAM_18",
+        "text": "1.5 mm ss sheet tig parameter",
+        "expected_intent": "param",
+        "predicted_intent": "knowledge",
+        "expected_scope": "in_scope",
+        "predicted_scope": "in_scope",
+        "intent_correct": false,
+        "scope_correct": true,
+        "perturbation_type": "abbreviations",
+        "difficulty": "medium",
+        "confidence": 1.0,
+        "matched_term": "tig",
+        "reason": "Matched keyword: 'tig'",
+        "rationale": "Abbreviations 'ss' (stainless) and 'tig' with 1.5 mm thickness."
+      },
+      {
+        "query_id": "PARAM_19",
+        "text": "3mm steel er jonno voltage current koto?",
+        "expected_intent": "param",
+        "predicted_intent": "knowledge",
+        "expected_scope": "in_scope",
+        "predicted_scope": "in_scope",
+        "intent_correct": false,
+        "scope_correct": true,
+        "perturbation_type": "code_switching",
+        "difficulty": "medium",
+        "confidence": 1.0,
+        "matched_term": "voltage",
+        "reason": "Matched keyword: 'voltage'",
+        "rationale": "Bangla-English code-mixing asking for 3mm steel parameter numbers."
+      },
+      {
+        "query_id": "PARAM_20",
+        "text": "What heat input should I target for 8 mm mild steel MIG welding?",
+        "expected_intent": "param",
+        "predicted_intent": "knowledge",
+        "expected_scope": "in_scope",
+        "predicted_scope": "in_scope",
+        "intent_correct": false,
+        "scope_correct": true,
+        "perturbation_type": "clean_direct",
+        "difficulty": "easy",
+        "confidence": 1.0,
+        "matched_term": "heat input",
+        "reason": "Matched keyword phrase: 'heat input'",
+        "rationale": "Targets heat input setpoint for 8 mm mild steel."
+      },
+      {
+        "query_id": "KNOW_07",
+        "text": "My beads look like ugly rope and won't wet into the sides at all.",
+        "expected_intent": "knowledge",
+        "predicted_intent": "out_of_scope",
+        "expected_scope": "in_scope",
+        "predicted_scope": "out_of_scope",
+        "intent_correct": false,
+        "scope_correct": false,
+        "perturbation_type": "informal_slang",
+        "difficulty": "medium",
+        "confidence": 1.0,
+        "matched_term": "",
+        "reason": "No manufacturing-related terms detected",
+        "rationale": "Operator slang describing narrow bead / poor wetting."
+      }
+    ]
+  }
+}

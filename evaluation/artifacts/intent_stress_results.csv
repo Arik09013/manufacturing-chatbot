@@ -1,0 +1,101 @@
+query_id,text,expected_intent,predicted_intent,intent_correct,expected_scope,predicted_scope,scope_correct,perturbation_type,difficulty,confidence,matched_term,reason
+OOS_01,Who won the FIFA World Cup in 2022?,out_of_scope,out_of_scope,True,out_of_scope,out_of_scope,True,unsupported_out_of_scope,easy,1.0,,No manufacturing-related terms detected
+OOS_02,Tell me a funny joke about office work.,out_of_scope,out_of_scope,True,out_of_scope,out_of_scope,True,unsupported_out_of_scope,easy,1.0,,No manufacturing-related terms detected
+OOS_03,What is the capital city of Bangladesh?,out_of_scope,out_of_scope,True,out_of_scope,out_of_scope,True,unsupported_out_of_scope,easy,1.0,,No manufacturing-related terms detected
+OOS_04,Calculate 254 multiplied by 18.,out_of_scope,out_of_scope,True,out_of_scope,out_of_scope,True,short_query,easy,1.0,,No manufacturing-related terms detected
+OOS_05,Write a short poem about the rainy season.,out_of_scope,out_of_scope,True,out_of_scope,out_of_scope,True,unsupported_out_of_scope,easy,1.0,,No manufacturing-related terms detected
+OOS_06,What is the weather forecast for London this weekend?,out_of_scope,out_of_scope,True,out_of_scope,out_of_scope,True,unsupported_out_of_scope,easy,1.0,,No manufacturing-related terms detected
+OOS_07,Can you recommend a good Italian restaurant nearby?,out_of_scope,out_of_scope,True,out_of_scope,out_of_scope,True,unsupported_out_of_scope,easy,1.0,,No manufacturing-related terms detected
+OOS_08,Translate this email from English to German.,out_of_scope,out_of_scope,True,out_of_scope,out_of_scope,True,unsupported_out_of_scope,easy,1.0,,No manufacturing-related terms detected
+OOS_09,How do I bake a gluten-free sourdough bread at home?,out_of_scope,out_of_scope,True,out_of_scope,out_of_scope,True,unsupported_out_of_scope,easy,1.0,,No manufacturing-related terms detected
+OOS_10,What movies are premiering in theaters tonight?,out_of_scope,out_of_scope,True,out_of_scope,out_of_scope,True,unsupported_out_of_scope,easy,1.0,,No manufacturing-related terms detected
+OOS_11,ajk brishti hobe naki re bhai?,out_of_scope,out_of_scope,True,out_of_scope,out_of_scope,True,code_switching,medium,1.0,,No manufacturing-related terms detected
+OOS_12,Can you write a Python function to sort an array using quicksort?,out_of_scope,out_of_scope,True,out_of_scope,out_of_scope,True,unsupported_out_of_scope,medium,1.0,,No manufacturing-related terms detected
+OOS_13,Hello assistant how are you feeling this bright morning?,out_of_scope,out_of_scope,True,out_of_scope,out_of_scope,True,noisy_redundant,easy,1.0,,No manufacturing-related terms detected
+OOS_14,h r u doin 2day,out_of_scope,out_of_scope,True,out_of_scope,out_of_scope,True,informal_slang,medium,1.0,,No manufacturing-related terms detected
+OOS_15,Who is currently the prime minister of Japan?,out_of_scope,out_of_scope,True,out_of_scope,out_of_scope,True,unsupported_out_of_scope,easy,1.0,,No manufacturing-related terms detected
+OOS_16,My dog has a fever and won't eat what should I do?,out_of_scope,out_of_scope,True,out_of_scope,out_of_scope,True,unsupported_out_of_scope,easy,1.0,,No manufacturing-related terms detected
+OOS_17,Explain the philosophical difference between nihilism and stoicism.,out_of_scope,out_of_scope,True,out_of_scope,out_of_scope,True,unsupported_out_of_scope,easy,1.0,,No manufacturing-related terms detected
+OOS_18,best smartphone under 500 dollars,out_of_scope,out_of_scope,True,out_of_scope,out_of_scope,True,short_ambiguous,hard,1.0,,No manufacturing-related terms detected
+OOS_19,What is the fastest car in the world right now?,out_of_scope,out_of_scope,True,out_of_scope,out_of_scope,True,unsupported_out_of_scope,medium,1.0,,No manufacturing-related terms detected
+OOS_20,wether forcast 2morow mornin pls,out_of_scope,out_of_scope,True,out_of_scope,out_of_scope,True,typos_spelling,easy,1.0,,No manufacturing-related terms detected
+ANOM_01,Why did station_1 stop welding at 14:20?,anomaly,anomaly,True,in_scope,in_scope,True,clean_direct,easy,1.0,station_1,Matched keyword: 'station_1'
+ANOM_02,What caused the vibration alarm on station 2?,anomaly,anomaly,True,in_scope,in_scope,True,clean_direct,easy,1.0,vibration,Matched keyword: 'vibration'
+ANOM_03,Is machine_3 operating normally or is there an alert?,anomaly,anomaly,True,in_scope,in_scope,True,clean_direct,easy,1.0,alert,Matched keyword: 'alert'
+ANOM_04,line 2 alarm,anomaly,anomaly,True,in_scope,in_scope,True,short_query,easy,1.0,alarm,Matched keyword: 'alarm'
+ANOM_05,s1 overheat,anomaly,anomaly,True,in_scope,in_scope,True,short_query,medium,1.0,overheat,Matched keyword: 'overheat'
+ANOM_06,Please check whether station 2 has registered any unusual voltage fluctuations during the last hour.,anomaly,anomaly,True,in_scope,in_scope,True,paraphrase,medium,1.0,station,Matched keyword: 'station'
+ANOM_07,station 1 is acting crazy and running super hot right now,anomaly,anomaly,True,in_scope,in_scope,True,informal_slang,medium,1.0,station,Matched keyword: 'station'
+ANOM_08,sttion_1 triggred an alrm at 10:15,anomaly,out_of_scope,False,in_scope,out_of_scope,False,typos_spelling,hard,1.0,,No manufacturing-related terms detected
+ANOM_09,machine 2 vib alert at 15:30,anomaly,anomaly,True,in_scope,in_scope,True,abbreviations,medium,1.0,machine,Matched keyword: 'machine'
+ANOM_10,station 3 e hot alarm bajtese keno?,anomaly,anomaly,True,in_scope,in_scope,True,code_switching,medium,1.0,station,Matched keyword: 'station'
+ANOM_11,At 09:45 why did line 1 suddenly shut down and trip the breaker?,anomaly,anomaly,True,in_scope,in_scope,True,word_order,medium,1.0,trip,Matched keyword: 'trip'
+ANOM_12,Hey supervisor told me to ask you if station_2 had an arc loss anomaly around 11:30 earlier today.,anomaly,anomaly,True,in_scope,in_scope,True,noisy_redundant,medium,1.0,arc loss,Matched keyword phrase: 'arc loss'
+ANOM_13,station 1 has high spatter and voltage variance what is the fault?,anomaly,anomaly,True,in_scope,in_scope,True,multi_keyword,hard,1.0,fault,Matched keyword: 'fault'
+ANOM_14,status station 3,anomaly,anomaly,True,in_scope,in_scope,True,short_ambiguous,medium,1.0,station,Matched keyword: 'station'
+ANOM_15,Why did the motor on machine 1 trip during the morning run?,anomaly,anomaly,True,in_scope,in_scope,True,clean_direct,easy,1.0,machine,Matched keyword: 'machine'
+ANOM_16,m2 running hot,anomaly,anomaly,True,in_scope,in_scope,True,short_query,medium,0.8,m2,Matched pattern: '\b(m1|m2|m3|s1|s2|s3)\b'
+ANOM_17,diagnose fault on line_3,anomaly,anomaly,True,in_scope,in_scope,True,clean_direct,easy,1.0,fault,Matched keyword: 'fault'
+ANOM_18,station_2 temperature spiked past 85 degrees,anomaly,anomaly,True,in_scope,in_scope,True,paraphrase,medium,1.0,station_2,Matched keyword: 'station_2'
+ANOM_19,line 1 e wire feed theme gese keno?,anomaly,anomaly,True,in_scope,in_scope,True,code_switching,hard,1.0,wire feed,Matched keyword phrase: 'wire feed'
+ANOM_20,Is there any anomaly recorded for station 1 on the 14:00 shift?,anomaly,anomaly,True,in_scope,in_scope,True,clean_direct,easy,1.0,shift,Matched keyword: 'shift'
+PARAM_01,Recommend optimal welding parameters for 6 mm mild steel MIG.,param,param,True,in_scope,in_scope,True,clean_direct,easy,1.0,parameters,Matched keyword: 'parameters'
+PARAM_02,What are the best settings for 4mm aluminum TIG welding?,param,param,True,in_scope,in_scope,True,clean_direct,easy,1.0,aluminum,Matched keyword: 'aluminum'
+PARAM_03,What current and voltage should I use for 5 mm stainless steel plate?,param,param,True,in_scope,in_scope,True,clean_direct,easy,1.0,what current,Matched keyword phrase: 'what current'
+PARAM_04,5mm steel settings,param,knowledge,False,in_scope,in_scope,True,short_query,easy,1.0,settings,Matched keyword: 'settings'
+PARAM_05,3 mm stainless mig params,param,knowledge,False,in_scope,in_scope,True,abbreviations,medium,1.0,stainless,Matched keyword: 'stainless'
+PARAM_06,Could you provide recommended operating setpoints for welding 8 mm thick carbon steel plates?,param,knowledge,False,in_scope,in_scope,True,paraphrase,medium,1.0,carbon steel,Matched keyword phrase: 'carbon steel'
+PARAM_07,Give me the fastest travel speed and juice for 10mm mild steel joint.,param,param,True,in_scope,in_scope,True,informal_slang,medium,1.0,travel speed,Matched keyword phrase: 'travel speed'
+PARAM_08,optmize mig weld for 6mm mld stel,param,knowledge,False,in_scope,in_scope,True,typos_spelling,hard,1.0,weld,Matched keyword: 'weld'
+PARAM_09,4mm ms plate parameters,param,knowledge,False,in_scope,in_scope,True,abbreviations,medium,1.0,parameters,Matched keyword: 'parameters'
+PARAM_10,5mm stainless sheet e best current voltage koto lagbe?,param,param,True,in_scope,in_scope,True,code_switching,medium,1.0,stainless,Matched keyword: 'stainless'
+PARAM_11,For mild steel of 12 mm thickness what welding speed and wire feed do you recommend?,param,knowledge,False,in_scope,in_scope,True,word_order,medium,1.0,welding speed,Matched keyword phrase: 'welding speed'
+PARAM_12,I am setting up a production run today and I need the exact parameter configuration for 2 mm mild steel sheet welding.,param,knowledge,False,in_scope,in_scope,True,noisy_redundant,medium,1.0,production,Matched keyword: 'production'
+PARAM_13,Recommend settings for 6 mm mild steel to prevent porosity and undercut.,param,param,True,in_scope,in_scope,True,multi_keyword,hard,1.0,porosity,Matched keyword: 'porosity'
+PARAM_14,8mm aluminum,param,knowledge,False,in_scope,in_scope,True,short_ambiguous,medium,1.0,aluminum,Matched keyword: 'aluminum'
+PARAM_15,Suggest welding current and arc voltage for 15 mm mild steel joint.,param,knowledge,False,in_scope,in_scope,True,clean_direct,easy,1.0,welding current,Matched keyword phrase: 'welding current'
+PARAM_16,best speed for 2 mm stainless steel,param,param,True,in_scope,in_scope,True,clean_direct,easy,1.0,stainless,Matched keyword: 'stainless'
+PARAM_17,What wire feed speed should be set for 10 mm aluminium plate?,param,param,True,in_scope,in_scope,True,clean_direct,easy,1.0,aluminium,Matched keyword: 'aluminium'
+PARAM_18,1.5 mm ss sheet tig parameter,param,knowledge,False,in_scope,in_scope,True,abbreviations,medium,1.0,tig,Matched keyword: 'tig'
+PARAM_19,3mm steel er jonno voltage current koto?,param,knowledge,False,in_scope,in_scope,True,code_switching,medium,1.0,voltage,Matched keyword: 'voltage'
+PARAM_20,What heat input should I target for 8 mm mild steel MIG welding?,param,knowledge,False,in_scope,in_scope,True,clean_direct,easy,1.0,heat input,Matched keyword phrase: 'heat input'
+KNOW_01,What causes porosity in MIG welding and how do I prevent it?,knowledge,knowledge,True,in_scope,in_scope,True,clean_direct,easy,1.0,porosity,Matched keyword: 'porosity'
+KNOW_02,How do I fix undercut at the weld toe?,knowledge,knowledge,True,in_scope,in_scope,True,clean_direct,easy,1.0,weld,Matched keyword: 'weld'
+KNOW_03,What shielding gas mixture is recommended for stainless steel GMAW?,knowledge,knowledge,True,in_scope,in_scope,True,clean_direct,easy,1.0,stainless,Matched keyword: 'stainless'
+KNOW_04,reduce spatter,knowledge,knowledge,True,in_scope,in_scope,True,short_query,easy,1.0,spatter,Matched keyword: 'spatter'
+KNOW_05,avoid lack of fusion,knowledge,knowledge,True,in_scope,in_scope,True,short_query,medium,1.0,fusion,Matched keyword: 'fusion'
+KNOW_06,Why do wormholes and trapped gas bubbles form inside the solidifying molten weld pool?,knowledge,knowledge,True,in_scope,in_scope,True,paraphrase,medium,1.0,weld,Matched keyword: 'weld'
+KNOW_07,My beads look like ugly rope and won't wet into the sides at all.,knowledge,out_of_scope,False,in_scope,out_of_scope,False,informal_slang,medium,1.0,,No manufacturing-related terms detected
+KNOW_08,how to stop procity and spater in mig,knowledge,knowledge,True,in_scope,in_scope,True,typos_spelling,hard,1.0,mig,Matched keyword: 'mig'
+KNOW_09,Difference between GMAW and FCAW in deposition rate?,knowledge,knowledge,True,in_scope,in_scope,True,abbreviations,medium,1.0,deposition rate,Matched keyword phrase: 'deposition rate'
+KNOW_10,weld e excessive spatter hocche kivabe thik korbo?,knowledge,knowledge,True,in_scope,in_scope,True,code_switching,medium,1.0,weld,Matched keyword: 'weld'
+KNOW_11,In stainless steel pipe welding why is root back-purging necessary?,knowledge,knowledge,True,in_scope,in_scope,True,word_order,medium,1.0,stainless,Matched keyword: 'stainless'
+KNOW_12,We are having discussions on the factory floor and I was wondering if you could explain what causes delayed cracking after cooling.,knowledge,knowledge,True,in_scope,in_scope,True,noisy_redundant,medium,1.0,factory,Matched keyword: 'factory'
+KNOW_13,How does excessive current cause both undercut and burn through?,knowledge,knowledge,True,in_scope,in_scope,True,multi_keyword,hard,1.0,undercut,Matched keyword: 'undercut'
+KNOW_14,burn-through causes,knowledge,knowledge,True,in_scope,in_scope,True,short_ambiguous,medium,1.0,burn-through,Matched keyword: 'burn-through'
+KNOW_15,What is the physical mechanism of spray transfer in GMAW?,knowledge,knowledge,True,in_scope,in_scope,True,clean_direct,easy,1.0,gmaw,Matched keyword: 'gmaw'
+KNOW_16,"How do I calculate heat input from current, voltage, and travel speed?",knowledge,knowledge,True,in_scope,in_scope,True,clean_direct,easy,1.0,heat input,Matched keyword phrase: 'heat input'
+KNOW_17,How does Isaac Sim model robotic seam tracking using force/torque sensors?,knowledge,knowledge,True,in_scope,in_scope,True,clean_direct,easy,1.0,torque sensor,Matched keyword phrase: 'torque sensor'
+KNOW_18,What are the four primary levers to improve welding productivity?,knowledge,knowledge,True,in_scope,in_scope,True,clean_direct,easy,1.0,productivity,Matched keyword: 'productivity'
+KNOW_19,Why should CO2 content in stainless shielding gas be kept below 2 percent?,knowledge,knowledge,True,in_scope,in_scope,True,clean_direct,easy,1.0,stainless,Matched keyword: 'stainless'
+KNOW_20,explain wps compliance,knowledge,knowledge,True,in_scope,in_scope,True,short_query,easy,1.0,wps,Matched keyword: 'wps'
+GEN_01,What causes chatter in CNC milling and how do I reduce it?,general,general,True,in_scope,in_scope,True,clean_direct,easy,1.0,cnc,Matched keyword: 'cnc'
+GEN_02,How do I prevent sink marks in injection molding of thick plastic parts?,general,general,True,in_scope,in_scope,True,clean_direct,easy,1.0,sink mark,Matched keyword phrase: 'sink mark'
+GEN_03,Explain the difference between sand casting and investment casting.,general,general,True,in_scope,in_scope,True,clean_direct,easy,1.0,casting,Matched keyword: 'casting'
+GEN_04,cnc chatter,general,general,True,in_scope,in_scope,True,short_query,easy,1.0,cnc,Matched keyword: 'cnc'
+GEN_05,short shot in molding,general,general,True,in_scope,in_scope,True,short_query,medium,1.0,molding,Matched keyword: 'molding'
+GEN_06,What steps should be taken to eliminate warpage on thin FDM 3D printed ABS parts?,general,general,True,in_scope,in_scope,True,paraphrase,medium,1.0,3d printed,Matched keyword phrase: '3d printed'
+GEN_07,The lathe is squealing like crazy and leaving a rough finish on the shaft.,general,general,True,in_scope,in_scope,True,informal_slang,medium,1.0,lathe,Matched keyword: 'lathe'
+GEN_08,how to calculate oee for assemly line,general,general,True,in_scope,in_scope,True,typos_spelling,hard,1.0,oee,Matched keyword: 'oee'
+GEN_09,How do CMM and GD&T tolerances improve quality control?,general,general,True,in_scope,in_scope,True,abbreviations,medium,1.0,gd&t,Matched keyword: 'gd&t'
+GEN_10,cnc lathe e cutting speed koto rakhte hobe?,general,general,True,in_scope,in_scope,True,code_switching,medium,1.0,lathe,Matched keyword: 'lathe'
+GEN_11,In sheet metal press brake bending how do you compensate for elastic springback?,general,general,True,in_scope,in_scope,True,word_order,medium,1.0,sheet metal,Matched keyword phrase: 'sheet metal'
+GEN_12,Our continuous improvement team wants to know the primary differences between kaizen 5S and kanban systems.,general,general,True,in_scope,in_scope,True,noisy_redundant,medium,1.0,kaizen,Matched keyword: 'kaizen'
+GEN_13,Compare CNC milling cycle time against die casting for high-volume aluminum parts.,general,general,True,in_scope,in_scope,True,multi_keyword,hard,1.0,aluminum,Matched keyword: 'aluminum'
+GEN_14,takt time formula,general,general,True,in_scope,in_scope,True,short_ambiguous,easy,1.0,takt,Matched keyword: 'takt'
+GEN_15,What is the difference between annealing and tempering in heat treatment?,general,general,True,in_scope,in_scope,True,clean_direct,easy,1.0,tempering,Matched keyword: 'tempering'
+GEN_16,How do I choose the correct clamp tonnage for an injection molding machine?,general,general,True,in_scope,in_scope,True,clean_direct,easy,1.0,machine,Matched keyword: 'machine'
+GEN_17,What causes burrs in sheet metal stamping and blanking dies?,general,general,True,in_scope,in_scope,True,clean_direct,easy,1.0,sheet metal,Matched keyword phrase: 'sheet metal'
+GEN_18,What spindle speed and feed rate should I use for drilling titanium on a CNC?,general,general,True,in_scope,in_scope,True,clean_direct,easy,1.0,spindle speed,Matched keyword phrase: 'spindle speed'
+GEN_19,Explain poka yoke error proofing with factory floor examples.,general,general,True,in_scope,in_scope,True,clean_direct,easy,1.0,factory,Matched keyword: 'factory'
+GEN_20,3d printing infill patterns comparison,general,general,True,in_scope,in_scope,True,short_query,easy,1.0,infill,Matched keyword: 'infill'
