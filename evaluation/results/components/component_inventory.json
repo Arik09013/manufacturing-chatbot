@@ -1,0 +1,192 @@
+[
+  {
+    "component_name": "STANDARD_SCALER",
+    "component_type": "Preprocessing",
+    "implementation_location": "src/data/splits.py:prepare_tabular_data",
+    "enabled_in_full_pipeline": true,
+    "affects_predictive_inference": true,
+    "ablation_method": "Pass raw unscaled feature matrix (scale=False)",
+    "expected_behavior": "Tree models (RF) are invariant to monotonic scaling; linear models (LR) suffer due to unscaled regularization penalties across feature scales",
+    "quantitative_or_na": "QUANTITATIVE"
+  },
+  {
+    "component_name": "RANGE_FEATURES",
+    "component_type": "Feature Engineering",
+    "implementation_location": "src/preprocess/sensor.py:segment_windows",
+    "enabled_in_full_pipeline": true,
+    "affects_predictive_inference": true,
+    "ablation_method": "Remove 6 window peak-to-peak amplitude features (*_range)",
+    "expected_behavior": "Removes direct dynamic range information; models must rely on std and min/max bounds",
+    "quantitative_or_na": "QUANTITATIVE"
+  },
+  {
+    "component_name": "DOMAIN_HEAT_INPUT",
+    "component_type": "Feature Engineering (Physics)",
+    "implementation_location": "src/data/generate_synthetic.py / src/model/anomaly.py",
+    "enabled_in_full_pipeline": true,
+    "affects_predictive_inference": true,
+    "ablation_method": "Remove 5 physics-derived heat input features (heat_input_*)",
+    "expected_behavior": "Assesses whether domain-composite quality index H = eta*(V*I)/v provides independent predictive power over raw current, voltage, and speed",
+    "quantitative_or_na": "QUANTITATIVE"
+  },
+  {
+    "component_name": "LOG_EVENT_COUNTS",
+    "component_type": "Feature Engineering (Logs)",
+    "implementation_location": "src/preprocess/logs.py:aggregate_windows",
+    "enabled_in_full_pipeline": true,
+    "affects_predictive_inference": true,
+    "ablation_method": "Remove 7 granular event count features (n_*), retaining boolean status flags (has_alarm, has_warning)",
+    "expected_behavior": "Tests whether granular count aggregations provide marginal value beyond binary operational state indicators",
+    "quantitative_or_na": "QUANTITATIVE"
+  },
+  {
+    "component_name": "STATISTICAL_SPREAD_STD",
+    "component_type": "Feature Engineering (Statistics)",
+    "implementation_location": "src/preprocess/sensor.py:segment_windows",
+    "enabled_in_full_pipeline": true,
+    "affects_predictive_inference": true,
+    "ablation_method": "Remove 6 second-moment standard deviation features (*_std)",
+    "expected_behavior": "Removes sensor signal dispersion; forces model to rely on location and extrema bounds",
+    "quantitative_or_na": "QUANTITATIVE"
+  },
+  {
+    "component_name": "EXTREME_BOUNDS_MIN_MAX",
+    "component_type": "Feature Engineering (Statistics)",
+    "implementation_location": "src/preprocess/sensor.py:segment_windows",
+    "enabled_in_full_pipeline": true,
+    "affects_predictive_inference": true,
+    "ablation_method": "Remove 12 minimum and maximum extreme value boundary features (*_min, *_max)",
+    "expected_behavior": "Removes extreme value indicators; forces model to rely on mean and spread",
+    "quantitative_or_na": "QUANTITATIVE"
+  },
+  {
+    "component_name": "BALANCED_CLASS_WEIGHTS",
+    "component_type": "Class Imbalance Handling",
+    "implementation_location": "src/model/baselines.py / src/model/anomaly.py",
+    "enabled_in_full_pipeline": true,
+    "affects_predictive_inference": true,
+    "ablation_method": "Set class_weight=None (uniform loss weighting)",
+    "expected_behavior": "Tests resilience under severe class imbalance (~1.8% anomalies); unweighted classifiers may collapse toward majority-class predictions",
+    "quantitative_or_na": "QUANTITATIVE"
+  },
+  {
+    "component_name": "DECISION_THRESHOLD",
+    "component_type": "Decision / Inference",
+    "implementation_location": "src/model/anomaly.py / scikit-learn default",
+    "enabled_in_full_pipeline": true,
+    "affects_predictive_inference": true,
+    "ablation_method": "Threshold sensitivity sweep over theta in [0.1, 0.9]",
+    "expected_behavior": "Quantifies precision/recall trade-off across decision cutoffs",
+    "quantitative_or_na": "QUANTITATIVE"
+  },
+  {
+    "component_name": "FEATURE_SELECTION_DIM_REDUCTION",
+    "component_type": "Feature Redundancy / Reduction",
+    "implementation_location": "None (all available features retained)",
+    "enabled_in_full_pipeline": false,
+    "affects_predictive_inference": false,
+    "ablation_method": "Not applicable \u2014 no feature selection or dimensionality reduction module exists in the active pipeline",
+    "expected_behavior": "N/A",
+    "quantitative_or_na": "NOT_APPLICABLE"
+  },
+  {
+    "component_name": "OVERSAMPLING_UNDERSAMPLING",
+    "component_type": "Class Imbalance Resampling",
+    "implementation_location": "None (algorithmic class_weight used exclusively)",
+    "enabled_in_full_pipeline": false,
+    "affects_predictive_inference": false,
+    "ablation_method": "Not applicable \u2014 data resampling (SMOTE, downsampling) is not implemented in the pipeline",
+    "expected_behavior": "N/A",
+    "quantitative_or_na": "NOT_APPLICABLE"
+  },
+  {
+    "component_name": "SHAP_EXPLAINER",
+    "component_type": "Post-Hoc Explainability",
+    "implementation_location": "src/explain/shap_explainer.py",
+    "enabled_in_full_pipeline": true,
+    "affects_predictive_inference": false,
+    "ablation_method": "Not applicable \u2014 SHAP calculates post-hoc feature attributions after classification; zero predictive inference role",
+    "expected_behavior": "N/A",
+    "quantitative_or_na": "NOT_APPLICABLE"
+  },
+  {
+    "component_name": "LIME_EXPLAINER",
+    "component_type": "Post-Hoc Explainability",
+    "implementation_location": "src/explain/lime_explainer.py",
+    "enabled_in_full_pipeline": true,
+    "affects_predictive_inference": false,
+    "ablation_method": "Not applicable \u2014 LIME fits local surrogate models for post-hoc explanation only",
+    "expected_behavior": "N/A",
+    "quantitative_or_na": "NOT_APPLICABLE"
+  },
+  {
+    "component_name": "ATTENTION_EXPLAINER",
+    "component_type": "Post-Hoc Explainability",
+    "implementation_location": "src/explain/attention_explainer.py",
+    "enabled_in_full_pipeline": true,
+    "affects_predictive_inference": false,
+    "ablation_method": "Not applicable \u2014 extracts attention weights for operator-note visualization",
+    "expected_behavior": "N/A",
+    "quantitative_or_na": "NOT_APPLICABLE"
+  },
+  {
+    "component_name": "ROOT_CAUSE_REASONING",
+    "component_type": "Decision Reasoning",
+    "implementation_location": "src/reasoning/root_cause.py",
+    "enabled_in_full_pipeline": true,
+    "affects_predictive_inference": false,
+    "ablation_method": "Not applicable \u2014 rule-based root cause identification triggers only after an anomaly is detected",
+    "expected_behavior": "N/A",
+    "quantitative_or_na": "NOT_APPLICABLE"
+  },
+  {
+    "component_name": "PHYSICS_PARAM_ADVISOR",
+    "component_type": "Advisory / Recommendation",
+    "implementation_location": "src/reasoning/param_advisor.py",
+    "enabled_in_full_pipeline": true,
+    "affects_predictive_inference": false,
+    "ablation_method": "Not applicable \u2014 calculates physics parameter adjustments for operators after detection",
+    "expected_behavior": "N/A",
+    "quantitative_or_na": "NOT_APPLICABLE"
+  },
+  {
+    "component_name": "CONFIDENCE_SCORING",
+    "component_type": "Post-Hoc Heuristic",
+    "implementation_location": "src/reasoning/confidence.py",
+    "enabled_in_full_pipeline": true,
+    "affects_predictive_inference": false,
+    "ablation_method": "Not applicable \u2014 computes heuristic confidence for LLM explanation payloads",
+    "expected_behavior": "N/A",
+    "quantitative_or_na": "NOT_APPLICABLE"
+  },
+  {
+    "component_name": "RAG_RETRIEVAL_INDEX",
+    "component_type": "External Knowledge Retrieval",
+    "implementation_location": "src/rag/",
+    "enabled_in_full_pipeline": true,
+    "affects_predictive_inference": false,
+    "ablation_method": "Not applicable \u2014 engineering documents are utilized exclusively in RAG retrieval for advisory questions, never as model features",
+    "expected_behavior": "N/A",
+    "quantitative_or_na": "NOT_APPLICABLE"
+  },
+  {
+    "component_name": "LLM_PROMPT_SYNTHESIZER",
+    "component_type": "Conversational UI",
+    "implementation_location": "src/chat/",
+    "enabled_in_full_pipeline": true,
+    "affects_predictive_inference": false,
+    "ablation_method": "Not applicable \u2014 conversational formatting and user interaction wrapper",
+    "expected_behavior": "N/A",
+    "quantitative_or_na": "NOT_APPLICABLE"
+  },
+  {
+    "component_name": "TIME_SERIES_DENOISING",
+    "component_type": "ETL Preprocessing",
+    "implementation_location": "src/preprocess/sensor.py:denoise",
+    "enabled_in_full_pipeline": true,
+    "affects_predictive_inference": true,
+    "ablation_method": "Baked into fused.parquet generation; ablaing would alter master synthetic data generation",
+    "expected_behavior": "N/A for post-fusion evaluation; documented as fixed raw ETL transformation",
+    "quantitative_or_na": "NOT_APPLICABLE"
+  }
+]

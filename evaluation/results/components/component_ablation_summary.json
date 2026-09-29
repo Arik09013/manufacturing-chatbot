@@ -1,0 +1,365 @@
+{
+  "benchmark_timestamp": "2026-09-29",
+  "conditions_evaluated": [
+    "FULL_COMPONENTS",
+    "WITHOUT_STANDARD_SCALER",
+    "WITHOUT_RANGE_FEATURES",
+    "WITHOUT_DOMAIN_HEAT_INPUT",
+    "WITHOUT_LOG_EVENT_COUNTS",
+    "WITHOUT_STD_FEATURES",
+    "WITHOUT_MIN_MAX_FEATURES",
+    "WITHOUT_BALANCED_CLASS_WEIGHTS"
+  ],
+  "chronological_summary": {
+    "FULL_COMPONENTS": {
+      "Random Forest": {
+        "f1": 1.0,
+        "delta_f1": 0.0,
+        "pr_auc": 1.0,
+        "fpr": 0.0,
+        "fnr": 0.0
+      },
+      "Logistic Regression": {
+        "f1": 0.9524,
+        "delta_f1": 0.0,
+        "pr_auc": 1.0,
+        "fpr": 0.0027,
+        "fnr": 0.0
+      },
+      "DistilBERT": {
+        "f1": 0.1818,
+        "delta_f1": 0.0,
+        "pr_auc": 0.8827,
+        "fpr": 0.0,
+        "fnr": 0.9
+      }
+    },
+    "WITHOUT_STANDARD_SCALER": {
+      "Random Forest": {
+        "f1": 1.0,
+        "delta_f1": 0.0,
+        "pr_auc": 1.0,
+        "fpr": 0.0,
+        "fnr": 0.0
+      },
+      "Logistic Regression": {
+        "f1": 0.8696,
+        "delta_f1": -0.0828,
+        "pr_auc": 1.0,
+        "fpr": 0.0082,
+        "fnr": 0.0
+      }
+    },
+    "WITHOUT_RANGE_FEATURES": {
+      "Random Forest": {
+        "f1": 1.0,
+        "delta_f1": 0.0,
+        "pr_auc": 1.0,
+        "fpr": 0.0,
+        "fnr": 0.0
+      },
+      "Logistic Regression": {
+        "f1": 0.9524,
+        "delta_f1": 0.0,
+        "pr_auc": 1.0,
+        "fpr": 0.0027,
+        "fnr": 0.0
+      },
+      "DistilBERT": {
+        "f1": 0.0,
+        "delta_f1": -0.1818,
+        "pr_auc": 0.6186,
+        "fpr": 0.0,
+        "fnr": 1.0
+      }
+    },
+    "WITHOUT_DOMAIN_HEAT_INPUT": {
+      "Random Forest": {
+        "f1": 1.0,
+        "delta_f1": 0.0,
+        "pr_auc": 1.0,
+        "fpr": 0.0,
+        "fnr": 0.0
+      },
+      "Logistic Regression": {
+        "f1": 0.9524,
+        "delta_f1": 0.0,
+        "pr_auc": 1.0,
+        "fpr": 0.0027,
+        "fnr": 0.0
+      },
+      "DistilBERT": {
+        "f1": 0.1818,
+        "delta_f1": 0.0,
+        "pr_auc": 0.8827,
+        "fpr": 0.0,
+        "fnr": 0.9
+      }
+    },
+    "WITHOUT_LOG_EVENT_COUNTS": {
+      "Random Forest": {
+        "f1": 0.75,
+        "delta_f1": -0.25,
+        "pr_auc": 0.9123,
+        "fpr": 0.0137,
+        "fnr": 0.1
+      },
+      "Logistic Regression": {
+        "f1": 0.75,
+        "delta_f1": -0.2024,
+        "pr_auc": 0.9567,
+        "fpr": 0.0137,
+        "fnr": 0.1
+      },
+      "DistilBERT": {
+        "f1": 0.1818,
+        "delta_f1": 0.0,
+        "pr_auc": 0.8827,
+        "fpr": 0.0,
+        "fnr": 0.9
+      }
+    },
+    "WITHOUT_STD_FEATURES": {
+      "Random Forest": {
+        "f1": 1.0,
+        "delta_f1": 0.0,
+        "pr_auc": 1.0,
+        "fpr": 0.0,
+        "fnr": 0.0
+      },
+      "Logistic Regression": {
+        "f1": 1.0,
+        "delta_f1": 0.0476,
+        "pr_auc": 1.0,
+        "fpr": 0.0,
+        "fnr": 0.0
+      },
+      "DistilBERT": {
+        "f1": 0.0,
+        "delta_f1": -0.1818,
+        "pr_auc": 0.3925,
+        "fpr": 0.0027,
+        "fnr": 1.0
+      }
+    },
+    "WITHOUT_MIN_MAX_FEATURES": {
+      "Random Forest": {
+        "f1": 1.0,
+        "delta_f1": 0.0,
+        "pr_auc": 1.0,
+        "fpr": 0.0,
+        "fnr": 0.0
+      },
+      "Logistic Regression": {
+        "f1": 0.9091,
+        "delta_f1": -0.0433,
+        "pr_auc": 1.0,
+        "fpr": 0.0055,
+        "fnr": 0.0
+      },
+      "DistilBERT": {
+        "f1": 1.0,
+        "delta_f1": 0.8182,
+        "pr_auc": 1.0,
+        "fpr": 0.0,
+        "fnr": 0.0
+      }
+    },
+    "WITHOUT_BALANCED_CLASS_WEIGHTS": {
+      "Random Forest": {
+        "f1": 1.0,
+        "delta_f1": 0.0,
+        "pr_auc": 1.0,
+        "fpr": 0.0,
+        "fnr": 0.0
+      },
+      "Logistic Regression": {
+        "f1": 1.0,
+        "delta_f1": 0.0476,
+        "pr_auc": 1.0,
+        "fpr": 0.0,
+        "fnr": 0.0
+      }
+    }
+  },
+  "lomo_summary": {
+    "FULL_COMPONENTS": {
+      "Random Forest": {
+        "macro_f1": 0.9683,
+        "delta_macro_f1": 0.0,
+        "macro_pr_auc": 0.9817
+      },
+      "Logistic Regression": {
+        "macro_f1": 0.9919,
+        "delta_macro_f1": 0.0,
+        "macro_pr_auc": 0.9945
+      }
+    },
+    "WITHOUT_STANDARD_SCALER": {
+      "Random Forest": {
+        "macro_f1": 0.9683,
+        "delta_macro_f1": 0.0,
+        "macro_pr_auc": 0.9817
+      },
+      "Logistic Regression": {
+        "macro_f1": 0.9534,
+        "delta_macro_f1": -0.0385,
+        "macro_pr_auc": 0.9977
+      }
+    },
+    "WITHOUT_RANGE_FEATURES": {
+      "Random Forest": {
+        "macro_f1": 0.9589,
+        "delta_macro_f1": -0.0094,
+        "macro_pr_auc": 0.9762
+      },
+      "Logistic Regression": {
+        "macro_f1": 0.9919,
+        "delta_macro_f1": 0.0,
+        "macro_pr_auc": 0.9945
+      }
+    },
+    "WITHOUT_DOMAIN_HEAT_INPUT": {
+      "Random Forest": {
+        "macro_f1": 0.9516,
+        "delta_macro_f1": -0.0167,
+        "macro_pr_auc": 0.9802
+      },
+      "Logistic Regression": {
+        "macro_f1": 0.9919,
+        "delta_macro_f1": 0.0,
+        "macro_pr_auc": 0.9975
+      }
+    },
+    "WITHOUT_LOG_EVENT_COUNTS": {
+      "Random Forest": {
+        "macro_f1": 0.6961,
+        "delta_macro_f1": -0.2722,
+        "macro_pr_auc": 0.8129
+      },
+      "Logistic Regression": {
+        "macro_f1": 0.891,
+        "delta_macro_f1": -0.1009,
+        "macro_pr_auc": 0.9799
+      }
+    },
+    "WITHOUT_STD_FEATURES": {
+      "Random Forest": {
+        "macro_f1": 0.9748,
+        "delta_macro_f1": 0.0065,
+        "macro_pr_auc": 0.9823
+      },
+      "Logistic Regression": {
+        "macro_f1": 0.9837,
+        "delta_macro_f1": -0.0082,
+        "macro_pr_auc": 0.9934
+      }
+    },
+    "WITHOUT_MIN_MAX_FEATURES": {
+      "Random Forest": {
+        "macro_f1": 0.9833,
+        "delta_macro_f1": 0.015,
+        "macro_pr_auc": 0.9817
+      },
+      "Logistic Regression": {
+        "macro_f1": 0.9837,
+        "delta_macro_f1": -0.0082,
+        "macro_pr_auc": 0.9984
+      }
+    },
+    "WITHOUT_BALANCED_CLASS_WEIGHTS": {
+      "Random Forest": {
+        "macro_f1": 0.9373,
+        "delta_macro_f1": -0.031,
+        "macro_pr_auc": 0.9821
+      },
+      "Logistic Regression": {
+        "macro_f1": 0.9919,
+        "delta_macro_f1": 0.0,
+        "macro_pr_auc": 0.9934
+      }
+    }
+  },
+  "multiseed_summary": {
+    "FULL_COMPONENTS": {
+      "Random Forest": {
+        "f1_mean": 1.0,
+        "f1_std": 0.0
+      },
+      "Logistic Regression": {
+        "f1_mean": 0.9524,
+        "f1_std": 0.0
+      }
+    },
+    "WITHOUT_STANDARD_SCALER": {
+      "Random Forest": {
+        "f1_mean": 1.0,
+        "f1_std": 0.0
+      },
+      "Logistic Regression": {
+        "f1_mean": 0.8696,
+        "f1_std": 0.0
+      }
+    },
+    "WITHOUT_RANGE_FEATURES": {
+      "Random Forest": {
+        "f1_mean": 1.0,
+        "f1_std": 0.0
+      },
+      "Logistic Regression": {
+        "f1_mean": 0.9524,
+        "f1_std": 0.0
+      }
+    },
+    "WITHOUT_DOMAIN_HEAT_INPUT": {
+      "Random Forest": {
+        "f1_mean": 1.0,
+        "f1_std": 0.0
+      },
+      "Logistic Regression": {
+        "f1_mean": 0.9524,
+        "f1_std": 0.0
+      }
+    },
+    "WITHOUT_LOG_EVENT_COUNTS": {
+      "Random Forest": {
+        "f1_mean": 0.744,
+        "f1_std": 0.012
+      },
+      "Logistic Regression": {
+        "f1_mean": 0.75,
+        "f1_std": 0.0
+      }
+    },
+    "WITHOUT_STD_FEATURES": {
+      "Random Forest": {
+        "f1_mean": 1.0,
+        "f1_std": 0.0
+      },
+      "Logistic Regression": {
+        "f1_mean": 1.0,
+        "f1_std": 0.0
+      }
+    },
+    "WITHOUT_MIN_MAX_FEATURES": {
+      "Random Forest": {
+        "f1_mean": 1.0,
+        "f1_std": 0.0
+      },
+      "Logistic Regression": {
+        "f1_mean": 0.9091,
+        "f1_std": 0.0
+      }
+    },
+    "WITHOUT_BALANCED_CLASS_WEIGHTS": {
+      "Random Forest": {
+        "f1_mean": 1.0,
+        "f1_std": 0.0
+      },
+      "Logistic Regression": {
+        "f1_mean": 1.0,
+        "f1_std": 0.0
+      }
+    }
+  }
+}

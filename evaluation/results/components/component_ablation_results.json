@@ -1,0 +1,3112 @@
+{
+  "benchmark_timestamp": "2026-09-29",
+  "chronological_benchmark": {
+    "FULL_COMPONENTS": {
+      "description": "Full reference pipeline (40 features, StandardScaler, balanced class weights)",
+      "n_features": 40,
+      "feature_names": [
+        "welding_current_mean",
+        "welding_current_std",
+        "welding_current_min",
+        "welding_current_max",
+        "welding_current_range",
+        "arc_voltage_mean",
+        "arc_voltage_std",
+        "arc_voltage_min",
+        "arc_voltage_max",
+        "arc_voltage_range",
+        "welding_speed_mean",
+        "welding_speed_std",
+        "welding_speed_min",
+        "welding_speed_max",
+        "welding_speed_range",
+        "wire_feed_rate_mean",
+        "wire_feed_rate_std",
+        "wire_feed_rate_min",
+        "wire_feed_rate_max",
+        "wire_feed_rate_range",
+        "shielding_gas_flow_mean",
+        "shielding_gas_flow_std",
+        "shielding_gas_flow_min",
+        "shielding_gas_flow_max",
+        "shielding_gas_flow_range",
+        "heat_input_mean",
+        "heat_input_std",
+        "heat_input_min",
+        "heat_input_max",
+        "heat_input_range",
+        "n_events",
+        "n_alarm",
+        "n_warning",
+        "n_maintenance",
+        "n_production",
+        "n_diagnostic",
+        "n_operational",
+        "has_alarm",
+        "has_warning",
+        "has_note"
+      ],
+      "models": {
+        "Random Forest": {
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "roc_auc": 1.0,
+          "pr_auc": 1.0,
+          "confusion_matrix": [
+            [
+              365,
+              0
+            ],
+            [
+              0,
+              10
+            ]
+          ],
+          "false_positive_rate": 0.0,
+          "false_negative_rate": 0.0,
+          "train_time_sec": 0.2618,
+          "infer_time_sec": 0.0762,
+          "n_samples": 375,
+          "n_anomalies": 10,
+          "delta_f1": 0.0,
+          "rel_delta_f1_pct": 0.0
+        },
+        "Logistic Regression": {
+          "accuracy": 0.9973,
+          "precision": 0.9091,
+          "recall": 1.0,
+          "f1": 0.9524,
+          "roc_auc": 1.0,
+          "pr_auc": 1.0,
+          "confusion_matrix": [
+            [
+              364,
+              1
+            ],
+            [
+              0,
+              10
+            ]
+          ],
+          "false_positive_rate": 0.0027,
+          "false_negative_rate": 0.0,
+          "train_time_sec": 0.0121,
+          "infer_time_sec": 0.0005,
+          "n_samples": 375,
+          "n_anomalies": 10,
+          "delta_f1": 0.0,
+          "rel_delta_f1_pct": 0.0
+        },
+        "DistilBERT": {
+          "accuracy": 0.976,
+          "precision": 1.0,
+          "recall": 0.1,
+          "f1": 0.1818,
+          "roc_auc": 0.9956,
+          "pr_auc": 0.8827,
+          "confusion_matrix": [
+            [
+              365,
+              0
+            ],
+            [
+              9,
+              1
+            ]
+          ],
+          "false_positive_rate": 0.0,
+          "false_negative_rate": 0.9,
+          "train_time_sec": 0.0,
+          "infer_time_sec": 11.9864,
+          "n_samples": 375,
+          "n_anomalies": 10,
+          "delta_f1": 0.0,
+          "rel_delta_f1_pct": 0.0
+        }
+      }
+    },
+    "WITHOUT_STANDARD_SCALER": {
+      "description": "StandardScaler disabled \u2014 raw unscaled tabular features",
+      "n_features": 40,
+      "feature_names": [
+        "welding_current_mean",
+        "welding_current_std",
+        "welding_current_min",
+        "welding_current_max",
+        "welding_current_range",
+        "arc_voltage_mean",
+        "arc_voltage_std",
+        "arc_voltage_min",
+        "arc_voltage_max",
+        "arc_voltage_range",
+        "welding_speed_mean",
+        "welding_speed_std",
+        "welding_speed_min",
+        "welding_speed_max",
+        "welding_speed_range",
+        "wire_feed_rate_mean",
+        "wire_feed_rate_std",
+        "wire_feed_rate_min",
+        "wire_feed_rate_max",
+        "wire_feed_rate_range",
+        "shielding_gas_flow_mean",
+        "shielding_gas_flow_std",
+        "shielding_gas_flow_min",
+        "shielding_gas_flow_max",
+        "shielding_gas_flow_range",
+        "heat_input_mean",
+        "heat_input_std",
+        "heat_input_min",
+        "heat_input_max",
+        "heat_input_range",
+        "n_events",
+        "n_alarm",
+        "n_warning",
+        "n_maintenance",
+        "n_production",
+        "n_diagnostic",
+        "n_operational",
+        "has_alarm",
+        "has_warning",
+        "has_note"
+      ],
+      "models": {
+        "Random Forest": {
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "roc_auc": 1.0,
+          "pr_auc": 1.0,
+          "confusion_matrix": [
+            [
+              365,
+              0
+            ],
+            [
+              0,
+              10
+            ]
+          ],
+          "false_positive_rate": 0.0,
+          "false_negative_rate": 0.0,
+          "train_time_sec": 0.3603,
+          "infer_time_sec": 0.098,
+          "n_samples": 375,
+          "n_anomalies": 10,
+          "delta_f1": 0.0,
+          "rel_delta_f1_pct": 0.0
+        },
+        "Logistic Regression": {
+          "accuracy": 0.992,
+          "precision": 0.7692,
+          "recall": 1.0,
+          "f1": 0.8696,
+          "roc_auc": 1.0,
+          "pr_auc": 1.0,
+          "confusion_matrix": [
+            [
+              362,
+              3
+            ],
+            [
+              0,
+              10
+            ]
+          ],
+          "false_positive_rate": 0.0082,
+          "false_negative_rate": 0.0,
+          "train_time_sec": 0.0246,
+          "infer_time_sec": 0.0006,
+          "n_samples": 375,
+          "n_anomalies": 10,
+          "delta_f1": -0.0828,
+          "rel_delta_f1_pct": -8.69
+        }
+      }
+    },
+    "WITHOUT_RANGE_FEATURES": {
+      "description": "Ablate 6 window peak-to-peak amplitude features (*_range)",
+      "n_features": 34,
+      "feature_names": [
+        "welding_current_mean",
+        "welding_current_std",
+        "welding_current_min",
+        "welding_current_max",
+        "arc_voltage_mean",
+        "arc_voltage_std",
+        "arc_voltage_min",
+        "arc_voltage_max",
+        "welding_speed_mean",
+        "welding_speed_std",
+        "welding_speed_min",
+        "welding_speed_max",
+        "wire_feed_rate_mean",
+        "wire_feed_rate_std",
+        "wire_feed_rate_min",
+        "wire_feed_rate_max",
+        "shielding_gas_flow_mean",
+        "shielding_gas_flow_std",
+        "shielding_gas_flow_min",
+        "shielding_gas_flow_max",
+        "heat_input_mean",
+        "heat_input_std",
+        "heat_input_min",
+        "heat_input_max",
+        "n_events",
+        "n_alarm",
+        "n_warning",
+        "n_maintenance",
+        "n_production",
+        "n_diagnostic",
+        "n_operational",
+        "has_alarm",
+        "has_warning",
+        "has_note"
+      ],
+      "models": {
+        "Random Forest": {
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "roc_auc": 1.0,
+          "pr_auc": 1.0,
+          "confusion_matrix": [
+            [
+              365,
+              0
+            ],
+            [
+              0,
+              10
+            ]
+          ],
+          "false_positive_rate": 0.0,
+          "false_negative_rate": 0.0,
+          "train_time_sec": 0.3338,
+          "infer_time_sec": 0.0992,
+          "n_samples": 375,
+          "n_anomalies": 10,
+          "delta_f1": 0.0,
+          "rel_delta_f1_pct": 0.0
+        },
+        "Logistic Regression": {
+          "accuracy": 0.9973,
+          "precision": 0.9091,
+          "recall": 1.0,
+          "f1": 0.9524,
+          "roc_auc": 1.0,
+          "pr_auc": 1.0,
+          "confusion_matrix": [
+            [
+              364,
+              1
+            ],
+            [
+              0,
+              10
+            ]
+          ],
+          "false_positive_rate": 0.0027,
+          "false_negative_rate": 0.0,
+          "train_time_sec": 0.0106,
+          "infer_time_sec": 0.0005,
+          "n_samples": 375,
+          "n_anomalies": 10,
+          "delta_f1": 0.0,
+          "rel_delta_f1_pct": 0.0
+        },
+        "DistilBERT": {
+          "accuracy": 0.9733,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "roc_auc": 0.9863,
+          "pr_auc": 0.6186,
+          "confusion_matrix": [
+            [
+              365,
+              0
+            ],
+            [
+              10,
+              0
+            ]
+          ],
+          "false_positive_rate": 0.0,
+          "false_negative_rate": 1.0,
+          "train_time_sec": 0.0,
+          "infer_time_sec": 12.0124,
+          "n_samples": 375,
+          "n_anomalies": 10,
+          "delta_f1": -0.1818,
+          "rel_delta_f1_pct": -100.0
+        }
+      }
+    },
+    "WITHOUT_DOMAIN_HEAT_INPUT": {
+      "description": "Ablate 5 physics-derived heat input features (heat_input_*)",
+      "n_features": 35,
+      "feature_names": [
+        "welding_current_mean",
+        "welding_current_std",
+        "welding_current_min",
+        "welding_current_max",
+        "welding_current_range",
+        "arc_voltage_mean",
+        "arc_voltage_std",
+        "arc_voltage_min",
+        "arc_voltage_max",
+        "arc_voltage_range",
+        "welding_speed_mean",
+        "welding_speed_std",
+        "welding_speed_min",
+        "welding_speed_max",
+        "welding_speed_range",
+        "wire_feed_rate_mean",
+        "wire_feed_rate_std",
+        "wire_feed_rate_min",
+        "wire_feed_rate_max",
+        "wire_feed_rate_range",
+        "shielding_gas_flow_mean",
+        "shielding_gas_flow_std",
+        "shielding_gas_flow_min",
+        "shielding_gas_flow_max",
+        "shielding_gas_flow_range",
+        "n_events",
+        "n_alarm",
+        "n_warning",
+        "n_maintenance",
+        "n_production",
+        "n_diagnostic",
+        "n_operational",
+        "has_alarm",
+        "has_warning",
+        "has_note"
+      ],
+      "models": {
+        "Random Forest": {
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "roc_auc": 1.0,
+          "pr_auc": 1.0,
+          "confusion_matrix": [
+            [
+              365,
+              0
+            ],
+            [
+              0,
+              10
+            ]
+          ],
+          "false_positive_rate": 0.0,
+          "false_negative_rate": 0.0,
+          "train_time_sec": 0.348,
+          "infer_time_sec": 0.1038,
+          "n_samples": 375,
+          "n_anomalies": 10,
+          "delta_f1": 0.0,
+          "rel_delta_f1_pct": 0.0
+        },
+        "Logistic Regression": {
+          "accuracy": 0.9973,
+          "precision": 0.9091,
+          "recall": 1.0,
+          "f1": 0.9524,
+          "roc_auc": 1.0,
+          "pr_auc": 1.0,
+          "confusion_matrix": [
+            [
+              364,
+              1
+            ],
+            [
+              0,
+              10
+            ]
+          ],
+          "false_positive_rate": 0.0027,
+          "false_negative_rate": 0.0,
+          "train_time_sec": 0.0115,
+          "infer_time_sec": 0.0004,
+          "n_samples": 375,
+          "n_anomalies": 10,
+          "delta_f1": 0.0,
+          "rel_delta_f1_pct": 0.0
+        },
+        "DistilBERT": {
+          "accuracy": 0.976,
+          "precision": 1.0,
+          "recall": 0.1,
+          "f1": 0.1818,
+          "roc_auc": 0.9956,
+          "pr_auc": 0.8827,
+          "confusion_matrix": [
+            [
+              365,
+              0
+            ],
+            [
+              9,
+              1
+            ]
+          ],
+          "false_positive_rate": 0.0,
+          "false_negative_rate": 0.9,
+          "train_time_sec": 0.0,
+          "infer_time_sec": 11.9395,
+          "n_samples": 375,
+          "n_anomalies": 10,
+          "delta_f1": 0.0,
+          "rel_delta_f1_pct": 0.0
+        }
+      }
+    },
+    "WITHOUT_LOG_EVENT_COUNTS": {
+      "description": "Ablate 7 event type counts (n_*), retaining boolean status flags",
+      "n_features": 33,
+      "feature_names": [
+        "welding_current_mean",
+        "welding_current_std",
+        "welding_current_min",
+        "welding_current_max",
+        "welding_current_range",
+        "arc_voltage_mean",
+        "arc_voltage_std",
+        "arc_voltage_min",
+        "arc_voltage_max",
+        "arc_voltage_range",
+        "welding_speed_mean",
+        "welding_speed_std",
+        "welding_speed_min",
+        "welding_speed_max",
+        "welding_speed_range",
+        "wire_feed_rate_mean",
+        "wire_feed_rate_std",
+        "wire_feed_rate_min",
+        "wire_feed_rate_max",
+        "wire_feed_rate_range",
+        "shielding_gas_flow_mean",
+        "shielding_gas_flow_std",
+        "shielding_gas_flow_min",
+        "shielding_gas_flow_max",
+        "shielding_gas_flow_range",
+        "heat_input_mean",
+        "heat_input_std",
+        "heat_input_min",
+        "heat_input_max",
+        "heat_input_range",
+        "has_alarm",
+        "has_warning",
+        "has_note"
+      ],
+      "models": {
+        "Random Forest": {
+          "accuracy": 0.984,
+          "precision": 0.6429,
+          "recall": 0.9,
+          "f1": 0.75,
+          "roc_auc": 0.997,
+          "pr_auc": 0.9123,
+          "confusion_matrix": [
+            [
+              360,
+              5
+            ],
+            [
+              1,
+              9
+            ]
+          ],
+          "false_positive_rate": 0.0137,
+          "false_negative_rate": 0.1,
+          "train_time_sec": 0.3228,
+          "infer_time_sec": 0.0982,
+          "n_samples": 375,
+          "n_anomalies": 10,
+          "delta_f1": -0.25,
+          "rel_delta_f1_pct": -25.0
+        },
+        "Logistic Regression": {
+          "accuracy": 0.984,
+          "precision": 0.6429,
+          "recall": 0.9,
+          "f1": 0.75,
+          "roc_auc": 0.9984,
+          "pr_auc": 0.9567,
+          "confusion_matrix": [
+            [
+              360,
+              5
+            ],
+            [
+              1,
+              9
+            ]
+          ],
+          "false_positive_rate": 0.0137,
+          "false_negative_rate": 0.1,
+          "train_time_sec": 0.0148,
+          "infer_time_sec": 0.0003,
+          "n_samples": 375,
+          "n_anomalies": 10,
+          "delta_f1": -0.2024,
+          "rel_delta_f1_pct": -21.25
+        },
+        "DistilBERT": {
+          "accuracy": 0.976,
+          "precision": 1.0,
+          "recall": 0.1,
+          "f1": 0.1818,
+          "roc_auc": 0.9956,
+          "pr_auc": 0.8827,
+          "confusion_matrix": [
+            [
+              365,
+              0
+            ],
+            [
+              9,
+              1
+            ]
+          ],
+          "false_positive_rate": 0.0,
+          "false_negative_rate": 0.9,
+          "train_time_sec": 0.0,
+          "infer_time_sec": 11.8642,
+          "n_samples": 375,
+          "n_anomalies": 10,
+          "delta_f1": 0.0,
+          "rel_delta_f1_pct": 0.0
+        }
+      }
+    },
+    "WITHOUT_STD_FEATURES": {
+      "description": "Ablate 6 second-moment standard deviation features (*_std)",
+      "n_features": 34,
+      "feature_names": [
+        "welding_current_mean",
+        "welding_current_min",
+        "welding_current_max",
+        "welding_current_range",
+        "arc_voltage_mean",
+        "arc_voltage_min",
+        "arc_voltage_max",
+        "arc_voltage_range",
+        "welding_speed_mean",
+        "welding_speed_min",
+        "welding_speed_max",
+        "welding_speed_range",
+        "wire_feed_rate_mean",
+        "wire_feed_rate_min",
+        "wire_feed_rate_max",
+        "wire_feed_rate_range",
+        "shielding_gas_flow_mean",
+        "shielding_gas_flow_min",
+        "shielding_gas_flow_max",
+        "shielding_gas_flow_range",
+        "heat_input_mean",
+        "heat_input_min",
+        "heat_input_max",
+        "heat_input_range",
+        "n_events",
+        "n_alarm",
+        "n_warning",
+        "n_maintenance",
+        "n_production",
+        "n_diagnostic",
+        "n_operational",
+        "has_alarm",
+        "has_warning",
+        "has_note"
+      ],
+      "models": {
+        "Random Forest": {
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "roc_auc": 1.0,
+          "pr_auc": 1.0,
+          "confusion_matrix": [
+            [
+              365,
+              0
+            ],
+            [
+              0,
+              10
+            ]
+          ],
+          "false_positive_rate": 0.0,
+          "false_negative_rate": 0.0,
+          "train_time_sec": 0.328,
+          "infer_time_sec": 0.0987,
+          "n_samples": 375,
+          "n_anomalies": 10,
+          "delta_f1": 0.0,
+          "rel_delta_f1_pct": 0.0
+        },
+        "Logistic Regression": {
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "roc_auc": 1.0,
+          "pr_auc": 1.0,
+          "confusion_matrix": [
+            [
+              365,
+              0
+            ],
+            [
+              0,
+              10
+            ]
+          ],
+          "false_positive_rate": 0.0,
+          "false_negative_rate": 0.0,
+          "train_time_sec": 0.0105,
+          "infer_time_sec": 0.0003,
+          "n_samples": 375,
+          "n_anomalies": 10,
+          "delta_f1": 0.0476,
+          "rel_delta_f1_pct": 5.0
+        },
+        "DistilBERT": {
+          "accuracy": 0.9707,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "roc_auc": 0.9723,
+          "pr_auc": 0.3925,
+          "confusion_matrix": [
+            [
+              364,
+              1
+            ],
+            [
+              10,
+              0
+            ]
+          ],
+          "false_positive_rate": 0.0027,
+          "false_negative_rate": 1.0,
+          "train_time_sec": 0.0,
+          "infer_time_sec": 11.9331,
+          "n_samples": 375,
+          "n_anomalies": 10,
+          "delta_f1": -0.1818,
+          "rel_delta_f1_pct": -100.0
+        }
+      }
+    },
+    "WITHOUT_MIN_MAX_FEATURES": {
+      "description": "Ablate 12 extreme value boundary features (*_min, *_max)",
+      "n_features": 28,
+      "feature_names": [
+        "welding_current_mean",
+        "welding_current_std",
+        "welding_current_range",
+        "arc_voltage_mean",
+        "arc_voltage_std",
+        "arc_voltage_range",
+        "welding_speed_mean",
+        "welding_speed_std",
+        "welding_speed_range",
+        "wire_feed_rate_mean",
+        "wire_feed_rate_std",
+        "wire_feed_rate_range",
+        "shielding_gas_flow_mean",
+        "shielding_gas_flow_std",
+        "shielding_gas_flow_range",
+        "heat_input_mean",
+        "heat_input_std",
+        "heat_input_range",
+        "n_events",
+        "n_alarm",
+        "n_warning",
+        "n_maintenance",
+        "n_production",
+        "n_diagnostic",
+        "n_operational",
+        "has_alarm",
+        "has_warning",
+        "has_note"
+      ],
+      "models": {
+        "Random Forest": {
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "roc_auc": 1.0,
+          "pr_auc": 1.0,
+          "confusion_matrix": [
+            [
+              365,
+              0
+            ],
+            [
+              0,
+              10
+            ]
+          ],
+          "false_positive_rate": 0.0,
+          "false_negative_rate": 0.0,
+          "train_time_sec": 0.3232,
+          "infer_time_sec": 0.0895,
+          "n_samples": 375,
+          "n_anomalies": 10,
+          "delta_f1": 0.0,
+          "rel_delta_f1_pct": 0.0
+        },
+        "Logistic Regression": {
+          "accuracy": 0.9947,
+          "precision": 0.8333,
+          "recall": 1.0,
+          "f1": 0.9091,
+          "roc_auc": 1.0,
+          "pr_auc": 1.0,
+          "confusion_matrix": [
+            [
+              363,
+              2
+            ],
+            [
+              0,
+              10
+            ]
+          ],
+          "false_positive_rate": 0.0055,
+          "false_negative_rate": 0.0,
+          "train_time_sec": 0.009,
+          "infer_time_sec": 0.0003,
+          "n_samples": 375,
+          "n_anomalies": 10,
+          "delta_f1": -0.0433,
+          "rel_delta_f1_pct": -4.55
+        },
+        "DistilBERT": {
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "roc_auc": 1.0,
+          "pr_auc": 1.0,
+          "confusion_matrix": [
+            [
+              365,
+              0
+            ],
+            [
+              0,
+              10
+            ]
+          ],
+          "false_positive_rate": 0.0,
+          "false_negative_rate": 0.0,
+          "train_time_sec": 0.0,
+          "infer_time_sec": 11.8682,
+          "n_samples": 375,
+          "n_anomalies": 10,
+          "delta_f1": 0.8182,
+          "rel_delta_f1_pct": 450.06
+        }
+      }
+    },
+    "WITHOUT_BALANCED_CLASS_WEIGHTS": {
+      "description": "Ablate class_weight='balanced' \u2014 uniform class weighting",
+      "n_features": 40,
+      "feature_names": [
+        "welding_current_mean",
+        "welding_current_std",
+        "welding_current_min",
+        "welding_current_max",
+        "welding_current_range",
+        "arc_voltage_mean",
+        "arc_voltage_std",
+        "arc_voltage_min",
+        "arc_voltage_max",
+        "arc_voltage_range",
+        "welding_speed_mean",
+        "welding_speed_std",
+        "welding_speed_min",
+        "welding_speed_max",
+        "welding_speed_range",
+        "wire_feed_rate_mean",
+        "wire_feed_rate_std",
+        "wire_feed_rate_min",
+        "wire_feed_rate_max",
+        "wire_feed_rate_range",
+        "shielding_gas_flow_mean",
+        "shielding_gas_flow_std",
+        "shielding_gas_flow_min",
+        "shielding_gas_flow_max",
+        "shielding_gas_flow_range",
+        "heat_input_mean",
+        "heat_input_std",
+        "heat_input_min",
+        "heat_input_max",
+        "heat_input_range",
+        "n_events",
+        "n_alarm",
+        "n_warning",
+        "n_maintenance",
+        "n_production",
+        "n_diagnostic",
+        "n_operational",
+        "has_alarm",
+        "has_warning",
+        "has_note"
+      ],
+      "models": {
+        "Random Forest": {
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "roc_auc": 1.0,
+          "pr_auc": 1.0,
+          "confusion_matrix": [
+            [
+              365,
+              0
+            ],
+            [
+              0,
+              10
+            ]
+          ],
+          "false_positive_rate": 0.0,
+          "false_negative_rate": 0.0,
+          "train_time_sec": 0.3129,
+          "infer_time_sec": 0.0995,
+          "n_samples": 375,
+          "n_anomalies": 10,
+          "delta_f1": 0.0,
+          "rel_delta_f1_pct": 0.0
+        },
+        "Logistic Regression": {
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "roc_auc": 1.0,
+          "pr_auc": 1.0,
+          "confusion_matrix": [
+            [
+              365,
+              0
+            ],
+            [
+              0,
+              10
+            ]
+          ],
+          "false_positive_rate": 0.0,
+          "false_negative_rate": 0.0,
+          "train_time_sec": 0.009,
+          "infer_time_sec": 0.0007,
+          "n_samples": 375,
+          "n_anomalies": 10,
+          "delta_f1": 0.0476,
+          "rel_delta_f1_pct": 5.0
+        }
+      }
+    }
+  },
+  "multiseed_benchmark": {
+    "FULL_COMPONENTS": {
+      "Random Forest": {
+        "f1_mean": 1.0,
+        "f1_std": 0.0,
+        "f1_min": 1.0,
+        "f1_max": 1.0,
+        "f1_seeds": [
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "pr_auc_mean": 1.0
+      },
+      "Logistic Regression": {
+        "f1_mean": 0.9524,
+        "f1_std": 0.0,
+        "f1_min": 0.9524,
+        "f1_max": 0.9524,
+        "f1_seeds": [
+          0.9524,
+          0.9524,
+          0.9524,
+          0.9524,
+          0.9524
+        ],
+        "pr_auc_mean": 1.0
+      }
+    },
+    "WITHOUT_STANDARD_SCALER": {
+      "Random Forest": {
+        "f1_mean": 1.0,
+        "f1_std": 0.0,
+        "f1_min": 1.0,
+        "f1_max": 1.0,
+        "f1_seeds": [
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "pr_auc_mean": 1.0
+      },
+      "Logistic Regression": {
+        "f1_mean": 0.8696,
+        "f1_std": 0.0,
+        "f1_min": 0.8696,
+        "f1_max": 0.8696,
+        "f1_seeds": [
+          0.8696,
+          0.8696,
+          0.8696,
+          0.8696,
+          0.8696
+        ],
+        "pr_auc_mean": 1.0
+      }
+    },
+    "WITHOUT_RANGE_FEATURES": {
+      "Random Forest": {
+        "f1_mean": 1.0,
+        "f1_std": 0.0,
+        "f1_min": 1.0,
+        "f1_max": 1.0,
+        "f1_seeds": [
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "pr_auc_mean": 1.0
+      },
+      "Logistic Regression": {
+        "f1_mean": 0.9524,
+        "f1_std": 0.0,
+        "f1_min": 0.9524,
+        "f1_max": 0.9524,
+        "f1_seeds": [
+          0.9524,
+          0.9524,
+          0.9524,
+          0.9524,
+          0.9524
+        ],
+        "pr_auc_mean": 1.0
+      }
+    },
+    "WITHOUT_DOMAIN_HEAT_INPUT": {
+      "Random Forest": {
+        "f1_mean": 1.0,
+        "f1_std": 0.0,
+        "f1_min": 1.0,
+        "f1_max": 1.0,
+        "f1_seeds": [
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "pr_auc_mean": 1.0
+      },
+      "Logistic Regression": {
+        "f1_mean": 0.9524,
+        "f1_std": 0.0,
+        "f1_min": 0.9524,
+        "f1_max": 0.9524,
+        "f1_seeds": [
+          0.9524,
+          0.9524,
+          0.9524,
+          0.9524,
+          0.9524
+        ],
+        "pr_auc_mean": 1.0
+      }
+    },
+    "WITHOUT_LOG_EVENT_COUNTS": {
+      "Random Forest": {
+        "f1_mean": 0.744,
+        "f1_std": 0.012,
+        "f1_min": 0.72,
+        "f1_max": 0.75,
+        "f1_seeds": [
+          0.75,
+          0.75,
+          0.72,
+          0.75,
+          0.75
+        ],
+        "pr_auc_mean": 0.9138
+      },
+      "Logistic Regression": {
+        "f1_mean": 0.75,
+        "f1_std": 0.0,
+        "f1_min": 0.75,
+        "f1_max": 0.75,
+        "f1_seeds": [
+          0.75,
+          0.75,
+          0.75,
+          0.75,
+          0.75
+        ],
+        "pr_auc_mean": 0.9567
+      }
+    },
+    "WITHOUT_STD_FEATURES": {
+      "Random Forest": {
+        "f1_mean": 1.0,
+        "f1_std": 0.0,
+        "f1_min": 1.0,
+        "f1_max": 1.0,
+        "f1_seeds": [
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "pr_auc_mean": 1.0
+      },
+      "Logistic Regression": {
+        "f1_mean": 1.0,
+        "f1_std": 0.0,
+        "f1_min": 1.0,
+        "f1_max": 1.0,
+        "f1_seeds": [
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "pr_auc_mean": 1.0
+      }
+    },
+    "WITHOUT_MIN_MAX_FEATURES": {
+      "Random Forest": {
+        "f1_mean": 1.0,
+        "f1_std": 0.0,
+        "f1_min": 1.0,
+        "f1_max": 1.0,
+        "f1_seeds": [
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "pr_auc_mean": 1.0
+      },
+      "Logistic Regression": {
+        "f1_mean": 0.9091,
+        "f1_std": 0.0,
+        "f1_min": 0.9091,
+        "f1_max": 0.9091,
+        "f1_seeds": [
+          0.9091,
+          0.9091,
+          0.9091,
+          0.9091,
+          0.9091
+        ],
+        "pr_auc_mean": 1.0
+      }
+    },
+    "WITHOUT_BALANCED_CLASS_WEIGHTS": {
+      "Random Forest": {
+        "f1_mean": 1.0,
+        "f1_std": 0.0,
+        "f1_min": 1.0,
+        "f1_max": 1.0,
+        "f1_seeds": [
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "pr_auc_mean": 1.0
+      },
+      "Logistic Regression": {
+        "f1_mean": 1.0,
+        "f1_std": 0.0,
+        "f1_min": 1.0,
+        "f1_max": 1.0,
+        "f1_seeds": [
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "pr_auc_mean": 1.0
+      }
+    }
+  },
+  "lomo_benchmark": {
+    "FULL_COMPONENTS": {
+      "description": "Full reference pipeline (40 features, StandardScaler, balanced class weights)",
+      "models": {
+        "Random Forest": {
+          "macro_accuracy": 0.9979,
+          "macro_precision": 0.9545,
+          "macro_recall": 0.9833,
+          "macro_f1": 0.9683,
+          "macro_roc_auc": 0.9993,
+          "macro_pr_auc": 0.9817,
+          "pooled_metrics": {
+            "accuracy": 0.9979,
+            "precision": 0.9516,
+            "recall": 0.9833,
+            "f1": 0.9672,
+            "roc_auc": 0.9994,
+            "pr_auc": 0.9822,
+            "confusion_matrix": [
+              [
+                1854,
+                3
+              ],
+              [
+                1,
+                59
+              ]
+            ],
+            "false_positive_rate": 0.0016,
+            "false_negative_rate": 0.0167,
+            "train_time_sec": 0.0,
+            "infer_time_sec": 0.0,
+            "n_samples": 1917,
+            "n_anomalies": 60
+          },
+          "folds": [
+            {
+              "accuracy": 1.0,
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1": 1.0,
+              "roc_auc": 1.0,
+              "pr_auc": 1.0,
+              "confusion_matrix": [
+                [
+                  619,
+                  0
+                ],
+                [
+                  0,
+                  20
+                ]
+              ],
+              "false_positive_rate": 0.0,
+              "false_negative_rate": 0.0,
+              "train_time_sec": 0.0,
+              "infer_time_sec": 0.0,
+              "n_samples": 639,
+              "n_anomalies": 20,
+              "held_out_machine": "station_1"
+            },
+            {
+              "accuracy": 1.0,
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1": 1.0,
+              "roc_auc": 1.0,
+              "pr_auc": 1.0,
+              "confusion_matrix": [
+                [
+                  619,
+                  0
+                ],
+                [
+                  0,
+                  20
+                ]
+              ],
+              "false_positive_rate": 0.0,
+              "false_negative_rate": 0.0,
+              "train_time_sec": 0.0,
+              "infer_time_sec": 0.0,
+              "n_samples": 639,
+              "n_anomalies": 20,
+              "held_out_machine": "station_2"
+            },
+            {
+              "accuracy": 0.9937,
+              "precision": 0.8636,
+              "recall": 0.95,
+              "f1": 0.9048,
+              "roc_auc": 0.998,
+              "pr_auc": 0.9451,
+              "confusion_matrix": [
+                [
+                  616,
+                  3
+                ],
+                [
+                  1,
+                  19
+                ]
+              ],
+              "false_positive_rate": 0.0048,
+              "false_negative_rate": 0.05,
+              "train_time_sec": 0.0,
+              "infer_time_sec": 0.0,
+              "n_samples": 639,
+              "n_anomalies": 20,
+              "held_out_machine": "station_3"
+            }
+          ],
+          "delta_macro_f1": 0.0,
+          "rel_delta_macro_f1_pct": 0.0
+        },
+        "Logistic Regression": {
+          "macro_accuracy": 0.9995,
+          "macro_precision": 0.9841,
+          "macro_recall": 1.0,
+          "macro_f1": 0.9919,
+          "macro_roc_auc": 0.9998,
+          "macro_pr_auc": 0.9945,
+          "pooled_metrics": {
+            "accuracy": 0.9995,
+            "precision": 0.9836,
+            "recall": 1.0,
+            "f1": 0.9917,
+            "roc_auc": 0.9998,
+            "pr_auc": 0.9942,
+            "confusion_matrix": [
+              [
+                1856,
+                1
+              ],
+              [
+                0,
+                60
+              ]
+            ],
+            "false_positive_rate": 0.0005,
+            "false_negative_rate": 0.0,
+            "train_time_sec": 0.0,
+            "infer_time_sec": 0.0,
+            "n_samples": 1917,
+            "n_anomalies": 60
+          },
+          "folds": [
+            {
+              "accuracy": 1.0,
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1": 1.0,
+              "roc_auc": 1.0,
+              "pr_auc": 1.0,
+              "confusion_matrix": [
+                [
+                  619,
+                  0
+                ],
+                [
+                  0,
+                  20
+                ]
+              ],
+              "false_positive_rate": 0.0,
+              "false_negative_rate": 0.0,
+              "train_time_sec": 0.0,
+              "infer_time_sec": 0.0,
+              "n_samples": 639,
+              "n_anomalies": 20,
+              "held_out_machine": "station_1"
+            },
+            {
+              "accuracy": 1.0,
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1": 1.0,
+              "roc_auc": 1.0,
+              "pr_auc": 1.0,
+              "confusion_matrix": [
+                [
+                  619,
+                  0
+                ],
+                [
+                  0,
+                  20
+                ]
+              ],
+              "false_positive_rate": 0.0,
+              "false_negative_rate": 0.0,
+              "train_time_sec": 0.0,
+              "infer_time_sec": 0.0,
+              "n_samples": 639,
+              "n_anomalies": 20,
+              "held_out_machine": "station_2"
+            },
+            {
+              "accuracy": 0.9984,
+              "precision": 0.9524,
+              "recall": 1.0,
+              "f1": 0.9756,
+              "roc_auc": 0.9995,
+              "pr_auc": 0.9836,
+              "confusion_matrix": [
+                [
+                  618,
+                  1
+                ],
+                [
+                  0,
+                  20
+                ]
+              ],
+              "false_positive_rate": 0.0016,
+              "false_negative_rate": 0.0,
+              "train_time_sec": 0.0,
+              "infer_time_sec": 0.0,
+              "n_samples": 639,
+              "n_anomalies": 20,
+              "held_out_machine": "station_3"
+            }
+          ],
+          "delta_macro_f1": 0.0,
+          "rel_delta_macro_f1_pct": 0.0
+        }
+      }
+    },
+    "WITHOUT_STANDARD_SCALER": {
+      "description": "StandardScaler disabled \u2014 raw unscaled tabular features",
+      "models": {
+        "Random Forest": {
+          "macro_accuracy": 0.9979,
+          "macro_precision": 0.9545,
+          "macro_recall": 0.9833,
+          "macro_f1": 0.9683,
+          "macro_roc_auc": 0.9993,
+          "macro_pr_auc": 0.9817,
+          "pooled_metrics": {
+            "accuracy": 0.9979,
+            "precision": 0.9516,
+            "recall": 0.9833,
+            "f1": 0.9672,
+            "roc_auc": 0.9994,
+            "pr_auc": 0.9822,
+            "confusion_matrix": [
+              [
+                1854,
+                3
+              ],
+              [
+                1,
+                59
+              ]
+            ],
+            "false_positive_rate": 0.0016,
+            "false_negative_rate": 0.0167,
+            "train_time_sec": 0.0,
+            "infer_time_sec": 0.0,
+            "n_samples": 1917,
+            "n_anomalies": 60
+          },
+          "folds": [
+            {
+              "accuracy": 1.0,
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1": 1.0,
+              "roc_auc": 1.0,
+              "pr_auc": 1.0,
+              "confusion_matrix": [
+                [
+                  619,
+                  0
+                ],
+                [
+                  0,
+                  20
+                ]
+              ],
+              "false_positive_rate": 0.0,
+              "false_negative_rate": 0.0,
+              "train_time_sec": 0.0,
+              "infer_time_sec": 0.0,
+              "n_samples": 639,
+              "n_anomalies": 20,
+              "held_out_machine": "station_1"
+            },
+            {
+              "accuracy": 1.0,
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1": 1.0,
+              "roc_auc": 1.0,
+              "pr_auc": 1.0,
+              "confusion_matrix": [
+                [
+                  619,
+                  0
+                ],
+                [
+                  0,
+                  20
+                ]
+              ],
+              "false_positive_rate": 0.0,
+              "false_negative_rate": 0.0,
+              "train_time_sec": 0.0,
+              "infer_time_sec": 0.0,
+              "n_samples": 639,
+              "n_anomalies": 20,
+              "held_out_machine": "station_2"
+            },
+            {
+              "accuracy": 0.9937,
+              "precision": 0.8636,
+              "recall": 0.95,
+              "f1": 0.9048,
+              "roc_auc": 0.998,
+              "pr_auc": 0.9451,
+              "confusion_matrix": [
+                [
+                  616,
+                  3
+                ],
+                [
+                  1,
+                  19
+                ]
+              ],
+              "false_positive_rate": 0.0048,
+              "false_negative_rate": 0.05,
+              "train_time_sec": 0.0,
+              "infer_time_sec": 0.0,
+              "n_samples": 639,
+              "n_anomalies": 20,
+              "held_out_machine": "station_3"
+            }
+          ],
+          "delta_macro_f1": 0.0,
+          "rel_delta_macro_f1_pct": 0.0
+        },
+        "Logistic Regression": {
+          "macro_accuracy": 0.9968,
+          "macro_precision": 0.9127,
+          "macro_recall": 1.0,
+          "macro_f1": 0.9534,
+          "macro_roc_auc": 0.9999,
+          "macro_pr_auc": 0.9977,
+          "pooled_metrics": {
+            "accuracy": 0.9969,
+            "precision": 0.9091,
+            "recall": 1.0,
+            "f1": 0.9524,
+            "roc_auc": 0.9999,
+            "pr_auc": 0.9959,
+            "confusion_matrix": [
+              [
+                1851,
+                6
+              ],
+              [
+                0,
+                60
+              ]
+            ],
+            "false_positive_rate": 0.0032,
+            "false_negative_rate": 0.0,
+            "train_time_sec": 0.0,
+            "infer_time_sec": 0.0,
+            "n_samples": 1917,
+            "n_anomalies": 60
+          },
+          "folds": [
+            {
+              "accuracy": 0.9984,
+              "precision": 0.9524,
+              "recall": 1.0,
+              "f1": 0.9756,
+              "roc_auc": 0.9999,
+              "pr_auc": 0.9976,
+              "confusion_matrix": [
+                [
+                  618,
+                  1
+                ],
+                [
+                  0,
+                  20
+                ]
+              ],
+              "false_positive_rate": 0.0016,
+              "false_negative_rate": 0.0,
+              "train_time_sec": 0.0,
+              "infer_time_sec": 0.0,
+              "n_samples": 639,
+              "n_anomalies": 20,
+              "held_out_machine": "station_1"
+            },
+            {
+              "accuracy": 0.9937,
+              "precision": 0.8333,
+              "recall": 1.0,
+              "f1": 0.9091,
+              "roc_auc": 0.9998,
+              "pr_auc": 0.9955,
+              "confusion_matrix": [
+                [
+                  615,
+                  4
+                ],
+                [
+                  0,
+                  20
+                ]
+              ],
+              "false_positive_rate": 0.0065,
+              "false_negative_rate": 0.0,
+              "train_time_sec": 0.0,
+              "infer_time_sec": 0.0,
+              "n_samples": 639,
+              "n_anomalies": 20,
+              "held_out_machine": "station_2"
+            },
+            {
+              "accuracy": 0.9984,
+              "precision": 0.9524,
+              "recall": 1.0,
+              "f1": 0.9756,
+              "roc_auc": 1.0,
+              "pr_auc": 1.0,
+              "confusion_matrix": [
+                [
+                  618,
+                  1
+                ],
+                [
+                  0,
+                  20
+                ]
+              ],
+              "false_positive_rate": 0.0016,
+              "false_negative_rate": 0.0,
+              "train_time_sec": 0.0,
+              "infer_time_sec": 0.0,
+              "n_samples": 639,
+              "n_anomalies": 20,
+              "held_out_machine": "station_3"
+            }
+          ],
+          "delta_macro_f1": -0.0385,
+          "rel_delta_macro_f1_pct": -3.88
+        }
+      }
+    },
+    "WITHOUT_RANGE_FEATURES": {
+      "description": "Ablate 6 window peak-to-peak amplitude features (*_range)",
+      "models": {
+        "Random Forest": {
+          "macro_accuracy": 0.9974,
+          "macro_precision": 0.9516,
+          "macro_recall": 0.9667,
+          "macro_f1": 0.9589,
+          "macro_roc_auc": 0.9991,
+          "macro_pr_auc": 0.9762,
+          "pooled_metrics": {
+            "accuracy": 0.9974,
+            "precision": 0.9508,
+            "recall": 0.9667,
+            "f1": 0.9587,
+            "roc_auc": 0.9991,
+            "pr_auc": 0.975,
+            "confusion_matrix": [
+              [
+                1854,
+                3
+              ],
+              [
+                2,
+                58
+              ]
+            ],
+            "false_positive_rate": 0.0016,
+            "false_negative_rate": 0.0333,
+            "train_time_sec": 0.0,
+            "infer_time_sec": 0.0,
+            "n_samples": 1917,
+            "n_anomalies": 60
+          },
+          "folds": [
+            {
+              "accuracy": 0.9953,
+              "precision": 0.9048,
+              "recall": 0.95,
+              "f1": 0.9268,
+              "roc_auc": 0.9995,
+              "pr_auc": 0.9885,
+              "confusion_matrix": [
+                [
+                  617,
+                  2
+                ],
+                [
+                  1,
+                  19
+                ]
+              ],
+              "false_positive_rate": 0.0032,
+              "false_negative_rate": 0.05,
+              "train_time_sec": 0.0,
+              "infer_time_sec": 0.0,
+              "n_samples": 639,
+              "n_anomalies": 20,
+              "held_out_machine": "station_1"
+            },
+            {
+              "accuracy": 1.0,
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1": 1.0,
+              "roc_auc": 1.0,
+              "pr_auc": 1.0,
+              "confusion_matrix": [
+                [
+                  619,
+                  0
+                ],
+                [
+                  0,
+                  20
+                ]
+              ],
+              "false_positive_rate": 0.0,
+              "false_negative_rate": 0.0,
+              "train_time_sec": 0.0,
+              "infer_time_sec": 0.0,
+              "n_samples": 639,
+              "n_anomalies": 20,
+              "held_out_machine": "station_2"
+            },
+            {
+              "accuracy": 0.9969,
+              "precision": 0.95,
+              "recall": 0.95,
+              "f1": 0.95,
+              "roc_auc": 0.9979,
+              "pr_auc": 0.9401,
+              "confusion_matrix": [
+                [
+                  618,
+                  1
+                ],
+                [
+                  1,
+                  19
+                ]
+              ],
+              "false_positive_rate": 0.0016,
+              "false_negative_rate": 0.05,
+              "train_time_sec": 0.0,
+              "infer_time_sec": 0.0,
+              "n_samples": 639,
+              "n_anomalies": 20,
+              "held_out_machine": "station_3"
+            }
+          ],
+          "delta_macro_f1": -0.0094,
+          "rel_delta_macro_f1_pct": -0.97
+        },
+        "Logistic Regression": {
+          "macro_accuracy": 0.9995,
+          "macro_precision": 0.9841,
+          "macro_recall": 1.0,
+          "macro_f1": 0.9919,
+          "macro_roc_auc": 0.9998,
+          "macro_pr_auc": 0.9945,
+          "pooled_metrics": {
+            "accuracy": 0.9995,
+            "precision": 0.9836,
+            "recall": 1.0,
+            "f1": 0.9917,
+            "roc_auc": 0.9998,
+            "pr_auc": 0.9946,
+            "confusion_matrix": [
+              [
+                1856,
+                1
+              ],
+              [
+                0,
+                60
+              ]
+            ],
+            "false_positive_rate": 0.0005,
+            "false_negative_rate": 0.0,
+            "train_time_sec": 0.0,
+            "infer_time_sec": 0.0,
+            "n_samples": 1917,
+            "n_anomalies": 60
+          },
+          "folds": [
+            {
+              "accuracy": 1.0,
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1": 1.0,
+              "roc_auc": 1.0,
+              "pr_auc": 1.0,
+              "confusion_matrix": [
+                [
+                  619,
+                  0
+                ],
+                [
+                  0,
+                  20
+                ]
+              ],
+              "false_positive_rate": 0.0,
+              "false_negative_rate": 0.0,
+              "train_time_sec": 0.0,
+              "infer_time_sec": 0.0,
+              "n_samples": 639,
+              "n_anomalies": 20,
+              "held_out_machine": "station_1"
+            },
+            {
+              "accuracy": 1.0,
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1": 1.0,
+              "roc_auc": 1.0,
+              "pr_auc": 1.0,
+              "confusion_matrix": [
+                [
+                  619,
+                  0
+                ],
+                [
+                  0,
+                  20
+                ]
+              ],
+              "false_positive_rate": 0.0,
+              "false_negative_rate": 0.0,
+              "train_time_sec": 0.0,
+              "infer_time_sec": 0.0,
+              "n_samples": 639,
+              "n_anomalies": 20,
+              "held_out_machine": "station_2"
+            },
+            {
+              "accuracy": 0.9984,
+              "precision": 0.9524,
+              "recall": 1.0,
+              "f1": 0.9756,
+              "roc_auc": 0.9995,
+              "pr_auc": 0.9836,
+              "confusion_matrix": [
+                [
+                  618,
+                  1
+                ],
+                [
+                  0,
+                  20
+                ]
+              ],
+              "false_positive_rate": 0.0016,
+              "false_negative_rate": 0.0,
+              "train_time_sec": 0.0,
+              "infer_time_sec": 0.0,
+              "n_samples": 639,
+              "n_anomalies": 20,
+              "held_out_machine": "station_3"
+            }
+          ],
+          "delta_macro_f1": 0.0,
+          "rel_delta_macro_f1_pct": 0.0
+        }
+      }
+    },
+    "WITHOUT_DOMAIN_HEAT_INPUT": {
+      "description": "Ablate 5 physics-derived heat input features (heat_input_*)",
+      "models": {
+        "Random Forest": {
+          "macro_accuracy": 0.9969,
+          "macro_precision": 0.9227,
+          "macro_recall": 0.9833,
+          "macro_f1": 0.9516,
+          "macro_roc_auc": 0.9994,
+          "macro_pr_auc": 0.9802,
+          "pooled_metrics": {
+            "accuracy": 0.9969,
+            "precision": 0.9219,
+            "recall": 0.9833,
+            "f1": 0.9516,
+            "roc_auc": 0.9994,
+            "pr_auc": 0.9828,
+            "confusion_matrix": [
+              [
+                1852,
+                5
+              ],
+              [
+                1,
+                59
+              ]
+            ],
+            "false_positive_rate": 0.0027,
+            "false_negative_rate": 0.0167,
+            "train_time_sec": 0.0,
+            "infer_time_sec": 0.0,
+            "n_samples": 1917,
+            "n_anomalies": 60
+          },
+          "folds": [
+            {
+              "accuracy": 0.9969,
+              "precision": 0.9091,
+              "recall": 1.0,
+              "f1": 0.9524,
+              "roc_auc": 1.0,
+              "pr_auc": 1.0,
+              "confusion_matrix": [
+                [
+                  617,
+                  2
+                ],
+                [
+                  0,
+                  20
+                ]
+              ],
+              "false_positive_rate": 0.0032,
+              "false_negative_rate": 0.0,
+              "train_time_sec": 0.0,
+              "infer_time_sec": 0.0,
+              "n_samples": 639,
+              "n_anomalies": 20,
+              "held_out_machine": "station_1"
+            },
+            {
+              "accuracy": 0.9969,
+              "precision": 0.9091,
+              "recall": 1.0,
+              "f1": 0.9524,
+              "roc_auc": 1.0,
+              "pr_auc": 1.0,
+              "confusion_matrix": [
+                [
+                  617,
+                  2
+                ],
+                [
+                  0,
+                  20
+                ]
+              ],
+              "false_positive_rate": 0.0032,
+              "false_negative_rate": 0.0,
+              "train_time_sec": 0.0,
+              "infer_time_sec": 0.0,
+              "n_samples": 639,
+              "n_anomalies": 20,
+              "held_out_machine": "station_2"
+            },
+            {
+              "accuracy": 0.9969,
+              "precision": 0.95,
+              "recall": 0.95,
+              "f1": 0.95,
+              "roc_auc": 0.9983,
+              "pr_auc": 0.9405,
+              "confusion_matrix": [
+                [
+                  618,
+                  1
+                ],
+                [
+                  1,
+                  19
+                ]
+              ],
+              "false_positive_rate": 0.0016,
+              "false_negative_rate": 0.05,
+              "train_time_sec": 0.0,
+              "infer_time_sec": 0.0,
+              "n_samples": 639,
+              "n_anomalies": 20,
+              "held_out_machine": "station_3"
+            }
+          ],
+          "delta_macro_f1": -0.0167,
+          "rel_delta_macro_f1_pct": -1.72
+        },
+        "Logistic Regression": {
+          "macro_accuracy": 0.9995,
+          "macro_precision": 0.9841,
+          "macro_recall": 1.0,
+          "macro_f1": 0.9919,
+          "macro_roc_auc": 0.9999,
+          "macro_pr_auc": 0.9975,
+          "pooled_metrics": {
+            "accuracy": 0.9995,
+            "precision": 0.9836,
+            "recall": 1.0,
+            "f1": 0.9917,
+            "roc_auc": 0.9999,
+            "pr_auc": 0.9974,
+            "confusion_matrix": [
+              [
+                1856,
+                1
+              ],
+              [
+                0,
+                60
+              ]
+            ],
+            "false_positive_rate": 0.0005,
+            "false_negative_rate": 0.0,
+            "train_time_sec": 0.0,
+            "infer_time_sec": 0.0,
+            "n_samples": 1917,
+            "n_anomalies": 60
+          },
+          "folds": [
+            {
+              "accuracy": 1.0,
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1": 1.0,
+              "roc_auc": 1.0,
+              "pr_auc": 1.0,
+              "confusion_matrix": [
+                [
+                  619,
+                  0
+                ],
+                [
+                  0,
+                  20
+                ]
+              ],
+              "false_positive_rate": 0.0,
+              "false_negative_rate": 0.0,
+              "train_time_sec": 0.0,
+              "infer_time_sec": 0.0,
+              "n_samples": 639,
+              "n_anomalies": 20,
+              "held_out_machine": "station_1"
+            },
+            {
+              "accuracy": 1.0,
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1": 1.0,
+              "roc_auc": 1.0,
+              "pr_auc": 1.0,
+              "confusion_matrix": [
+                [
+                  619,
+                  0
+                ],
+                [
+                  0,
+                  20
+                ]
+              ],
+              "false_positive_rate": 0.0,
+              "false_negative_rate": 0.0,
+              "train_time_sec": 0.0,
+              "infer_time_sec": 0.0,
+              "n_samples": 639,
+              "n_anomalies": 20,
+              "held_out_machine": "station_2"
+            },
+            {
+              "accuracy": 0.9984,
+              "precision": 0.9524,
+              "recall": 1.0,
+              "f1": 0.9756,
+              "roc_auc": 0.9998,
+              "pr_auc": 0.9925,
+              "confusion_matrix": [
+                [
+                  618,
+                  1
+                ],
+                [
+                  0,
+                  20
+                ]
+              ],
+              "false_positive_rate": 0.0016,
+              "false_negative_rate": 0.0,
+              "train_time_sec": 0.0,
+              "infer_time_sec": 0.0,
+              "n_samples": 639,
+              "n_anomalies": 20,
+              "held_out_machine": "station_3"
+            }
+          ],
+          "delta_macro_f1": 0.0,
+          "rel_delta_macro_f1_pct": 0.0
+        }
+      }
+    },
+    "WITHOUT_LOG_EVENT_COUNTS": {
+      "description": "Ablate 7 event type counts (n_*), retaining boolean status flags",
+      "models": {
+        "Random Forest": {
+          "macro_accuracy": 0.9755,
+          "macro_precision": 0.5695,
+          "macro_recall": 0.9,
+          "macro_f1": 0.6961,
+          "macro_roc_auc": 0.994,
+          "macro_pr_auc": 0.8129,
+          "pooled_metrics": {
+            "accuracy": 0.9755,
+            "precision": 0.5684,
+            "recall": 0.9,
+            "f1": 0.6968,
+            "roc_auc": 0.9936,
+            "pr_auc": 0.809,
+            "confusion_matrix": [
+              [
+                1816,
+                41
+              ],
+              [
+                6,
+                54
+              ]
+            ],
+            "false_positive_rate": 0.0221,
+            "false_negative_rate": 0.1,
+            "train_time_sec": 0.0,
+            "infer_time_sec": 0.0,
+            "n_samples": 1917,
+            "n_anomalies": 60
+          },
+          "folds": [
+            {
+              "accuracy": 0.9765,
+              "precision": 0.5862,
+              "recall": 0.85,
+              "f1": 0.6939,
+              "roc_auc": 0.9932,
+              "pr_auc": 0.7927,
+              "confusion_matrix": [
+                [
+                  607,
+                  12
+                ],
+                [
+                  3,
+                  17
+                ]
+              ],
+              "false_positive_rate": 0.0194,
+              "false_negative_rate": 0.15,
+              "train_time_sec": 0.0,
+              "infer_time_sec": 0.0,
+              "n_samples": 639,
+              "n_anomalies": 20,
+              "held_out_machine": "station_1"
+            },
+            {
+              "accuracy": 0.975,
+              "precision": 0.5556,
+              "recall": 1.0,
+              "f1": 0.7143,
+              "roc_auc": 0.9955,
+              "pr_auc": 0.7917,
+              "confusion_matrix": [
+                [
+                  603,
+                  16
+                ],
+                [
+                  0,
+                  20
+                ]
+              ],
+              "false_positive_rate": 0.0258,
+              "false_negative_rate": 0.0,
+              "train_time_sec": 0.0,
+              "infer_time_sec": 0.0,
+              "n_samples": 639,
+              "n_anomalies": 20,
+              "held_out_machine": "station_2"
+            },
+            {
+              "accuracy": 0.975,
+              "precision": 0.5667,
+              "recall": 0.85,
+              "f1": 0.68,
+              "roc_auc": 0.9933,
+              "pr_auc": 0.8543,
+              "confusion_matrix": [
+                [
+                  606,
+                  13
+                ],
+                [
+                  3,
+                  17
+                ]
+              ],
+              "false_positive_rate": 0.021,
+              "false_negative_rate": 0.15,
+              "train_time_sec": 0.0,
+              "infer_time_sec": 0.0,
+              "n_samples": 639,
+              "n_anomalies": 20,
+              "held_out_machine": "station_3"
+            }
+          ],
+          "delta_macro_f1": -0.2722,
+          "rel_delta_macro_f1_pct": -28.11
+        },
+        "Logistic Regression": {
+          "macro_accuracy": 0.9922,
+          "macro_precision": 0.8063,
+          "macro_recall": 1.0,
+          "macro_f1": 0.891,
+          "macro_roc_auc": 0.9993,
+          "macro_pr_auc": 0.9799,
+          "pooled_metrics": {
+            "accuracy": 0.9922,
+            "precision": 0.8,
+            "recall": 1.0,
+            "f1": 0.8889,
+            "roc_auc": 0.9991,
+            "pr_auc": 0.9667,
+            "confusion_matrix": [
+              [
+                1842,
+                15
+              ],
+              [
+                0,
+                60
+              ]
+            ],
+            "false_positive_rate": 0.0081,
+            "false_negative_rate": 0.0,
+            "train_time_sec": 0.0,
+            "infer_time_sec": 0.0,
+            "n_samples": 1917,
+            "n_anomalies": 60
+          },
+          "folds": [
+            {
+              "accuracy": 0.989,
+              "precision": 0.7407,
+              "recall": 1.0,
+              "f1": 0.8511,
+              "roc_auc": 0.9995,
+              "pr_auc": 0.9861,
+              "confusion_matrix": [
+                [
+                  612,
+                  7
+                ],
+                [
+                  0,
+                  20
+                ]
+              ],
+              "false_positive_rate": 0.0113,
+              "false_negative_rate": 0.0,
+              "train_time_sec": 0.0,
+              "infer_time_sec": 0.0,
+              "n_samples": 639,
+              "n_anomalies": 20,
+              "held_out_machine": "station_1"
+            },
+            {
+              "accuracy": 0.9906,
+              "precision": 0.7692,
+              "recall": 1.0,
+              "f1": 0.8696,
+              "roc_auc": 0.9985,
+              "pr_auc": 0.9537,
+              "confusion_matrix": [
+                [
+                  613,
+                  6
+                ],
+                [
+                  0,
+                  20
+                ]
+              ],
+              "false_positive_rate": 0.0097,
+              "false_negative_rate": 0.0,
+              "train_time_sec": 0.0,
+              "infer_time_sec": 0.0,
+              "n_samples": 639,
+              "n_anomalies": 20,
+              "held_out_machine": "station_2"
+            },
+            {
+              "accuracy": 0.9969,
+              "precision": 0.9091,
+              "recall": 1.0,
+              "f1": 0.9524,
+              "roc_auc": 1.0,
+              "pr_auc": 1.0,
+              "confusion_matrix": [
+                [
+                  617,
+                  2
+                ],
+                [
+                  0,
+                  20
+                ]
+              ],
+              "false_positive_rate": 0.0032,
+              "false_negative_rate": 0.0,
+              "train_time_sec": 0.0,
+              "infer_time_sec": 0.0,
+              "n_samples": 639,
+              "n_anomalies": 20,
+              "held_out_machine": "station_3"
+            }
+          ],
+          "delta_macro_f1": -0.1009,
+          "rel_delta_macro_f1_pct": -10.17
+        }
+      }
+    },
+    "WITHOUT_STD_FEATURES": {
+      "description": "Ablate 6 second-moment standard deviation features (*_std)",
+      "models": {
+        "Random Forest": {
+          "macro_accuracy": 0.9984,
+          "macro_precision": 0.9833,
+          "macro_recall": 0.9667,
+          "macro_f1": 0.9748,
+          "macro_roc_auc": 0.9994,
+          "macro_pr_auc": 0.9823,
+          "pooled_metrics": {
+            "accuracy": 0.9984,
+            "precision": 0.9831,
+            "recall": 0.9667,
+            "f1": 0.9748,
+            "roc_auc": 0.9993,
+            "pr_auc": 0.9815,
+            "confusion_matrix": [
+              [
+                1856,
+                1
+              ],
+              [
+                2,
+                58
+              ]
+            ],
+            "false_positive_rate": 0.0005,
+            "false_negative_rate": 0.0333,
+            "train_time_sec": 0.0,
+            "infer_time_sec": 0.0,
+            "n_samples": 1917,
+            "n_anomalies": 60
+          },
+          "folds": [
+            {
+              "accuracy": 0.9984,
+              "precision": 1.0,
+              "recall": 0.95,
+              "f1": 0.9744,
+              "roc_auc": 1.0,
+              "pr_auc": 1.0,
+              "confusion_matrix": [
+                [
+                  619,
+                  0
+                ],
+                [
+                  1,
+                  19
+                ]
+              ],
+              "false_positive_rate": 0.0,
+              "false_negative_rate": 0.05,
+              "train_time_sec": 0.0,
+              "infer_time_sec": 0.0,
+              "n_samples": 639,
+              "n_anomalies": 20,
+              "held_out_machine": "station_1"
+            },
+            {
+              "accuracy": 1.0,
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1": 1.0,
+              "roc_auc": 1.0,
+              "pr_auc": 1.0,
+              "confusion_matrix": [
+                [
+                  619,
+                  0
+                ],
+                [
+                  0,
+                  20
+                ]
+              ],
+              "false_positive_rate": 0.0,
+              "false_negative_rate": 0.0,
+              "train_time_sec": 0.0,
+              "infer_time_sec": 0.0,
+              "n_samples": 639,
+              "n_anomalies": 20,
+              "held_out_machine": "station_2"
+            },
+            {
+              "accuracy": 0.9969,
+              "precision": 0.95,
+              "recall": 0.95,
+              "f1": 0.95,
+              "roc_auc": 0.9981,
+              "pr_auc": 0.9469,
+              "confusion_matrix": [
+                [
+                  618,
+                  1
+                ],
+                [
+                  1,
+                  19
+                ]
+              ],
+              "false_positive_rate": 0.0016,
+              "false_negative_rate": 0.05,
+              "train_time_sec": 0.0,
+              "infer_time_sec": 0.0,
+              "n_samples": 639,
+              "n_anomalies": 20,
+              "held_out_machine": "station_3"
+            }
+          ],
+          "delta_macro_f1": 0.0065,
+          "rel_delta_macro_f1_pct": 0.67
+        },
+        "Logistic Regression": {
+          "macro_accuracy": 0.9989,
+          "macro_precision": 0.9683,
+          "macro_recall": 1.0,
+          "macro_f1": 0.9837,
+          "macro_roc_auc": 0.9998,
+          "macro_pr_auc": 0.9934,
+          "pooled_metrics": {
+            "accuracy": 0.999,
+            "precision": 0.9677,
+            "recall": 1.0,
+            "f1": 0.9836,
+            "roc_auc": 0.9998,
+            "pr_auc": 0.9938,
+            "confusion_matrix": [
+              [
+                1855,
+                2
+              ],
+              [
+                0,
+                60
+              ]
+            ],
+            "false_positive_rate": 0.0011,
+            "false_negative_rate": 0.0,
+            "train_time_sec": 0.0,
+            "infer_time_sec": 0.0,
+            "n_samples": 1917,
+            "n_anomalies": 60
+          },
+          "folds": [
+            {
+              "accuracy": 1.0,
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1": 1.0,
+              "roc_auc": 1.0,
+              "pr_auc": 1.0,
+              "confusion_matrix": [
+                [
+                  619,
+                  0
+                ],
+                [
+                  0,
+                  20
+                ]
+              ],
+              "false_positive_rate": 0.0,
+              "false_negative_rate": 0.0,
+              "train_time_sec": 0.0,
+              "infer_time_sec": 0.0,
+              "n_samples": 639,
+              "n_anomalies": 20,
+              "held_out_machine": "station_1"
+            },
+            {
+              "accuracy": 0.9984,
+              "precision": 0.9524,
+              "recall": 1.0,
+              "f1": 0.9756,
+              "roc_auc": 1.0,
+              "pr_auc": 1.0,
+              "confusion_matrix": [
+                [
+                  618,
+                  1
+                ],
+                [
+                  0,
+                  20
+                ]
+              ],
+              "false_positive_rate": 0.0016,
+              "false_negative_rate": 0.0,
+              "train_time_sec": 0.0,
+              "infer_time_sec": 0.0,
+              "n_samples": 639,
+              "n_anomalies": 20,
+              "held_out_machine": "station_2"
+            },
+            {
+              "accuracy": 0.9984,
+              "precision": 0.9524,
+              "recall": 1.0,
+              "f1": 0.9756,
+              "roc_auc": 0.9994,
+              "pr_auc": 0.9803,
+              "confusion_matrix": [
+                [
+                  618,
+                  1
+                ],
+                [
+                  0,
+                  20
+                ]
+              ],
+              "false_positive_rate": 0.0016,
+              "false_negative_rate": 0.0,
+              "train_time_sec": 0.0,
+              "infer_time_sec": 0.0,
+              "n_samples": 639,
+              "n_anomalies": 20,
+              "held_out_machine": "station_3"
+            }
+          ],
+          "delta_macro_f1": -0.0082,
+          "rel_delta_macro_f1_pct": -0.83
+        }
+      }
+    },
+    "WITHOUT_MIN_MAX_FEATURES": {
+      "description": "Ablate 12 extreme value boundary features (*_min, *_max)",
+      "models": {
+        "Random Forest": {
+          "macro_accuracy": 0.999,
+          "macro_precision": 0.9833,
+          "macro_recall": 0.9833,
+          "macro_f1": 0.9833,
+          "macro_roc_auc": 0.9993,
+          "macro_pr_auc": 0.9817,
+          "pooled_metrics": {
+            "accuracy": 0.999,
+            "precision": 0.9833,
+            "recall": 0.9833,
+            "f1": 0.9833,
+            "roc_auc": 0.9992,
+            "pr_auc": 0.9821,
+            "confusion_matrix": [
+              [
+                1856,
+                1
+              ],
+              [
+                1,
+                59
+              ]
+            ],
+            "false_positive_rate": 0.0005,
+            "false_negative_rate": 0.0167,
+            "train_time_sec": 0.0,
+            "infer_time_sec": 0.0,
+            "n_samples": 1917,
+            "n_anomalies": 60
+          },
+          "folds": [
+            {
+              "accuracy": 1.0,
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1": 1.0,
+              "roc_auc": 1.0,
+              "pr_auc": 1.0,
+              "confusion_matrix": [
+                [
+                  619,
+                  0
+                ],
+                [
+                  0,
+                  20
+                ]
+              ],
+              "false_positive_rate": 0.0,
+              "false_negative_rate": 0.0,
+              "train_time_sec": 0.0,
+              "infer_time_sec": 0.0,
+              "n_samples": 639,
+              "n_anomalies": 20,
+              "held_out_machine": "station_1"
+            },
+            {
+              "accuracy": 1.0,
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1": 1.0,
+              "roc_auc": 1.0,
+              "pr_auc": 1.0,
+              "confusion_matrix": [
+                [
+                  619,
+                  0
+                ],
+                [
+                  0,
+                  20
+                ]
+              ],
+              "false_positive_rate": 0.0,
+              "false_negative_rate": 0.0,
+              "train_time_sec": 0.0,
+              "infer_time_sec": 0.0,
+              "n_samples": 639,
+              "n_anomalies": 20,
+              "held_out_machine": "station_2"
+            },
+            {
+              "accuracy": 0.9969,
+              "precision": 0.95,
+              "recall": 0.95,
+              "f1": 0.95,
+              "roc_auc": 0.998,
+              "pr_auc": 0.9451,
+              "confusion_matrix": [
+                [
+                  618,
+                  1
+                ],
+                [
+                  1,
+                  19
+                ]
+              ],
+              "false_positive_rate": 0.0016,
+              "false_negative_rate": 0.05,
+              "train_time_sec": 0.0,
+              "infer_time_sec": 0.0,
+              "n_samples": 639,
+              "n_anomalies": 20,
+              "held_out_machine": "station_3"
+            }
+          ],
+          "delta_macro_f1": 0.015,
+          "rel_delta_macro_f1_pct": 1.55
+        },
+        "Logistic Regression": {
+          "macro_accuracy": 0.9989,
+          "macro_precision": 0.9683,
+          "macro_recall": 1.0,
+          "macro_f1": 0.9837,
+          "macro_roc_auc": 0.9999,
+          "macro_pr_auc": 0.9984,
+          "pooled_metrics": {
+            "accuracy": 0.999,
+            "precision": 0.9677,
+            "recall": 1.0,
+            "f1": 0.9836,
+            "roc_auc": 0.9999,
+            "pr_auc": 0.9967,
+            "confusion_matrix": [
+              [
+                1855,
+                2
+              ],
+              [
+                0,
+                60
+              ]
+            ],
+            "false_positive_rate": 0.0011,
+            "false_negative_rate": 0.0,
+            "train_time_sec": 0.0,
+            "infer_time_sec": 0.0,
+            "n_samples": 1917,
+            "n_anomalies": 60
+          },
+          "folds": [
+            {
+              "accuracy": 0.9984,
+              "precision": 0.9524,
+              "recall": 1.0,
+              "f1": 0.9756,
+              "roc_auc": 1.0,
+              "pr_auc": 1.0,
+              "confusion_matrix": [
+                [
+                  618,
+                  1
+                ],
+                [
+                  0,
+                  20
+                ]
+              ],
+              "false_positive_rate": 0.0016,
+              "false_negative_rate": 0.0,
+              "train_time_sec": 0.0,
+              "infer_time_sec": 0.0,
+              "n_samples": 639,
+              "n_anomalies": 20,
+              "held_out_machine": "station_1"
+            },
+            {
+              "accuracy": 1.0,
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1": 1.0,
+              "roc_auc": 1.0,
+              "pr_auc": 1.0,
+              "confusion_matrix": [
+                [
+                  619,
+                  0
+                ],
+                [
+                  0,
+                  20
+                ]
+              ],
+              "false_positive_rate": 0.0,
+              "false_negative_rate": 0.0,
+              "train_time_sec": 0.0,
+              "infer_time_sec": 0.0,
+              "n_samples": 639,
+              "n_anomalies": 20,
+              "held_out_machine": "station_2"
+            },
+            {
+              "accuracy": 0.9984,
+              "precision": 0.9524,
+              "recall": 1.0,
+              "f1": 0.9756,
+              "roc_auc": 0.9998,
+              "pr_auc": 0.9951,
+              "confusion_matrix": [
+                [
+                  618,
+                  1
+                ],
+                [
+                  0,
+                  20
+                ]
+              ],
+              "false_positive_rate": 0.0016,
+              "false_negative_rate": 0.0,
+              "train_time_sec": 0.0,
+              "infer_time_sec": 0.0,
+              "n_samples": 639,
+              "n_anomalies": 20,
+              "held_out_machine": "station_3"
+            }
+          ],
+          "delta_macro_f1": -0.0082,
+          "rel_delta_macro_f1_pct": -0.83
+        }
+      }
+    },
+    "WITHOUT_BALANCED_CLASS_WEIGHTS": {
+      "description": "Ablate class_weight='balanced' \u2014 uniform class weighting",
+      "models": {
+        "Random Forest": {
+          "macro_accuracy": 0.9963,
+          "macro_precision": 0.9825,
+          "macro_recall": 0.9,
+          "macro_f1": 0.9373,
+          "macro_roc_auc": 0.9995,
+          "macro_pr_auc": 0.9821,
+          "pooled_metrics": {
+            "accuracy": 0.9963,
+            "precision": 0.9818,
+            "recall": 0.9,
+            "f1": 0.9391,
+            "roc_auc": 0.9996,
+            "pr_auc": 0.9877,
+            "confusion_matrix": [
+              [
+                1856,
+                1
+              ],
+              [
+                6,
+                54
+              ]
+            ],
+            "false_positive_rate": 0.0005,
+            "false_negative_rate": 0.1,
+            "train_time_sec": 0.0,
+            "infer_time_sec": 0.0,
+            "n_samples": 1917,
+            "n_anomalies": 60
+          },
+          "folds": [
+            {
+              "accuracy": 0.9937,
+              "precision": 1.0,
+              "recall": 0.8,
+              "f1": 0.8889,
+              "roc_auc": 0.9995,
+              "pr_auc": 0.9853,
+              "confusion_matrix": [
+                [
+                  619,
+                  0
+                ],
+                [
+                  4,
+                  16
+                ]
+              ],
+              "false_positive_rate": 0.0,
+              "false_negative_rate": 0.2,
+              "train_time_sec": 0.0,
+              "infer_time_sec": 0.0,
+              "n_samples": 639,
+              "n_anomalies": 20,
+              "held_out_machine": "station_1"
+            },
+            {
+              "accuracy": 1.0,
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1": 1.0,
+              "roc_auc": 1.0,
+              "pr_auc": 1.0,
+              "confusion_matrix": [
+                [
+                  619,
+                  0
+                ],
+                [
+                  0,
+                  20
+                ]
+              ],
+              "false_positive_rate": 0.0,
+              "false_negative_rate": 0.0,
+              "train_time_sec": 0.0,
+              "infer_time_sec": 0.0,
+              "n_samples": 639,
+              "n_anomalies": 20,
+              "held_out_machine": "station_2"
+            },
+            {
+              "accuracy": 0.9953,
+              "precision": 0.9474,
+              "recall": 0.9,
+              "f1": 0.9231,
+              "roc_auc": 0.9989,
+              "pr_auc": 0.9611,
+              "confusion_matrix": [
+                [
+                  618,
+                  1
+                ],
+                [
+                  2,
+                  18
+                ]
+              ],
+              "false_positive_rate": 0.0016,
+              "false_negative_rate": 0.1,
+              "train_time_sec": 0.0,
+              "infer_time_sec": 0.0,
+              "n_samples": 639,
+              "n_anomalies": 20,
+              "held_out_machine": "station_3"
+            }
+          ],
+          "delta_macro_f1": -0.031,
+          "rel_delta_macro_f1_pct": -3.2
+        },
+        "Logistic Regression": {
+          "macro_accuracy": 0.9995,
+          "macro_precision": 0.9841,
+          "macro_recall": 1.0,
+          "macro_f1": 0.9919,
+          "macro_roc_auc": 0.9998,
+          "macro_pr_auc": 0.9934,
+          "pooled_metrics": {
+            "accuracy": 0.9995,
+            "precision": 0.9836,
+            "recall": 1.0,
+            "f1": 0.9917,
+            "roc_auc": 0.9998,
+            "pr_auc": 0.9934,
+            "confusion_matrix": [
+              [
+                1856,
+                1
+              ],
+              [
+                0,
+                60
+              ]
+            ],
+            "false_positive_rate": 0.0005,
+            "false_negative_rate": 0.0,
+            "train_time_sec": 0.0,
+            "infer_time_sec": 0.0,
+            "n_samples": 1917,
+            "n_anomalies": 60
+          },
+          "folds": [
+            {
+              "accuracy": 1.0,
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1": 1.0,
+              "roc_auc": 1.0,
+              "pr_auc": 1.0,
+              "confusion_matrix": [
+                [
+                  619,
+                  0
+                ],
+                [
+                  0,
+                  20
+                ]
+              ],
+              "false_positive_rate": 0.0,
+              "false_negative_rate": 0.0,
+              "train_time_sec": 0.0,
+              "infer_time_sec": 0.0,
+              "n_samples": 639,
+              "n_anomalies": 20,
+              "held_out_machine": "station_1"
+            },
+            {
+              "accuracy": 1.0,
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1": 1.0,
+              "roc_auc": 1.0,
+              "pr_auc": 1.0,
+              "confusion_matrix": [
+                [
+                  619,
+                  0
+                ],
+                [
+                  0,
+                  20
+                ]
+              ],
+              "false_positive_rate": 0.0,
+              "false_negative_rate": 0.0,
+              "train_time_sec": 0.0,
+              "infer_time_sec": 0.0,
+              "n_samples": 639,
+              "n_anomalies": 20,
+              "held_out_machine": "station_2"
+            },
+            {
+              "accuracy": 0.9984,
+              "precision": 0.9524,
+              "recall": 1.0,
+              "f1": 0.9756,
+              "roc_auc": 0.9994,
+              "pr_auc": 0.9803,
+              "confusion_matrix": [
+                [
+                  618,
+                  1
+                ],
+                [
+                  0,
+                  20
+                ]
+              ],
+              "false_positive_rate": 0.0016,
+              "false_negative_rate": 0.0,
+              "train_time_sec": 0.0,
+              "infer_time_sec": 0.0,
+              "n_samples": 639,
+              "n_anomalies": 20,
+              "held_out_machine": "station_3"
+            }
+          ],
+          "delta_macro_f1": 0.0,
+          "rel_delta_macro_f1_pct": 0.0
+        }
+      }
+    }
+  },
+  "threshold_sensitivity": {
+    "thresholds": [
+      0.1,
+      0.2,
+      0.3,
+      0.4,
+      0.5,
+      0.6,
+      0.7,
+      0.8,
+      0.9
+    ],
+    "models": {
+      "Random Forest": {
+        "0.1": {
+          "precision": 0.4545,
+          "recall": 1.0,
+          "f1": 0.625,
+          "accuracy": 0.968
+        },
+        "0.2": {
+          "precision": 0.625,
+          "recall": 1.0,
+          "f1": 0.7692,
+          "accuracy": 0.984
+        },
+        "0.3": {
+          "precision": 0.6667,
+          "recall": 1.0,
+          "f1": 0.8,
+          "accuracy": 0.9867
+        },
+        "0.4": {
+          "precision": 0.9091,
+          "recall": 1.0,
+          "f1": 0.9524,
+          "accuracy": 0.9973
+        },
+        "0.5": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "accuracy": 1.0
+        },
+        "0.6": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "accuracy": 1.0
+        },
+        "0.7": {
+          "precision": 1.0,
+          "recall": 0.9,
+          "f1": 0.9474,
+          "accuracy": 0.9973
+        },
+        "0.8": {
+          "precision": 1.0,
+          "recall": 0.8,
+          "f1": 0.8889,
+          "accuracy": 0.9947
+        },
+        "0.9": {
+          "precision": 1.0,
+          "recall": 0.3,
+          "f1": 0.4615,
+          "accuracy": 0.9813
+        }
+      },
+      "Logistic Regression": {
+        "0.1": {
+          "precision": 0.6667,
+          "recall": 1.0,
+          "f1": 0.8,
+          "accuracy": 0.9867
+        },
+        "0.2": {
+          "precision": 0.8333,
+          "recall": 1.0,
+          "f1": 0.9091,
+          "accuracy": 0.9947
+        },
+        "0.3": {
+          "precision": 0.9091,
+          "recall": 1.0,
+          "f1": 0.9524,
+          "accuracy": 0.9973
+        },
+        "0.4": {
+          "precision": 0.9091,
+          "recall": 1.0,
+          "f1": 0.9524,
+          "accuracy": 0.9973
+        },
+        "0.5": {
+          "precision": 0.9091,
+          "recall": 1.0,
+          "f1": 0.9524,
+          "accuracy": 0.9973
+        },
+        "0.6": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "accuracy": 1.0
+        },
+        "0.7": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "accuracy": 1.0
+        },
+        "0.8": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "accuracy": 1.0
+        },
+        "0.9": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "accuracy": 1.0
+        }
+      }
+    }
+  }
+}
