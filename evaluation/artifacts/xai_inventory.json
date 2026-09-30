@@ -1,0 +1,214 @@
+{
+  "inventory_metadata": {
+    "audit_timestamp": "2026-09-30T11:30:00Z",
+    "step": "RESEARCH STEP 9: Explainability / XAI Evaluation",
+    "description": "Exhaustive factual inventory of explainability (XAI) implementations, models, feature spaces, prediction APIs, and test coverage in the manufacturing/welding anomaly detection repository.",
+    "audited_by": "Antigravity Research Step 9 Auditor"
+  },
+  "models_in_codebase": [
+    {
+      "model_id": "rf_anomaly_detector",
+      "model_type": "RandomForestClassifier",
+      "wrapper_class": "src.model.anomaly.AnomalyDetector",
+      "serialized_path": "models/anomaly.joblib",
+      "task": "Supervised tabular welding anomaly classification (binary: normal vs anomaly)",
+      "input_dimension": 40,
+      "input_type": "Tabular fused features (sensor aggregates, log counts/flags, note presence)",
+      "predict_proba_api": "detector.predict_proba(df: pd.DataFrame) -> np.ndarray"
+    },
+    {
+      "model_id": "iforest_anomaly_detector",
+      "model_type": "IsolationForest",
+      "wrapper_class": "src.model.anomaly.AnomalyDetector(mode='unsupervised')",
+      "serialized_path": null,
+      "task": "Unsupervised tabular welding anomaly detection (fallback mode)",
+      "input_dimension": 40,
+      "input_type": "Tabular fused features",
+      "predict_proba_api": "detector.predict_proba(df: pd.DataFrame) -> np.ndarray (derived from score_samples)"
+    },
+    {
+      "model_id": "baseline_logistic_regression",
+      "model_type": "LogisticRegression",
+      "module": "src.model.baselines._create_lr",
+      "serialized_path": null,
+      "task": "Supervised baseline linear classification (class_weight='balanced')",
+      "input_dimension": 40,
+      "input_type": "StandardScaler transformed tabular features",
+      "predict_proba_api": "model.predict_proba(X: np.ndarray) -> np.ndarray"
+    },
+    {
+      "model_id": "baseline_svc",
+      "model_type": "SVC",
+      "module": "src.model.baselines._create_svc",
+      "serialized_path": null,
+      "task": "Supervised baseline RBF kernel support vector classification",
+      "input_dimension": 40,
+      "input_type": "StandardScaler transformed tabular features",
+      "predict_proba_api": "model.predict_proba(X: np.ndarray) -> np.ndarray (Platt scaling)"
+    },
+    {
+      "model_id": "distilbert_fault_detector",
+      "model_type": "AutoModelForSequenceClassification",
+      "wrapper_class": "src.model.bert_detector.BertFaultDetector",
+      "serialized_path": "models/distilbert_fault",
+      "task": "Text sequence classification of serialised window summaries",
+      "input_dimension": 128,
+      "input_type": "Natural language serialisation of window statistics (window_to_text)",
+      "predict_proba_api": "detector.predict_proba(df: pd.DataFrame) -> np.ndarray"
+    },
+    {
+      "model_id": "distilbert_base_uncased_encoder",
+      "model_type": "AutoModel (DistilBertModel)",
+      "module": "src.explain.attention_explainer._load_model",
+      "serialized_path": "Hugging Face cache: distilbert-base-uncased",
+      "task": "Contextualised transformer representation & self-attention extraction for operator notes",
+      "input_dimension": 64,
+      "input_type": "Raw operator note strings (notes.csv)",
+      "predict_proba_api": "N/A (Encoder only; does not expose classification head or probability prediction API)"
+    }
+  ],
+  "explainers": {
+    "shap": {
+      "name": "SHAP (SHapley Additive exPlanations)",
+      "implementation_file": "src/explain/shap_explainer.py",
+      "class_name": "AnomalyExplainer",
+      "underlying_method": "shap.TreeExplainer(detector.model, feature_perturbation='tree_path_dependent')",
+      "supported_models": [
+        "AnomalyDetector (RandomForestClassifier)"
+      ],
+      "unsupported_models": [
+        "LogisticRegression (TreeExplainer requires tree ensemble; raises Exception)",
+        "SVC (TreeExplainer requires tree ensemble; raises Exception)",
+        "BertFaultDetector (TreeExplainer incompatible with PyTorch neural sequence model)",
+        "IsolationForest (Not wired in production pipeline AnomalyExplainer)"
+      ],
+      "feature_space": "40 tabular features (30 sensor aggregates + 9 log counts/flags + 1 note presence flag)",
+      "feature_names_source": "detector.feature_names (defined in src.model.anomaly.ALL_FEATURE_COLS)",
+      "token_mapping": "N/A (Tabular numerical/binary domain, no tokenisation)",
+      "prediction_api_used": "detector.predict_proba(row) and detector.model (direct tree traversal)",
+      "explanation_scope": "Local per-window explanation (with global feature attribution available via raw_shap aggregation)",
+      "output_schema": {
+        "anomaly_prob": "float",
+        "base_value": "float (expected value from TreeExplainer)",
+        "shap_drivers": "list[dict(feature: str, shap: float, direction: str, magnitude: float, feature_value: float)]",
+        "raw_shap": "np.ndarray of shape (40,)"
+      },
+      "status": "AVAILABLE_AND_CALLABLE",
+      "existing_tests": [
+        "tests/eval_mvp.py: evaluate_shap_alignment",
+        "tests/test_welding.py: test_welding_pipeline_e2e (checks shap_drivers presence)",
+        "tests/test_pipeline_quick.py: checks shap_text in pipeline payload"
+      ]
+    },
+    "lime": {
+      "name": "LIME (Local Interpretable Model-agnostic Explanations)",
+      "implementation_file": "src/explain/lime_explainer.py",
+      "class_name": "LimeAnomalyExplainer",
+      "factory_function": "src.explain.lime_explainer.get_default_lime_explainer",
+      "underlying_method": "lime.lime_tabular.LimeTabularExplainer(mode='classification', discretize_continuous=True, random_state=42)",
+      "supported_models": [
+        "AnomalyDetector (RandomForestClassifier)"
+      ],
+      "unsupported_models": [
+        "LogisticRegression (get_default_lime_explainer hardcoded to models/anomaly.joblib)",
+        "SVC (get_default_lime_explainer hardcoded to models/anomaly.joblib)",
+        "BertFaultDetector (Tabular explainer incompatible with text sequence model)"
+      ],
+      "feature_space": "40 tabular features (30 sensor aggregates + 9 log counts/flags + 1 note presence flag)",
+      "feature_names_source": "detector.feature_names",
+      "token_mapping": "N/A (Tabular domain; regex condition parser _feature_from_condition maps discretised intervals back to bare feature names)",
+      "prediction_api_used": "detector.model.predict_proba (called during surrogate perturbation sampling) and detector.predict_proba(row)",
+      "explanation_scope": "Local per-window linear surrogate explanation",
+      "output_schema": {
+        "anomaly_prob": "float",
+        "lime_drivers": "list[dict(feature: str, condition: str, weight: float, direction: str, magnitude: float)]"
+      },
+      "status": "AVAILABLE_AND_CALLABLE",
+      "existing_tests": [
+        "tests/test_explain.py: test_lime_explainer_returns_drivers",
+        "tests/test_explain.py: test_lime_feature_maps_to_known_name",
+        "tests/test_explain.py: test_pipeline_payload_includes_lime",
+        "tests/eval_mvp.py: evaluate_lime_alignment"
+      ]
+    },
+    "attention": {
+      "name": "DistilBERT Self-Attention Heatmap",
+      "implementation_file": "src/explain/attention_explainer.py",
+      "function_name": "explain_attention",
+      "underlying_method": "Eager self-attention extraction from distilbert-base-uncased (averaged across all 6 layers and 12 heads)",
+      "supported_models": [
+        "distilbert-base-uncased (Hugging Face AutoModel)"
+      ],
+      "unsupported_models": [
+        "RandomForestClassifier (Tabular tree model possesses no attention mechanisms)",
+        "LogisticRegression (Linear baseline possesses no attention mechanisms)",
+        "BertFaultDetector (attention_explainer explicitly loads base distilbert-base-uncased, not fine-tuned classification weights in models/distilbert_fault)"
+      ],
+      "feature_space": "Operator note word tokens (max 64 tokens per snippet)",
+      "feature_names_source": "distilbert-base-uncased vocabulary / tokenized string tokens",
+      "token_mapping": "Subword wordpieces (##) merged back into whole words with max-pooled weights; [CLS], [SEP], [PAD] and pure-punctuation tokens dropped; weights min-max scaled to [0, 1]",
+      "prediction_api_used": "N/A (Operates solely on text strings; does not evaluate or produce anomaly probabilities, logits, or binary classification decisions)",
+      "explanation_scope": "Local per-operator-note textual attention heatmap",
+      "output_schema": {
+        "text": "str",
+        "tokens": "list[dict(token: str, weight: float)]",
+        "top_tokens": "list[str]"
+      },
+      "status": "AVAILABLE_AND_CALLABLE",
+      "existing_tests": [
+        "tests/test_explain.py: test_attention_highlights_content_words",
+        "tests/test_explain.py: test_attention_empty_text_returns_none"
+      ]
+    }
+  },
+  "cross_method_comparability_matrix": {
+    "shap_vs_lime": {
+      "comparable": true,
+      "shared_model": "RandomForestClassifier (AnomalyDetector from models/anomaly.joblib)",
+      "shared_sample_space": "Multimodal fused tabular windows (identical row instances)",
+      "shared_feature_space": "Exact identical 40 tabular features",
+      "valid_metrics": [
+        "top_k_overlap_count",
+        "top_k_jaccard_similarity",
+        "spearman_rank_correlation"
+      ],
+      "status": "VALID_PAIRWISE_EVALUATION"
+    },
+    "shap_vs_attention": {
+      "comparable": false,
+      "reason": "Disjoint feature spaces (40 tabular sensor/log features vs word tokens from natural-language notes), disjoint underlying models (RandomForestClassifier vs distilbert-base-uncased), and distinct predictive tasks (supervised tabular anomaly detection vs unsupervised contextual representation). Direct rank, vector, or distribution comparisons are mathematically invalid.",
+      "status": "N/A"
+    },
+    "lime_vs_attention": {
+      "comparable": false,
+      "reason": "Disjoint feature spaces (40 tabular sensor/log features vs word tokens from natural-language notes), disjoint underlying models (RandomForestClassifier vs distilbert-base-uncased), and distinct predictive tasks. Direct rank or distribution comparisons are mathematically invalid.",
+      "status": "N/A"
+    }
+  },
+  "model_xai_coverage": {
+    "RandomForest": {
+      "shap": "AVAILABLE (src/explain/shap_explainer.py)",
+      "lime": "AVAILABLE (src/explain/lime_explainer.py)",
+      "attention": "N/A (Tabular model has no attention mechanism)"
+    },
+    "LogisticRegression": {
+      "shap": "N/A (TreeExplainer does not support linear models)",
+      "lime": "N/A (Explainer implementation hardcoded to AnomalyDetector)",
+      "attention": "N/A (Linear model has no attention mechanism)"
+    },
+    "SVC": {
+      "shap": "N/A (TreeExplainer does not support kernel SVMs)",
+      "lime": "N/A (Explainer implementation hardcoded to AnomalyDetector)",
+      "attention": "N/A (Kernel model has no attention mechanism)"
+    },
+    "DistilBERT_FaultDetector": {
+      "shap": "N/A (TreeExplainer does not support transformer neural architectures)",
+      "lime": "N/A (lime_explainer operates strictly on tabular feature vectors)",
+      "attention": "N/A (attention_explainer is decoupled from the fine-tuned classification head)"
+    }
+  },
+  "data_modality_notes": {
+    "tabular_sensor_and_logs": "Present across all 1917 windows in data/processed/fused.parquet. Evaluated via SHAP and LIME under chronological holdout.",
+    "free_text_operator_notes": "Present in 35 rows in data/raw/notes.csv. Not retained as a raw string column in fused.parquet (only binary 'has_note' flag is retained in tabular matrix). Evaluated independently via Attention explainer."
+  }
+}

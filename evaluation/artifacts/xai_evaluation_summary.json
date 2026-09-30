@@ -1,0 +1,47 @@
+{
+  "evaluation_step": "STEP_9_EXPLAINABILITY_EVALUATION",
+  "sample_counts": {
+    "total": 60,
+    "anomalous": 10,
+    "normal": 50
+  },
+  "fidelity_auc": {
+    "shap_auc_mean": 0.1195,
+    "lime_auc_mean": 0.114,
+    "random_auc_mean": 0.0346
+  },
+  "stability_k5_jaccard": {
+    "shap_jaccard_k5_mean": 1.0,
+    "lime_jaccard_k5_mean": 0.9278,
+    "distilbert_attention_jaccard_k5_mean": 0.8952
+  },
+  "stability_spearman_rho": {
+    "shap_spearman_mean": 0.9954,
+    "lime_spearman_mean": 0.8075
+  },
+  "agreement_shap_vs_lime": {
+    "jaccard_k1_mean": 0.9833,
+    "jaccard_k3_mean": 0.2517,
+    "jaccard_k5_mean": 0.5476,
+    "jaccard_k10_mean": 0.4657,
+    "spearman_rho_mean": 0.5889,
+    "spearman_rho_median": 0.5952
+  },
+  "agreement_with_attention": {
+    "status": "N/A",
+    "reason": "Modal mismatch (tabular sensor/log features vs natural language word tokens)"
+  },
+  "normal_vs_anomalous": {
+    "normal_top1_conc_mean": 0.2737,
+    "anomaly_top1_conc_mean": 0.1788,
+    "normal_entropy_mean": 3.8693,
+    "anomaly_entropy_mean": 3.844,
+    "entropy_mwu_pvalue": 0.55845
+  },
+  "latency_ms": {
+    "shap_mean_ms": 46.26,
+    "lime_mean_ms": 203.98,
+    "attention_mean_ms": 23.9
+  },
+  "failure_count": 0
+}
