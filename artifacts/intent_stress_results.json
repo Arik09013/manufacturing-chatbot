@@ -1,6 +1,6 @@
 {
   "step": "Step 8 — Intent Classification Stress Evaluation",
-  "timestamp": "2026-09-30 00:03:03",
+  "timestamp": "2026-09-30 11:45:00",
   "benchmark_summary": {
     "total_queries": 100,
     "intents": [
@@ -320,8 +320,8 @@
         "perturbation_type": "abbreviations",
         "difficulty": "medium",
         "confidence": 1.0,
-        "matched_term": "stainless",
-        "reason": "Matched keyword: 'stainless'",
+        "matched_term": "mig",
+        "reason": "Matched keyword: 'mig'",
         "rationale": "Abbreviated 'params' with 3 mm and stainless."
       },
       {
@@ -336,8 +336,8 @@
         "perturbation_type": "paraphrase",
         "difficulty": "medium",
         "confidence": 1.0,
-        "matched_term": "carbon steel",
-        "reason": "Matched keyword phrase: 'carbon steel'",
+        "matched_term": "welding",
+        "reason": "Matched keyword: 'welding'",
         "rationale": "Polite paraphrase specifying 8 mm carbon steel."
       },
       {
@@ -384,8 +384,8 @@
         "perturbation_type": "word_order",
         "difficulty": "medium",
         "confidence": 1.0,
-        "matched_term": "welding speed",
-        "reason": "Matched keyword phrase: 'welding speed'",
+        "matched_term": "welding",
+        "reason": "Matched keyword: 'welding'",
         "rationale": "Inverted word order with 12 mm and mild steel."
       },
       {
@@ -400,8 +400,8 @@
         "perturbation_type": "noisy_redundant",
         "difficulty": "medium",
         "confidence": 1.0,
-        "matched_term": "production",
-        "reason": "Matched keyword: 'production'",
+        "matched_term": "setting",
+        "reason": "Matched keyword: 'setting'",
         "rationale": "Lengthy conversational setup containing 2 mm mild steel."
       },
       {
@@ -432,8 +432,8 @@
         "perturbation_type": "clean_direct",
         "difficulty": "easy",
         "confidence": 1.0,
-        "matched_term": "welding current",
-        "reason": "Matched keyword phrase: 'welding current'",
+        "matched_term": "welding",
+        "reason": "Matched keyword: 'welding'",
         "rationale": "Standard parameter request for 15 mm mild steel."
       },
       {
@@ -448,8 +448,8 @@
         "perturbation_type": "abbreviations",
         "difficulty": "medium",
         "confidence": 1.0,
-        "matched_term": "tig",
-        "reason": "Matched keyword: 'tig'",
+        "matched_term": "parameter",
+        "reason": "Matched keyword: 'parameter'",
         "rationale": "Abbreviations 'ss' (stainless) and 'tig' with 1.5 mm thickness."
       },
       {
@@ -480,8 +480,8 @@
         "perturbation_type": "clean_direct",
         "difficulty": "easy",
         "confidence": 1.0,
-        "matched_term": "heat input",
-        "reason": "Matched keyword phrase: 'heat input'",
+        "matched_term": "welding",
+        "reason": "Matched keyword: 'welding'",
         "rationale": "Targets heat input setpoint for 8 mm mild steel."
       },
       {

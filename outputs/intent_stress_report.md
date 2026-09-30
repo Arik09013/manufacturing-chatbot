@@ -1,6 +1,6 @@
 # Intent Classification Stress Evaluation Report (Step 8)
 
-**Generated:** 2026-09-30 00:03:03  
+**Generated:** 2026-09-30 11:45:00  
 **Research Question:** *How robust is the existing rule-based intent classification and routing system under realistic operator-language variation?*  
 **Benchmark Size:** 100 hand-curated queries (20 per intent class)  
 **Intent Taxonomy:** `out_of_scope, anomaly, param, knowledge, general`  
@@ -130,17 +130,17 @@ A total of **14 classification mismatches** were recorded across the 100 benchma
 | :--- | :---: | :---: | :--- | :--- | :--- |
 | `ANOM_08` | `anomaly` | `out_of_scope` | `typos_spelling` | `None (Out-of-Scope)` | "sttion_1 triggred an alrm at 10:15" |
 | `PARAM_04` | `param` | `knowledge` | `short_query` | `settings` | "5mm steel settings" |
-| `PARAM_05` | `param` | `knowledge` | `abbreviations` | `stainless` | "3 mm stainless mig params" |
-| `PARAM_06` | `param` | `knowledge` | `paraphrase` | `carbon steel` | "Could you provide recommended operating setpoints for welding 8 mm thick carbon steel plates?" |
+| `PARAM_05` | `param` | `knowledge` | `abbreviations` | `mig` | "3 mm stainless mig params" |
+| `PARAM_06` | `param` | `knowledge` | `paraphrase` | `welding` | "Could you provide recommended operating setpoints for welding 8 mm thick carbon steel plates?" |
 | `PARAM_08` | `param` | `knowledge` | `typos_spelling` | `weld` | "optmize mig weld for 6mm mld stel" |
 | `PARAM_09` | `param` | `knowledge` | `abbreviations` | `parameters` | "4mm ms plate parameters" |
-| `PARAM_11` | `param` | `knowledge` | `word_order` | `welding speed` | "For mild steel of 12 mm thickness what welding speed and wire feed do you recommend?" |
-| `PARAM_12` | `param` | `knowledge` | `noisy_redundant` | `production` | "I am setting up a production run today and I need the exact parameter configuration for 2 mm mild steel sheet welding." |
+| `PARAM_11` | `param` | `knowledge` | `word_order` | `welding` | "For mild steel of 12 mm thickness what welding speed and wire feed do you recommend?" |
+| `PARAM_12` | `param` | `knowledge` | `noisy_redundant` | `setting` | "I am setting up a production run today and I need the exact parameter configuration for 2 mm mild steel sheet welding." |
 | `PARAM_14` | `param` | `knowledge` | `short_ambiguous` | `aluminum` | "8mm aluminum" |
-| `PARAM_15` | `param` | `knowledge` | `clean_direct` | `welding current` | "Suggest welding current and arc voltage for 15 mm mild steel joint." |
-| `PARAM_18` | `param` | `knowledge` | `abbreviations` | `tig` | "1.5 mm ss sheet tig parameter" |
+| `PARAM_15` | `param` | `knowledge` | `clean_direct` | `welding` | "Suggest welding current and arc voltage for 15 mm mild steel joint." |
+| `PARAM_18` | `param` | `knowledge` | `abbreviations` | `parameter` | "1.5 mm ss sheet tig parameter" |
 | `PARAM_19` | `param` | `knowledge` | `code_switching` | `voltage` | "3mm steel er jonno voltage current koto?" |
-| `PARAM_20` | `param` | `knowledge` | `clean_direct` | `heat input` | "What heat input should I target for 8 mm mild steel MIG welding?" |
+| `PARAM_20` | `param` | `knowledge` | `clean_direct` | `welding` | "What heat input should I target for 8 mm mild steel MIG welding?" |
 | `KNOW_07` | `knowledge` | `out_of_scope` | `informal_slang` | `None (Out-of-Scope)` | "My beads look like ugly rope and won't wet into the sides at all." |
 
 ### Failure Pattern Taxonomy
