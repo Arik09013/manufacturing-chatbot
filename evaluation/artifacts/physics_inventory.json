@@ -1,0 +1,202 @@
+{
+  "inventory_metadata": {
+    "step": "RESEARCH STEP 10: Physics-Based Recommendation Evaluation",
+    "audit_date": "2026-09-30",
+    "primary_module": "src/reasoning/param_advisor.py",
+    "config_source": "config/welding_params.yaml",
+    "effects_config_source": "config/parameter_effects.yaml",
+    "description": "Factual inventory of physics formulas, process rules, and encoded engineering constraints in the parameter advisor."
+  },
+  "formulas": [
+    {
+      "name": "heat_input",
+      "implementation_function": "_heat_input",
+      "source_file": "src/reasoning/param_advisor.py",
+      "line_range": "115-117",
+      "equation": "HI = (eta * 60 * current * voltage) / (1000 * speed)",
+      "input_variables": {
+        "current": {"type": "float", "unit": "A", "description": "Welding arc current"},
+        "voltage": {"type": "float", "unit": "V", "description": "Arc voltage"},
+        "speed": {"type": "float", "unit": "mm/min", "description": "Welding travel speed"},
+        "arc_efficiency": {"type": "float", "unit": "dimensionless fraction", "description": "Process-specific arc thermal efficiency (eta)"}
+      },
+      "output_variable": {
+        "heat_input": {"type": "float", "unit": "kJ/mm", "description": "Thermal heat input per unit length"}
+      },
+      "process_applicability": ["GMAW", "TIG", "SMAW"],
+      "physics_basis": "AWS D1.1 / ISO 15614-1 heat input formulation converting electric power to thermal energy deposited along weld seam."
+    },
+    {
+      "name": "deposition_rate",
+      "implementation_function": "_deposition_rate",
+      "source_file": "src/reasoning/param_advisor.py",
+      "line_range": "120-130",
+      "equation": "DR = wire_feed_rate * pi * (wire_diameter / 2)^2 * density_g_cm3 * deposition_efficiency",
+      "input_variables": {
+        "wire_feed_rate": {"type": "float | None", "unit": "m/min", "description": "Wire electrode feed speed"},
+        "wire_diameter_mm": {"type": "float", "unit": "mm", "description": "Solid wire electrode diameter"},
+        "density_g_cm3": {"type": "float", "unit": "g/cm^3", "description": "Base metal / filler density"},
+        "deposition_efficiency": {"type": "float", "unit": "dimensionless fraction", "description": "Transfer efficiency of filler wire to weld deposit"}
+      },
+      "output_variable": {
+        "deposition_rate": {"type": "float | None", "unit": "g/min", "description": "Filler metal deposition rate (None for non-wire-fed processes)"}
+      },
+      "process_applicability": ["GMAW"],
+      "physics_basis": "Volumetric flow rate of cylindrical wire converted to mass flow rate with process transfer efficiency factor."
+    },
+    {
+      "name": "heat_input_window_score",
+      "implementation_function": "_heat_input_window_score",
+      "source_file": "src/reasoning/param_advisor.py",
+      "line_range": "132-146",
+      "equation": "score = (1.0 - 0.3 * abs(HI - mid) / half_width) if (lo <= HI <= hi_max) else 0.0",
+      "input_variables": {
+        "hi": {"type": "float", "unit": "kJ/mm", "description": "Calculated heat input"},
+        "hi_range": {"type": "list[float]", "unit": "kJ/mm", "description": "Standards window [lo, hi_max] for heat input"}
+      },
+      "output_variable": {
+        "score": {"type": "float", "unit": "dimensionless", "description": "Sweet-spot preference score in [0.0, 1.0]"}
+      },
+      "process_applicability": ["GMAW", "TIG", "SMAW"],
+      "physics_basis": "Triangular loss function favoring the midpoint of the WPS-allowed heat input window to balance penetration against distortion."
+    },
+    {
+      "name": "heat_input_window_distance",
+      "implementation_function": "_window_distance",
+      "source_file": "src/reasoning/param_advisor.py",
+      "line_range": "148-154",
+      "equation": "dist = (lo - HI) if HI < lo else ((HI - hi_max) if HI > hi_max else 0.0)",
+      "input_variables": {
+        "hi": {"type": "float", "unit": "kJ/mm", "description": "Calculated heat input"},
+        "hi_range": {"type": "list[float]", "unit": "kJ/mm", "description": "Standards window [lo, hi_max] for heat input"}
+      },
+      "output_variable": {
+        "dist": {"type": "float", "unit": "kJ/mm", "description": "Absolute distance to the closest boundary"}
+      },
+      "process_applicability": ["GMAW", "TIG", "SMAW"],
+      "physics_basis": "Fallback penalty metric to select the closest candidate when no grid point satisfies the standards window."
+    },
+    {
+      "name": "linear_parameter_interpolation",
+      "implementation_function": "_optimize (inner loop)",
+      "source_file": "src/reasoning/param_advisor.py",
+      "line_range": "217-230",
+      "equation": "frac = (I - I_lo) / (I_hi - I_lo); V = V_lo + frac * (V_hi - V_lo); WFR = WFR_lo + frac * (WFR_hi - WFR_lo)",
+      "input_variables": {
+        "current": {"type": "float", "unit": "A", "description": "Sampled current along grid axis"},
+        "welding_current_range": {"type": "list[float]", "unit": "A", "description": "Standards current range"},
+        "arc_voltage_range": {"type": "list[float]", "unit": "V", "description": "Standards voltage range"},
+        "wire_feed_rate_range": {"type": "list[float] | None", "unit": "m/min", "description": "Standards wire feed speed range"}
+      },
+      "output_variable": {
+        "voltage": {"type": "float", "unit": "V", "description": "Synchronized arc voltage"},
+        "wire_feed_rate": {"type": "float | None", "unit": "m/min", "description": "Synchronized wire feed speed"}
+      },
+      "process_applicability": ["GMAW", "TIG", "SMAW"],
+      "physics_basis": "Self-regulating arc characteristics in constant-voltage power sources where voltage and wire feed track current."
+    },
+    {
+      "name": "consumable_change_iso_deposition",
+      "implementation_function": "_consumable_change",
+      "source_file": "src/reasoning/param_advisor.py",
+      "line_range": "1010-1048",
+      "equation": "ratio = (d_table / d_override)^2; WFR_iso = round(WFR * ratio, 1)",
+      "input_variables": {
+        "table_diameter": {"type": "float", "unit": "mm", "description": "Standards baseline wire diameter"},
+        "diameter_override": {"type": "float", "unit": "mm", "description": "Operator specified wire diameter"},
+        "wfr": {"type": "float", "unit": "m/min", "description": "Optimized wire feed rate with override diameter"}
+      },
+      "output_variable": {
+        "wire_feed_for_same_deposition": {"type": "float", "unit": "m/min", "description": "Wire feed rate maintaining equal mass deposition rate"}
+      },
+      "process_applicability": ["GMAW"],
+      "physics_basis": "Continuity equation for solid wire mass deposition rate across varying wire cross-sectional areas."
+    },
+    {
+      "name": "live_deviation_metric",
+      "implementation_function": "compare_to_optimal",
+      "source_file": "src/reasoning/param_advisor.py",
+      "line_range": "538-571",
+      "equation": "dev_pct = round(((actual - hi) / mid) * 100, 1) if actual > hi else round(((lo - actual) / mid) * 100, 1)",
+      "input_variables": {
+        "actual": {"type": "float", "unit": "process unit", "description": "Live measured parameter reading"},
+        "range": {"type": "list[float]", "unit": "process unit", "description": "Allowed standards window [lo, hi]"}
+      },
+      "output_variable": {
+        "deviation_pct": {"type": "float", "unit": "%", "description": "Percentage deviation relative to window midpoint"},
+        "status": {"type": "str", "unit": "categorical", "description": "Status label: 'ok', 'too_high', 'too_low'"}
+      },
+      "process_applicability": ["GMAW", "TIG", "SMAW"],
+      "physics_basis": "Relative deviation assessment against approved process boundaries."
+    }
+  ],
+  "materials": {
+    "mild_steel": {
+      "density_g_cm3": 7.85,
+      "supported_processes": ["GMAW", "TIG", "SMAW"],
+      "thickness_bands": [
+        {"name": "thin", "range_mm": [1.0, 3.0]},
+        {"name": "medium", "range_mm": [3.0, 8.0]},
+        {"name": "thick", "range_mm": [8.0, 999.0]}
+      ]
+    },
+    "stainless_steel": {
+      "density_g_cm3": 7.90,
+      "supported_processes": ["GMAW", "TIG", "SMAW"],
+      "thickness_bands": [
+        {"name": "thin", "range_mm": [1.0, 3.0]},
+        {"name": "medium", "range_mm": [3.0, 8.0]},
+        {"name": "thick", "range_mm": [8.0, 999.0]}
+      ]
+    },
+    "aluminum": {
+      "density_g_cm3": 2.70,
+      "supported_processes": ["GMAW", "TIG"],
+      "thickness_bands": [
+        {"name": "thin", "range_mm": [1.0, 4.0]},
+        {"name": "medium", "range_mm": [4.0, 12.0]},
+        {"name": "thick", "range_mm": [12.0, 999.0]}
+      ]
+    }
+  },
+  "unsupported_materials": [
+    "titanium", "copper", "brass", "bronze", "cast iron", "nickel",
+    "inconel", "magnesium", "zinc", "lead", "gold", "silver", "tungsten carbide"
+  ],
+  "processes": {
+    "GMAW": {
+      "display_name": "GMAW (MIG/MAG)",
+      "aliases": ["mig", "mag", "gmaw", "mig/mag", "mig-mag"],
+      "arc_efficiency": 0.82,
+      "deposition_efficiency": 0.95,
+      "uses_wire_feed": true,
+      "uses_shielding_gas": true
+    },
+    "TIG": {
+      "display_name": "GTAW (TIG)",
+      "aliases": ["tig", "gtaw"],
+      "arc_efficiency": 0.60,
+      "deposition_efficiency": 0.90,
+      "uses_wire_feed": false,
+      "uses_shielding_gas": true
+    },
+    "SMAW": {
+      "display_name": "SMAW (Stick)",
+      "aliases": ["smaw", "stick", "mma", "manual metal arc", "stick welding"],
+      "arc_efficiency": 0.75,
+      "deposition_efficiency": 0.65,
+      "uses_wire_feed": false,
+      "uses_shielding_gas": false
+    }
+  },
+  "optimization_parameters": {
+    "grid_steps_per_axis": 7,
+    "evaluated_axes": ["welding_current", "welding_speed"],
+    "derived_axes": ["arc_voltage", "wire_feed_rate"],
+    "objective_function": {
+      "wire_fed": "deposition_rate * heat_input_window_score",
+      "non_wire_fed": "heat_input_window_score"
+    },
+    "fallback_objective": "min(_window_distance(heat_input, hi_range))"
+  }
+}
