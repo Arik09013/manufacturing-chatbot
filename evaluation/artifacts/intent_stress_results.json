@@ -1,6 +1,6 @@
 {
   "step": "Step 8 — Intent Classification Stress Evaluation",
-  "timestamp": "2026-09-30 11:45:00",
+  "timestamp": "2026-09-30 14:07:15",
   "benchmark_summary": {
     "total_queries": 100,
     "intents": [
@@ -352,8 +352,8 @@
         "perturbation_type": "typos_spelling",
         "difficulty": "hard",
         "confidence": 1.0,
-        "matched_term": "weld",
-        "reason": "Matched keyword: 'weld'",
+        "matched_term": "mig",
+        "reason": "Matched keyword: 'mig'",
         "rationale": "Multiple typos in optimize, mild, steel while keeping 6mm."
       },
       {
@@ -384,8 +384,8 @@
         "perturbation_type": "word_order",
         "difficulty": "medium",
         "confidence": 1.0,
-        "matched_term": "welding",
-        "reason": "Matched keyword: 'welding'",
+        "matched_term": "mild steel",
+        "reason": "Matched keyword phrase: 'mild steel'",
         "rationale": "Inverted word order with 12 mm and mild steel."
       },
       {
@@ -400,8 +400,8 @@
         "perturbation_type": "noisy_redundant",
         "difficulty": "medium",
         "confidence": 1.0,
-        "matched_term": "setting",
-        "reason": "Matched keyword: 'setting'",
+        "matched_term": "mild steel",
+        "reason": "Matched keyword phrase: 'mild steel'",
         "rationale": "Lengthy conversational setup containing 2 mm mild steel."
       },
       {
@@ -432,8 +432,8 @@
         "perturbation_type": "clean_direct",
         "difficulty": "easy",
         "confidence": 1.0,
-        "matched_term": "welding",
-        "reason": "Matched keyword: 'welding'",
+        "matched_term": "voltage",
+        "reason": "Matched keyword: 'voltage'",
         "rationale": "Standard parameter request for 15 mm mild steel."
       },
       {
@@ -480,8 +480,8 @@
         "perturbation_type": "clean_direct",
         "difficulty": "easy",
         "confidence": 1.0,
-        "matched_term": "welding",
-        "reason": "Matched keyword: 'welding'",
+        "matched_term": "mild steel",
+        "reason": "Matched keyword phrase: 'mild steel'",
         "rationale": "Targets heat input setpoint for 8 mm mild steel."
       },
       {

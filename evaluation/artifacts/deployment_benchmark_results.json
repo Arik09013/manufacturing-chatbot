@@ -1,0 +1,1497 @@
+{
+  "metadata": {
+    "step": "Step 11: Deployment and Computational Efficiency Evaluation",
+    "timestamp": "2026-09-30T08:01:14Z",
+    "environment": {
+      "os": "Windows-10-10.0.26200-SP0",
+      "python_version": "3.11.0",
+      "processor": "AMD64 Family 25 Model 68 Stepping 1, AuthenticAMD",
+      "cpu_physical_cores": 8,
+      "cpu_logical_cores": 16,
+      "total_ram_gb": 23.82,
+      "available_ram_gb": 13.2,
+      "gpu_available": false,
+      "acceleration_mode": "CPU-only",
+      "pytorch_version": "2.12.0+cpu"
+    },
+    "total_benchmark_queries": 80
+  },
+  "end_to_end_latency": {
+    "total_queries_evaluated": 80,
+    "cold_latencies_by_category_ms": {
+      "anomaly": 5786.43,
+      "param": 0.66,
+      "knowledge": 16.29,
+      "general": 0.43,
+      "out_of_scope": 1.64
+    },
+    "overall_warm_latency_ms": {
+      "count": 160,
+      "mean": 585.756,
+      "median": 15.405,
+      "p95": 3335.809,
+      "p99": 3462.475,
+      "min": 0.068,
+      "max": 3592.571
+    },
+    "by_category_warm_latency_ms": {
+      "anomaly": {
+        "count": 30,
+        "mean": 3089.173,
+        "median": 3304.315,
+        "p95": 3464.755,
+        "p99": 3557.629,
+        "min": 0.545,
+        "max": 3592.571
+      },
+      "param": {
+        "count": 40,
+        "mean": 7.147,
+        "median": 0.601,
+        "p95": 20.093,
+        "p99": 20.969,
+        "min": 0.146,
+        "max": 21.234
+      },
+      "knowledge": {
+        "count": 40,
+        "mean": 16.442,
+        "median": 17.39,
+        "p95": 21.552,
+        "p99": 21.921,
+        "min": 0.214,
+        "max": 21.982
+      },
+      "general": {
+        "count": 30,
+        "mean": 1.493,
+        "median": 0.245,
+        "p95": 10.225,
+        "p99": 19.385,
+        "min": 0.068,
+        "max": 20.008
+      },
+      "out_of_scope": {
+        "count": 20,
+        "mean": 2.872,
+        "median": 1.055,
+        "p95": 16.971,
+        "p99": 19.325,
+        "min": 0.782,
+        "max": 19.914
+      }
+    }
+  },
+  "query_details": [
+    {
+      "query_id": "DEP_ANOM_01",
+      "query_text": "Why did station 1 stop at 14:00?",
+      "category": "anomaly",
+      "expected_route": "anomaly",
+      "detected_route": "anomaly",
+      "is_error_expected": false,
+      "is_error_observed": false,
+      "initial_latency_ms": 5786.43,
+      "warm_mean_latency_ms": 3240.78,
+      "warm_latencies_ms": [
+        3176.94,
+        3304.61
+      ]
+    },
+    {
+      "query_id": "DEP_ANOM_02",
+      "query_text": "What happened to station 2 around 10:30?",
+      "category": "anomaly",
+      "expected_route": "anomaly",
+      "detected_route": "anomaly",
+      "is_error_expected": false,
+      "is_error_observed": false,
+      "initial_latency_ms": 3157.03,
+      "warm_mean_latency_ms": 3235.54,
+      "warm_latencies_ms": [
+        3138.68,
+        3332.41
+      ]
+    },
+    {
+      "query_id": "DEP_ANOM_03",
+      "query_text": "Diagnose anomaly on station 3",
+      "category": "anomaly",
+      "expected_route": "anomaly",
+      "detected_route": "anomaly",
+      "is_error_expected": false,
+      "is_error_observed": false,
+      "initial_latency_ms": 11320.12,
+      "warm_mean_latency_ms": 3354.72,
+      "warm_latencies_ms": [
+        3338.35,
+        3371.1
+      ]
+    },
+    {
+      "query_id": "DEP_ANOM_04",
+      "query_text": "Station 1 shutdown investigation",
+      "category": "anomaly",
+      "expected_route": "anomaly",
+      "detected_route": "anomaly",
+      "is_error_expected": false,
+      "is_error_observed": false,
+      "initial_latency_ms": 3268.12,
+      "warm_mean_latency_ms": 3360.08,
+      "warm_latencies_ms": [
+        3283.85,
+        3436.3
+      ]
+    },
+    {
+      "query_id": "DEP_ANOM_05",
+      "query_text": "Why did line 2 trip after 08:15?",
+      "category": "anomaly",
+      "expected_route": "anomaly",
+      "detected_route": "anomaly",
+      "is_error_expected": false,
+      "is_error_observed": false,
+      "initial_latency_ms": 3260.71,
+      "warm_mean_latency_ms": 3261.1,
+      "warm_latencies_ms": [
+        3162.2,
+        3360.0
+      ]
+    },
+    {
+      "query_id": "DEP_ANOM_06",
+      "query_text": "Explain recent fault on machine 1",
+      "category": "anomaly",
+      "expected_route": "anomaly",
+      "detected_route": "anomaly",
+      "is_error_expected": false,
+      "is_error_observed": false,
+      "initial_latency_ms": 3291.11,
+      "warm_mean_latency_ms": 3267.59,
+      "warm_latencies_ms": [
+        3247.79,
+        3287.39
+      ]
+    },
+    {
+      "query_id": "DEP_ANOM_07",
+      "query_text": "Check station 3 sensor readings",
+      "category": "anomaly",
+      "expected_route": "anomaly",
+      "detected_route": "anomaly",
+      "is_error_expected": false,
+      "is_error_observed": false,
+      "initial_latency_ms": 3341.69,
+      "warm_mean_latency_ms": 3320.15,
+      "warm_latencies_ms": [
+        3328.8,
+        3311.5
+      ]
+    },
+    {
+      "query_id": "DEP_ANOM_08",
+      "query_text": "What caused the alarm on station 2?",
+      "category": "anomaly",
+      "expected_route": "anomaly",
+      "detected_route": "anomaly",
+      "is_error_expected": false,
+      "is_error_observed": false,
+      "initial_latency_ms": 3326.0,
+      "warm_mean_latency_ms": 3300.44,
+      "warm_latencies_ms": [
+        3298.82,
+        3302.05
+      ]
+    },
+    {
+      "query_id": "DEP_ANOM_09",
+      "query_text": "Station 1 root cause analysis",
+      "category": "anomaly",
+      "expected_route": "anomaly",
+      "detected_route": "anomaly",
+      "is_error_expected": false,
+      "is_error_observed": false,
+      "initial_latency_ms": 3364.95,
+      "warm_mean_latency_ms": 3252.35,
+      "warm_latencies_ms": [
+        3258.31,
+        3246.4
+      ]
+    },
+    {
+      "query_id": "DEP_ANOM_10",
+      "query_text": "Was there an anomaly on line 1 at 12:45?",
+      "category": "anomaly",
+      "expected_route": "anomaly",
+      "detected_route": "anomaly",
+      "is_error_expected": false,
+      "is_error_observed": false,
+      "initial_latency_ms": 3183.83,
+      "warm_mean_latency_ms": 3120.1,
+      "warm_latencies_ms": [
+        3116.5,
+        3123.69
+      ]
+    },
+    {
+      "query_id": "DEP_ANOM_11",
+      "query_text": "Status of station 2",
+      "category": "anomaly",
+      "expected_route": "anomaly",
+      "detected_route": "anomaly",
+      "is_error_expected": false,
+      "is_error_observed": false,
+      "initial_latency_ms": 3318.37,
+      "warm_mean_latency_ms": 3333.63,
+      "warm_latencies_ms": [
+        3335.68,
+        3331.58
+      ]
+    },
+    {
+      "query_id": "DEP_ANOM_12",
+      "query_text": "Why is station 3 showing warnings?",
+      "category": "anomaly",
+      "expected_route": "anomaly",
+      "detected_route": "anomaly",
+      "is_error_expected": false,
+      "is_error_observed": false,
+      "initial_latency_ms": 3305.56,
+      "warm_mean_latency_ms": 3389.82,
+      "warm_latencies_ms": [
+        3307.56,
+        3472.08
+      ]
+    },
+    {
+      "query_id": "DEP_ANOM_13",
+      "query_text": "Station 1 voltage drop diagnosis",
+      "category": "anomaly",
+      "expected_route": "anomaly",
+      "detected_route": "param",
+      "is_error_expected": false,
+      "is_error_observed": false,
+      "initial_latency_ms": 66.8,
+      "warm_mean_latency_ms": 0.6,
+      "warm_latencies_ms": [
+        0.65,
+        0.55
+      ]
+    },
+    {
+      "query_id": "DEP_ANOM_14",
+      "query_text": "Machine 2 temperature spike explanation",
+      "category": "anomaly",
+      "expected_route": "anomaly",
+      "detected_route": "anomaly",
+      "is_error_expected": false,
+      "is_error_observed": false,
+      "initial_latency_ms": 3307.91,
+      "warm_mean_latency_ms": 3376.52,
+      "warm_latencies_ms": [
+        3304.01,
+        3449.02
+      ]
+    },
+    {
+      "query_id": "DEP_ANOM_15",
+      "query_text": "Inspect line 3 welding current instability",
+      "category": "anomaly",
+      "expected_route": "anomaly",
+      "detected_route": "anomaly",
+      "is_error_expected": false,
+      "is_error_observed": false,
+      "initial_latency_ms": 3541.45,
+      "warm_mean_latency_ms": 3524.18,
+      "warm_latencies_ms": [
+        3455.8,
+        3592.57
+      ]
+    },
+    {
+      "query_id": "DEP_PARAM_01",
+      "query_text": "Best settings for 5mm mild steel MIG",
+      "category": "param",
+      "expected_route": "param",
+      "detected_route": "param",
+      "is_error_expected": false,
+      "is_error_observed": false,
+      "initial_latency_ms": 0.66,
+      "warm_mean_latency_ms": 0.4,
+      "warm_latencies_ms": [
+        0.41,
+        0.39
+      ]
+    },
+    {
+      "query_id": "DEP_PARAM_02",
+      "query_text": "Recommended current for 3mm aluminum TIG",
+      "category": "param",
+      "expected_route": "param",
+      "detected_route": "knowledge",
+      "is_error_expected": false,
+      "is_error_observed": false,
+      "initial_latency_ms": 7374.69,
+      "warm_mean_latency_ms": 16.02,
+      "warm_latencies_ms": [
+        15.03,
+        17.01
+      ]
+    },
+    {
+      "query_id": "DEP_PARAM_03",
+      "query_text": "Parameters for 10mm stainless steel SMAW",
+      "category": "param",
+      "expected_route": "param",
+      "detected_route": "knowledge",
+      "is_error_expected": false,
+      "is_error_observed": false,
+      "initial_latency_ms": 18.09,
+      "warm_mean_latency_ms": 15.77,
+      "warm_latencies_ms": [
+        14.99,
+        16.56
+      ]
+    },
+    {
+      "query_id": "DEP_PARAM_04",
+      "query_text": "What welding speed for 6mm mild steel?",
+      "category": "param",
+      "expected_route": "param",
+      "detected_route": "knowledge",
+      "is_error_expected": false,
+      "is_error_observed": false,
+      "initial_latency_ms": 16.64,
+      "warm_mean_latency_ms": 18.86,
+      "warm_latencies_ms": [
+        21.23,
+        16.49
+      ]
+    },
+    {
+      "query_id": "DEP_PARAM_05",
+      "query_text": "Optimal voltage for 2mm aluminum GMAW",
+      "category": "param",
+      "expected_route": "param",
+      "detected_route": "param",
+      "is_error_expected": false,
+      "is_error_observed": false,
+      "initial_latency_ms": 0.64,
+      "warm_mean_latency_ms": 0.43,
+      "warm_latencies_ms": [
+        0.44,
+        0.42
+      ]
+    },
+    {
+      "query_id": "DEP_PARAM_06",
+      "query_text": "What settings for 4mm stainless sheet TIG?",
+      "category": "param",
+      "expected_route": "param",
+      "detected_route": "param",
+      "is_error_expected": false,
+      "is_error_observed": false,
+      "initial_latency_ms": 0.59,
+      "warm_mean_latency_ms": 0.38,
+      "warm_latencies_ms": [
+        0.39,
+        0.37
+      ]
+    },
+    {
+      "query_id": "DEP_PARAM_07",
+      "query_text": "Wire feed rate for 8mm mild steel MIG",
+      "category": "param",
+      "expected_route": "param",
+      "detected_route": "general",
+      "is_error_expected": false,
+      "is_error_observed": false,
+      "initial_latency_ms": 0.19,
+      "warm_mean_latency_ms": 0.15,
+      "warm_latencies_ms": [
+        0.15,
+        0.15
+      ]
+    },
+    {
+      "query_id": "DEP_PARAM_08",
+      "query_text": "Heat input for 15mm mild steel plate",
+      "category": "param",
+      "expected_route": "param",
+      "detected_route": "knowledge",
+      "is_error_expected": false,
+      "is_error_observed": false,
+      "initial_latency_ms": 18.22,
+      "warm_mean_latency_ms": 17.13,
+      "warm_latencies_ms": [
+        15.89,
+        18.37
+      ]
+    },
+    {
+      "query_id": "DEP_PARAM_09",
+      "query_text": "If I use 1.6 mm wire for 5mm mild steel MIG what should wire feed be?",
+      "category": "param",
+      "expected_route": "param",
+      "detected_route": "param",
+      "is_error_expected": false,
+      "is_error_observed": false,
+      "initial_latency_ms": 0.98,
+      "warm_mean_latency_ms": 0.65,
+      "warm_latencies_ms": [
+        0.65,
+        0.65
+      ]
+    },
+    {
+      "query_id": "DEP_PARAM_10",
+      "query_text": "Run 6mm stainless steel at 220 A current",
+      "category": "param",
+      "expected_route": "param",
+      "detected_route": "param",
+      "is_error_expected": false,
+      "is_error_observed": false,
+      "initial_latency_ms": 0.71,
+      "warm_mean_latency_ms": 0.43,
+      "warm_latencies_ms": [
+        0.44,
+        0.42
+      ]
+    },
+    {
+      "query_id": "DEP_PARAM_11",
+      "query_text": "Voltage more than 23 for 5mm mild steel",
+      "category": "param",
+      "expected_route": "param",
+      "detected_route": "knowledge",
+      "is_error_expected": false,
+      "is_error_observed": false,
+      "initial_latency_ms": 15.78,
+      "warm_mean_latency_ms": 15.31,
+      "warm_latencies_ms": [
+        15.9,
+        14.73
+      ]
+    },
+    {
+      "query_id": "DEP_PARAM_12",
+      "query_text": "Speed at least 350 mm/min for 3mm aluminum",
+      "category": "param",
+      "expected_route": "param",
+      "detected_route": "param",
+      "is_error_expected": false,
+      "is_error_observed": false,
+      "initial_latency_ms": 0.8,
+      "warm_mean_latency_ms": 0.48,
+      "warm_latencies_ms": [
+        0.49,
+        0.46
+      ]
+    },
+    {
+      "query_id": "DEP_PARAM_13",
+      "query_text": "Recommended settings for 1.5mm stainless sheet",
+      "category": "param",
+      "expected_route": "param",
+      "detected_route": "param",
+      "is_error_expected": false,
+      "is_error_observed": false,
+      "initial_latency_ms": 0.65,
+      "warm_mean_latency_ms": 1.61,
+      "warm_latencies_ms": [
+        2.56,
+        0.66
+      ]
+    },
+    {
+      "query_id": "DEP_PARAM_14",
+      "query_text": "Parameters for 20mm thick steel plate SMAW",
+      "category": "param",
+      "expected_route": "param",
+      "detected_route": "knowledge",
+      "is_error_expected": false,
+      "is_error_observed": false,
+      "initial_latency_ms": 17.56,
+      "warm_mean_latency_ms": 18.51,
+      "warm_latencies_ms": [
+        20.55,
+        16.47
+      ]
+    },
+    {
+      "query_id": "DEP_PARAM_15",
+      "query_text": "Current for 8mm aluminum GMAW with 1.2 wire",
+      "category": "param",
+      "expected_route": "param",
+      "detected_route": "knowledge",
+      "is_error_expected": false,
+      "is_error_observed": false,
+      "initial_latency_ms": 19.89,
+      "warm_mean_latency_ms": 17.29,
+      "warm_latencies_ms": [
+        16.43,
+        18.15
+      ]
+    },
+    {
+      "query_id": "DEP_PARAM_16",
+      "query_text": "Stick welding parameters for 5mm carbon steel",
+      "category": "param",
+      "expected_route": "param",
+      "detected_route": "knowledge",
+      "is_error_expected": false,
+      "is_error_observed": false,
+      "initial_latency_ms": 15.66,
+      "warm_mean_latency_ms": 17.92,
+      "warm_latencies_ms": [
+        20.07,
+        15.78
+      ]
+    },
+    {
+      "query_id": "DEP_PARAM_17",
+      "query_text": "TIG settings for 1mm thin stainless steel tube",
+      "category": "param",
+      "expected_route": "param",
+      "detected_route": "param",
+      "is_error_expected": false,
+      "is_error_observed": false,
+      "initial_latency_ms": 0.61,
+      "warm_mean_latency_ms": 0.41,
+      "warm_latencies_ms": [
+        0.35,
+        0.48
+      ]
+    },
+    {
+      "query_id": "DEP_PARAM_18",
+      "query_text": "Wire feed speed for 12mm steel plate welding",
+      "category": "param",
+      "expected_route": "param",
+      "detected_route": "param",
+      "is_error_expected": false,
+      "is_error_observed": false,
+      "initial_latency_ms": 1.92,
+      "warm_mean_latency_ms": 0.54,
+      "warm_latencies_ms": [
+        0.55,
+        0.53
+      ]
+    },
+    {
+      "query_id": "DEP_PARAM_19",
+      "query_text": "Current between 180 to 220 for 6mm mild steel",
+      "category": "param",
+      "expected_route": "param",
+      "detected_route": "param",
+      "is_error_expected": false,
+      "is_error_observed": false,
+      "initial_latency_ms": 1.56,
+      "warm_mean_latency_ms": 0.38,
+      "warm_latencies_ms": [
+        0.39,
+        0.37
+      ]
+    },
+    {
+      "query_id": "DEP_PARAM_20",
+      "query_text": "Voltage 24-26 V for 8mm steel MIG",
+      "category": "param",
+      "expected_route": "param",
+      "detected_route": "param",
+      "is_error_expected": false,
+      "is_error_observed": false,
+      "initial_latency_ms": 0.42,
+      "warm_mean_latency_ms": 0.26,
+      "warm_latencies_ms": [
+        0.29,
+        0.22
+      ]
+    },
+    {
+      "query_id": "DEP_KNOW_01",
+      "query_text": "What causes porosity in GMAW welds?",
+      "category": "knowledge",
+      "expected_route": "knowledge",
+      "detected_route": "knowledge",
+      "is_error_expected": false,
+      "is_error_observed": false,
+      "initial_latency_ms": 16.29,
+      "warm_mean_latency_ms": 19.13,
+      "warm_latencies_ms": [
+        21.98,
+        16.27
+      ]
+    },
+    {
+      "query_id": "DEP_KNOW_02",
+      "query_text": "How do I prevent undercut in horizontal fillet welds?",
+      "category": "knowledge",
+      "expected_route": "knowledge",
+      "detected_route": "knowledge",
+      "is_error_expected": false,
+      "is_error_observed": false,
+      "initial_latency_ms": 21.52,
+      "warm_mean_latency_ms": 18.65,
+      "warm_latencies_ms": [
+        16.7,
+        20.6
+      ]
+    },
+    {
+      "query_id": "DEP_KNOW_03",
+      "query_text": "What shielding gas should I use for MIG welding aluminum?",
+      "category": "knowledge",
+      "expected_route": "knowledge",
+      "detected_route": "knowledge",
+      "is_error_expected": false,
+      "is_error_observed": false,
+      "initial_latency_ms": 16.89,
+      "warm_mean_latency_ms": 18.02,
+      "warm_latencies_ms": [
+        19.72,
+        16.31
+      ]
+    },
+    {
+      "query_id": "DEP_KNOW_04",
+      "query_text": "What is the difference between E6013 and E7018 stick welding electrodes?",
+      "category": "knowledge",
+      "expected_route": "knowledge",
+      "detected_route": "knowledge",
+      "is_error_expected": false,
+      "is_error_observed": false,
+      "initial_latency_ms": 21.2,
+      "warm_mean_latency_ms": 19.26,
+      "warm_latencies_ms": [
+        21.42,
+        17.1
+      ]
+    },
+    {
+      "query_id": "DEP_KNOW_05",
+      "query_text": "How do I stop solidification cracking in stainless steel?",
+      "category": "knowledge",
+      "expected_route": "knowledge",
+      "detected_route": "knowledge",
+      "is_error_expected": false,
+      "is_error_observed": false,
+      "initial_latency_ms": 21.08,
+      "warm_mean_latency_ms": 17.67,
+      "warm_latencies_ms": [
+        16.74,
+        18.6
+      ]
+    },
+    {
+      "query_id": "DEP_KNOW_06",
+      "query_text": "What causes excessive spatter during MAG welding?",
+      "category": "knowledge",
+      "expected_route": "knowledge",
+      "detected_route": "knowledge",
+      "is_error_expected": false,
+      "is_error_observed": false,
+      "initial_latency_ms": 15.89,
+      "warm_mean_latency_ms": 17.1,
+      "warm_latencies_ms": [
+        17.28,
+        16.92
+      ]
+    },
+    {
+      "query_id": "DEP_KNOW_07",
+      "query_text": "Explain tungsten inclusion defects in TIG welding",
+      "category": "knowledge",
+      "expected_route": "knowledge",
+      "detected_route": "knowledge",
+      "is_error_expected": false,
+      "is_error_observed": false,
+      "initial_latency_ms": 15.96,
+      "warm_mean_latency_ms": 18.14,
+      "warm_latencies_ms": [
+        17.73,
+        18.55
+      ]
+    },
+    {
+      "query_id": "DEP_KNOW_08",
+      "query_text": "How does preheating prevent hydrogen-induced cracking?",
+      "category": "knowledge",
+      "expected_route": "knowledge",
+      "detected_route": "knowledge",
+      "is_error_expected": false,
+      "is_error_observed": false,
+      "initial_latency_ms": 16.67,
+      "warm_mean_latency_ms": 17.62,
+      "warm_latencies_ms": [
+        18.36,
+        16.87
+      ]
+    },
+    {
+      "query_id": "DEP_KNOW_09",
+      "query_text": "What causes lack of fusion in V-groove joints?",
+      "category": "knowledge",
+      "expected_route": "knowledge",
+      "detected_route": "knowledge",
+      "is_error_expected": false,
+      "is_error_observed": false,
+      "initial_latency_ms": 18.77,
+      "warm_mean_latency_ms": 17.59,
+      "warm_latencies_ms": [
+        16.3,
+        18.89
+      ]
+    },
+    {
+      "query_id": "DEP_KNOW_10",
+      "query_text": "Explain burn-through prevention on thin sheet metal",
+      "category": "knowledge",
+      "expected_route": "knowledge",
+      "detected_route": "general",
+      "is_error_expected": false,
+      "is_error_observed": false,
+      "initial_latency_ms": 0.47,
+      "warm_mean_latency_ms": 0.33,
+      "warm_latencies_ms": [
+        0.34,
+        0.33
+      ]
+    },
+    {
+      "query_id": "DEP_KNOW_11",
+      "query_text": "What is interpass temperature and why does it matter?",
+      "category": "knowledge",
+      "expected_route": "knowledge",
+      "detected_route": "knowledge",
+      "is_error_expected": false,
+      "is_error_observed": false,
+      "initial_latency_ms": 17.52,
+      "warm_mean_latency_ms": 19.71,
+      "warm_latencies_ms": [
+        17.88,
+        21.54
+      ]
+    },
+    {
+      "query_id": "DEP_KNOW_12",
+      "query_text": "How to weld dissimilar metals like carbon steel to stainless?",
+      "category": "knowledge",
+      "expected_route": "knowledge",
+      "detected_route": "knowledge",
+      "is_error_expected": false,
+      "is_error_observed": false,
+      "initial_latency_ms": 16.8,
+      "warm_mean_latency_ms": 19.1,
+      "warm_latencies_ms": [
+        21.83,
+        16.38
+      ]
+    },
+    {
+      "query_id": "DEP_KNOW_13",
+      "query_text": "Explain post weld heat treatment requirements",
+      "category": "knowledge",
+      "expected_route": "knowledge",
+      "detected_route": "general",
+      "is_error_expected": false,
+      "is_error_observed": false,
+      "initial_latency_ms": 0.33,
+      "warm_mean_latency_ms": 0.22,
+      "warm_latencies_ms": [
+        0.23,
+        0.21
+      ]
+    },
+    {
+      "query_id": "DEP_KNOW_14",
+      "query_text": "What causes incomplete root penetration?",
+      "category": "knowledge",
+      "expected_route": "knowledge",
+      "detected_route": "knowledge",
+      "is_error_expected": false,
+      "is_error_observed": false,
+      "initial_latency_ms": 18.67,
+      "warm_mean_latency_ms": 17.83,
+      "warm_latencies_ms": [
+        16.08,
+        19.58
+      ]
+    },
+    {
+      "query_id": "DEP_KNOW_15",
+      "query_text": "Explain backing gas purge procedures for stainless pipe",
+      "category": "knowledge",
+      "expected_route": "knowledge",
+      "detected_route": "knowledge",
+      "is_error_expected": false,
+      "is_error_observed": false,
+      "initial_latency_ms": 19.98,
+      "warm_mean_latency_ms": 15.78,
+      "warm_latencies_ms": [
+        16.83,
+        14.73
+      ]
+    },
+    {
+      "query_id": "DEP_KNOW_16",
+      "query_text": "How is Isaac Sim used for weld seam tracking?",
+      "category": "knowledge",
+      "expected_route": "knowledge",
+      "detected_route": "knowledge",
+      "is_error_expected": false,
+      "is_error_observed": false,
+      "initial_latency_ms": 18.17,
+      "warm_mean_latency_ms": 17.91,
+      "warm_latencies_ms": [
+        16.53,
+        19.3
+      ]
+    },
+    {
+      "query_id": "DEP_KNOW_17",
+      "query_text": "Explain the digital twin setup for the robotic welding cell",
+      "category": "knowledge",
+      "expected_route": "knowledge",
+      "detected_route": "knowledge",
+      "is_error_expected": false,
+      "is_error_observed": false,
+      "initial_latency_ms": 17.04,
+      "warm_mean_latency_ms": 17.8,
+      "warm_latencies_ms": [
+        19.28,
+        16.33
+      ]
+    },
+    {
+      "query_id": "DEP_KNOW_18",
+      "query_text": "How does synthetic sensor fault injection work in Omniverse?",
+      "category": "knowledge",
+      "expected_route": "knowledge",
+      "detected_route": "knowledge",
+      "is_error_expected": false,
+      "is_error_observed": false,
+      "initial_latency_ms": 19.83,
+      "warm_mean_latency_ms": 18.61,
+      "warm_latencies_ms": [
+        16.82,
+        20.39
+      ]
+    },
+    {
+      "query_id": "DEP_KNOW_19",
+      "query_text": "What sensors are simulated in the Isaac Sim welding cell?",
+      "category": "knowledge",
+      "expected_route": "knowledge",
+      "detected_route": "knowledge",
+      "is_error_expected": false,
+      "is_error_observed": false,
+      "initial_latency_ms": 17.14,
+      "warm_mean_latency_ms": 18.21,
+      "warm_latencies_ms": [
+        18.92,
+        17.5
+      ]
+    },
+    {
+      "query_id": "DEP_KNOW_20",
+      "query_text": "How does sim-to-real transfer apply to robotic welding path planning?",
+      "category": "knowledge",
+      "expected_route": "knowledge",
+      "detected_route": "knowledge",
+      "is_error_expected": false,
+      "is_error_observed": false,
+      "initial_latency_ms": 18.89,
+      "warm_mean_latency_ms": 20.17,
+      "warm_latencies_ms": [
+        21.27,
+        19.06
+      ]
+    },
+    {
+      "query_id": "DEP_GEN_01",
+      "query_text": "What cutting speed should I use for CNC milling 6061 aluminum?",
+      "category": "general",
+      "expected_route": "general",
+      "detected_route": "general",
+      "is_error_expected": false,
+      "is_error_observed": false,
+      "initial_latency_ms": 0.43,
+      "warm_mean_latency_ms": 0.3,
+      "warm_latencies_ms": [
+        0.31,
+        0.3
+      ]
+    },
+    {
+      "query_id": "DEP_GEN_02",
+      "query_text": "How to fix sink marks in thermoplastic injection molding?",
+      "category": "general",
+      "expected_route": "general",
+      "detected_route": "general",
+      "is_error_expected": false,
+      "is_error_observed": false,
+      "initial_latency_ms": 0.31,
+      "warm_mean_latency_ms": 0.29,
+      "warm_latencies_ms": [
+        0.29,
+        0.29
+      ]
+    },
+    {
+      "query_id": "DEP_GEN_03",
+      "query_text": "What is the formula for takt time on an assembly line?",
+      "category": "general",
+      "expected_route": "general",
+      "detected_route": "general",
+      "is_error_expected": false,
+      "is_error_observed": false,
+      "initial_latency_ms": 0.09,
+      "warm_mean_latency_ms": 0.09,
+      "warm_latencies_ms": [
+        0.1,
+        0.09
+      ]
+    },
+    {
+      "query_id": "DEP_GEN_04",
+      "query_text": "How does springback affect sheet metal bending on a press brake?",
+      "category": "general",
+      "expected_route": "general",
+      "detected_route": "general",
+      "is_error_expected": false,
+      "is_error_observed": false,
+      "initial_latency_ms": 0.29,
+      "warm_mean_latency_ms": 0.27,
+      "warm_latencies_ms": [
+        0.27,
+        0.27
+      ]
+    },
+    {
+      "query_id": "DEP_GEN_05",
+      "query_text": "Compare sand casting vs die casting for mass production",
+      "category": "general",
+      "expected_route": "general",
+      "detected_route": "general",
+      "is_error_expected": false,
+      "is_error_observed": false,
+      "initial_latency_ms": 0.26,
+      "warm_mean_latency_ms": 0.25,
+      "warm_latencies_ms": [
+        0.24,
+        0.25
+      ]
+    },
+    {
+      "query_id": "DEP_GEN_06",
+      "query_text": "What causes chatter during CNC lathe turning operations?",
+      "category": "general",
+      "expected_route": "general",
+      "detected_route": "general",
+      "is_error_expected": false,
+      "is_error_observed": false,
+      "initial_latency_ms": 0.38,
+      "warm_mean_latency_ms": 0.35,
+      "warm_latencies_ms": [
+        0.35,
+        0.35
+      ]
+    },
+    {
+      "query_id": "DEP_GEN_07",
+      "query_text": "Explain overall equipment effectiveness OEE calculation",
+      "category": "general",
+      "expected_route": "general",
+      "detected_route": "general",
+      "is_error_expected": false,
+      "is_error_observed": false,
+      "initial_latency_ms": 0.31,
+      "warm_mean_latency_ms": 0.29,
+      "warm_latencies_ms": [
+        0.29,
+        0.29
+      ]
+    },
+    {
+      "query_id": "DEP_GEN_08",
+      "query_text": "What are optimal 3D printing infill patterns for mechanical strength?",
+      "category": "general",
+      "expected_route": "general",
+      "detected_route": "general",
+      "is_error_expected": false,
+      "is_error_observed": false,
+      "initial_latency_ms": 0.14,
+      "warm_mean_latency_ms": 0.14,
+      "warm_latencies_ms": [
+        0.12,
+        0.16
+      ]
+    },
+    {
+      "query_id": "DEP_GEN_09",
+      "query_text": "How does carburizing heat treatment improve steel surface hardness?",
+      "category": "general",
+      "expected_route": "general",
+      "detected_route": "general",
+      "is_error_expected": false,
+      "is_error_observed": false,
+      "initial_latency_ms": 0.9,
+      "warm_mean_latency_ms": 0.88,
+      "warm_latencies_ms": [
+        0.89,
+        0.86
+      ]
+    },
+    {
+      "query_id": "DEP_GEN_10",
+      "query_text": "What causes flash in plastic injection mold tooling?",
+      "category": "general",
+      "expected_route": "general",
+      "detected_route": "general",
+      "is_error_expected": false,
+      "is_error_observed": false,
+      "initial_latency_ms": 0.23,
+      "warm_mean_latency_ms": 0.2,
+      "warm_latencies_ms": [
+        0.2,
+        0.2
+      ]
+    },
+    {
+      "query_id": "DEP_GEN_11",
+      "query_text": "Explain poka-yoke mistake proofing principles in manufacturing",
+      "category": "general",
+      "expected_route": "general",
+      "detected_route": "knowledge",
+      "is_error_expected": false,
+      "is_error_observed": false,
+      "initial_latency_ms": 17.81,
+      "warm_mean_latency_ms": 18.93,
+      "warm_latencies_ms": [
+        20.01,
+        17.86
+      ]
+    },
+    {
+      "query_id": "DEP_GEN_12",
+      "query_text": "How to calculate blanking tonnage for stainless sheet stamping?",
+      "category": "general",
+      "expected_route": "general",
+      "detected_route": "general",
+      "is_error_expected": false,
+      "is_error_observed": false,
+      "initial_latency_ms": 0.11,
+      "warm_mean_latency_ms": 0.07,
+      "warm_latencies_ms": [
+        0.07,
+        0.07
+      ]
+    },
+    {
+      "query_id": "DEP_GEN_13",
+      "query_text": "What is the difference between annealing and normalizing steel?",
+      "category": "general",
+      "expected_route": "general",
+      "detected_route": "general",
+      "is_error_expected": false,
+      "is_error_observed": false,
+      "initial_latency_ms": 0.12,
+      "warm_mean_latency_ms": 0.11,
+      "warm_latencies_ms": [
+        0.11,
+        0.11
+      ]
+    },
+    {
+      "query_id": "DEP_GEN_14",
+      "query_text": "Guidelines for GD&T true position tolerance callouts",
+      "category": "general",
+      "expected_route": "general",
+      "detected_route": "general",
+      "is_error_expected": false,
+      "is_error_observed": false,
+      "initial_latency_ms": 0.11,
+      "warm_mean_latency_ms": 0.1,
+      "warm_latencies_ms": [
+        0.09,
+        0.11
+      ]
+    },
+    {
+      "query_id": "DEP_GEN_15",
+      "query_text": "How to reduce cycle time in high-volume CNC machining cells?",
+      "category": "general",
+      "expected_route": "general",
+      "detected_route": "general",
+      "is_error_expected": false,
+      "is_error_observed": false,
+      "initial_latency_ms": 0.12,
+      "warm_mean_latency_ms": 0.11,
+      "warm_latencies_ms": [
+        0.11,
+        0.11
+      ]
+    },
+    {
+      "query_id": "DEP_OOS_01",
+      "query_text": "Write a poem about the sunrise over mountains",
+      "category": "out_of_scope",
+      "expected_route": "out_of_scope",
+      "detected_route": "knowledge",
+      "is_error_expected": true,
+      "is_error_observed": true,
+      "initial_latency_ms": 1.64,
+      "warm_mean_latency_ms": 1.06,
+      "warm_latencies_ms": [
+        1.06,
+        1.06
+      ]
+    },
+    {
+      "query_id": "DEP_OOS_02",
+      "query_text": "What is the capital city of France?",
+      "category": "out_of_scope",
+      "expected_route": "out_of_scope",
+      "detected_route": "knowledge",
+      "is_error_expected": true,
+      "is_error_observed": true,
+      "initial_latency_ms": 1.03,
+      "warm_mean_latency_ms": 0.9,
+      "warm_latencies_ms": [
+        0.9,
+        0.9
+      ]
+    },
+    {
+      "query_id": "DEP_OOS_03",
+      "query_text": "How do I bake chocolate chip cookies?",
+      "category": "out_of_scope",
+      "expected_route": "out_of_scope",
+      "detected_route": "knowledge",
+      "is_error_expected": true,
+      "is_error_observed": true,
+      "initial_latency_ms": 1.28,
+      "warm_mean_latency_ms": 2.1,
+      "warm_latencies_ms": [
+        1.14,
+        3.05
+      ]
+    },
+    {
+      "query_id": "DEP_OOS_04",
+      "query_text": "Explain quantum entanglement in theoretical physics",
+      "category": "out_of_scope",
+      "expected_route": "out_of_scope",
+      "detected_route": "knowledge",
+      "is_error_expected": true,
+      "is_error_observed": true,
+      "initial_latency_ms": 1.37,
+      "warm_mean_latency_ms": 1.07,
+      "warm_latencies_ms": [
+        1.09,
+        1.04
+      ]
+    },
+    {
+      "query_id": "DEP_OOS_05",
+      "query_text": "Who won the FIFA World Cup in 2022?",
+      "category": "out_of_scope",
+      "expected_route": "out_of_scope",
+      "detected_route": "knowledge",
+      "is_error_expected": true,
+      "is_error_observed": true,
+      "initial_latency_ms": 1.02,
+      "warm_mean_latency_ms": 0.94,
+      "warm_latencies_ms": [
+        0.96,
+        0.91
+      ]
+    },
+    {
+      "query_id": "DEP_OOS_06",
+      "query_text": "Tell me a joke about dogs",
+      "category": "out_of_scope",
+      "expected_route": "out_of_scope",
+      "detected_route": "knowledge",
+      "is_error_expected": true,
+      "is_error_observed": true,
+      "initial_latency_ms": 0.83,
+      "warm_mean_latency_ms": 0.78,
+      "warm_latencies_ms": [
+        0.78,
+        0.78
+      ]
+    },
+    {
+      "query_id": "DEP_OOS_07",
+      "query_text": "Help me write my resume for a marketing job",
+      "category": "out_of_scope",
+      "expected_route": "out_of_scope",
+      "detected_route": "knowledge",
+      "is_error_expected": true,
+      "is_error_observed": true,
+      "initial_latency_ms": 1.16,
+      "warm_mean_latency_ms": 1.02,
+      "warm_latencies_ms": [
+        1.02,
+        1.01
+      ]
+    },
+    {
+      "query_id": "DEP_OOS_08",
+      "query_text": "What is the current stock price of Apple?",
+      "category": "out_of_scope",
+      "expected_route": "out_of_scope",
+      "detected_route": "knowledge",
+      "is_error_expected": true,
+      "is_error_observed": false,
+      "initial_latency_ms": 20.25,
+      "warm_mean_latency_ms": 18.37,
+      "warm_latencies_ms": [
+        16.82,
+        19.91
+      ]
+    },
+    {
+      "query_id": "DEP_OOS_09",
+      "query_text": "Translate hello world into Spanish and French",
+      "category": "out_of_scope",
+      "expected_route": "out_of_scope",
+      "detected_route": "general",
+      "is_error_expected": true,
+      "is_error_observed": true,
+      "initial_latency_ms": 1.01,
+      "warm_mean_latency_ms": 1.14,
+      "warm_latencies_ms": [
+        1.05,
+        1.23
+      ]
+    },
+    {
+      "query_id": "DEP_OOS_10",
+      "query_text": "What movies are playing in theaters this weekend?",
+      "category": "out_of_scope",
+      "expected_route": "out_of_scope",
+      "detected_route": "knowledge",
+      "is_error_expected": true,
+      "is_error_observed": true,
+      "initial_latency_ms": 1.5,
+      "warm_mean_latency_ms": 1.35,
+      "warm_latencies_ms": [
+        1.36,
+        1.35
+      ]
+    }
+  ],
+  "component_profiling": {
+    "intent_classification": {
+      "mean_ms": 0.183,
+      "median_ms": 0.141,
+      "p95_ms": 0.524,
+      "min_ms": 0.036,
+      "max_ms": 0.547
+    },
+    "sensor_preprocessing": {
+      "mean_ms": 2314.964,
+      "median_ms": 2297.988,
+      "p95_ms": 2361.323,
+      "min_ms": 2294.299,
+      "max_ms": 2373.248
+    },
+    "tabular_model_inference": {
+      "mean_ms": 44.661,
+      "median_ms": 44.833,
+      "p95_ms": 47.611,
+      "min_ms": 41.504,
+      "max_ms": 48.287
+    },
+    "shap_explanation": {
+      "mean_ms": 47.581,
+      "median_ms": 45.38,
+      "p95_ms": 52.456,
+      "min_ms": 44.561,
+      "max_ms": 52.963
+    },
+    "lime_explanation": {
+      "mean_ms": 568.919,
+      "median_ms": 569.56,
+      "p95_ms": 574.194,
+      "min_ms": 561.96,
+      "max_ms": 574.482
+    },
+    "attention_explanation": {
+      "mean_ms": 21.24,
+      "median_ms": 21.052,
+      "p95_ms": 21.976,
+      "min_ms": 20.361,
+      "max_ms": 22.019
+    },
+    "physics_optimization": {
+      "mean_ms": 0.186,
+      "median_ms": 0.176,
+      "p95_ms": 0.231,
+      "min_ms": 0.174,
+      "max_ms": 0.3
+    },
+    "rag_retrieval": {
+      "mean_ms": 16.011,
+      "median_ms": 15.478,
+      "p95_ms": 18.662,
+      "min_ms": 13.036,
+      "max_ms": 19.052
+    },
+    "llm_synthesis": {
+      "mean_ms": 8045.897,
+      "median_ms": 8045.897,
+      "p95_ms": 10346.39,
+      "min_ms": 5489.794,
+      "max_ms": 10602.0
+    }
+  },
+  "throughput": {
+    "fast_routes_throughput": {
+      "query_count": 55,
+      "elapsed_seconds": 0.486,
+      "queries_per_sec": 113.15,
+      "queries_per_min": 6789.2
+    },
+    "by_category_throughput": {
+      "param": {
+        "query_count": 20,
+        "elapsed_seconds": 0.148,
+        "queries_per_sec": 135.05,
+        "queries_per_min": 8102.9,
+        "avg_latency_ms": 7.4
+      },
+      "knowledge": {
+        "query_count": 20,
+        "elapsed_seconds": 0.339,
+        "queries_per_sec": 59.03,
+        "queries_per_min": 3541.5,
+        "avg_latency_ms": 16.94
+      },
+      "general": {
+        "query_count": 15,
+        "elapsed_seconds": 0.026,
+        "queries_per_sec": 576.29,
+        "queries_per_min": 34577.5,
+        "avg_latency_ms": 1.74
+      },
+      "anomaly": {
+        "query_count": 15,
+        "elapsed_seconds": 47.585,
+        "queries_per_sec": 0.32,
+        "queries_per_min": 18.9,
+        "avg_latency_ms": 3172.33
+      }
+    }
+  },
+  "scaling": [
+    {
+      "query_count": 1,
+      "total_elapsed_s": 0.0008,
+      "avg_latency_ms": 0.81,
+      "queries_per_sec": 1233.96
+    },
+    {
+      "query_count": 10,
+      "total_elapsed_s": 0.1021,
+      "avg_latency_ms": 10.205,
+      "queries_per_sec": 97.99
+    },
+    {
+      "query_count": 25,
+      "total_elapsed_s": 0.2521,
+      "avg_latency_ms": 10.083,
+      "queries_per_sec": 99.17
+    },
+    {
+      "query_count": 50,
+      "total_elapsed_s": 0.5314,
+      "avg_latency_ms": 10.628,
+      "queries_per_sec": 94.09
+    },
+    {
+      "query_count": 100,
+      "total_elapsed_s": 1.0423,
+      "avg_latency_ms": 10.423,
+      "queries_per_sec": 95.94
+    }
+  ],
+  "stability": {
+    "param": {
+      "query": "Best settings for 5mm mild steel MIG",
+      "repeats": 5,
+      "all_identical": true,
+      "all_outputs_identical": true,
+      "mean_latency_ms": 0.48,
+      "std_latency_ms": 0.03,
+      "cv_percent": 7.21
+    },
+    "knowledge": {
+      "query": "What causes porosity in GMAW welds?",
+      "repeats": 5,
+      "all_identical": true,
+      "all_outputs_identical": true,
+      "mean_latency_ms": 17.3,
+      "std_latency_ms": 0.67,
+      "cv_percent": 3.89
+    },
+    "general": {
+      "query": "What is the formula for takt time on an assembly line?",
+      "repeats": 5,
+      "all_identical": true,
+      "all_outputs_identical": true,
+      "mean_latency_ms": 0.09,
+      "std_latency_ms": 0.02,
+      "cv_percent": 25.65
+    },
+    "anomaly": {
+      "query": "Why did station 1 stop at 14:00?",
+      "repeats": 5,
+      "all_identical": false,
+      "all_outputs_identical": false,
+      "mean_latency_ms": 3202.08,
+      "std_latency_ms": 59.76,
+      "cv_percent": 1.87
+    }
+  },
+  "failure_handling": {
+    "total_failure_scenarios": 5,
+    "passed_scenarios": 5,
+    "cases": [
+      {
+        "scenario": "out_of_scope_guard",
+        "description": "Non-manufacturing query rejected with OutOfScopeError",
+        "success": true
+      },
+      {
+        "scenario": "offline_fallback_synthesis",
+        "description": "Synthesis gracefully falls back to deterministic summary when backend unavailable",
+        "success": true
+      },
+      {
+        "scenario": "unsupported_material_param_advisor",
+        "description": "Unsupported metal produces explicit informative error without crashing",
+        "success": true
+      },
+      {
+        "scenario": "incompatible_process_rejection",
+        "description": "Incompatible process-material pair rejected with domain explanation",
+        "success": true
+      },
+      {
+        "scenario": "out_of_range_timestamp_handling",
+        "description": "Out of range timestamp handled gracefully without fatal crash",
+        "success": true
+      }
+    ]
+  },
+  "memory_progression_mb": {
+    "baseline_process": 272.61,
+    "models_initialized": 368.02,
+    "warm_inference": 779.48,
+    "peak_observed": 779.48
+  }
+}

@@ -1,0 +1,81 @@
+query_id,query_text,category,expected_route,detected_route,initial_latency_ms,warm_mean_latency_ms,is_error_observed
+DEP_ANOM_01,Why did station 1 stop at 14:00?,anomaly,anomaly,anomaly,5786.43,3240.78,False
+DEP_ANOM_02,What happened to station 2 around 10:30?,anomaly,anomaly,anomaly,3157.03,3235.54,False
+DEP_ANOM_03,Diagnose anomaly on station 3,anomaly,anomaly,anomaly,11320.12,3354.72,False
+DEP_ANOM_04,Station 1 shutdown investigation,anomaly,anomaly,anomaly,3268.12,3360.08,False
+DEP_ANOM_05,Why did line 2 trip after 08:15?,anomaly,anomaly,anomaly,3260.71,3261.1,False
+DEP_ANOM_06,Explain recent fault on machine 1,anomaly,anomaly,anomaly,3291.11,3267.59,False
+DEP_ANOM_07,Check station 3 sensor readings,anomaly,anomaly,anomaly,3341.69,3320.15,False
+DEP_ANOM_08,What caused the alarm on station 2?,anomaly,anomaly,anomaly,3326.0,3300.44,False
+DEP_ANOM_09,Station 1 root cause analysis,anomaly,anomaly,anomaly,3364.95,3252.35,False
+DEP_ANOM_10,Was there an anomaly on line 1 at 12:45?,anomaly,anomaly,anomaly,3183.83,3120.1,False
+DEP_ANOM_11,Status of station 2,anomaly,anomaly,anomaly,3318.37,3333.63,False
+DEP_ANOM_12,Why is station 3 showing warnings?,anomaly,anomaly,anomaly,3305.56,3389.82,False
+DEP_ANOM_13,Station 1 voltage drop diagnosis,anomaly,anomaly,param,66.8,0.6,False
+DEP_ANOM_14,Machine 2 temperature spike explanation,anomaly,anomaly,anomaly,3307.91,3376.52,False
+DEP_ANOM_15,Inspect line 3 welding current instability,anomaly,anomaly,anomaly,3541.45,3524.18,False
+DEP_PARAM_01,Best settings for 5mm mild steel MIG,param,param,param,0.66,0.4,False
+DEP_PARAM_02,Recommended current for 3mm aluminum TIG,param,param,knowledge,7374.69,16.02,False
+DEP_PARAM_03,Parameters for 10mm stainless steel SMAW,param,param,knowledge,18.09,15.77,False
+DEP_PARAM_04,What welding speed for 6mm mild steel?,param,param,knowledge,16.64,18.86,False
+DEP_PARAM_05,Optimal voltage for 2mm aluminum GMAW,param,param,param,0.64,0.43,False
+DEP_PARAM_06,What settings for 4mm stainless sheet TIG?,param,param,param,0.59,0.38,False
+DEP_PARAM_07,Wire feed rate for 8mm mild steel MIG,param,param,general,0.19,0.15,False
+DEP_PARAM_08,Heat input for 15mm mild steel plate,param,param,knowledge,18.22,17.13,False
+DEP_PARAM_09,If I use 1.6 mm wire for 5mm mild steel MIG what should wire feed be?,param,param,param,0.98,0.65,False
+DEP_PARAM_10,Run 6mm stainless steel at 220 A current,param,param,param,0.71,0.43,False
+DEP_PARAM_11,Voltage more than 23 for 5mm mild steel,param,param,knowledge,15.78,15.31,False
+DEP_PARAM_12,Speed at least 350 mm/min for 3mm aluminum,param,param,param,0.8,0.48,False
+DEP_PARAM_13,Recommended settings for 1.5mm stainless sheet,param,param,param,0.65,1.61,False
+DEP_PARAM_14,Parameters for 20mm thick steel plate SMAW,param,param,knowledge,17.56,18.51,False
+DEP_PARAM_15,Current for 8mm aluminum GMAW with 1.2 wire,param,param,knowledge,19.89,17.29,False
+DEP_PARAM_16,Stick welding parameters for 5mm carbon steel,param,param,knowledge,15.66,17.92,False
+DEP_PARAM_17,TIG settings for 1mm thin stainless steel tube,param,param,param,0.61,0.41,False
+DEP_PARAM_18,Wire feed speed for 12mm steel plate welding,param,param,param,1.92,0.54,False
+DEP_PARAM_19,Current between 180 to 220 for 6mm mild steel,param,param,param,1.56,0.38,False
+DEP_PARAM_20,Voltage 24-26 V for 8mm steel MIG,param,param,param,0.42,0.26,False
+DEP_KNOW_01,What causes porosity in GMAW welds?,knowledge,knowledge,knowledge,16.29,19.13,False
+DEP_KNOW_02,How do I prevent undercut in horizontal fillet welds?,knowledge,knowledge,knowledge,21.52,18.65,False
+DEP_KNOW_03,What shielding gas should I use for MIG welding aluminum?,knowledge,knowledge,knowledge,16.89,18.02,False
+DEP_KNOW_04,What is the difference between E6013 and E7018 stick welding electrodes?,knowledge,knowledge,knowledge,21.2,19.26,False
+DEP_KNOW_05,How do I stop solidification cracking in stainless steel?,knowledge,knowledge,knowledge,21.08,17.67,False
+DEP_KNOW_06,What causes excessive spatter during MAG welding?,knowledge,knowledge,knowledge,15.89,17.1,False
+DEP_KNOW_07,Explain tungsten inclusion defects in TIG welding,knowledge,knowledge,knowledge,15.96,18.14,False
+DEP_KNOW_08,How does preheating prevent hydrogen-induced cracking?,knowledge,knowledge,knowledge,16.67,17.62,False
+DEP_KNOW_09,What causes lack of fusion in V-groove joints?,knowledge,knowledge,knowledge,18.77,17.59,False
+DEP_KNOW_10,Explain burn-through prevention on thin sheet metal,knowledge,knowledge,general,0.47,0.33,False
+DEP_KNOW_11,What is interpass temperature and why does it matter?,knowledge,knowledge,knowledge,17.52,19.71,False
+DEP_KNOW_12,How to weld dissimilar metals like carbon steel to stainless?,knowledge,knowledge,knowledge,16.8,19.1,False
+DEP_KNOW_13,Explain post weld heat treatment requirements,knowledge,knowledge,general,0.33,0.22,False
+DEP_KNOW_14,What causes incomplete root penetration?,knowledge,knowledge,knowledge,18.67,17.83,False
+DEP_KNOW_15,Explain backing gas purge procedures for stainless pipe,knowledge,knowledge,knowledge,19.98,15.78,False
+DEP_KNOW_16,How is Isaac Sim used for weld seam tracking?,knowledge,knowledge,knowledge,18.17,17.91,False
+DEP_KNOW_17,Explain the digital twin setup for the robotic welding cell,knowledge,knowledge,knowledge,17.04,17.8,False
+DEP_KNOW_18,How does synthetic sensor fault injection work in Omniverse?,knowledge,knowledge,knowledge,19.83,18.61,False
+DEP_KNOW_19,What sensors are simulated in the Isaac Sim welding cell?,knowledge,knowledge,knowledge,17.14,18.21,False
+DEP_KNOW_20,How does sim-to-real transfer apply to robotic welding path planning?,knowledge,knowledge,knowledge,18.89,20.17,False
+DEP_GEN_01,What cutting speed should I use for CNC milling 6061 aluminum?,general,general,general,0.43,0.3,False
+DEP_GEN_02,How to fix sink marks in thermoplastic injection molding?,general,general,general,0.31,0.29,False
+DEP_GEN_03,What is the formula for takt time on an assembly line?,general,general,general,0.09,0.09,False
+DEP_GEN_04,How does springback affect sheet metal bending on a press brake?,general,general,general,0.29,0.27,False
+DEP_GEN_05,Compare sand casting vs die casting for mass production,general,general,general,0.26,0.25,False
+DEP_GEN_06,What causes chatter during CNC lathe turning operations?,general,general,general,0.38,0.35,False
+DEP_GEN_07,Explain overall equipment effectiveness OEE calculation,general,general,general,0.31,0.29,False
+DEP_GEN_08,What are optimal 3D printing infill patterns for mechanical strength?,general,general,general,0.14,0.14,False
+DEP_GEN_09,How does carburizing heat treatment improve steel surface hardness?,general,general,general,0.9,0.88,False
+DEP_GEN_10,What causes flash in plastic injection mold tooling?,general,general,general,0.23,0.2,False
+DEP_GEN_11,Explain poka-yoke mistake proofing principles in manufacturing,general,general,knowledge,17.81,18.93,False
+DEP_GEN_12,How to calculate blanking tonnage for stainless sheet stamping?,general,general,general,0.11,0.07,False
+DEP_GEN_13,What is the difference between annealing and normalizing steel?,general,general,general,0.12,0.11,False
+DEP_GEN_14,Guidelines for GD&T true position tolerance callouts,general,general,general,0.11,0.1,False
+DEP_GEN_15,How to reduce cycle time in high-volume CNC machining cells?,general,general,general,0.12,0.11,False
+DEP_OOS_01,Write a poem about the sunrise over mountains,out_of_scope,out_of_scope,knowledge,1.64,1.06,True
+DEP_OOS_02,What is the capital city of France?,out_of_scope,out_of_scope,knowledge,1.03,0.9,True
+DEP_OOS_03,How do I bake chocolate chip cookies?,out_of_scope,out_of_scope,knowledge,1.28,2.1,True
+DEP_OOS_04,Explain quantum entanglement in theoretical physics,out_of_scope,out_of_scope,knowledge,1.37,1.07,True
+DEP_OOS_05,Who won the FIFA World Cup in 2022?,out_of_scope,out_of_scope,knowledge,1.02,0.94,True
+DEP_OOS_06,Tell me a joke about dogs,out_of_scope,out_of_scope,knowledge,0.83,0.78,True
+DEP_OOS_07,Help me write my resume for a marketing job,out_of_scope,out_of_scope,knowledge,1.16,1.02,True
+DEP_OOS_08,What is the current stock price of Apple?,out_of_scope,out_of_scope,knowledge,20.25,18.37,False
+DEP_OOS_09,Translate hello world into Spanish and French,out_of_scope,out_of_scope,general,1.01,1.14,True
+DEP_OOS_10,What movies are playing in theaters this weekend?,out_of_scope,out_of_scope,knowledge,1.5,1.35,True

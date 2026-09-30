@@ -1,0 +1,38 @@
+{
+  "timestamp": "2026-09-30T08:01:14Z",
+  "total_queries": 80,
+  "environment": {
+    "os": "Windows-10-10.0.26200-SP0",
+    "acceleration_mode": "CPU-only",
+    "cpu_cores": "8 physical / 16 logical",
+    "total_ram_gb": 23.82
+  },
+  "warm_latency_median_ms": {
+    "anomaly": 3304.315,
+    "param": 0.601,
+    "knowledge": 17.39,
+    "general": 0.245,
+    "out_of_scope": 1.055
+  },
+  "warm_latency_p95_ms": {
+    "anomaly": 3464.755,
+    "param": 20.093,
+    "knowledge": 21.552,
+    "general": 10.225,
+    "out_of_scope": 16.971
+  },
+  "throughput_qps": {
+    "param": 135.05,
+    "knowledge": 59.03,
+    "general": 576.29,
+    "anomaly": 0.32
+  },
+  "memory_mb": {
+    "baseline_process": 272.61,
+    "models_initialized": 368.02,
+    "warm_inference": 779.48,
+    "peak_observed": 779.48
+  },
+  "stability_all_identical": false,
+  "failure_scenarios_passed": "5/5"
+}

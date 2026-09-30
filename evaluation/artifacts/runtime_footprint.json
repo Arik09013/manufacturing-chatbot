@@ -1,0 +1,135 @@
+{
+  "footprint_metadata": {
+    "step": "RESEARCH STEP 11: Deployment and Computational Efficiency Evaluation",
+    "timestamp": "2026-09-30",
+    "description": "Measured disk footprint of trained model weights, preprocessing artifacts, vector index, and runtime configuration."
+  },
+  "runtime_artifacts": {
+    "models": {
+      "random_forest_detector": {
+        "file": "models/anomaly.joblib",
+        "description": "Trained RandomForest anomaly detector + fitted StandardScaler pipeline",
+        "bytes": 543489,
+        "size_kb": 530.75,
+        "size_mb": 0.518
+      },
+      "distilbert_fault_classifier": {
+        "directory": "models/distilbert_fault/",
+        "description": "Fine-tuned DistilBERT transformer for text-modality classification and attention XAI",
+        "files": {
+          "model.safetensors": {"bytes": 267832560, "size_mb": 255.425},
+          "tokenizer.json": {"bytes": 711661, "size_mb": 0.679},
+          "config.json": {"bytes": 642, "size_mb": 0.001},
+          "tokenizer_config.json": {"bytes": 366, "size_mb": 0.0},
+          "training_args.bin": {"bytes": 5201, "size_mb": 0.005}
+        },
+        "total_bytes": 268550430,
+        "total_size_mb": 256.11
+      },
+      "rag_vector_index": {
+        "directory": "models/rag_index/",
+        "description": "Normalized sentence embeddings and passage metadata for hybrid retrieval",
+        "files": {
+          "embeddings.npy": {"bytes": 63104, "size_kb": 61.63, "size_mb": 0.06},
+          "passages.json": {"bytes": 51529, "size_kb": 50.32, "size_mb": 0.049},
+          "meta.json": {"bytes": 139, "size_kb": 0.14, "size_mb": 0.0}
+        },
+        "total_bytes": 114772,
+        "total_size_mb": 0.109
+      }
+    },
+    "data": {
+      "fused_processed_parquet": {
+        "file": "data/processed/fused.parquet",
+        "description": "Synchronized multimodal sensor, log, and note table",
+        "bytes": 519912,
+        "size_kb": 507.73,
+        "size_mb": 0.496
+      },
+      "raw_sensor_timeseries": {
+        "file": "data/raw/sensors.csv",
+        "description": "Raw multi-station welding sensor readings",
+        "bytes": 2083809,
+        "size_kb": 2034.97,
+        "size_mb": 1.987
+      },
+      "raw_machine_logs": {
+        "file": "data/raw/logs.csv",
+        "description": "Discrete PLC fault events and machine state changes",
+        "bytes": 30935,
+        "size_kb": 30.21,
+        "size_mb": 0.03
+      },
+      "raw_operator_notes": {
+        "file": "data/raw/notes.csv",
+        "description": "Free-form text shift log entries",
+        "bytes": 3399,
+        "size_kb": 3.32,
+        "size_mb": 0.003
+      },
+      "raw_ground_truth": {
+        "file": "data/raw/ground_truth.csv",
+        "description": "Verified historical anomaly labels",
+        "bytes": 4668,
+        "size_kb": 4.56,
+        "size_mb": 0.004
+      },
+      "knowledge_documents": {
+        "directory": "data/knowledge_docs/",
+        "description": "WPS guidelines and shielding gas reference documents",
+        "files": {
+          "shielding_gas_selection.md": {"bytes": 2188, "size_kb": 2.14, "size_mb": 0.002}
+        },
+        "total_bytes": 2188,
+        "total_size_mb": 0.002
+      }
+    },
+    "configuration": {
+      "welding_params": {
+        "file": "config/welding_params.yaml",
+        "description": "Encoded standards windows and material bounds",
+        "bytes": 15134,
+        "size_kb": 14.78,
+        "size_mb": 0.014
+      },
+      "welding_knowledge": {
+        "file": "config/welding_knowledge.yaml",
+        "description": "Curated welding defect, metallurgy, and troubleshooting knowledge base",
+        "bytes": 55456,
+        "size_kb": 54.16,
+        "size_mb": 0.053
+      },
+      "parameter_effects": {
+        "file": "config/parameter_effects.yaml",
+        "description": "Sensitivity directional qualitative defect effects",
+        "bytes": 4007,
+        "size_kb": 3.91,
+        "size_mb": 0.004
+      },
+      "cause_action_map": {
+        "file": "config/cause_action_map.yaml",
+        "description": "Root-cause hypothesis generation and corrective action mappings",
+        "bytes": 3166,
+        "size_kb": 3.09,
+        "size_mb": 0.003
+      },
+      "llm_config": {
+        "file": "config/llm.yaml",
+        "description": "LLM synthesis backend providers and models",
+        "bytes": 1820,
+        "size_kb": 1.78,
+        "size_mb": 0.002
+      }
+    }
+  },
+  "summary_footprint": {
+    "total_model_bytes": 269208691,
+    "total_model_mb": 256.737,
+    "total_data_bytes": 2644911,
+    "total_data_mb": 2.522,
+    "total_config_bytes": 79583,
+    "total_config_mb": 0.076,
+    "grand_total_disk_bytes": 271933185,
+    "grand_total_disk_mb": 259.335
+  }
+}

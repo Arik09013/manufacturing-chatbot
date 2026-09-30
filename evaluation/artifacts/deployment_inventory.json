@@ -1,0 +1,146 @@
+{
+  "inventory_metadata": {
+    "step": "RESEARCH STEP 11: Deployment and Computational Efficiency Evaluation",
+    "audit_date": "2026-09-30",
+    "primary_entry_points": ["src/api/main.py", "src/api/pipeline.py"],
+    "synthesizer_entry_point": "src/chat/synthesize.py",
+    "description": "Factual inventory of the runtime deployment architecture, pipeline routing, component execution paths, and model dependencies."
+  },
+  "runtime_architecture": {
+    "api_framework": "FastAPI (v0.1.0)",
+    "endpoints": [
+      {
+        "path": "/health",
+        "method": "GET",
+        "description": "Liveness probe returning {'status': 'ok'}",
+        "invokes_llm": false,
+        "invokes_models": false
+      },
+      {
+        "path": "/pipeline/raw",
+        "method": "POST",
+        "description": "Deterministic on-device inference returning structured JSON payload",
+        "invokes_llm": false,
+        "invokes_models": true
+      },
+      {
+        "path": "/chat",
+        "method": "POST",
+        "description": "End-to-end user query execution returning synthesized plain-language answer + raw payload",
+        "invokes_llm": true,
+        "invokes_models": true
+      }
+    ],
+    "orchestrator": {
+      "router_function": "src.api.pipeline.route_question",
+      "dispatch_function": "src.api.main._route_and_run",
+      "routing_decision_logic": [
+        "1. Check if query matches _OTHER_MANUFACTURING_TERMS -> route 'general'",
+        "2. Check if parse_param_query(question) is not None -> route 'param'",
+        "3. Check if _STATION_RE matches question -> route 'anomaly'",
+        "4. Otherwise fallback to route 'knowledge'"
+      ],
+      "intent_guard": "src.chat.intent.classify_intent (rejects out_of_scope before executing pipeline)"
+    }
+  },
+  "pipeline_routes": {
+    "anomaly": {
+      "handler": "src.api.pipeline.run_pipeline",
+      "purpose": "Multimodal sensor anomaly detection, fault classification, and explanation",
+      "executed_stages": [
+        "classify_intent (intent guard)",
+        "_parse_intent (station ID and timestamp parsing)",
+        "load_sensors, load_logs, load_ground_truth (CSV disk reads)",
+        "preprocess_sensors (StandardScaler + 30-min window feature extraction)",
+        "preprocess_logs (event code aggregation)",
+        "fuse (multimodal sensor + log tabular fusion)",
+        "_window_at (temporal window selection)",
+        "detector.predict_proba (RandomForest anomaly scoring)",
+        "AnomalyExplainer (TreeSHAP top-5 feature drivers)",
+        "get_default_lime_explainer (LIME local linear surrogate drivers)",
+        "identify_causes (rule-based root cause mapping)",
+        "get_recommendation (rule-based corrective actions)",
+        "compute_confidence (probabilistic calibration score)",
+        "explain_attention (DistilBERT self-attention on operator notes if present)"
+      ],
+      "caching": "@lru_cache on _load_bundle (RandomForest + scaler), @lru_cache on LIME background sample"
+    },
+    "param": {
+      "handler": "src.api.pipeline.run_param_pipeline",
+      "purpose": "Physics-based welding parameter optimization and sensitivity analysis",
+      "executed_stages": [
+        "parse_param_query (regular expression parameter parsing)",
+        "merge_param_context (multi-turn conversation state persistence)",
+        "recommend_parameters (7x7 grid search over current/speed with V/WFR interpolation)",
+        "_heat_input (closed-form thermal calculation)",
+        "_deposition_rate (closed-form mass deposition calculation)",
+        "_build_sensitivity (+/-1 step local perturbation table)"
+      ],
+      "caching": "@lru_cache on _load_params (welding_params.yaml), @lru_cache on _load_effects (parameter_effects.yaml)"
+    },
+    "knowledge": {
+      "handler": "src.api.pipeline.run_knowledge_pipeline",
+      "purpose": "RAG-grounded retrieval for welding defects, metallurgy, quality, and Isaac Sim integration",
+      "executed_stages": [
+        "classify_intent (intent guard)",
+        "match_knowledge (lexical keyword matching on curated knowledge base)",
+        "retrieve (hybrid semantic dense embedding + lexical BM25 reranking over corpus)",
+        "build_knowledge_summary (deterministic synthesis fallback)"
+      ],
+      "caching": "Global _INDEX in src.rag.retriever, @lru_cache on SentenceTransformer model"
+    },
+    "general": {
+      "handler": "src.api.pipeline.run_general_pipeline",
+      "purpose": "Non-welding manufacturing engineering advisory (machining, molding, casting, lean)",
+      "executed_stages": [
+        "classify_intent (intent guard)",
+        "Payload assembly (no deterministic grounding; handed directly to synthesis layer)"
+      ],
+      "caching": "None required (pure payload assembly)"
+    },
+    "out_of_scope": {
+      "handler": "src.chat.intent.classify_intent",
+      "purpose": "Rejection guard for non-manufacturing queries",
+      "executed_stages": [
+        "classify_intent (regex and keyword pattern scanning)",
+        "Raises OutOfScopeError (HTTP 400 rejection)"
+      ],
+      "caching": "None"
+    }
+  },
+  "runtime_components": {
+    "tabular_detector": {
+      "type": "RandomForestClassifier + StandardScaler",
+      "artifact_path": "models/anomaly.joblib",
+      "loading": "Lazy loaded via _load_bundle() on first anomaly query",
+      "hardware": "CPU (scikit-learn)"
+    },
+    "distilbert_transformer": {
+      "type": "AutoModel with output_attentions=True",
+      "artifact_path": "models/distilbert_fault/ and HuggingFace cache",
+      "loading": "Lazy loaded on first operator note attention request",
+      "hardware": "CPU (PyTorch 2.12.0+cpu, cuda=False)"
+    },
+    "rag_embedder": {
+      "type": "SentenceTransformer (all-MiniLM-L6-v2)",
+      "artifact_path": "models/rag_index/ (embeddings.npy, passages.json)",
+      "loading": "Lazy loaded on first knowledge retrieval query",
+      "hardware": "CPU (sentence-transformers / PyTorch)"
+    },
+    "llm_synthesis": {
+      "configured_default": "anthropic (with groq and local ollama support)",
+      "runtime_detected_active": "ollama (llama3.2 running on localhost)",
+      "fallback_behavior": "Deterministic grounded fallback text (_fallback_text) on timeout, error, or missing credentials",
+      "hardware": "Local CPU (Ollama) or Hosted API"
+    }
+  },
+  "hardware_environment": {
+    "os": "Windows 11 (build 10.0.26200)",
+    "python_version": "3.11.0",
+    "cpu_physical_cores": 8,
+    "cpu_logical_cores": 16,
+    "total_ram_gb": 23.82,
+    "gpu_available": false,
+    "acceleration_mode": "CPU-only"
+  }
+}
