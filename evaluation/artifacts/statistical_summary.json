@@ -1,0 +1,1295 @@
+{
+  "metadata": {
+    "timestamp": "2026-09-30T10:45:00Z",
+    "step": "RESEARCH STEP 12: Statistical Significance, Uncertainty & Effect-Size Analysis",
+    "total_audited_steps": 11
+  },
+  "model_comparison": {
+    "sample_size": 375,
+    "n_anomalies": 10,
+    "n_normal": 365,
+    "mcnemar_tests": {
+      "Random Forest vs DistilBERT": {
+        "b_model1_correct_model2_wrong": 0,
+        "c_model1_wrong_model2_correct": 0,
+        "discordant_pairs": 0,
+        "exact_p_value": 1.0,
+        "odds_ratio": 1.0,
+        "risk_difference": 0.0,
+        "is_significant_alpha_05": false
+      },
+      "Random Forest vs Logistic Regression": {
+        "b_model1_correct_model2_wrong": 1,
+        "c_model1_wrong_model2_correct": 0,
+        "discordant_pairs": 1,
+        "exact_p_value": 1.0,
+        "odds_ratio": "inf",
+        "risk_difference": 0.002667,
+        "is_significant_alpha_05": false
+      },
+      "Logistic Regression vs DistilBERT": {
+        "b_model1_correct_model2_wrong": 0,
+        "c_model1_wrong_model2_correct": 1,
+        "discordant_pairs": 1,
+        "exact_p_value": 1.0,
+        "odds_ratio": 0.0,
+        "risk_difference": -0.002667,
+        "is_significant_alpha_05": false
+      },
+      "Random Forest vs Support Vector Machine": {
+        "b_model1_correct_model2_wrong": 4,
+        "c_model1_wrong_model2_correct": 0,
+        "discordant_pairs": 4,
+        "exact_p_value": 0.125,
+        "odds_ratio": "inf",
+        "risk_difference": 0.010667,
+        "is_significant_alpha_05": false
+      },
+      "Random Forest vs Isolation Forest": {
+        "b_model1_correct_model2_wrong": 8,
+        "c_model1_wrong_model2_correct": 0,
+        "discordant_pairs": 8,
+        "exact_p_value": 0.007812,
+        "odds_ratio": "inf",
+        "risk_difference": 0.021333,
+        "is_significant_alpha_05": true
+      },
+      "Logistic Regression vs Isolation Forest": {
+        "b_model1_correct_model2_wrong": 7,
+        "c_model1_wrong_model2_correct": 0,
+        "discordant_pairs": 7,
+        "exact_p_value": 0.015625,
+        "odds_ratio": "inf",
+        "risk_difference": 0.018667,
+        "is_significant_alpha_05": true
+      },
+      "Support Vector Machine vs Isolation Forest": {
+        "b_model1_correct_model2_wrong": 6,
+        "c_model1_wrong_model2_correct": 2,
+        "discordant_pairs": 8,
+        "exact_p_value": 0.289062,
+        "odds_ratio": 3.0,
+        "risk_difference": 0.010667,
+        "is_significant_alpha_05": false
+      }
+    }
+  },
+  "multiseed_uncertainty": {
+    "seeds_evaluated": [
+      42,
+      123,
+      456,
+      789,
+      2026
+    ],
+    "n_seeds": 5,
+    "models": {
+      "Random Forest": {
+        "n": 5,
+        "mean": 1.0,
+        "std": 0.0,
+        "se": 0.0,
+        "cv_percent": 0.0,
+        "median": 1.0,
+        "iqr": 0.0,
+        "min": 1.0,
+        "max": 1.0,
+        "ci_lower": 1.0,
+        "ci_upper": 1.0,
+        "confidence_level": 0.95,
+        "seeds": [
+          42,
+          123,
+          456,
+          789,
+          2026
+        ],
+        "interpretation": "Deterministic performance on test split; zero variance observed across random seeds."
+      },
+      "Logistic Regression": {
+        "n": 5,
+        "mean": 0.9524,
+        "std": 0.0,
+        "se": 0.0,
+        "cv_percent": 0.0,
+        "median": 0.9524,
+        "iqr": 0.0,
+        "min": 0.9524,
+        "max": 0.9524,
+        "ci_lower": 0.9524,
+        "ci_upper": 0.9524,
+        "confidence_level": 0.95,
+        "seeds": [
+          42,
+          123,
+          456,
+          789,
+          2026
+        ],
+        "interpretation": "Deterministic performance on test split; zero variance observed across random seeds."
+      },
+      "Support Vector Machine": {
+        "n": 5,
+        "mean": 0.8182,
+        "std": 0.0,
+        "se": 0.0,
+        "cv_percent": 0.0,
+        "median": 0.8182,
+        "iqr": 0.0,
+        "min": 0.8182,
+        "max": 0.8182,
+        "ci_lower": 0.8182,
+        "ci_upper": 0.8182,
+        "confidence_level": 0.95,
+        "seeds": [
+          42,
+          123,
+          456,
+          789,
+          2026
+        ],
+        "interpretation": "Deterministic performance on test split; zero variance observed across random seeds."
+      },
+      "Isolation Forest": {
+        "n": 5,
+        "mean": 0.70964,
+        "std": 0.02022,
+        "se": 0.00904,
+        "cv_percent": 2.849,
+        "median": 0.7097,
+        "iqr": 0.0205,
+        "min": 0.6897,
+        "max": 0.7407,
+        "ci_lower": 0.68454,
+        "ci_upper": 0.73474,
+        "confidence_level": 0.95,
+        "seeds": [
+          42,
+          123,
+          456,
+          789,
+          2026
+        ],
+        "interpretation": "Observed standard deviation of 0.02022 across 5 seeds."
+      },
+      "DistilBERT (n=1)": {
+        "n": 1,
+        "mean": 1.0,
+        "std": 0.0,
+        "se": 0.0,
+        "cv_percent": 0.0,
+        "median": 1.0,
+        "iqr": 0.0,
+        "min": 1.0,
+        "max": 1.0,
+        "ci_lower": 1.0,
+        "ci_upper": 1.0,
+        "confidence_level": 0.95,
+        "seeds": [
+          42
+        ],
+        "interpretation": "Deterministic performance on test split; zero variance observed across random seeds."
+      }
+    },
+    "component_ablations": {
+      "FULL_COMPONENTS": {
+        "Random Forest": {
+          "n": 5,
+          "mean": 1.0,
+          "std": 0.0,
+          "se": 0.0,
+          "cv_percent": 0.0,
+          "median": 1.0,
+          "iqr": 0.0,
+          "min": 1.0,
+          "max": 1.0,
+          "ci_lower": 1.0,
+          "ci_upper": 1.0,
+          "confidence_level": 0.95
+        },
+        "Logistic Regression": {
+          "n": 5,
+          "mean": 0.9524,
+          "std": 0.0,
+          "se": 0.0,
+          "cv_percent": 0.0,
+          "median": 0.9524,
+          "iqr": 0.0,
+          "min": 0.9524,
+          "max": 0.9524,
+          "ci_lower": 0.9524,
+          "ci_upper": 0.9524,
+          "confidence_level": 0.95
+        }
+      },
+      "WITHOUT_STANDARD_SCALER": {
+        "Random Forest": {
+          "n": 5,
+          "mean": 1.0,
+          "std": 0.0,
+          "se": 0.0,
+          "cv_percent": 0.0,
+          "median": 1.0,
+          "iqr": 0.0,
+          "min": 1.0,
+          "max": 1.0,
+          "ci_lower": 1.0,
+          "ci_upper": 1.0,
+          "confidence_level": 0.95
+        },
+        "Logistic Regression": {
+          "n": 5,
+          "mean": 0.8696,
+          "std": 0.0,
+          "se": 0.0,
+          "cv_percent": 0.0,
+          "median": 0.8696,
+          "iqr": 0.0,
+          "min": 0.8696,
+          "max": 0.8696,
+          "ci_lower": 0.8696,
+          "ci_upper": 0.8696,
+          "confidence_level": 0.95
+        }
+      },
+      "WITHOUT_RANGE_FEATURES": {
+        "Random Forest": {
+          "n": 5,
+          "mean": 1.0,
+          "std": 0.0,
+          "se": 0.0,
+          "cv_percent": 0.0,
+          "median": 1.0,
+          "iqr": 0.0,
+          "min": 1.0,
+          "max": 1.0,
+          "ci_lower": 1.0,
+          "ci_upper": 1.0,
+          "confidence_level": 0.95
+        },
+        "Logistic Regression": {
+          "n": 5,
+          "mean": 0.9524,
+          "std": 0.0,
+          "se": 0.0,
+          "cv_percent": 0.0,
+          "median": 0.9524,
+          "iqr": 0.0,
+          "min": 0.9524,
+          "max": 0.9524,
+          "ci_lower": 0.9524,
+          "ci_upper": 0.9524,
+          "confidence_level": 0.95
+        }
+      },
+      "WITHOUT_DOMAIN_HEAT_INPUT": {
+        "Random Forest": {
+          "n": 5,
+          "mean": 1.0,
+          "std": 0.0,
+          "se": 0.0,
+          "cv_percent": 0.0,
+          "median": 1.0,
+          "iqr": 0.0,
+          "min": 1.0,
+          "max": 1.0,
+          "ci_lower": 1.0,
+          "ci_upper": 1.0,
+          "confidence_level": 0.95
+        },
+        "Logistic Regression": {
+          "n": 5,
+          "mean": 0.9524,
+          "std": 0.0,
+          "se": 0.0,
+          "cv_percent": 0.0,
+          "median": 0.9524,
+          "iqr": 0.0,
+          "min": 0.9524,
+          "max": 0.9524,
+          "ci_lower": 0.9524,
+          "ci_upper": 0.9524,
+          "confidence_level": 0.95
+        }
+      },
+      "WITHOUT_LOG_EVENT_COUNTS": {
+        "Random Forest": {
+          "n": 5,
+          "mean": 0.744,
+          "std": 0.01342,
+          "se": 0.006,
+          "cv_percent": 1.803,
+          "median": 0.75,
+          "iqr": 0.0,
+          "min": 0.72,
+          "max": 0.75,
+          "ci_lower": 0.72734,
+          "ci_upper": 0.76066,
+          "confidence_level": 0.95
+        },
+        "Logistic Regression": {
+          "n": 5,
+          "mean": 0.75,
+          "std": 0.0,
+          "se": 0.0,
+          "cv_percent": 0.0,
+          "median": 0.75,
+          "iqr": 0.0,
+          "min": 0.75,
+          "max": 0.75,
+          "ci_lower": 0.75,
+          "ci_upper": 0.75,
+          "confidence_level": 0.95
+        }
+      },
+      "WITHOUT_STD_FEATURES": {
+        "Random Forest": {
+          "n": 5,
+          "mean": 1.0,
+          "std": 0.0,
+          "se": 0.0,
+          "cv_percent": 0.0,
+          "median": 1.0,
+          "iqr": 0.0,
+          "min": 1.0,
+          "max": 1.0,
+          "ci_lower": 1.0,
+          "ci_upper": 1.0,
+          "confidence_level": 0.95
+        },
+        "Logistic Regression": {
+          "n": 5,
+          "mean": 1.0,
+          "std": 0.0,
+          "se": 0.0,
+          "cv_percent": 0.0,
+          "median": 1.0,
+          "iqr": 0.0,
+          "min": 1.0,
+          "max": 1.0,
+          "ci_lower": 1.0,
+          "ci_upper": 1.0,
+          "confidence_level": 0.95
+        }
+      },
+      "WITHOUT_MIN_MAX_FEATURES": {
+        "Random Forest": {
+          "n": 5,
+          "mean": 1.0,
+          "std": 0.0,
+          "se": 0.0,
+          "cv_percent": 0.0,
+          "median": 1.0,
+          "iqr": 0.0,
+          "min": 1.0,
+          "max": 1.0,
+          "ci_lower": 1.0,
+          "ci_upper": 1.0,
+          "confidence_level": 0.95
+        },
+        "Logistic Regression": {
+          "n": 5,
+          "mean": 0.9091,
+          "std": 0.0,
+          "se": 0.0,
+          "cv_percent": 0.0,
+          "median": 0.9091,
+          "iqr": 0.0,
+          "min": 0.9091,
+          "max": 0.9091,
+          "ci_lower": 0.9091,
+          "ci_upper": 0.9091,
+          "confidence_level": 0.95
+        }
+      },
+      "WITHOUT_BALANCED_CLASS_WEIGHTS": {
+        "Random Forest": {
+          "n": 5,
+          "mean": 1.0,
+          "std": 0.0,
+          "se": 0.0,
+          "cv_percent": 0.0,
+          "median": 1.0,
+          "iqr": 0.0,
+          "min": 1.0,
+          "max": 1.0,
+          "ci_lower": 1.0,
+          "ci_upper": 1.0,
+          "confidence_level": 0.95
+        },
+        "Logistic Regression": {
+          "n": 5,
+          "mean": 1.0,
+          "std": 0.0,
+          "se": 0.0,
+          "cv_percent": 0.0,
+          "median": 1.0,
+          "iqr": 0.0,
+          "min": 1.0,
+          "max": 1.0,
+          "ci_lower": 1.0,
+          "ci_upper": 1.0,
+          "confidence_level": 0.95
+        }
+      }
+    }
+  },
+  "station_variability": {
+    "stations_evaluated": [
+      "station_1",
+      "station_2",
+      "station_3"
+    ],
+    "n_stations": 3,
+    "samples_per_station": 639,
+    "anomalies_per_station": 20,
+    "models": {
+      "Random Forest": {
+        "per_station_f1": {
+          "station_1": 1.0,
+          "station_2": 1.0,
+          "station_3": 0.9048
+        },
+        "per_station_precision": {
+          "station_1": 1.0,
+          "station_2": 1.0,
+          "station_3": 0.8636
+        },
+        "per_station_recall": {
+          "station_1": 1.0,
+          "station_2": 1.0,
+          "station_3": 0.95
+        },
+        "mean_f1": 0.9683,
+        "std_f1": 0.055,
+        "range_f1": [
+          0.9048,
+          1.0
+        ],
+        "cv_percent": 5.68,
+        "pooled_macro_f1": 0.9683,
+        "station_3_degradation": 0.0952
+      },
+      "Logistic Regression": {
+        "per_station_f1": {
+          "station_1": 1.0,
+          "station_2": 1.0,
+          "station_3": 0.9756
+        },
+        "per_station_precision": {
+          "station_1": 1.0,
+          "station_2": 1.0,
+          "station_3": 0.9524
+        },
+        "per_station_recall": {
+          "station_1": 1.0,
+          "station_2": 1.0,
+          "station_3": 1.0
+        },
+        "mean_f1": 0.9919,
+        "std_f1": 0.0141,
+        "range_f1": [
+          0.9756,
+          1.0
+        ],
+        "cv_percent": 1.42,
+        "pooled_macro_f1": 0.9919,
+        "station_3_degradation": 0.0244
+      },
+      "Support Vector Machine": {
+        "per_station_f1": {
+          "station_1": 0.7826,
+          "station_2": 0.8511,
+          "station_3": 0.8163
+        },
+        "per_station_precision": {
+          "station_1": 0.6923,
+          "station_2": 0.7407,
+          "station_3": 0.6897
+        },
+        "per_station_recall": {
+          "station_1": 0.9,
+          "station_2": 1.0,
+          "station_3": 1.0
+        },
+        "mean_f1": 0.8167,
+        "std_f1": 0.0343,
+        "range_f1": [
+          0.7826,
+          0.8511
+        ],
+        "cv_percent": 4.19,
+        "pooled_macro_f1": 0.8167,
+        "station_3_degradation": -0.0337
+      },
+      "Isolation Forest": {
+        "per_station_f1": {
+          "station_1": 0.7143,
+          "station_2": 0.6897,
+          "station_3": 0.6909
+        },
+        "per_station_precision": {
+          "station_1": 0.5556,
+          "station_2": 0.5263,
+          "station_3": 0.5429
+        },
+        "per_station_recall": {
+          "station_1": 1.0,
+          "station_2": 1.0,
+          "station_3": 0.95
+        },
+        "mean_f1": 0.6983,
+        "std_f1": 0.0139,
+        "range_f1": [
+          0.6897,
+          0.7143
+        ],
+        "cv_percent": 1.99,
+        "pooled_macro_f1": 0.6983,
+        "station_3_degradation": 0.0234
+      },
+      "DistilBERT": {
+        "per_station_f1": {
+          "station_1": 0.9756,
+          "station_2": 1.0,
+          "station_3": 0.9756
+        },
+        "per_station_precision": {
+          "station_1": 0.9524,
+          "station_2": 1.0,
+          "station_3": 0.9524
+        },
+        "per_station_recall": {
+          "station_1": 1.0,
+          "station_2": 1.0,
+          "station_3": 1.0
+        },
+        "mean_f1": 0.9837,
+        "std_f1": 0.0141,
+        "range_f1": [
+          0.9756,
+          1.0
+        ],
+        "cv_percent": 1.43,
+        "pooled_macro_f1": 0.9837,
+        "station_3_degradation": 0.0
+      }
+    }
+  },
+  "ablation_effect_sizes": {
+    "modality_ablations": {
+      "SENSOR_ONLY": {
+        "Random Forest": {
+          "ablation_f1": 0.7273,
+          "absolute_f1_delta": -0.2727,
+          "relative_f1_percent_change": -27.27
+        },
+        "Logistic Regression": {
+          "ablation_f1": 0.8,
+          "absolute_f1_delta": -0.1524,
+          "relative_f1_percent_change": -16.0
+        },
+        "DistilBERT": {
+          "ablation_f1": 0.0,
+          "absolute_f1_delta": -1.0,
+          "relative_f1_percent_change": -100.0
+        }
+      },
+      "WITHOUT_SENSOR": {
+        "Random Forest": {
+          "ablation_f1": 0.7407,
+          "absolute_f1_delta": -0.2593,
+          "relative_f1_percent_change": -25.93
+        },
+        "Logistic Regression": {
+          "ablation_f1": 0.7407,
+          "absolute_f1_delta": -0.2117,
+          "relative_f1_percent_change": -22.23
+        },
+        "DistilBERT": {
+          "ablation_f1": 0.7407,
+          "absolute_f1_delta": -0.2593,
+          "relative_f1_percent_change": -25.93
+        }
+      },
+      "WITHOUT_LOGS": {
+        "Random Forest": {
+          "ablation_f1": 0.7826,
+          "absolute_f1_delta": -0.2174,
+          "relative_f1_percent_change": -21.74
+        },
+        "Logistic Regression": {
+          "ablation_f1": 0.8,
+          "absolute_f1_delta": -0.1524,
+          "relative_f1_percent_change": -16.0
+        },
+        "DistilBERT": {
+          "ablation_f1": 0.0,
+          "absolute_f1_delta": -1.0,
+          "relative_f1_percent_change": -100.0
+        }
+      },
+      "WITHOUT_OPERATOR_NOTES": {
+        "Random Forest": {
+          "ablation_f1": 1.0,
+          "absolute_f1_delta": 0.0,
+          "relative_f1_percent_change": 0.0
+        },
+        "Logistic Regression": {
+          "ablation_f1": 0.9524,
+          "absolute_f1_delta": 0.0,
+          "relative_f1_percent_change": 0.0
+        },
+        "DistilBERT": {
+          "ablation_f1": 1.0,
+          "absolute_f1_delta": 0.0,
+          "relative_f1_percent_change": 0.0
+        }
+      }
+    },
+    "component_ablations": {
+      "WITHOUT_STANDARD_SCALER": {
+        "Random Forest": {
+          "mean_f1": 1.0,
+          "absolute_f1_delta": 0.0,
+          "relative_percent_change": 0.0,
+          "cohens_d": 0.0,
+          "baseline_mean_f1": 1.0
+        },
+        "Logistic Regression": {
+          "mean_f1": 0.8696,
+          "absolute_f1_delta": -0.0828,
+          "relative_percent_change": -8.69,
+          "cohens_d": "inf",
+          "baseline_mean_f1": 0.9524
+        }
+      },
+      "WITHOUT_RANGE_FEATURES": {
+        "Random Forest": {
+          "mean_f1": 1.0,
+          "absolute_f1_delta": 0.0,
+          "relative_percent_change": 0.0,
+          "cohens_d": 0.0,
+          "baseline_mean_f1": 1.0
+        },
+        "Logistic Regression": {
+          "mean_f1": 0.9524,
+          "absolute_f1_delta": 0.0,
+          "relative_percent_change": 0.0,
+          "cohens_d": 0.0,
+          "baseline_mean_f1": 0.9524
+        }
+      },
+      "WITHOUT_DOMAIN_HEAT_INPUT": {
+        "Random Forest": {
+          "mean_f1": 1.0,
+          "absolute_f1_delta": 0.0,
+          "relative_percent_change": 0.0,
+          "cohens_d": 0.0,
+          "baseline_mean_f1": 1.0
+        },
+        "Logistic Regression": {
+          "mean_f1": 0.9524,
+          "absolute_f1_delta": 0.0,
+          "relative_percent_change": 0.0,
+          "cohens_d": 0.0,
+          "baseline_mean_f1": 0.9524
+        }
+      },
+      "WITHOUT_LOG_EVENT_COUNTS": {
+        "Random Forest": {
+          "mean_f1": 0.744,
+          "absolute_f1_delta": -0.256,
+          "relative_percent_change": -25.6,
+          "cohens_d": -19.0811,
+          "baseline_mean_f1": 1.0
+        },
+        "Logistic Regression": {
+          "mean_f1": 0.75,
+          "absolute_f1_delta": -0.2024,
+          "relative_percent_change": -21.25,
+          "cohens_d": -6522367468266284.0,
+          "baseline_mean_f1": 0.9524
+        }
+      },
+      "WITHOUT_STD_FEATURES": {
+        "Random Forest": {
+          "mean_f1": 1.0,
+          "absolute_f1_delta": 0.0,
+          "relative_percent_change": 0.0,
+          "cohens_d": 0.0,
+          "baseline_mean_f1": 1.0
+        },
+        "Logistic Regression": {
+          "mean_f1": 1.0,
+          "absolute_f1_delta": 0.0476,
+          "relative_percent_change": 5.0,
+          "cohens_d": "inf",
+          "baseline_mean_f1": 0.9524
+        }
+      },
+      "WITHOUT_MIN_MAX_FEATURES": {
+        "Random Forest": {
+          "mean_f1": 1.0,
+          "absolute_f1_delta": 0.0,
+          "relative_percent_change": 0.0,
+          "cohens_d": 0.0,
+          "baseline_mean_f1": 1.0
+        },
+        "Logistic Regression": {
+          "mean_f1": 0.9091,
+          "absolute_f1_delta": -0.0433,
+          "relative_percent_change": -4.55,
+          "cohens_d": "inf",
+          "baseline_mean_f1": 0.9524
+        }
+      },
+      "WITHOUT_BALANCED_CLASS_WEIGHTS": {
+        "Random Forest": {
+          "mean_f1": 1.0,
+          "absolute_f1_delta": 0.0,
+          "relative_percent_change": 0.0,
+          "cohens_d": 0.0,
+          "baseline_mean_f1": 1.0
+        },
+        "Logistic Regression": {
+          "mean_f1": 1.0,
+          "absolute_f1_delta": 0.0476,
+          "relative_percent_change": 5.0,
+          "cohens_d": "inf",
+          "baseline_mean_f1": 0.9524
+        }
+      }
+    }
+  },
+  "rag_retrieval": {
+    "total_queries": 40,
+    "ablation_conditions": {
+      "FULL_HYBRID": {
+        "Recall@1": 0.875,
+        "Recall@1_hits": "35/40",
+        "Recall@1_95ci": [
+          0.73197,
+          0.95814
+        ],
+        "Recall@1_delta_vs_full": 0.0,
+        "Recall@3": 0.975,
+        "Recall@3_hits": "39/40",
+        "Recall@3_95ci": [
+          0.86841,
+          0.99937
+        ],
+        "Recall@3_delta_vs_full": 0.0,
+        "Recall@4": 1.0,
+        "Recall@4_hits": "40/40",
+        "Recall@4_95ci": [
+          0.9119,
+          1.0
+        ],
+        "Recall@4_delta_vs_full": 0.0,
+        "MRR": 0.9271,
+        "MRR_delta_vs_full": 0.0
+      },
+      "DENSE_ONLY": {
+        "Recall@1": 0.8,
+        "Recall@1_hits": "32/40",
+        "Recall@1_95ci": [
+          0.64352,
+          0.90948
+        ],
+        "Recall@1_delta_vs_full": -0.075,
+        "Recall@3": 0.975,
+        "Recall@3_hits": "39/40",
+        "Recall@3_95ci": [
+          0.86841,
+          0.99937
+        ],
+        "Recall@3_delta_vs_full": 0.0,
+        "Recall@4": 0.975,
+        "Recall@4_hits": "39/40",
+        "Recall@4_95ci": [
+          0.86841,
+          0.99937
+        ],
+        "Recall@4_delta_vs_full": -0.025,
+        "MRR": 0.8925,
+        "MRR_delta_vs_full": -0.0346
+      },
+      "LEXICAL_ONLY": {
+        "Recall@1": 0.825,
+        "Recall@1_hits": "33/40",
+        "Recall@1_95ci": [
+          0.67221,
+          0.92662
+        ],
+        "Recall@1_delta_vs_full": -0.05,
+        "Recall@3": 0.95,
+        "Recall@3_hits": "38/40",
+        "Recall@3_95ci": [
+          0.8308,
+          0.99389
+        ],
+        "Recall@3_delta_vs_full": -0.025,
+        "Recall@4": 0.95,
+        "Recall@4_hits": "38/40",
+        "Recall@4_95ci": [
+          0.8308,
+          0.99389
+        ],
+        "Recall@4_delta_vs_full": -0.05,
+        "MRR": 0.8833,
+        "MRR_delta_vs_full": -0.0438
+      },
+      "WITHOUT_DENSE": {
+        "Recall@1": 0.975,
+        "Recall@1_hits": "39/40",
+        "Recall@1_95ci": [
+          0.86841,
+          0.99937
+        ],
+        "Recall@1_delta_vs_full": 0.1,
+        "Recall@3": 0.975,
+        "Recall@3_hits": "39/40",
+        "Recall@3_95ci": [
+          0.86841,
+          0.99937
+        ],
+        "Recall@3_delta_vs_full": 0.0,
+        "Recall@4": 0.975,
+        "Recall@4_hits": "39/40",
+        "Recall@4_95ci": [
+          0.86841,
+          0.99937
+        ],
+        "Recall@4_delta_vs_full": -0.025,
+        "MRR": 0.975,
+        "MRR_delta_vs_full": 0.0479
+      },
+      "WITHOUT_LEXICAL": {
+        "Recall@1": 0.825,
+        "Recall@1_hits": "33/40",
+        "Recall@1_95ci": [
+          0.67221,
+          0.92662
+        ],
+        "Recall@1_delta_vs_full": -0.05,
+        "Recall@3": 1.0,
+        "Recall@3_hits": "40/40",
+        "Recall@3_95ci": [
+          0.9119,
+          1.0
+        ],
+        "Recall@3_delta_vs_full": 0.025,
+        "Recall@4": 1.0,
+        "Recall@4_hits": "40/40",
+        "Recall@4_95ci": [
+          0.9119,
+          1.0
+        ],
+        "Recall@4_delta_vs_full": 0.0,
+        "MRR": 0.9083,
+        "MRR_delta_vs_full": -0.0188
+      },
+      "WITHOUT_TITLE": {
+        "Recall@1": 0.875,
+        "Recall@1_hits": "35/40",
+        "Recall@1_95ci": [
+          0.73197,
+          0.95814
+        ],
+        "Recall@1_delta_vs_full": 0.0,
+        "Recall@3": 0.975,
+        "Recall@3_hits": "39/40",
+        "Recall@3_95ci": [
+          0.86841,
+          0.99937
+        ],
+        "Recall@3_delta_vs_full": 0.0,
+        "Recall@4": 1.0,
+        "Recall@4_hits": "40/40",
+        "Recall@4_95ci": [
+          0.9119,
+          1.0
+        ],
+        "Recall@4_delta_vs_full": 0.0,
+        "MRR": 0.9271,
+        "MRR_delta_vs_full": 0.0
+      }
+    },
+    "paired_permutation_test_status": "N/A \u2014 raw per-query reciprocal-rank vectors across all 6 ablation conditions unavailable in existing artifacts"
+  },
+  "intent_uncertainty": {
+    "n_benchmark_queries": 100,
+    "overall_accuracy": {
+      "point_estimate": 0.86,
+      "bootstrap_95ci": [
+        0.79,
+        0.93
+      ],
+      "correct_count": 86
+    },
+    "binary_scope_guard_accuracy": {
+      "point_estimate": 0.98,
+      "bootstrap_95ci": [
+        0.95,
+        1.0
+      ],
+      "clopper_pearson_exact_95ci": [
+        0.92962,
+        0.99757
+      ],
+      "correct_count": 98
+    },
+    "macro_f1": 0.8487,
+    "per_class_metrics": {
+      "anomaly": {
+        "n_samples": 20,
+        "tp": 19,
+        "fp": 0,
+        "fn": 1,
+        "precision": 1.0,
+        "recall": 0.95,
+        "f1": 0.9744
+      },
+      "param": {
+        "n_samples": 20,
+        "tp": 8,
+        "fp": 0,
+        "fn": 12,
+        "precision": 1.0,
+        "recall": 0.4,
+        "f1": 0.5714
+      },
+      "knowledge": {
+        "n_samples": 20,
+        "tp": 19,
+        "fp": 12,
+        "fn": 1,
+        "precision": 0.6129,
+        "recall": 0.95,
+        "f1": 0.7451
+      },
+      "general": {
+        "n_samples": 20,
+        "tp": 20,
+        "fp": 0,
+        "fn": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "out_of_scope": {
+        "n_samples": 20,
+        "tp": 20,
+        "fp": 2,
+        "fn": 0,
+        "precision": 0.9091,
+        "recall": 1.0,
+        "f1": 0.9524
+      }
+    },
+    "scope_rejection_guard": "100% (20/20 out_of_scope queries successfully caught by keyword guard)"
+  },
+  "xai_statistics": {
+    "n_samples": 60,
+    "n_anomalous": 10,
+    "n_normal": 50,
+    "means": {
+      "shap_stability_jaccard_k5": 1.0,
+      "lime_stability_jaccard_k5": 0.9278,
+      "top1_concentration_anomaly": 0.1788,
+      "top1_concentration_normal": 0.2737,
+      "entropy_anomaly": 3.844,
+      "entropy_normal": 3.8693
+    },
+    "fidelity_tests": {
+      "shap_vs_lime_auc": {
+        "n_total": 60,
+        "n_nonzero": 20,
+        "median_difference": 0.0,
+        "mean_difference": 0.00559,
+        "statistic": 46.0,
+        "p_value": 0.027594,
+        "is_significant_alpha_05": true
+      },
+      "shap_vs_random_auc": {
+        "n_total": 60,
+        "n_nonzero": 60,
+        "median_difference": -0.0346,
+        "mean_difference": 0.08494,
+        "statistic": 658.0,
+        "p_value": 0.049508,
+        "is_significant_alpha_05": true
+      },
+      "lime_vs_random_auc": {
+        "n_total": 60,
+        "n_nonzero": 60,
+        "median_difference": -0.0346,
+        "mean_difference": 0.07935,
+        "statistic": 654.0,
+        "p_value": 0.045419,
+        "is_significant_alpha_05": true
+      }
+    },
+    "stability_tests": {
+      "shap_vs_lime_stability_k5": {
+        "n_total": 60,
+        "n_nonzero": 13,
+        "median_difference": 0.0,
+        "mean_difference": 0.07222,
+        "statistic": 0.0,
+        "p_value": 0.000311,
+        "is_significant_alpha_05": true
+      }
+    },
+    "condition_tests": {
+      "top1_concentration_anomaly_vs_normal": {
+        "n1": 10,
+        "n2": 50,
+        "median_1": 0.1706,
+        "median_2": 0.26505,
+        "statistic": 7.0,
+        "p_value": 2e-06,
+        "is_significant_alpha_05": true
+      },
+      "entropy_anomaly_vs_normal": {
+        "n1": 10,
+        "n2": 50,
+        "median_1": 3.82835,
+        "median_2": 3.88565,
+        "statistic": 220.0,
+        "p_value": 0.558445,
+        "is_significant_alpha_05": false
+      }
+    }
+  },
+  "physics_statistics": {
+    "summary": {
+      "timestamp": "2026-09-30T05:57:31Z",
+      "scenarios_evaluated": 144,
+      "solver_exact_match_pct": 100.0,
+      "grid_optimizer_match_pct": 100.0,
+      "heat_input_tolerance_pct": 100.0,
+      "heat_input_mean_abs_error": 0.0006602878258890078,
+      "deposition_rate_tolerance_pct": 100.0,
+      "deposition_rate_mean_abs_error": 0.08213046217703007,
+      "overall_constraint_satisfaction_pct": 100.0,
+      "edge_case_robustness_pct": 100.0,
+      "within_band_zero_change_pct": 100.0,
+      "internal_consistency_pct": 100.0,
+      "mean_latency_ms": 0.076,
+      "p95_latency_ms": 0.099
+    },
+    "binomial_proportions": {
+      "Mathematical Solver Exact Concordance": {
+        "successes": 144,
+        "total_trials": 144,
+        "observed_rate": 1.0,
+        "clopper_pearson_95ci": [
+          0.97471,
+          1.0
+        ],
+        "interpretation": "100% observed success (144/144) yields exact 95% Clopper-Pearson lower bound of 97.47%. Demonstrates that 100% empirical sample match does NOT imply 100% population certainty."
+      },
+      "Grid Optimizer Concordance": {
+        "successes": 144,
+        "total_trials": 144,
+        "observed_rate": 1.0,
+        "clopper_pearson_95ci": [
+          0.97471,
+          1.0
+        ],
+        "interpretation": "100% observed success (144/144) yields exact 95% Clopper-Pearson lower bound of 97.47%. Demonstrates that 100% empirical sample match does NOT imply 100% population certainty."
+      },
+      "Heat Input Physical Tolerance (0.01 kJ/mm)": {
+        "successes": 144,
+        "total_trials": 144,
+        "observed_rate": 1.0,
+        "clopper_pearson_95ci": [
+          0.97471,
+          1.0
+        ],
+        "interpretation": "100% observed success (144/144) yields exact 95% Clopper-Pearson lower bound of 97.47%. Demonstrates that 100% empirical sample match does NOT imply 100% population certainty."
+      },
+      "Deposition Rate Analytical Tolerance (0.1 g/min)": {
+        "successes": 96,
+        "total_trials": 96,
+        "observed_rate": 1.0,
+        "clopper_pearson_95ci": [
+          0.9623,
+          1.0
+        ],
+        "interpretation": "100% observed success (96/96) yields exact 95% Clopper-Pearson lower bound of 96.23%. Demonstrates that 100% empirical sample match does NOT imply 100% population certainty."
+      },
+      "Engineering Constraint Satisfaction Checks": {
+        "successes": 641,
+        "total_trials": 641,
+        "observed_rate": 1.0,
+        "clopper_pearson_95ci": [
+          0.99426,
+          1.0
+        ],
+        "interpretation": "100% observed success (641/641) yields exact 95% Clopper-Pearson lower bound of 99.43%. Demonstrates that 100% empirical sample match does NOT imply 100% population certainty."
+      },
+      "Boundary & Edge Case Graceful Handling": {
+        "successes": 15,
+        "total_trials": 15,
+        "observed_rate": 1.0,
+        "clopper_pearson_95ci": [
+          0.78198,
+          1.0
+        ],
+        "interpretation": "100% observed success (15/15) yields exact 95% Clopper-Pearson lower bound of 78.20%. Demonstrates that 100% empirical sample match does NOT imply 100% population certainty."
+      },
+      "Within-Band Perturbation Invariance": {
+        "successes": 144,
+        "total_trials": 144,
+        "observed_rate": 1.0,
+        "clopper_pearson_95ci": [
+          0.97471,
+          1.0
+        ],
+        "interpretation": "100% observed success (144/144) yields exact 95% Clopper-Pearson lower bound of 97.47%. Demonstrates that 100% empirical sample match does NOT imply 100% population certainty."
+      }
+    }
+  },
+  "deployment_latency": {
+    "total_queries_evaluated": 80,
+    "by_route_latency_ms": {
+      "param": {
+        "n": 20,
+        "mean": 7.1465,
+        "std": 8.38144,
+        "se": 1.87415,
+        "cv_percent": 117.28,
+        "median": 0.595,
+        "iqr": 15.89,
+        "min": 0.15,
+        "max": 18.86,
+        "ci_lower": 3.22387,
+        "ci_upper": 11.06913,
+        "confidence_level": 0.95,
+        "bootstrap_median_95ci": [
+          0.42,
+          15.895
+        ],
+        "p95_latency_ms": 18.53
+      },
+      "knowledge": {
+        "n": 20,
+        "mean": 16.4425,
+        "std": 5.61316,
+        "se": 1.25514,
+        "cv_percent": 34.138,
+        "median": 17.965,
+        "iqr": 1.15,
+        "min": 0.22,
+        "max": 20.17,
+        "ci_lower": 13.81546,
+        "ci_upper": 19.06954,
+        "confidence_level": 0.95,
+        "bootstrap_median_95ci": [
+          17.645,
+          18.65
+        ],
+        "p95_latency_ms": 19.73
+      },
+      "general": {
+        "n": 15,
+        "mean": 1.492,
+        "std": 4.82813,
+        "se": 1.24662,
+        "cv_percent": 323.601,
+        "median": 0.25,
+        "iqr": 0.185,
+        "min": 0.07,
+        "max": 18.93,
+        "ci_lower": -1.18173,
+        "ci_upper": 4.16573,
+        "confidence_level": 0.95,
+        "bootstrap_median_95ci": [
+          0.11,
+          0.29
+        ],
+        "p95_latency_ms": 6.29
+      },
+      "out_of_scope": {
+        "n": 10,
+        "mean": 2.873,
+        "std": 5.4575,
+        "se": 1.72581,
+        "cv_percent": 189.958,
+        "median": 1.065,
+        "iqr": 0.3375,
+        "min": 0.78,
+        "max": 18.37,
+        "ci_lower": -1.03106,
+        "ci_upper": 6.77706,
+        "confidence_level": 0.95,
+        "bootstrap_median_95ci": [
+          0.94,
+          1.62
+        ],
+        "p95_latency_ms": 11.05
+      },
+      "anomaly": {
+        "n": 15,
+        "mean": 3089.17333,
+        "std": 859.25645,
+        "se": 221.85906,
+        "cv_percent": 27.815,
+        "median": 3300.44,
+        "iqr": 110.835,
+        "min": 0.6,
+        "max": 3524.18,
+        "ci_lower": 2613.33297,
+        "ci_upper": 3565.01369,
+        "confidence_level": 0.95,
+        "bootstrap_median_95ci": [
+          3240.78,
+          3354.72
+        ],
+        "p95_latency_ms": 3430.13
+      }
+    },
+    "fast_vs_anomaly_comparison": {
+      "n1": 15,
+      "n2": 65,
+      "median_1": 3300.44,
+      "median_2": 1.07,
+      "statistic": 935.0,
+      "p_value": 1.7926288330023307e-08,
+      "is_significant_alpha_05": true
+    },
+    "cold_vs_warm_comparison": {
+      "n_total": 80,
+      "n_nonzero": 78,
+      "median_difference": 0.12,
+      "mean_difference": 223.34575,
+      "statistic": 1932.0,
+      "p_value": 0.025589,
+      "is_significant_alpha_05": true
+    }
+  },
+  "strongest_statistically_supported_differences": [
+    "Random Forest vs Isolation Forest (McNemar p = 0.007812, OR = inf)",
+    "Logistic Regression vs Isolation Forest (McNemar p = 0.015625, OR = inf)",
+    "Top-1 Concentration Anomaly vs Normal (Mann-Whitney U = 7.0, p = 2.00e-06, Holm-adj p = 1.20e-05)",
+    "SHAP vs LIME Stability (Wilcoxon W = 0.0, p = 0.000311, Holm-adj p = 0.001555)",
+    "Fast Routes vs Anomaly Route Latency (Mann-Whitney U = 935.0, p = 1.79e-08)"
+  ],
+  "non_significant_differences": [
+    "Random Forest vs DistilBERT (McNemar p = 1.000000, 0 discordant pairs)",
+    "Random Forest vs Logistic Regression (McNemar p = 1.000000, 1 discordant pairs)",
+    "SHAP vs LIME Deletion AUC (Wilcoxon W = 46.0, p = 0.02759, Holm-adj p = 0.11038)",
+    "Normal vs Anomalous Attribution Entropy (Mann-Whitney U = 220.0, p = 0.55844, Holm-adj p = 0.55844)"
+  ],
+  "station_sensitive_findings": [
+    "Held-out station_3 causes F1 drop in Random Forest (1.0 -> 0.9048) due to sensor noise variance",
+    "Logistic Regression is the most station-resilient model (CV = 1.42%, F1 = 0.9756 on station_3)"
+  ],
+  "analyses_marked_na": [
+    "RAG per-query paired reciprocal-rank bootstrap (N/A \u2014 raw per-query reciprocal-rank vectors across all 6 ablation conditions unavailable in existing artifacts)",
+    "DistilBERT multi-seed training uncertainty (N/A \u2014 single seed 42 checkpoint evaluated due to compute constraints)"
+  ]
+}

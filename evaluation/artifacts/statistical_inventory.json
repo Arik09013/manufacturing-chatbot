@@ -1,0 +1,283 @@
+{
+  "metadata": {
+    "step": "RESEARCH STEP 12: Statistical Significance, Uncertainty & Effect-Size Analysis",
+    "audit_timestamp": "2026-09-30",
+    "total_artifacts_audited": 11,
+    "description": "Factual audit of statistical evidence, sample counts, and test validity across Steps 1-11."
+  },
+  "inventory": [
+    {
+      "step": "Step 1: Baseline Comparison",
+      "artifact_path": "evaluation/results/baselines/baseline_chronological_results.json",
+      "metrics_available": [
+        "accuracy",
+        "precision",
+        "recall",
+        "f1",
+        "macro_f1",
+        "roc_auc",
+        "pr_auc"
+      ],
+      "number_of_observations": 375,
+      "observations_description": "375 held-out chronological test samples (10 anomalies, 365 normal)",
+      "paired_predictions": true,
+      "per_sample_predictions_exist": false,
+      "per_sample_note": "Aggregate confusion matrices and fold metrics saved; individual sample labels in test split",
+      "per_seed_results_exist": false,
+      "per_station_results_exist": true,
+      "station_artifact": "evaluation/results/baselines/baseline_lomo_results.json",
+      "confidence_intervals_computable": true,
+      "ci_method": "Binomial proportion CIs from confusion matrices",
+      "significance_testing_valid": true,
+      "valid_tests": [
+        "Binomial proportion test",
+        "Cross-station comparison"
+      ]
+    },
+    {
+      "step": "Step 2: Leakage-Free Protocol",
+      "artifact_path": "evaluation/results/time_aware/rf_chronological_results.json",
+      "metrics_available": [
+        "f1",
+        "precision",
+        "recall",
+        "macro_f1",
+        "pr_auc",
+        "roc_auc"
+      ],
+      "number_of_observations": 375,
+      "observations_description": "Purged window boundary chronological split (train=1533, test=375)",
+      "paired_predictions": true,
+      "per_sample_predictions_exist": false,
+      "per_seed_results_exist": false,
+      "per_station_results_exist": true,
+      "confidence_intervals_computable": true,
+      "significance_testing_valid": true,
+      "valid_tests": [
+        "Paired McNemar test on contingency table"
+      ]
+    },
+    {
+      "step": "Step 3: Synthetic Robustness",
+      "artifact_path": "evaluation/results/robustness/multiseed_evaluation_results.json",
+      "metrics_available": [
+        "f1",
+        "accuracy",
+        "precision",
+        "recall",
+        "roc_auc",
+        "pr_auc"
+      ],
+      "number_of_observations": 5,
+      "observations_description": "5 independent random seeds (42, 123, 456, 789, 2026)",
+      "paired_predictions": true,
+      "per_sample_predictions_exist": false,
+      "per_seed_results_exist": true,
+      "per_station_results_exist": true,
+      "confidence_intervals_computable": true,
+      "ci_method": "Student's t CI across n=5 seeds",
+      "significance_testing_valid": true,
+      "valid_tests": [
+        "Paired t-test across seeds",
+        "Cohen's d"
+      ]
+    },
+    {
+      "step": "Step 4: Multimodal Ablation",
+      "artifact_path": "evaluation/results/ablation/multimodal_ablation_results.json",
+      "metrics_available": [
+        "f1",
+        "precision",
+        "recall",
+        "pr_auc",
+        "roc_auc",
+        "delta_f1"
+      ],
+      "number_of_observations": 6,
+      "observations_description": "6 modality conditions on N=375 test samples and K=3 LOMO folds",
+      "paired_predictions": true,
+      "per_sample_predictions_exist": false,
+      "per_seed_results_exist": false,
+      "per_station_results_exist": true,
+      "confidence_intervals_computable": false,
+      "reason_ci_na": "Single seed evaluation across conditions; multi-seed component ablation conducted in Step 5",
+      "significance_testing_valid": false,
+      "reason_testing_na": "Per-sample prediction vectors for all modality ablations not persisted as raw tables"
+    },
+    {
+      "step": "Step 5: Component & Feature Ablation",
+      "artifact_path": "evaluation/results/components/component_ablation_results.json",
+      "metrics_available": [
+        "f1_mean",
+        "f1_std",
+        "f1_seeds",
+        "pr_auc_mean",
+        "delta_f1"
+      ],
+      "number_of_observations": 5,
+      "observations_description": "5 seeds across 8 component ablation conditions",
+      "paired_predictions": true,
+      "per_sample_predictions_exist": false,
+      "per_seed_results_exist": true,
+      "per_station_results_exist": true,
+      "confidence_intervals_computable": true,
+      "ci_method": "Student's t CI on multi-seed ablation differences",
+      "significance_testing_valid": true,
+      "valid_tests": [
+        "Paired t-test on seed differences",
+        "Cohen's dz"
+      ]
+    },
+    {
+      "step": "Step 6: Model Comparison",
+      "artifact_path": "evaluation/results/comparison/model_comparison_results.json",
+      "metrics_available": [
+        "accuracy",
+        "precision",
+        "recall",
+        "f1",
+        "macro_f1",
+        "roc_auc",
+        "pr_auc",
+        "confusion_matrix"
+      ],
+      "number_of_observations": 375,
+      "observations_description": "375 samples chronological, 1917 samples LOMO, 5 seeds",
+      "paired_predictions": true,
+      "per_sample_predictions_exist": true,
+      "per_sample_note": "Exact 2x2 contingency tables and discordant pair counts stored for all model pairs",
+      "per_seed_results_exist": true,
+      "per_station_results_exist": true,
+      "confidence_intervals_computable": true,
+      "ci_method": "Clopper-Pearson binomial CIs, Student's t for seeds",
+      "significance_testing_valid": true,
+      "valid_tests": [
+        "Exact McNemar test",
+        "Odds ratio",
+        "Risk difference"
+      ]
+    },
+    {
+      "step": "Step 7: Intent Classification Stress",
+      "artifact_path": "evaluation/artifacts/intent_stress_results.csv",
+      "metrics_available": [
+        "intent_correct",
+        "scope_correct",
+        "confidence",
+        "difficulty"
+      ],
+      "number_of_observations": 100,
+      "observations_description": "100 curated stress queries across 5 intent classes and 9 perturbation types",
+      "paired_predictions": false,
+      "per_sample_predictions_exist": true,
+      "per_seed_results_exist": false,
+      "per_station_results_exist": false,
+      "confidence_intervals_computable": true,
+      "ci_method": "Non-parametric percentile bootstrap CI (B=2000), exact Clopper-Pearson CI",
+      "significance_testing_valid": true,
+      "valid_tests": [
+        "Bootstrap CI for Accuracy and Macro F1",
+        "Binomial exact test on scope guard"
+      ]
+    },
+    {
+      "step": "Step 8: RAG Retrieval Evaluation",
+      "artifact_path": "evaluation/results/rag/rag_evaluation_results.csv",
+      "metrics_available": [
+        "Recall@1",
+        "Recall@3",
+        "Recall@4",
+        "Recall@5",
+        "MRR",
+        "P@1..5",
+        "nDCG@3",
+        "nDCG@5"
+      ],
+      "number_of_observations": 40,
+      "observations_description": "40 welding technical queries evaluated across 6 retrieval ablation conditions",
+      "paired_predictions": true,
+      "per_sample_predictions_exist": false,
+      "per_sample_note": "Production suboptimal queries (N=5) recorded in detail; full 40x6 raw reciprocal rank matrix not stored",
+      "per_seed_results_exist": false,
+      "per_station_results_exist": false,
+      "confidence_intervals_computable": true,
+      "ci_method": "Binomial proportion CIs on discrete Recall@k proportions",
+      "significance_testing_valid": false,
+      "reason_testing_na": "N/A \u2014 raw per-query reciprocal-rank vectors across all 6 ablation conditions unavailable in existing artifacts"
+    },
+    {
+      "step": "Step 9: Explainability (XAI) Evaluation",
+      "artifact_path": "evaluation/artifacts/xai_evaluation_results.csv",
+      "metrics_available": [
+        "shap_auc_deletion",
+        "lime_auc_deletion",
+        "shap_stability_jaccard_k5",
+        "lime_stability_jaccard_k5",
+        "shap_lime_spearman_rho",
+        "shap_entropy",
+        "shap_top1_concentration"
+      ],
+      "number_of_observations": 60,
+      "observations_description": "60 held-out test samples (10 anomalous, 50 normal)",
+      "paired_predictions": true,
+      "per_sample_predictions_exist": true,
+      "per_sample_note": "Full sample-level measurements for SHAP and LIME",
+      "per_seed_results_exist": false,
+      "per_station_results_exist": true,
+      "confidence_intervals_computable": true,
+      "ci_method": "Percentile bootstrap CI, paired median difference CIs",
+      "significance_testing_valid": true,
+      "valid_tests": [
+        "Paired Wilcoxon signed-rank test",
+        "Mann-Whitney U test",
+        "Holm-Bonferroni correction"
+      ]
+    },
+    {
+      "step": "Step 10: Physics Recommendation Validation",
+      "artifact_path": "evaluation/artifacts/physics_evaluation_results.json",
+      "metrics_available": [
+        "solver_match",
+        "optimizer_match",
+        "heat_input_tolerance",
+        "deposition_rate_tolerance",
+        "constraint_checks",
+        "edge_cases"
+      ],
+      "number_of_observations": 144,
+      "observations_description": "144 welding scenario parameter matrices, 641 constraint checks, 15 edge cases",
+      "paired_predictions": true,
+      "per_sample_predictions_exist": true,
+      "per_seed_results_exist": false,
+      "per_station_results_exist": false,
+      "confidence_intervals_computable": true,
+      "ci_method": "Exact Clopper-Pearson binomial confidence intervals for deterministic proportions",
+      "significance_testing_valid": false,
+      "reason_testing_na": "Deterministic analytical concordance test; proportion uncertainty quantified via exact binomial CIs rather than hypothesis tests"
+    },
+    {
+      "step": "Step 11: Deployment & Latency Evaluation",
+      "artifact_path": "evaluation/artifacts/deployment_benchmark_results.csv",
+      "metrics_available": [
+        "initial_latency_ms",
+        "warm_mean_latency_ms",
+        "category",
+        "expected_route"
+      ],
+      "number_of_observations": 80,
+      "observations_description": "80 benchmark queries across 5 routes (param=20, knowledge=20, general=15, out_of_scope=10, anomaly=15)",
+      "paired_predictions": true,
+      "per_sample_predictions_exist": true,
+      "per_sample_note": "Cold and warm latencies per query",
+      "per_seed_results_exist": false,
+      "per_station_results_exist": false,
+      "confidence_intervals_computable": true,
+      "ci_method": "Bootstrap 95% CIs for median latency per route",
+      "significance_testing_valid": true,
+      "valid_tests": [
+        "Mann-Whitney U test between fast routes and anomaly route",
+        "Paired Wilcoxon test on cold vs warm"
+      ]
+    }
+  ]
+}

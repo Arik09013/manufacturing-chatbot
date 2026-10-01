@@ -1,0 +1,142 @@
+{
+  "stations_evaluated": [
+    "station_1",
+    "station_2",
+    "station_3"
+  ],
+  "n_stations": 3,
+  "samples_per_station": 639,
+  "anomalies_per_station": 20,
+  "models": {
+    "Random Forest": {
+      "per_station_f1": {
+        "station_1": 1.0,
+        "station_2": 1.0,
+        "station_3": 0.9048
+      },
+      "per_station_precision": {
+        "station_1": 1.0,
+        "station_2": 1.0,
+        "station_3": 0.8636
+      },
+      "per_station_recall": {
+        "station_1": 1.0,
+        "station_2": 1.0,
+        "station_3": 0.95
+      },
+      "mean_f1": 0.9683,
+      "std_f1": 0.055,
+      "range_f1": [
+        0.9048,
+        1.0
+      ],
+      "cv_percent": 5.68,
+      "pooled_macro_f1": 0.9683,
+      "station_3_degradation": 0.0952
+    },
+    "Logistic Regression": {
+      "per_station_f1": {
+        "station_1": 1.0,
+        "station_2": 1.0,
+        "station_3": 0.9756
+      },
+      "per_station_precision": {
+        "station_1": 1.0,
+        "station_2": 1.0,
+        "station_3": 0.9524
+      },
+      "per_station_recall": {
+        "station_1": 1.0,
+        "station_2": 1.0,
+        "station_3": 1.0
+      },
+      "mean_f1": 0.9919,
+      "std_f1": 0.0141,
+      "range_f1": [
+        0.9756,
+        1.0
+      ],
+      "cv_percent": 1.42,
+      "pooled_macro_f1": 0.9919,
+      "station_3_degradation": 0.0244
+    },
+    "Support Vector Machine": {
+      "per_station_f1": {
+        "station_1": 0.7826,
+        "station_2": 0.8511,
+        "station_3": 0.8163
+      },
+      "per_station_precision": {
+        "station_1": 0.6923,
+        "station_2": 0.7407,
+        "station_3": 0.6897
+      },
+      "per_station_recall": {
+        "station_1": 0.9,
+        "station_2": 1.0,
+        "station_3": 1.0
+      },
+      "mean_f1": 0.8167,
+      "std_f1": 0.0343,
+      "range_f1": [
+        0.7826,
+        0.8511
+      ],
+      "cv_percent": 4.19,
+      "pooled_macro_f1": 0.8167,
+      "station_3_degradation": -0.0337
+    },
+    "Isolation Forest": {
+      "per_station_f1": {
+        "station_1": 0.7143,
+        "station_2": 0.6897,
+        "station_3": 0.6909
+      },
+      "per_station_precision": {
+        "station_1": 0.5556,
+        "station_2": 0.5263,
+        "station_3": 0.5429
+      },
+      "per_station_recall": {
+        "station_1": 1.0,
+        "station_2": 1.0,
+        "station_3": 0.95
+      },
+      "mean_f1": 0.6983,
+      "std_f1": 0.0139,
+      "range_f1": [
+        0.6897,
+        0.7143
+      ],
+      "cv_percent": 1.99,
+      "pooled_macro_f1": 0.6983,
+      "station_3_degradation": 0.0234
+    },
+    "DistilBERT": {
+      "per_station_f1": {
+        "station_1": 0.9756,
+        "station_2": 1.0,
+        "station_3": 0.9756
+      },
+      "per_station_precision": {
+        "station_1": 0.9524,
+        "station_2": 1.0,
+        "station_3": 0.9524
+      },
+      "per_station_recall": {
+        "station_1": 1.0,
+        "station_2": 1.0,
+        "station_3": 1.0
+      },
+      "mean_f1": 0.9837,
+      "std_f1": 0.0141,
+      "range_f1": [
+        0.9756,
+        1.0
+      ],
+      "cv_percent": 1.43,
+      "pooled_macro_f1": 0.9837,
+      "station_3_degradation": 0.0
+    }
+  }
+}
