@@ -1,0 +1,476 @@
+{
+  "audit_metadata": {
+    "audit_step": "Step 13",
+    "title": "Final Research Evidence, Reproducibility & Cross-Step Consistency Audit",
+    "timestamp": "2026-10-01T09:30:00Z",
+    "audited_steps": "Steps 1 through 12",
+    "repository": "D:\\E\\manufacturing-chatbot"
+  },
+  "steps": [
+    {
+      "step_number": 1,
+      "study_title": "Leakage-Free Chronological Split and Train-Only Preprocessing Evaluation",
+      "source_code_files": [
+        "src/data/splits.py",
+        "src/fusion/fuse.py"
+      ],
+      "evaluation_scripts": [
+        "evaluation/eval_time_aware.py"
+      ],
+      "test_files": [
+        "tests/test_leakage_free.py",
+        "tests/test_evaluation.py"
+      ],
+      "machine_readable_result_files": [
+        "evaluation/results/time_aware/distilbert_chronological_results.json",
+        "evaluation/results/time_aware/distilbert_lomo_results.json",
+        "evaluation/results/time_aware/leakage_check_report.json",
+        "evaluation/results/time_aware/rf_chronological_results.json",
+        "evaluation/results/time_aware/rf_lomo_results.json"
+      ],
+      "reports": [
+        "outputs/eval_report_time_aware.md",
+        "outputs/finetune_report_time_aware.md"
+      ],
+      "figures": [],
+      "datasets_input_sources_used": [
+        "data/processed/fused.parquet (1,917 rows, 60 anomalies)"
+      ],
+      "artifacts_exist": true,
+      "dedicated_tests_exist": true,
+      "latest_relevant_commit": "a8ba045",
+      "reproducibility_command": "python evaluation/eval_time_aware.py",
+      "status": "COMPLETE"
+    },
+    {
+      "step_number": 2,
+      "study_title": "Multi-Model Tabular Baseline Benchmark (RF, LR, SVM, Isolation Forest)",
+      "source_code_files": [
+        "src/model/baselines.py",
+        "src/data/splits.py"
+      ],
+      "evaluation_scripts": [
+        "evaluation/eval_baselines.py"
+      ],
+      "test_files": [
+        "tests/test_baselines.py"
+      ],
+      "machine_readable_result_files": [
+        "evaluation/results/baselines/baseline_chronological_results.json",
+        "evaluation/results/baselines/baseline_lomo_results.json",
+        "evaluation/results/baselines/baseline_summary.json"
+      ],
+      "reports": [
+        "outputs/baseline_benchmark_report.md"
+      ],
+      "figures": [],
+      "datasets_input_sources_used": [
+        "data/processed/fused.parquet"
+      ],
+      "artifacts_exist": true,
+      "dedicated_tests_exist": true,
+      "latest_relevant_commit": "a8ba045",
+      "reproducibility_command": "python evaluation/eval_baselines.py",
+      "status": "COMPLETE"
+    },
+    {
+      "step_number": 3,
+      "study_title": "Synthetic Data Multi-Seed Stability and Perturbation Robustness Evaluation",
+      "source_code_files": [
+        "src/data/generate_synthetic.py",
+        "src/data/splits.py"
+      ],
+      "evaluation_scripts": [
+        "evaluation/eval_synthetic_robustness.py",
+        "evaluation/plot_robustness.py"
+      ],
+      "test_files": [
+        "tests/test_robustness.py"
+      ],
+      "machine_readable_result_files": [
+        "evaluation/results/robustness/multiseed_evaluation_results.json",
+        "evaluation/results/robustness/synthetic_robustness_results.csv",
+        "evaluation/results/robustness/synthetic_robustness_results.json",
+        "evaluation/results/robustness/synthetic_robustness_summary.json"
+      ],
+      "reports": [
+        "outputs/synthetic_robustness_report.md"
+      ],
+      "figures": [
+        "evaluation/results/robustness/figures/robustness_f1_by_severity.png",
+        "evaluation/results/robustness/figures/robustness_f1_degradation.png",
+        "evaluation/results/robustness/figures/robustness_multiseed_boxplots.png"
+      ],
+      "datasets_input_sources_used": [
+        "data/processed/fused.parquet",
+        "Controlled synthetic perturbations (Gaussian noise, missingness, drift, attenuated severity)"
+      ],
+      "artifacts_exist": true,
+      "dedicated_tests_exist": true,
+      "latest_relevant_commit": "14c34b3",
+      "reproducibility_command": "python evaluation/eval_synthetic_robustness.py",
+      "status": "COMPLETE"
+    },
+    {
+      "step_number": 4,
+      "study_title": "Multimodal Modality Ablation Study (Sensor, Logs, Operator Notes, Engineering Context)",
+      "source_code_files": [
+        "src/data/splits.py",
+        "src/fusion/fuse.py",
+        "src/model/anomaly.py"
+      ],
+      "evaluation_scripts": [
+        "evaluation/eval_ablation.py",
+        "evaluation/plot_ablation.py"
+      ],
+      "test_files": [
+        "tests/test_ablation.py"
+      ],
+      "machine_readable_result_files": [
+        "evaluation/results/ablation/multimodal_ablation_results.csv",
+        "evaluation/results/ablation/multimodal_ablation_results.json",
+        "evaluation/results/ablation/multimodal_ablation_summary.json"
+      ],
+      "reports": [
+        "outputs/multimodal_ablation_report.md"
+      ],
+      "figures": [
+        "evaluation/results/ablation/figures/f1_by_modality_chronological.png",
+        "evaluation/results/ablation/figures/f1_by_modality_lomo.png",
+        "evaluation/results/ablation/figures/prauc_by_modality_chronological.png"
+      ],
+      "datasets_input_sources_used": [
+        "data/processed/fused.parquet"
+      ],
+      "artifacts_exist": true,
+      "dedicated_tests_exist": true,
+      "latest_relevant_commit": "baca9c0",
+      "reproducibility_command": "python evaluation/eval_ablation.py",
+      "status": "COMPLETE"
+    },
+    {
+      "step_number": 5,
+      "study_title": "Pipeline Component Ablation and Threshold Sensitivity Analysis",
+      "source_code_files": [
+        "src/data/component_ablation.py",
+        "src/model/anomaly.py",
+        "src/data/splits.py"
+      ],
+      "evaluation_scripts": [
+        "evaluation/eval_components.py",
+        "evaluation/plot_components.py"
+      ],
+      "test_files": [
+        "tests/test_component_ablation.py"
+      ],
+      "machine_readable_result_files": [
+        "evaluation/results/components/component_inventory.json",
+        "evaluation/results/components/component_ablation_results.csv",
+        "evaluation/results/components/component_ablation_results.json",
+        "evaluation/results/components/component_ablation_summary.json"
+      ],
+      "reports": [
+        "outputs/component_ablation_report.md"
+      ],
+      "figures": [
+        "evaluation/results/components/figures/f1_by_component_chronological.png",
+        "evaluation/results/components/figures/f1_by_component_lomo.png",
+        "evaluation/results/components/figures/f1_multiseed_by_component.png",
+        "evaluation/results/components/figures/prauc_by_component_chronological.png"
+      ],
+      "datasets_input_sources_used": [
+        "data/processed/fused.parquet"
+      ],
+      "artifacts_exist": true,
+      "dedicated_tests_exist": true,
+      "latest_relevant_commit": "5e3aaf3",
+      "reproducibility_command": "python evaluation/eval_components.py",
+      "status": "COMPLETE"
+    },
+    {
+      "step_number": 6,
+      "study_title": "Transformer vs Conventional Tabular Classifiers Comparative Evaluation",
+      "source_code_files": [
+        "src/model/bert_detector.py",
+        "src/model/baselines.py",
+        "src/data/splits.py"
+      ],
+      "evaluation_scripts": [
+        "evaluation/eval_model_comparison.py",
+        "evaluation/plot_model_comparison.py"
+      ],
+      "test_files": [
+        "tests/test_model_comparison.py"
+      ],
+      "machine_readable_result_files": [
+        "evaluation/results/comparison/model_comparison_results.csv",
+        "evaluation/results/comparison/model_comparison_results.json",
+        "evaluation/results/comparison/model_comparison_summary.json"
+      ],
+      "reports": [
+        "outputs/model_comparison_report.md"
+      ],
+      "figures": [
+        "evaluation/results/comparison/figures/f1_comparison_chronological.png",
+        "evaluation/results/comparison/figures/f1_comparison_lomo.png",
+        "evaluation/results/comparison/figures/f1_multiseed_boxplots.png",
+        "evaluation/results/comparison/figures/prauc_comparison_chronological.png"
+      ],
+      "datasets_input_sources_used": [
+        "data/processed/fused.parquet",
+        "models/distilbert_fault/"
+      ],
+      "artifacts_exist": true,
+      "dedicated_tests_exist": true,
+      "latest_relevant_commit": "5ca1f37",
+      "reproducibility_command": "python evaluation/eval_model_comparison.py",
+      "status": "COMPLETE"
+    },
+    {
+      "step_number": 7,
+      "study_title": "Formal RAG Retrieval Benchmark and Ablation Evaluation",
+      "source_code_files": [
+        "src/rag/retriever.py",
+        "src/rag/index.py"
+      ],
+      "evaluation_scripts": [
+        "evaluation/eval_rag.py",
+        "evaluation/plot_rag.py"
+      ],
+      "test_files": [
+        "tests/test_rag_evaluation.py",
+        "tests/test_rag.py"
+      ],
+      "machine_readable_result_files": [
+        "artifacts/rag_evaluation_results.csv",
+        "artifacts/rag_evaluation_results.json",
+        "artifacts/rag_evaluation_summary.json",
+        "artifacts/rag_query_benchmark.json"
+      ],
+      "reports": [
+        "artifacts/rag_evaluation_report.md",
+        "outputs/rag_evaluation_report.md"
+      ],
+      "figures": [
+        "artifacts/figures/rag_ablation.png",
+        "artifacts/figures/rag_recall_at_k.png",
+        "artifacts/figures/rag_mrr_comparison.png",
+        "artifacts/figures/rag_threshold_sensitivity.png",
+        "artifacts/figures/rag_latency_breakdown.png"
+      ],
+      "datasets_input_sources_used": [
+        "data/knowledge_docs/ (41 passages)",
+        "artifacts/rag_query_benchmark.json (40 queries)"
+      ],
+      "artifacts_exist": true,
+      "dedicated_tests_exist": true,
+      "latest_relevant_commit": "74cfb0a",
+      "reproducibility_command": "python evaluation/eval_rag.py",
+      "status": "COMPLETE"
+    },
+    {
+      "step_number": 8,
+      "study_title": "Intent Classification Stress Benchmark and Boundary Robustness Evaluation",
+      "source_code_files": [
+        "src/intent/classifier.py"
+      ],
+      "evaluation_scripts": [
+        "evaluation/eval_intent_stress.py",
+        "evaluation/plot_intent_stress.py"
+      ],
+      "test_files": [
+        "tests/test_intent_stress.py",
+        "tests/test_intent.py"
+      ],
+      "machine_readable_result_files": [
+        "artifacts/intent_stress_results.csv",
+        "artifacts/intent_stress_results.json",
+        "artifacts/intent_stress_summary.json",
+        "evaluation/artifacts/intent_stress_results.csv",
+        "evaluation/artifacts/intent_stress_results.json",
+        "evaluation/artifacts/intent_stress_summary.json"
+      ],
+      "reports": [
+        "artifacts/intent_stress_report.md",
+        "evaluation/artifacts/intent_stress_report.md",
+        "outputs/intent_stress_report.md"
+      ],
+      "figures": [
+        "artifacts/figures/intent_confusion_matrix.png",
+        "artifacts/figures/intent_f1_by_category.png",
+        "artifacts/figures/intent_perturbation_robustness.png",
+        "evaluation/artifacts/figures/intent_confusion_matrix.png",
+        "evaluation/artifacts/figures/intent_f1_by_category.png",
+        "evaluation/artifacts/figures/intent_perturbation_robustness.png"
+      ],
+      "datasets_input_sources_used": [
+        "evaluation/artifacts/intent_stress_benchmark.json (100 queries)"
+      ],
+      "artifacts_exist": true,
+      "dedicated_tests_exist": true,
+      "latest_relevant_commit": "d745d43",
+      "reproducibility_command": "python evaluation/eval_intent_stress.py",
+      "status": "COMPLETE"
+    },
+    {
+      "step_number": 9,
+      "study_title": "Explainable AI Fidelity, Stability, and Attribution Evaluation (SHAP vs LIME vs Attention)",
+      "source_code_files": [
+        "src/explain/shap_explainer.py",
+        "src/explain/lime_explainer.py",
+        "src/explain/attention_explainer.py"
+      ],
+      "evaluation_scripts": [
+        "evaluation/eval_xai.py",
+        "evaluation/plot_xai.py"
+      ],
+      "test_files": [
+        "tests/test_xai_evaluation.py",
+        "tests/test_explain.py"
+      ],
+      "machine_readable_result_files": [
+        "evaluation/artifacts/xai_evaluation_results.csv",
+        "evaluation/artifacts/xai_evaluation_results.json",
+        "evaluation/artifacts/xai_evaluation_summary.json",
+        "evaluation/artifacts/xai_inventory.json"
+      ],
+      "reports": [
+        "evaluation/artifacts/xai_evaluation_report.md"
+      ],
+      "figures": [
+        "evaluation/artifacts/figures/xai_deletion_curves.png",
+        "evaluation/artifacts/figures/xai_stability.png",
+        "evaluation/artifacts/figures/xai_method_agreement.png",
+        "evaluation/artifacts/figures/xai_normal_vs_anomaly.png",
+        "evaluation/artifacts/figures/xai_latency.png"
+      ],
+      "datasets_input_sources_used": [
+        "data/processed/fused.parquet (60 audited windows)"
+      ],
+      "artifacts_exist": true,
+      "dedicated_tests_exist": true,
+      "latest_relevant_commit": "d63890f",
+      "reproducibility_command": "python evaluation/eval_xai.py",
+      "status": "COMPLETE"
+    },
+    {
+      "step_number": 10,
+      "study_title": "Deterministic Physics Parameter Advisor Concordance and Constraint Evaluation",
+      "source_code_files": [
+        "src/reasoning/param_advisor.py",
+        "config/welding_params.yaml"
+      ],
+      "evaluation_scripts": [
+        "evaluation/eval_physics.py",
+        "evaluation/plot_physics.py"
+      ],
+      "test_files": [
+        "tests/test_physics_evaluation.py",
+        "tests/test_welding.py"
+      ],
+      "machine_readable_result_files": [
+        "evaluation/artifacts/physics_evaluation_results.csv",
+        "evaluation/artifacts/physics_evaluation_results.json",
+        "evaluation/artifacts/physics_evaluation_summary.json",
+        "evaluation/artifacts/physics_inventory.json"
+      ],
+      "reports": [
+        "evaluation/artifacts/physics_evaluation_report.md"
+      ],
+      "figures": [
+        "evaluation/artifacts/figures/physics_constraint_satisfaction.png",
+        "evaluation/artifacts/figures/physics_error_distribution.png",
+        "evaluation/artifacts/figures/physics_process_comparison.png",
+        "evaluation/artifacts/figures/physics_sensitivity.png",
+        "evaluation/artifacts/figures/physics_latency.png"
+      ],
+      "datasets_input_sources_used": [
+        "144 generated scenarios, 641 constraint checks, 15 edge cases"
+      ],
+      "artifacts_exist": true,
+      "dedicated_tests_exist": true,
+      "latest_relevant_commit": "26cf608",
+      "reproducibility_command": "python evaluation/eval_physics.py",
+      "status": "COMPLETE"
+    },
+    {
+      "step_number": 11,
+      "study_title": "Multi-Route Deployment Latency, Memory Footprint, and Dependency Robustness Benchmark",
+      "source_code_files": [
+        "src/api/pipeline.py",
+        "src/api/main.py",
+        "evaluation/deployment_evaluation.py"
+      ],
+      "evaluation_scripts": [
+        "evaluation/eval_deployment.py",
+        "evaluation/plot_deployment.py"
+      ],
+      "test_files": [
+        "tests/test_deployment_evaluation.py"
+      ],
+      "machine_readable_result_files": [
+        "evaluation/artifacts/deployment_benchmark_results.csv",
+        "evaluation/artifacts/deployment_benchmark_results.json",
+        "evaluation/artifacts/deployment_summary.json",
+        "evaluation/artifacts/deployment_inventory.json",
+        "evaluation/artifacts/runtime_footprint.json"
+      ],
+      "reports": [
+        "evaluation/artifacts/deployment_evaluation_report.md"
+      ],
+      "figures": [
+        "evaluation/artifacts/figures/deployment_latency.png",
+        "evaluation/artifacts/figures/deployment_throughput.png",
+        "evaluation/artifacts/figures/deployment_cold_warm.png",
+        "evaluation/artifacts/figures/deployment_component_breakdown.png",
+        "evaluation/artifacts/figures/deployment_memory.png"
+      ],
+      "datasets_input_sources_used": [
+        "80 benchmark queries across 5 routes"
+      ],
+      "artifacts_exist": true,
+      "dedicated_tests_exist": true,
+      "latest_relevant_commit": "c672162",
+      "reproducibility_command": "python evaluation/eval_deployment.py",
+      "status": "COMPLETE"
+    },
+    {
+      "step_number": 12,
+      "study_title": "Post-Hoc Statistical Significance, Multi-Seed Variance, Effect Size, and Multiple Testing Analysis",
+      "source_code_files": [
+        "evaluation/statistical_analysis.py"
+      ],
+      "evaluation_scripts": [
+        "evaluation/eval_statistics.py",
+        "evaluation/plot_statistics.py"
+      ],
+      "test_files": [
+        "tests/test_statistical_evaluation.py"
+      ],
+      "machine_readable_result_files": [
+        "evaluation/artifacts/statistical_inventory.json",
+        "evaluation/artifacts/station_variability.json",
+        "evaluation/artifacts/statistical_tests.json",
+        "evaluation/artifacts/statistical_summary.json"
+      ],
+      "reports": [
+        "evaluation/artifacts/statistical_evaluation_report.md"
+      ],
+      "figures": [
+        "evaluation/artifacts/figures/statistical_metric_distributions.png",
+        "evaluation/artifacts/figures/seed_variability.png",
+        "evaluation/artifacts/figures/ablation_effect_sizes.png",
+        "evaluation/artifacts/figures/rag_metric_comparison.png",
+        "evaluation/artifacts/figures/latency_distributions.png"
+      ],
+      "datasets_input_sources_used": [
+        "Primary empirical observations from Steps 1 through 11"
+      ],
+      "artifacts_exist": true,
+      "dedicated_tests_exist": true,
+      "latest_relevant_commit": "6be4994",
+      "reproducibility_command": "python evaluation/eval_statistics.py",
+      "status": "COMPLETE"
+    }
+  ]
+}

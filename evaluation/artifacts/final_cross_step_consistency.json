@@ -1,0 +1,268 @@
+{
+  "audit_metadata": {
+    "audit_step": "Step 13",
+    "title": "Final Cross-Step Number Consistency Matrix",
+    "timestamp": "2026-10-01T09:30:00Z",
+    "total_metrics_evaluated": 32,
+    "perfect_matches": 32,
+    "discrepancies": 0
+  },
+  "consistency_matrix": [
+    {
+      "step": "Step 1",
+      "metric": "Master Dataset Total Windows (N)",
+      "report_value": "1917",
+      "machine_readable_value": "1917",
+      "match": true,
+      "authoritative_source": "data/processed/fused.parquet (1,917 rows), evaluation/results/time_aware/distilbert_chronological_results.json"
+    },
+    {
+      "step": "Step 1",
+      "metric": "Master Dataset Anomalous Windows (N_anom)",
+      "report_value": "60",
+      "machine_readable_value": "60",
+      "match": true,
+      "authoritative_source": "data/processed/fused.parquet (60 True anomalies), outputs/eval_report_time_aware.md"
+    },
+    {
+      "step": "Step 1",
+      "metric": "Chronological Test Set Windows (N_test)",
+      "report_value": "375 (10 anomalies)",
+      "machine_readable_value": "375 (10 anomalies)",
+      "match": true,
+      "authoritative_source": "evaluation/results/time_aware/distilbert_chronological_results.json, outputs/eval_report_time_aware.md"
+    },
+    {
+      "step": "Step 2",
+      "metric": "Random Forest Macro-Avg Chronological F1",
+      "report_value": "0.8963",
+      "machine_readable_value": "0.8963",
+      "match": true,
+      "authoritative_source": "evaluation/results/baselines/baseline_chronological_results.json (macro_average over stations 1, 2, 3)"
+    },
+    {
+      "step": "Step 2",
+      "metric": "Random Forest Pooled Chronological F1",
+      "report_value": "1.0000",
+      "machine_readable_value": "1.0000",
+      "match": true,
+      "authoritative_source": "evaluation/results/baselines/baseline_chronological_results.json (pooled_all_machines)"
+    },
+    {
+      "step": "Step 2",
+      "metric": "Logistic Regression Pooled Chronological F1",
+      "report_value": "0.9524",
+      "machine_readable_value": "0.9524",
+      "match": true,
+      "authoritative_source": "evaluation/results/baselines/baseline_chronological_results.json (pooled_all_machines)"
+    },
+    {
+      "step": "Step 2",
+      "metric": "Support Vector Machine Pooled Chronological F1",
+      "report_value": "0.8182",
+      "machine_readable_value": "0.8182",
+      "match": true,
+      "authoritative_source": "evaluation/results/baselines/baseline_chronological_results.json (pooled_all_machines)"
+    },
+    {
+      "step": "Step 2",
+      "metric": "Isolation Forest Pooled Chronological F1",
+      "report_value": "0.7143",
+      "machine_readable_value": "0.7143",
+      "match": true,
+      "authoritative_source": "evaluation/results/baselines/baseline_chronological_results.json (pooled_all_machines)"
+    },
+    {
+      "step": "Step 3",
+      "metric": "Synthetic Multi-Seed RF Chronological F1 Mean",
+      "report_value": "1.0000 \u00b1 0.0000",
+      "machine_readable_value": "1.0000",
+      "match": true,
+      "authoritative_source": "evaluation/results/robustness/multiseed_evaluation_results.json, outputs/synthetic_robustness_report.md"
+    },
+    {
+      "step": "Step 3",
+      "metric": "Missingness Dropout (50%) RF F1 Degradation",
+      "report_value": "1.0000 -> 0.7407 (delta = -0.2593)",
+      "machine_readable_value": "0.7407",
+      "match": true,
+      "authoritative_source": "evaluation/results/robustness/synthetic_robustness_results.json, outputs/synthetic_robustness_report.md"
+    },
+    {
+      "step": "Step 4",
+      "metric": "Modality Ablation: WITHOUT_SENSOR RF F1",
+      "report_value": "0.7407 (delta = -0.2593)",
+      "machine_readable_value": "0.7407",
+      "match": true,
+      "authoritative_source": "evaluation/results/ablation/multimodal_ablation_results.json, outputs/multimodal_ablation_report.md"
+    },
+    {
+      "step": "Step 4",
+      "metric": "Modality Ablation: WITHOUT_LOGS RF F1",
+      "report_value": "0.7826 (delta = -0.2174)",
+      "machine_readable_value": "0.7826",
+      "match": true,
+      "authoritative_source": "evaluation/results/ablation/multimodal_ablation_results.json, outputs/multimodal_ablation_report.md"
+    },
+    {
+      "step": "Step 4",
+      "metric": "Modality Ablation: WITHOUT_OPERATOR_NOTES RF F1",
+      "report_value": "1.0000 (delta = 0.0000)",
+      "machine_readable_value": "1.0000",
+      "match": true,
+      "authoritative_source": "evaluation/results/ablation/multimodal_ablation_results.json, outputs/multimodal_ablation_report.md"
+    },
+    {
+      "step": "Step 5",
+      "metric": "Component Ablation: WITHOUT_LOG_EVENT_COUNTS RF F1",
+      "report_value": "0.7440 (seed-mean: delta = -0.2560, -25.6%)",
+      "machine_readable_value": "0.7440",
+      "match": true,
+      "authoritative_source": "evaluation/results/components/component_ablation_results.json, evaluation/artifacts/statistical_summary.json"
+    },
+    {
+      "step": "Step 5",
+      "metric": "Component Ablation: Paired Cohen's d_z for WITHOUT_LOG_EVENT_COUNTS",
+      "report_value": "-19.0811",
+      "machine_readable_value": "-19.0811",
+      "match": true,
+      "authoritative_source": "evaluation/artifacts/statistical_summary.json, evaluation/artifacts/statistical_evaluation_report.md"
+    },
+    {
+      "step": "Step 5",
+      "metric": "Component Ablation: WITHOUT_STANDARD_SCALER LR F1",
+      "report_value": "0.8696 (delta = -0.0828, -8.69%)",
+      "machine_readable_value": "0.8696",
+      "match": true,
+      "authoritative_source": "evaluation/results/components/component_ablation_results.json, outputs/component_ablation_report.md"
+    },
+    {
+      "step": "Step 6",
+      "metric": "DistilBERT Held-Out Chronological Test F1 (theta=0.5)",
+      "report_value": "1.0000",
+      "machine_readable_value": "1.0000",
+      "match": true,
+      "authoritative_source": "evaluation/results/comparison/model_comparison_results.json, outputs/model_comparison_report.md"
+    },
+    {
+      "step": "Step 6",
+      "metric": "Exact McNemar RF vs DistilBERT Discordant Pairs / p-value",
+      "report_value": "b=0, c=0, p=1.000000",
+      "machine_readable_value": "b=0, c=0, p=1.000000",
+      "match": true,
+      "authoritative_source": "evaluation/results/comparison/model_comparison_results.json, evaluation/artifacts/statistical_tests.json"
+    },
+    {
+      "step": "Step 7",
+      "metric": "RAG Production Retrieval Recall@4",
+      "report_value": "1.0000 (40/40 queries)",
+      "machine_readable_value": "1.0000",
+      "match": true,
+      "authoritative_source": "artifacts/rag_evaluation_summary.json, artifacts/rag_evaluation_report.md"
+    },
+    {
+      "step": "Step 7",
+      "metric": "RAG Production Retrieval MRR",
+      "report_value": "0.9271",
+      "machine_readable_value": "0.9271",
+      "match": true,
+      "authoritative_source": "artifacts/rag_evaluation_summary.json, artifacts/rag_evaluation_report.md"
+    },
+    {
+      "step": "Step 8",
+      "metric": "Intent Stress Benchmark Overall Accuracy",
+      "report_value": "86.0% (86/100 correct)",
+      "machine_readable_value": "0.86 (86/100)",
+      "match": true,
+      "authoritative_source": "evaluation/artifacts/intent_stress_results.csv, evaluation/artifacts/statistical_summary.json"
+    },
+    {
+      "step": "Step 8",
+      "metric": "Intent Stress Binary Scope Guard Accuracy",
+      "report_value": "98.0% (98/100 correct)",
+      "machine_readable_value": "0.98 (98/100)",
+      "match": true,
+      "authoritative_source": "evaluation/artifacts/intent_stress_results.csv, evaluation/artifacts/statistical_summary.json"
+    },
+    {
+      "step": "Step 8",
+      "metric": "Intent Stress Macro F1",
+      "report_value": "0.8487",
+      "machine_readable_value": "0.8487",
+      "match": true,
+      "authoritative_source": "evaluation/artifacts/intent_stress_summary.json, evaluation/artifacts/intent_stress_report.md"
+    },
+    {
+      "step": "Step 9",
+      "metric": "XAI SHAP vs LIME Top-5 Attribution Stability Wilcoxon W / p",
+      "report_value": "W = 0.0, raw p = 0.00031, Holm p_adj = 0.00155",
+      "machine_readable_value": "statistic = 0.0, raw_p = 0.000311, adj_p = 0.001554",
+      "match": true,
+      "authoritative_source": "evaluation/artifacts/statistical_tests.json, evaluation/artifacts/xai_evaluation_results.csv"
+    },
+    {
+      "step": "Step 9",
+      "metric": "XAI Top-1 Concentration: Anomaly vs Normal Mann-Whitney U / p",
+      "report_value": "U = 7.0, raw p = 2.00e-06, Holm p_adj = 1.20e-05",
+      "machine_readable_value": "statistic = 7.0, raw_p = 2.0000e-06, adj_p = 1.2000e-05",
+      "match": true,
+      "authoritative_source": "evaluation/artifacts/statistical_tests.json, evaluation/artifacts/xai_evaluation_results.csv"
+    },
+    {
+      "step": "Step 9",
+      "metric": "XAI SHAP vs LIME Deletion AUC Wilcoxon W / p",
+      "report_value": "W = 46.0, raw p = 0.02759, Holm p_adj = 0.11038",
+      "machine_readable_value": "statistic = 46.0, raw_p = 0.027594, adj_p = 0.110376",
+      "match": true,
+      "authoritative_source": "evaluation/artifacts/statistical_tests.json, evaluation/artifacts/xai_evaluation_results.csv"
+    },
+    {
+      "step": "Step 10",
+      "metric": "Physics Recommendation Solver Concordance Rate",
+      "report_value": "100.00% (144/144 scenarios)",
+      "machine_readable_value": "1.0000 (144/144)",
+      "match": true,
+      "authoritative_source": "evaluation/artifacts/physics_evaluation_summary.json, evaluation/artifacts/physics_evaluation_report.md"
+    },
+    {
+      "step": "Step 10",
+      "metric": "Physics Engineering Constraints Compliance Rate",
+      "report_value": "100.00% (641/641 checks)",
+      "machine_readable_value": "1.0000 (641/641)",
+      "match": true,
+      "authoritative_source": "evaluation/artifacts/physics_evaluation_summary.json, evaluation/artifacts/physics_evaluation_report.md"
+    },
+    {
+      "step": "Step 11",
+      "metric": "Deployment Latency: Param Advisor Warm Median",
+      "report_value": "0.59 ms - 0.60 ms",
+      "machine_readable_value": "0.59 ms (Step 12 bootstrap) / 0.60 ms (Step 11 profile)",
+      "match": true,
+      "authoritative_source": "evaluation/artifacts/deployment_benchmark_results.csv, evaluation/artifacts/statistical_summary.json"
+    },
+    {
+      "step": "Step 11",
+      "metric": "Deployment Latency: Fast vs Anomaly Mann-Whitney U / p",
+      "report_value": "U = 935.0, p = 1.79e-08",
+      "machine_readable_value": "statistic = 935.0, raw_p = 1.7926e-08",
+      "match": true,
+      "authoritative_source": "evaluation/artifacts/deployment_benchmark_results.csv, evaluation/artifacts/statistical_tests.json"
+    },
+    {
+      "step": "Step 12",
+      "metric": "Intent Bootstrap 95% CI (Overall Accuracy)",
+      "report_value": "[79.00%, 93.00%]",
+      "machine_readable_value": "[0.79, 0.93]",
+      "match": true,
+      "authoritative_source": "evaluation/artifacts/statistical_summary.json, evaluation/artifacts/statistical_evaluation_report.md"
+    },
+    {
+      "step": "Step 12",
+      "metric": "Physics Solver Clopper-Pearson Exact 95% CI",
+      "report_value": "[97.47%, 100.00%]",
+      "machine_readable_value": "[0.97467, 1.0]",
+      "match": true,
+      "authoritative_source": "evaluation/artifacts/statistical_summary.json, evaluation/artifacts/statistical_evaluation_report.md"
+    }
+  ]
+}

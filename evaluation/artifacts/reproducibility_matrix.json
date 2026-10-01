@@ -1,0 +1,227 @@
+{
+  "audit_metadata": {
+    "audit_step": "Step 13",
+    "title": "Final Research Reproducibility Audit Matrix",
+    "timestamp": "2026-10-01T09:30:00Z",
+    "summary": {
+      "total_steps": 12,
+      "reproducible_count": 11,
+      "partially_reproducible_count": 1,
+      "not_reproducible_count": 0
+    }
+  },
+  "reproducibility": [
+    {
+      "step_number": 1,
+      "study_title": "Leakage-Free Chronological Split and Train-Only Preprocessing Evaluation",
+      "classification": "REPRODUCIBLE",
+      "input_data": "data/processed/fused.parquet",
+      "evaluation_script": "evaluation/eval_time_aware.py",
+      "configuration": "80% train / 20% test with >=30 min embargo; StandardScaler fit strictly on train partition",
+      "execution_command": "python evaluation/eval_time_aware.py",
+      "output_artifacts": [
+        "evaluation/results/time_aware/distilbert_chronological_results.json",
+        "evaluation/results/time_aware/distilbert_lomo_results.json",
+        "evaluation/results/time_aware/leakage_check_report.json",
+        "evaluation/results/time_aware/rf_chronological_results.json",
+        "evaluation/results/time_aware/rf_lomo_results.json",
+        "outputs/eval_report_time_aware.md"
+      ],
+      "dedicated_test": "tests/test_leakage_free.py (7 passed)",
+      "limitations_or_caveats": "None. Fully reproducible from committed code and data."
+    },
+    {
+      "step_number": 2,
+      "study_title": "Multi-Model Tabular Baseline Benchmark (RF, LR, SVM, Isolation Forest)",
+      "classification": "REPRODUCIBLE",
+      "input_data": "data/processed/fused.parquet",
+      "evaluation_script": "evaluation/eval_baselines.py",
+      "configuration": "BaselineModelSpec registry in src/model/baselines.py; class_weight='balanced'; random_state=42",
+      "execution_command": "python evaluation/eval_baselines.py",
+      "output_artifacts": [
+        "evaluation/results/baselines/baseline_chronological_results.json",
+        "evaluation/results/baselines/baseline_lomo_results.json",
+        "evaluation/results/baselines/baseline_summary.json",
+        "outputs/baseline_benchmark_report.md"
+      ],
+      "dedicated_test": "tests/test_baselines.py (7 passed)",
+      "limitations_or_caveats": "Gradient boosted tree libraries (XGBoost, LightGBM, CatBoost) are optional and gracefully marked unavailable if not installed in environment."
+    },
+    {
+      "step_number": 3,
+      "study_title": "Synthetic Data Multi-Seed Stability and Perturbation Robustness Evaluation",
+      "classification": "REPRODUCIBLE",
+      "input_data": "data/processed/fused.parquet",
+      "evaluation_script": "evaluation/eval_synthetic_robustness.py",
+      "configuration": "SEEDS = [42, 123, 456, 789, 2026]; noise stdevs in [0.01, 0.20]; missingness in [0.05, 0.50]; drift rates in [0.0001, 0.005]",
+      "execution_command": "python evaluation/eval_synthetic_robustness.py",
+      "output_artifacts": [
+        "evaluation/results/robustness/multiseed_evaluation_results.json",
+        "evaluation/results/robustness/synthetic_robustness_results.csv",
+        "evaluation/results/robustness/synthetic_robustness_results.json",
+        "evaluation/results/robustness/synthetic_robustness_summary.json",
+        "outputs/synthetic_robustness_report.md"
+      ],
+      "dedicated_test": "tests/test_robustness.py (9 passed)",
+      "limitations_or_caveats": "None. Perturbations are strictly deterministic under pinned random seeds."
+    },
+    {
+      "step_number": 4,
+      "study_title": "Multimodal Modality Ablation Study",
+      "classification": "REPRODUCIBLE",
+      "input_data": "data/processed/fused.parquet",
+      "evaluation_script": "evaluation/eval_ablation.py",
+      "configuration": "Modality conditions: FULL (40 features), SENSOR_ONLY (30 features), WITHOUT_SENSOR (10 features), WITHOUT_LOGS (31 features), WITHOUT_OPERATOR_NOTES (39 features)",
+      "execution_command": "python evaluation/eval_ablation.py",
+      "output_artifacts": [
+        "evaluation/results/ablation/multimodal_ablation_results.csv",
+        "evaluation/results/ablation/multimodal_ablation_results.json",
+        "evaluation/results/ablation/multimodal_ablation_summary.json",
+        "outputs/multimodal_ablation_report.md"
+      ],
+      "dedicated_test": "tests/test_ablation.py (13 passed)",
+      "limitations_or_caveats": "WITHOUT_ENGINEERING_CONTEXT is documented as N/A for tabular classifiers because engineering docs are consumed strictly by RAG."
+    },
+    {
+      "step_number": 5,
+      "study_title": "Pipeline Component Ablation and Threshold Sensitivity Analysis",
+      "classification": "REPRODUCIBLE",
+      "input_data": "data/processed/fused.parquet",
+      "evaluation_script": "evaluation/eval_components.py",
+      "configuration": "7 discrete pipeline component ablations + threshold sweep theta in [0.1, 0.9]",
+      "execution_command": "python evaluation/eval_components.py",
+      "output_artifacts": [
+        "evaluation/results/components/component_inventory.json",
+        "evaluation/results/components/component_ablation_results.csv",
+        "evaluation/results/components/component_ablation_results.json",
+        "evaluation/results/components/component_ablation_summary.json",
+        "outputs/component_ablation_report.md"
+      ],
+      "dedicated_test": "tests/test_component_ablation.py (14 passed)",
+      "limitations_or_caveats": "DistilBERT under FULL_COMPONENTS experiences out-of-distribution text shift due to inclusion of min/max tokens not seen during fine-tuning (F1=0.1818), recovering to F1=1.0000 under WITHOUT_MIN_MAX_FEATURES."
+    },
+    {
+      "step_number": 6,
+      "study_title": "Transformer vs Conventional Tabular Classifiers Comparative Evaluation",
+      "classification": "REPRODUCIBLE",
+      "input_data": "data/processed/fused.parquet, models/distilbert_fault/",
+      "evaluation_script": "evaluation/eval_model_comparison.py",
+      "configuration": "RF, LR, SVM, Isolation Forest, and pre-trained DistilBERT evaluated under identical chronological and LOMO splits",
+      "execution_command": "python evaluation/eval_model_comparison.py",
+      "output_artifacts": [
+        "evaluation/results/comparison/model_comparison_results.csv",
+        "evaluation/results/comparison/model_comparison_results.json",
+        "evaluation/results/comparison/model_comparison_summary.json",
+        "outputs/model_comparison_report.md"
+      ],
+      "dedicated_test": "tests/test_model_comparison.py (9 passed)",
+      "limitations_or_caveats": "DistilBERT multi-seed training was evaluated under a single fixed seed (seed 42) due to CPU training compute boundaries; multi-seed retraining is unmeasured."
+    },
+    {
+      "step_number": 7,
+      "study_title": "Formal RAG Retrieval Benchmark and Ablation Evaluation",
+      "classification": "PARTIALLY_REPRODUCIBLE",
+      "input_data": "data/knowledge_docs/ (41 passages), artifacts/rag_query_benchmark.json (40 queries)",
+      "evaluation_script": "evaluation/eval_rag.py",
+      "configuration": "MiniLM-L6-v2 embeddings + BM25Okapi lexical retrieval; K in [1, 5]; tau in [0.05, 0.40]",
+      "execution_command": "python evaluation/eval_rag.py",
+      "output_artifacts": [
+        "artifacts/rag_evaluation_results.csv",
+        "artifacts/rag_evaluation_results.json",
+        "artifacts/rag_evaluation_summary.json",
+        "artifacts/rag_evaluation_report.md"
+      ],
+      "dedicated_test": "tests/test_rag_evaluation.py (8 passed)",
+      "limitations_or_caveats": "All aggregate metrics (Recall@K, MRR, ablation deltas, parameter sweeps) reproduce deterministically. However, per-query reciprocal rank matrices across all 6 ablation conditions were not persisted to disk, which prevented paired per-query permutation significance testing in Step 12."
+    },
+    {
+      "step_number": 8,
+      "study_title": "Intent Classification Stress Benchmark and Boundary Robustness Evaluation",
+      "classification": "REPRODUCIBLE",
+      "input_data": "evaluation/artifacts/intent_stress_benchmark.json (100 queries)",
+      "evaluation_script": "evaluation/eval_intent_stress.py",
+      "configuration": "KeywordIntentClassifier in src/intent/classifier.py; regex priority matching and keyword scoring",
+      "execution_command": "python evaluation/eval_intent_stress.py",
+      "output_artifacts": [
+        "artifacts/intent_stress_results.csv",
+        "artifacts/intent_stress_results.json",
+        "artifacts/intent_stress_summary.json",
+        "evaluation/artifacts/intent_stress_results.csv",
+        "evaluation/artifacts/intent_stress_results.json",
+        "evaluation/artifacts/intent_stress_summary.json",
+        "evaluation/artifacts/intent_stress_report.md"
+      ],
+      "dedicated_test": "tests/test_intent_stress.py (8 passed)",
+      "limitations_or_caveats": "Benchmark consists of curated domain queries with realistic linguistic perturbations, not a continuous live shop-floor distribution."
+    },
+    {
+      "step_number": 9,
+      "study_title": "Explainable AI Fidelity, Stability, and Attribution Evaluation",
+      "classification": "REPRODUCIBLE",
+      "input_data": "data/processed/fused.parquet, evaluation/artifacts/xai_inventory.json (60 audited windows)",
+      "evaluation_script": "evaluation/eval_xai.py",
+      "configuration": "TreeExplainer (RF), LimeTabularExplainer (5000 perturbations), DistilBERT self-attention",
+      "execution_command": "python evaluation/eval_xai.py",
+      "output_artifacts": [
+        "evaluation/artifacts/xai_evaluation_results.csv",
+        "evaluation/artifacts/xai_evaluation_results.json",
+        "evaluation/artifacts/xai_evaluation_summary.json",
+        "evaluation/artifacts/xai_evaluation_report.md"
+      ],
+      "dedicated_test": "tests/test_xai_evaluation.py (9 passed)",
+      "limitations_or_caveats": "Attention is evaluated on raw token text sequences of DistilBERT and is not directly comparable to tabular TreeSHAP/LIME feature spaces."
+    },
+    {
+      "step_number": 10,
+      "study_title": "Deterministic Physics Parameter Advisor Concordance and Constraint Evaluation",
+      "classification": "REPRODUCIBLE",
+      "input_data": "config/welding_params.yaml, 144 generated scenario parameters",
+      "evaluation_script": "evaluation/eval_physics.py",
+      "configuration": "Independent mathematical solver re-implementing heat input, deposition rate, and 7x7 grid search",
+      "execution_command": "python evaluation/eval_physics.py",
+      "output_artifacts": [
+        "evaluation/artifacts/physics_evaluation_results.csv",
+        "evaluation/artifacts/physics_evaluation_results.json",
+        "evaluation/artifacts/physics_evaluation_summary.json",
+        "evaluation/artifacts/physics_evaluation_report.md"
+      ],
+      "dedicated_test": "tests/test_physics_evaluation.py (13 passed)",
+      "limitations_or_caveats": "Validation establishes mathematical and software concordance against handbook standards across 144 discrete test scenarios; it does not replace empirical weld macro-section testing or real-time pool monitoring."
+    },
+    {
+      "step_number": 11,
+      "study_title": "Multi-Route Deployment Latency, Memory Footprint, and Dependency Robustness Benchmark",
+      "classification": "REPRODUCIBLE",
+      "input_data": "80 benchmark queries across 5 routes",
+      "evaluation_script": "evaluation/eval_deployment.py",
+      "configuration": "Single-thread sequential execution; cold-start progression + warm steady-state (5 iterations)",
+      "execution_command": "python evaluation/eval_deployment.py",
+      "output_artifacts": [
+        "evaluation/artifacts/deployment_benchmark_results.csv",
+        "evaluation/artifacts/deployment_benchmark_results.json",
+        "evaluation/artifacts/deployment_summary.json",
+        "evaluation/artifacts/deployment_evaluation_report.md"
+      ],
+      "dedicated_test": "tests/test_deployment_evaluation.py (8 passed)",
+      "limitations_or_caveats": "Profiled under single-node workstation CPU conditions without ASGI worker concurrency or GPU acceleration."
+    },
+    {
+      "step_number": 12,
+      "study_title": "Post-Hoc Statistical Significance, Multi-Seed Variance, Effect Size, and Multiple Testing Analysis",
+      "classification": "REPRODUCIBLE",
+      "input_data": "Primary computed artifacts from Steps 1 through 11",
+      "evaluation_script": "evaluation/eval_statistics.py",
+      "configuration": "Exact McNemar tests, Wilcoxon signed-rank tests, Mann-Whitney U tests, Holm-Bonferroni step-down correction, percentile bootstrap (B=2,000), Clopper-Pearson binomial exact intervals",
+      "execution_command": "python evaluation/eval_statistics.py",
+      "output_artifacts": [
+        "evaluation/artifacts/statistical_inventory.json",
+        "evaluation/artifacts/station_variability.json",
+        "evaluation/artifacts/statistical_tests.json",
+        "evaluation/artifacts/statistical_summary.json",
+        "evaluation/artifacts/statistical_evaluation_report.md"
+      ],
+      "dedicated_test": "tests/test_statistical_evaluation.py (11 passed)",
+      "limitations_or_caveats": "None. Evaluates directly on frozen empirical evaluation artifacts with deterministic seeds."
+    }
+  ]
+}
